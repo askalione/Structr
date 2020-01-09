@@ -1,0 +1,29 @@
+version: '{build}'
+branches:
+  only:
+  - master
+skip_commits:
+  files:
+  - docs/*
+  - assets/*
+  - LICENSE
+  - README.md
+image: Visual Studio 2019
+artifacts:
+- path: build\artifacts\*.nupkg
+build_script:
+- ps: >-
+          cd build
+
+          .\build.ps1
+deploy:
+- provider: NuGet
+  api_key:
+    secure: azEBKDRGmjRxhYJyZ0xno1Yj3EhEHhyRBCTA48PvFQs4SMYU1w172AgsRq9e0gE9
+  artifact: /build\/artifacts\/.+.nupkg/
+  on:
+    branch: master
+notifications:
+- provider: Slack
+  incoming_webhook:
+    secure: iQhP2sBChMIv2mwDSfrFtlUimerfOO54+puQJtyMenYAGjO38aU2PyT+nReK//+FRipmxKJYGvQb2DaXGln0mD6EtHGaKxRv6cHzauuOilM=
