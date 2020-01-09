@@ -6,13 +6,20 @@ using System.Linq;
 
 namespace Structr.Domain
 {
-    public abstract class Entity<TKey> : IEquatable<Entity<TKey>>
+    public abstract class Entity<TEntity> : IEquatable<TEntity>
+        where TEntity : Entity<TEntity>
     {
-        public virtual TKey Id { get; protected set; }
-
-        private int? _cachedHashCode;
         private readonly Queue<INotice> _events = new Queue<INotice>();
         public virtual IReadOnlyCollection<INotice> Events => new ReadOnlyCollection<INotice>(_events.ToList());
+
+        protected Entity()
+        {
+            if ((this as TEntity) == null)
+            {
+                throw new InvalidOperationException(
+                    $"Entity '{GetType()}' specifies '{typeof(TEntity).Name}' as generic argument, it should be its own type");
+            }
+        }
 
         protected virtual void ApplyEvent(INotice @event)
         {
@@ -27,12 +34,42 @@ namespace Structr.Domain
             _events.Clear();
         }
 
-        public virtual bool IsTransient()
+        public abstract bool IsTransient();
+
+        public abstract bool Equals(TEntity other);
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as TEntity);
+        }
+
+        public static bool operator ==(Entity<TEntity> left, Entity<TEntity> right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Entity<TEntity> left, Entity<TEntity> right)
+        {
+            return !(left == right);
+        }
+    }
+
+    public abstract class Entity<TEntity, TKey> : Entity<TEntity>
+        where TEntity : Entity<TEntity, TKey>
+        where TKey : IEquatable<TKey>
+    {
+        public virtual TKey Id { get; protected set; }
+
+        private int? _cachedHashCode;
+
+        protected Entity() : base() { }
+
+        public override bool IsTransient()
         {
             return Equals(Id, default(TKey));
         }
 
-        public virtual bool Equals(Entity<TKey> other)
+        public override bool Equals(TEntity other)
         {
             if (other == null || !GetType().IsInstanceOfType(other))
                 return false;
@@ -46,30 +83,22 @@ namespace Structr.Domain
             return Equals(Id, other.Id);
         }
 
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Entity<TKey>);
-        }
-
-        public static bool operator ==(Entity<TKey> left, Entity<TKey> right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(Entity<TKey> left, Entity<TKey> right)
-        {
-            return !(left == right);
-        }
-
         public override int GetHashCode()
         {
-            if (IsTransient())
-                return base.GetHashCode();
-
             if (_cachedHashCode.HasValue)
                 return _cachedHashCode.Value;
 
-            _cachedHashCode = GetType().GetHashCode() ^ Id.GetHashCode();
+            if (IsTransient())
+            {
+                return base.GetHashCode();
+            }
+            else
+            {
+                unchecked
+                {
+                    _cachedHashCode = (GetType().GetHashCode() * 31) ^ Id.GetHashCode();
+                }
+            }
             return _cachedHashCode.Value;
         }
 

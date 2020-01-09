@@ -64,7 +64,11 @@ Task("Clean")
                 VersionSuffix = versionSuffix
             };
 
-        foreach(var project in srcProjects.Concat(sampleProjects))
+        var projects = srcProjects
+            .Concat(sampleProjects)
+            .Concat(testProjects);
+
+        foreach(var project in projects)
             DotNetCoreBuild(project.FullPath, settings);
     });
 
