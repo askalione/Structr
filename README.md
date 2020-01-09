@@ -7,6 +7,7 @@ Structr is a framework for development cross platform apps on .NET Core and .NET
 ## Core
 
 | Component name | NuGet | Downloads | Docs |
+|--------------|  ------- |  ------- |  ----  |
 | Structr.Abstractions | - | - | - |
 | Structr.Collections | - | - | - |
 | Structr.Domain | - | - | - |
@@ -21,6 +22,7 @@ Structr is a framework for development cross platform apps on .NET Core and .NET
 ## Extensions
 
 | Component name | NuGet | Downloads | Docs |
+|--------------|  ------- |  ------- |  ----  |
 | Structr.Collections.Extensions.AutoMapper | - | - | - |
 
 ## License
