@@ -25,6 +25,11 @@ namespace Structr.Samples.Domain.BarAggregate
             return Id == other.Id;
         }
 
+        protected override int GenerateHashCode()
+        {
+            return (GetType().GetHashCode() * 31) ^ Id.GetHashCode();
+        }
+
         public override bool IsTransient()
         {
             return Id == Guid.Empty;
