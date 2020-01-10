@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Structr.IO
 {
@@ -51,7 +52,7 @@ namespace Structr.IO
             if (formattedPath.IndexOf(_options.Template(directory), StringComparison.OrdinalIgnoreCase) >= 0)
                 formattedPath = formattedPath.Replace(_options.Template(directory), GetPath(directory), StringComparison.OrdinalIgnoreCase);
 
-            return formattedPath;
+            return Regex.Replace(formattedPath, "\\\\{2,}", @"\");
         }
 
         private static string GetPath(EDirectory directory)

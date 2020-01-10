@@ -12,6 +12,8 @@ namespace Structr.Domain
         private readonly Queue<INotice> _events = new Queue<INotice>();
         public virtual IReadOnlyCollection<INotice> Events => new ReadOnlyCollection<INotice>(_events.ToList());
 
+        protected int? CachedHashCode;
+
         protected Entity()
         {
             if ((this as TEntity) == null)
@@ -37,10 +39,31 @@ namespace Structr.Domain
         public abstract bool IsTransient();
 
         public abstract bool Equals(TEntity other);
+        protected abstract int GenerateHashCode();
 
         public override bool Equals(object obj)
         {
             return Equals(obj as TEntity);
+        }
+
+        public override int GetHashCode()
+        {
+            if (CachedHashCode.HasValue)
+                return CachedHashCode.Value;
+
+            if (IsTransient())
+            {
+                return base.GetHashCode();
+            }
+            else
+            {
+                unchecked
+                {
+                    CachedHashCode = GenerateHashCode();
+                }
+            }
+
+            return CachedHashCode.Value;
         }
 
         public static bool operator ==(Entity<TEntity> left, Entity<TEntity> right)
@@ -60,7 +83,6 @@ namespace Structr.Domain
     {
         public virtual TKey Id { get; protected set; }
 
-        private int? _cachedHashCode;
 
         protected Entity() : base() { }
 
@@ -83,23 +105,9 @@ namespace Structr.Domain
             return Equals(Id, other.Id);
         }
 
-        public override int GetHashCode()
+        protected override int GenerateHashCode()
         {
-            if (_cachedHashCode.HasValue)
-                return _cachedHashCode.Value;
-
-            if (IsTransient())
-            {
-                return base.GetHashCode();
-            }
-            else
-            {
-                unchecked
-                {
-                    _cachedHashCode = (GetType().GetHashCode() * 31) ^ Id.GetHashCode();
-                }
-            }
-            return _cachedHashCode.Value;
+           return (GetType().GetHashCode() * 31) ^ Id.GetHashCode();
         }
 
         public override string ToString()
