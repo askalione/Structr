@@ -9,14 +9,14 @@ namespace Structr.IO
     public static class PathHelper
     {
         private static Lazy<PathOptions> _optionsProvider = new Lazy<PathOptions>(() => new PathOptions());
-        private static PathOptions _options => _optionsProvider.Value;
+        public static PathOptions Options => _optionsProvider.Value;
 
         public static void Configure(Action<PathOptions> action)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
 
-            action(_options);
+            action(Options);
         }
 
         public static string Combine(EDirectory directory, string path)
@@ -49,15 +49,15 @@ namespace Structr.IO
 
             string formattedPath = path.Replace('/', '\\');
 
-            if (formattedPath.IndexOf(_options.Template(directory), StringComparison.OrdinalIgnoreCase) >= 0)
-                formattedPath = formattedPath.Replace(_options.Template(directory), GetPath(directory), StringComparison.OrdinalIgnoreCase);
+            if (formattedPath.IndexOf(Options.Template(directory), StringComparison.OrdinalIgnoreCase) >= 0)
+                formattedPath = formattedPath.Replace(Options.Template(directory), GetPath(directory), StringComparison.OrdinalIgnoreCase);
 
             return Regex.Replace(formattedPath, "\\\\{2,}", @"\");
         }
 
         private static string GetPath(EDirectory directory)
         {
-            _options.Directories.TryGetValue(directory, out string path);
+            Options.Directories.TryGetValue(directory, out string path);
             return path?.Trim() ?? "";
         }
 
