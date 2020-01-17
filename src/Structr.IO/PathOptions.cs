@@ -14,7 +14,7 @@ namespace Structr.IO
             Directories = new Dictionary<EDirectory, string>
             {
                 { EDirectory.Base, AppDomain.CurrentDomain?.BaseDirectory ?? "" },
-                { EDirectory.Data, AppDomain.CurrentDomain?.GetData(EDirectory.Data.ToString())?.ToString() ?? "" }
+                { EDirectory.Data, AppDomain.CurrentDomain?.GetData("DataDirectory")?.ToString() ?? "" }
             };
         }
     }
