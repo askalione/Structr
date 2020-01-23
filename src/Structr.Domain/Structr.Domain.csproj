@@ -8,8 +8,4 @@
         <Authors>Alexey Drapash</Authors>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Structr.Notices\Structr.Notices.csproj" />
-    </ItemGroup>
-
 </Project>
