@@ -34,5 +34,11 @@ namespace Structr.Abstractions.Extensions
                     SetProperty(childObject, nextParts, propertyValue);
             }
         }
+
+        public static string Dump(this object instance, int depth = 4, int indentSize = 2, char indentChar = ' ')
+        {
+            var dumper = new ObjectDumper(depth, indentSize, indentChar);
+            return dumper.Dump(instance, isTopOfTree: true);
+        }
     }
 }
