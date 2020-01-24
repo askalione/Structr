@@ -1,9 +1,8 @@
-using Structr.Abstractions.Exceptions;
 using System;
 
 namespace Structr.Validation
 {
-    public class ValidationException : AdHocException
+    public class ValidationException : Exception
     {
         public IValidationResult ValidationResult { get; }
         public override string Message => ValidationResult.ToString();

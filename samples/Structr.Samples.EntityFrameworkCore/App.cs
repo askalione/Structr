@@ -45,6 +45,7 @@ namespace Structr.Samples.EntityFrameworkCore
             foo.Items.Add(new FooItem("FooItem-Name"));
 
             _dataContext.Foos.Add(foo);
+
             await _dataContext.SaveChangesAsync();
 
             await WriteAsync("Added", foo);
@@ -52,7 +53,7 @@ namespace Structr.Samples.EntityFrameworkCore
             await Task.Delay(10000);
 
             foo.Detail.Name = "Modified-Name";
-            _dataContext.Foos.Update(foo);
+
             await _dataContext.SaveChangesAsync();
 
             await WriteAsync("Modified", foo);
