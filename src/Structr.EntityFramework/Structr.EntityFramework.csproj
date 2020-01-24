@@ -57,6 +57,7 @@
     <Compile Include="ConventionPrimitivePropertyConfigurationExtensions.cs" />
     <Compile Include="DbContextExtensions.cs" />
     <Compile Include="DbModelBuilderExtensions.cs" />
+    <Compile Include="DbSetExtensions.cs" />
     <Compile Include="Options\AuditableConfigurationOptions.cs" />
     <Compile Include="Options\EntityConfigurationOptions.cs" />
     <Compile Include="Options\ValueObjectConfigurationOptions.cs" />

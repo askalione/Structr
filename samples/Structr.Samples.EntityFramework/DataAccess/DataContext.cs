@@ -1,13 +1,9 @@
-using Structr.Abstractions;
 using Structr.Abstractions.Providers;
 using Structr.EntityFramework;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,12 +19,11 @@ namespace Structr.Samples.EntityFramework.DataAccess
         public DataContext(string nameOrConnectionString, ITimestampProvider timestampProvider, IPrincipal principal)
             : base(nameOrConnectionString)
         {
-            Ensure.NotNull(timestampProvider, nameof(timestampProvider));
-            Ensure.NotNull(principal, nameof(principal));
-
             _timestampProvider = timestampProvider;
             _principal = principal;
 
+            Configuration.ProxyCreationEnabled = false;
+            Configuration.LazyLoadingEnabled = false;
             Database.Log = log => System.Diagnostics.Debug.WriteLine(log);
         }
 
@@ -37,6 +32,11 @@ namespace Structr.Samples.EntityFramework.DataAccess
             builder.ApplyEntityConfiguration();
             builder.ApplyValueObjectConfiguration();
             builder.ApplyAuditableConfiguration();
+
+            builder.Conventions.Remove<PluralizingTableNameConvention>();
+            builder.Conventions.Remove<PluralizingEntitySetNameConvention>();
+
+            builder.Properties<string>().Configure(x => x.IsUnicode(true));
 
             builder.Configurations.AddFromAssembly(GetType().Assembly);
         }

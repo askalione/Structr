@@ -2,7 +2,7 @@ using System;
 
 namespace Structr.Domain
 {
-    public interface ISoftDeletable : IAuditable
+    public interface ISoftDeletable : IUndeletable
     {
         DateTime? DateDeleted { get; }
     }

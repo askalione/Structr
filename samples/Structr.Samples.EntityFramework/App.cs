@@ -1,9 +1,10 @@
+using Structr.Abstractions.Extensions;
+using Structr.EntityFramework;
 using Structr.Samples.EntityFramework.DataAccess;
+using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
 using Structr.Samples.IO;
+using Structr.SqlServer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Structr.Samples.EntityFramework
@@ -24,10 +25,49 @@ namespace Structr.Samples.EntityFramework
             _writer = writer;
         }
 
-        public Task RunAsync()
+        public async Task RunAsync()
         {
-            // TODO
-            throw new NotImplementedException();
+            var connectionString = _dataContext.Database.Connection.ConnectionString;
+            Database.EnsureDeleted(connectionString);
+
+            var foo = new Foo(
+                EFooType.Smooth,
+                new FooDetail
+                {
+                    Name = "Foo-Name",
+                    Description = "Foo-Description"
+                }
+            );
+
+            foo.Items.Add(new FooItem("FooItem-Name"));
+
+            _dataContext.Foos.Add(foo);
+            await _dataContext.SaveChangesAsync();
+
+            await WriteAsync("Added", foo);
+
+            await Task.Delay(10000);
+
+            foo.Detail.Name = "Modified-Name";
+            _dataContext.Foos.Update(foo);
+            await _dataContext.SaveChangesAsync();
+
+            await WriteAsync("Modified", foo);
+
+            await Task.Delay(10000);
+
+            _dataContext.Foos.Remove(foo);
+            await _dataContext.SaveChangesAsync();
+
+            await WriteAsync("Deleted", foo);
+
+            Console.ReadKey();
+        }
+
+        private async Task WriteAsync(string title, Foo foo)
+        {
+            await _writer.WriteLineAsync($"-------- {title} --------");
+            await _writer.WriteLineAsync(foo.Dump());
         }
     }
 }

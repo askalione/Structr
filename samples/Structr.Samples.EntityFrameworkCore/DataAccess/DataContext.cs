@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Structr.Abstractions.Providers;
 using Structr.EntityFrameworkCore;
+using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,14 +14,17 @@ namespace Structr.Samples.EntityFrameworkCore.DataAccess
     {
         public DbSet<Foo> Foos { get; private set; }
 
-        public DataContext(DbContextOptions options) : base(options)
+        private readonly ITimestampProvider _timestampProvider;
+        private readonly IPrincipal _principal;
+
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+            _timestampProvider = options.GetService<ITimestampProvider>();
+            _principal = options.GetService<IPrincipal>();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-
             builder.ApplyEntityConfiguration();
             builder.ApplyValueObjectConfiguration();
             builder.ApplyAuditableConfiguration();
@@ -26,13 +33,13 @@ namespace Structr.Samples.EntityFrameworkCore.DataAccess
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            this.Audit();
+            this.Audit(_timestampProvider, _principal);
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
-            this.Audit();
+            this.Audit(_timestampProvider, _principal);
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }

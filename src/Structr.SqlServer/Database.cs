@@ -17,6 +17,17 @@ namespace Structr.SqlServer
             ExecuteStatement(builder,
                 $@"IF EXISTS(SELECT * FROM sys.databases WHERE NAME='{database}')
                         DROP DATABASE [{database}]");
+
+            if (!string.IsNullOrEmpty(builder.AttachDBFilename))
+            {
+                var databaseFilename = builder.AttachDBFilename;
+                var logFilename = builder.GetAttachDBLogFilename();
+
+                if (File.Exists(logFilename))
+                    File.Delete(logFilename);
+                if (File.Exists(databaseFilename))
+                    File.Delete(databaseFilename);
+            }
         }
 
         public static void EnsureCreated(string connectionString)
@@ -33,8 +44,8 @@ namespace Structr.SqlServer
             if (!string.IsNullOrEmpty(builder.AttachDBFilename))
             {
                 var databaseFilename = builder.AttachDBFilename;
-                var log = database + "_log";
-                var logFilename = Path.Combine(Path.GetDirectoryName(databaseFilename), log + ".ldf");
+                var logFilename = builder.GetAttachDBLogFilename();
+                var log = Path.GetFileNameWithoutExtension(logFilename);
 
                 statement += $" ON PRIMARY(NAME = '{database}', FILENAME = '{databaseFilename}') LOG ON(NAME = '{log}', FILENAME = '{logFilename}')";
             }
@@ -61,6 +72,16 @@ namespace Structr.SqlServer
             return !string.IsNullOrWhiteSpace(builder.InitialCatalog)
                 ? builder.InitialCatalog
                 : (!string.IsNullOrEmpty(builder.AttachDBFilename) ? Path.GetFileNameWithoutExtension(builder.AttachDBFilename) : "");
+        }
+
+        private static string GetAttachDBLogFilename(this SqlConnectionStringBuilder builder)
+        {
+            if (string.IsNullOrEmpty(builder.AttachDBFilename))
+                return null;
+
+            var databaseFilename = builder.AttachDBFilename;
+            var log = builder.GetDatabase() + "_log";
+            return Path.Combine(Path.GetDirectoryName(databaseFilename), log + ".ldf");
         }
     }
 }

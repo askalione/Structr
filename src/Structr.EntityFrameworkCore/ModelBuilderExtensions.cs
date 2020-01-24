@@ -91,7 +91,7 @@ namespace Structr.EntityFrameworkCore
 
             configureOptions?.Invoke(options);
 
-            foreach (var entityType in builder.GetEntityTypes(typeof(IAuditable)))
+            foreach (var entityType in builder.GetEntityTypes(typeof(IAuditable), x => !typeof(ValueObject<>).IsAssignableFromGenericType(x.ClrType)))
             {
                 var entityClrType = entityType.ClrType;
 
@@ -145,12 +145,20 @@ namespace Structr.EntityFrameworkCore
         }
 
         public static IEnumerable<IMutableEntityType> GetEntityTypes(this ModelBuilder builder, Type type)
+            => GetEntityTypes(builder, type, null);
+
+        public static IEnumerable<IMutableEntityType> GetEntityTypes(this ModelBuilder builder, Type type, Func<IMutableEntityType, bool> filter)
         {
             Ensure.NotNull(builder, nameof(builder));
             Ensure.NotNull(type, nameof(type));
 
-            return builder.Model.GetEntityTypes()
+            var types = builder.Model.GetEntityTypes()
                 .Where(x => type.IsGenericType ? type.IsAssignableFromGenericType(x.ClrType) : type.IsAssignableFrom(x.ClrType));
+
+            if (filter != null)
+                types = types.Where(x => filter(x));
+
+            return types.ToList();
         }
 
         private abstract class Entity : Entity<Entity, Guid>

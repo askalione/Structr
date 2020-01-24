@@ -150,7 +150,7 @@ namespace Structr.Abstractions
                 return ("null");
 
             if (o is DateTime)
-                return (((DateTime)o).ToShortDateString());
+                return (((DateTime)o).ToString());
 
             if (o is string)
                 return "\"" + (string)o + "\"";

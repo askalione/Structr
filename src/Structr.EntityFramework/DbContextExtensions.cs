@@ -16,6 +16,8 @@ namespace Structr.EntityFramework
         {
             Ensure.NotNull(context, nameof(context));
 
+            context.ChangeTracker.DetectChanges();
+
             var entries = context.ChangeTracker.Entries<IAuditable>()
                 .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified || x.State == EntityState.Deleted);
 
@@ -83,13 +85,6 @@ namespace Structr.EntityFramework
                 if (entry.Entity is ISignedModifiable)
                     entry.Property(AuditableProperties.ModifiedBy).CurrentValue = sign;
             }
-
-            if (entry.Entity is ISoftDeletable)
-            {
-                entry.Property(AuditableProperties.DateDeleted).IsModified = false;
-                if (entry.Entity is ISignedSoftDeletable)
-                    entry.Property(AuditableProperties.DeletedBy).IsModified = false;
-            }
         }
 
         private static void OnDeleted(DbContext context, DbEntityEntry entry, DateTime timestamp, string sign)
@@ -108,26 +103,33 @@ namespace Structr.EntityFramework
                     entry.Property(AuditableProperties.ModifiedBy).IsModified = false;
             }
 
-            if (entry.Entity is ISoftDeletable)
+            if (entry.Entity is IUndeletable)
             {
-                entry.State = EntityState.Modified;
-
-                var entitySet = ((IObjectContextAdapter)context).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity).EntitySet;
-                IEnumerable<string> keyNames = entitySet.ElementType.KeyMembers.Select(x => x.Name).ToList();
-                foreach (var propName in entry.OriginalValues.PropertyNames)
+                if (entry.Entity is ISoftDeletable)
                 {
-                    if (!keyNames.Contains(propName))
-                        entry.Property(propName).IsModified = false;
-                }
+                    entry.State = EntityState.Modified;
 
-                var entityPropName = AuditableProperties.DateDeleted;
-                entry.Property(entityPropName).IsModified = true;
-                entry.Property(entityPropName).CurrentValue = timestamp;
-                if (entry.Entity is ISignedSoftDeletable)
-                {
-                    entityPropName = AuditableProperties.DeletedBy;
+                    var entitySet = ((IObjectContextAdapter)context).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity).EntitySet;
+                    IEnumerable<string> keyNames = entitySet.ElementType.KeyMembers.Select(x => x.Name).ToList();
+                    foreach (var propName in entry.OriginalValues.PropertyNames)
+                    {
+                        if (!keyNames.Contains(propName))
+                            entry.Property(propName).IsModified = false;
+                    }
+
+                    var entityPropName = AuditableProperties.DateDeleted;
                     entry.Property(entityPropName).IsModified = true;
-                    entry.Property(entityPropName).CurrentValue = sign;
+                    entry.Property(entityPropName).CurrentValue = timestamp;
+                    if (entry.Entity is ISignedSoftDeletable)
+                    {
+                        entityPropName = AuditableProperties.DeletedBy;
+                        entry.Property(entityPropName).IsModified = true;
+                        entry.Property(entityPropName).CurrentValue = sign;
+                    }
+                }
+                else
+                {
+                    entry.State = EntityState.Unchanged;
                 }
             }
         }

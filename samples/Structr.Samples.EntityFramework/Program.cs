@@ -1,16 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
-using Structr.Abstractions.Providers;
 using Structr.Abstractions.Extensions;
+using Structr.Abstractions.Providers;
 using Structr.Samples.EntityFramework.DataAccess;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Structr.Samples.EntityFramework
 {
@@ -38,10 +34,13 @@ namespace Structr.Samples.EntityFramework
             {
                 var connectionString = @"Data Source=(LocalDB)\mssqllocaldb;AttachDbFilename='|DataDirectory|\Application.mdf';Integrated Security=True"
                     .Replace("|DataDirectory|", new DirectoryInfo(
-                        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).GetParent(3).FullName);
+                        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).GetParent(2).FullName);
 
-                return new DataContext(connectionString,
-                    provider.GetService<ITimestampProvider>(), provider.GetService<IPrincipal>());
+                return new DataContext(
+                    connectionString,
+                    provider.GetService<ITimestampProvider>(),
+                    provider.GetService<IPrincipal>()
+                );
             });
 
             var serviceProvider = services.BuildServiceProvider();
