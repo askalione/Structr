@@ -33,5 +33,17 @@ namespace Structr.Abstractions
             if (!Check.IsInRange(value, minValue, maxValue))
                 throw new ArgumentOutOfRangeException(name, value, $"Value is out of range. Value must be between {minValue} and {maxValue}.");
         }
+
+        public static void GreaterThan(int value, int threshold, string name)
+        {
+            if (!Check.IsGreaterThan(value, threshold))
+                throw new ArgumentOutOfRangeException(name, value, $"Value is out of range. Value must be greater than {threshold}.");
+        }
+
+        public static void LessThan(int value, int threshold, string name)
+        {
+            if (!Check.IsLessThan(value, threshold))
+                throw new ArgumentOutOfRangeException(name, value, $"Value is out of range. Value must be less than {threshold}.");
+        }
     }
 }

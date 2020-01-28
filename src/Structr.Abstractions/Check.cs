@@ -30,5 +30,15 @@ namespace Structr.Abstractions
             var utcValue = value.ToUniversalTime();
             return utcValue >= minValue.ToUniversalTime() && value <= maxValue.ToUniversalTime();
         }
+
+        public static bool IsGreaterThan(int value, int threshold)
+        {
+            return value > threshold;
+        }
+
+        public static bool IsLessThan(int value, int threshold)
+        {
+            return value < threshold;
+        }
     }
 }
