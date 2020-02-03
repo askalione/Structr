@@ -4,25 +4,10 @@ namespace Structr.Abstractions
 {
     public static class Check
     {
-        public static bool IsNull(object value)
-        {
-            return value == null;
-        }
-        
-        public static bool IsEmpty(string value)
-        {
-            return value == null || value.Trim().Length == 0;
-        }
-
         public static bool IsInRange(string value, int minLength, int maxLength)
         {
             int length = value?.Length ?? 0;
             return length >= minLength && length <= maxLength;
-        }
-
-        public static bool IsInRange(int value , int minValue, int maxValue)
-        {
-            return value >= minValue && value <= maxValue;
         }
 
         public static bool IsInRange(DateTime value, DateTime minValue, DateTime maxValue)
@@ -31,14 +16,28 @@ namespace Structr.Abstractions
             return utcValue >= minValue.ToUniversalTime() && value <= maxValue.ToUniversalTime();
         }
 
-        public static bool IsGreaterThan(int value, int threshold)
+        public static bool IsGreaterThan(string value, int threshold)
         {
-            return value > threshold;
+            int length = value?.Length ?? 0;
+            return length > threshold;
         }
 
-        public static bool IsLessThan(int value, int threshold)
+        public static bool IsGreaterThan(DateTime value, DateTime minValue)
         {
-            return value < threshold;
+            var utcValue = value.ToUniversalTime();
+            return utcValue > minValue.ToUniversalTime();
+        }
+
+        public static bool IsLessThan(string value, int minLength)
+        {
+            int length = value?.Length ?? 0;
+            return length < minLength;
+        }
+
+        public static bool IsLessThan(DateTime value, DateTime maxValue)
+        {
+            var utcValue = value.ToUniversalTime();
+            return utcValue < maxValue.ToUniversalTime();
         }
     }
 }
