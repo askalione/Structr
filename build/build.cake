@@ -54,8 +54,16 @@ Task("Clean")
 			.SetVerbosity(Verbosity.Minimal));
 	});
 
- Task("Build")
+
+Task("NuGet-Restore")
     .IsDependentOn("Clean")
+    .Does(() =>
+    {
+        NuGetRestore(solutionFile);
+    });
+
+ Task("Build")
+    .IsDependentOn("NuGet-Restore")
     .Does(() =>
     {
         var settings = new DotNetCoreBuildSettings
