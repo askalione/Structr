@@ -2,7 +2,7 @@ using System;
 
 namespace Structr.Domain
 {
-    public interface ICreatable
+    public interface ICreatable : IAuditable
     {
         DateTime DateCreated { get; }
     }

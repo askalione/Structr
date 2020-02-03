@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Structr.Abstractions;
+using Structr.Abstractions.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,9 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddFactory<TKey, TValue>(this IServiceCollection services, Dictionary<TKey, Type> index)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-            if (index == null)
-                throw new ArgumentNullException(nameof(index));
+            Ensure.NotNull(services, nameof(services));
+            Ensure.NotNull(index, nameof(index));
+
             if (!index.Any())
                 throw new ArgumentException("Not found items on index. At least one item for configure factory is required");
 
@@ -36,6 +37,19 @@ namespace Microsoft.Extensions.DependencyInjection
                         return default(TValue);
                 };
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddTimestampProvider<T>(this IServiceCollection services) where T : ITimestampProvider
+            => AddTimestampProvider<T>(services, ServiceLifetime.Singleton);
+
+        public static IServiceCollection AddTimestampProvider<T>(this IServiceCollection services, ServiceLifetime lifetime)
+            where T : ITimestampProvider
+        {
+            Ensure.NotNull(services, nameof(services));
+
+            services.TryAdd(new ServiceDescriptor(typeof(ITimestampProvider), typeof(T), lifetime));
 
             return services;
         }

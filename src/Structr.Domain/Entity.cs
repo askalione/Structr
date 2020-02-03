@@ -1,17 +1,10 @@
-using Structr.Notices;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Structr.Domain
 {
     public abstract class Entity<TEntity> : IEquatable<TEntity>
         where TEntity : Entity<TEntity>
     {
-        private readonly Queue<INotice> _events = new Queue<INotice>();
-        public virtual IReadOnlyCollection<INotice> Events => new ReadOnlyCollection<INotice>(_events.ToList());
-
         protected int? CachedHashCode;
 
         protected Entity()
@@ -21,19 +14,6 @@ namespace Structr.Domain
                 throw new InvalidOperationException(
                     $"Entity '{GetType()}' specifies '{typeof(TEntity).Name}' as generic argument, it should be its own type");
             }
-        }
-
-        protected virtual void ApplyEvent(INotice @event)
-        {
-            if (@event == null)
-                throw new ArgumentNullException(nameof(@event));
-
-            _events.Enqueue(@event);
-        }
-
-        public virtual void ClearEvents()
-        {
-            _events.Clear();
         }
 
         public abstract bool IsTransient();
@@ -107,7 +87,7 @@ namespace Structr.Domain
 
         protected override int GenerateHashCode()
         {
-           return (GetType().GetHashCode() * 31) ^ Id.GetHashCode();
+            return (GetType().GetHashCode() * 31) ^ Id.GetHashCode();
         }
 
         public override string ToString()

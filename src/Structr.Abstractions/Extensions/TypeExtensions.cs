@@ -28,7 +28,7 @@ namespace Structr.Abstractions.Extensions
 
         public static bool HasNestedProperty(this Type type, string propertyName)
         {
-            return GetPropertyInfo(type, propertyName) != null;            
+            return GetPropertyInfo(type, propertyName) != null;
         }
 
         /// <summary>
@@ -42,8 +42,8 @@ namespace Structr.Abstractions.Extensions
         {
             Ensure.NotNull(type, nameof(type));
 
-            Type u = Nullable.GetUnderlyingType(type);
-            return (u != null) && u.IsEnum;
+            Type underlyingType = Nullable.GetUnderlyingType(type);
+            return (underlyingType != null) && underlyingType.IsEnum;
         }
 
         /// <summary>
@@ -95,13 +95,13 @@ namespace Structr.Abstractions.Extensions
         {
             Ensure.NotNull(type, nameof(type));
 
-            Expression<Func<object>> e = Expression.Lambda<Func<object>>(
+            Expression<Func<object>> expression = Expression.Lambda<Func<object>>(
                 Expression.Convert(
                     Expression.Default(type), typeof(object)
                 )
             );
 
-            return e.Compile()();
+            return expression.Compile()();
         }
 
         public static bool IsAssignableFromGenericType(this Type genericType, Type type)
@@ -111,9 +111,9 @@ namespace Structr.Abstractions.Extensions
 
             var interfaceTypes = type.GetInterfaces();
 
-            foreach (var it in interfaceTypes)
+            foreach (var interfaceType in interfaceTypes)
             {
-                if (it.IsGenericType && it.GetGenericTypeDefinition() == genericType)
+                if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == genericType)
                     return true;
             }
 

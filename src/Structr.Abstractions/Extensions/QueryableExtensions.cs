@@ -14,21 +14,22 @@ namespace Structr.Abstractions.Extensions
         /// </summary>
         /// <typeparam name="T">Type of queryable objects.</typeparam>
         /// <param name="query">Query.</param>
-        /// <param name="skip">Number on elements wich must be skipped.</param>
-        /// <param name="take">Number of elements which must be taken.</param>
+        /// <param name="skip">Number on elements wich must be skipped. Must be greater or equal 0.</param>
+        /// <param name="take">Number of elements which must be taken. Must be greater or equal 1.</param>
         /// <returns>
         /// Paged query.
         /// </returns>
         public static IQueryable<T> PageBy<T>(this IQueryable<T> query, int skip, int take)
         {
             Ensure.NotNull(query, nameof(query));
+            if (skip < 0)
+                throw new ArgumentOutOfRangeException(nameof(skip), skip, "Skip must be greater or equal 0");
+            if (take < 1)
+                throw new ArgumentOutOfRangeException(nameof(take), take, "Take must be greater or equal 1");
 
-            if (skip > 0)
-                query = query.Skip(skip);
-            if (take > 0)
-                query = query.Take(take);
-
-            return query;
+            return query
+                .Skip(skip)
+                .Take(take);
         }
 
         /// <summary>
