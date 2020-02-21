@@ -61,11 +61,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.SqlServer", "src\St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Samples.EntityFrameworkCore", "samples\Structr.Samples.EntityFrameworkCore\Structr.Samples.EntityFrameworkCore.csproj", "{DCC0472E-FDBF-406B-999F-372630458E76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.EntityFramework", "src\Structr.EntityFramework\Structr.EntityFramework.csproj", "{47785C01-B72E-44E5-B5A3-A802B458E374}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.EntityFramework", "src\Structr.EntityFramework\Structr.EntityFramework.csproj", "{47785C01-B72E-44E5-B5A3-A802B458E374}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Samples.EntityFramework", "samples\Structr.Samples.EntityFramework\Structr.Samples.EntityFramework.csproj", "{1F55D273-A817-4D40-AAEA-2D332CCF2D95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Abstractions.Tests", "tests\Structr.Abstractions.Tests\Structr.Abstractions.Tests.csproj", "{529D8322-6760-454E-95AB-CAE2DF5EC39C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Abstractions.Tests", "tests\Structr.Abstractions.Tests\Structr.Abstractions.Tests.csproj", "{529D8322-6760-454E-95AB-CAE2DF5EC39C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.AspNetCore", "src\Structr.AspNetCore\Structr.AspNetCore.csproj", "{954D49A0-EA52-417E-99DF-D1BD7C410AB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -189,6 +191,10 @@ Global
 		{529D8322-6760-454E-95AB-CAE2DF5EC39C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{529D8322-6760-454E-95AB-CAE2DF5EC39C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{529D8322-6760-454E-95AB-CAE2DF5EC39C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954D49A0-EA52-417E-99DF-D1BD7C410AB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954D49A0-EA52-417E-99DF-D1BD7C410AB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954D49A0-EA52-417E-99DF-D1BD7C410AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954D49A0-EA52-417E-99DF-D1BD7C410AB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -223,6 +229,7 @@ Global
 		{47785C01-B72E-44E5-B5A3-A802B458E374} = {F4AB6236-1EB0-4F74-8A14-8C08D5959AD9}
 		{1F55D273-A817-4D40-AAEA-2D332CCF2D95} = {2CFA96B8-B9CE-4E9B-AFEF-EC7164B37F3F}
 		{529D8322-6760-454E-95AB-CAE2DF5EC39C} = {77CAEE0B-590C-47CD-9AA8-18BDDD3F36BD}
+		{954D49A0-EA52-417E-99DF-D1BD7C410AB4} = {F4AB6236-1EB0-4F74-8A14-8C08D5959AD9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {316D113C-3632-4A63-A1B6-0847E9818E28}
