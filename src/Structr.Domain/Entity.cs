@@ -59,10 +59,8 @@ namespace Structr.Domain
 
     public abstract class Entity<TEntity, TKey> : Entity<TEntity>
         where TEntity : Entity<TEntity, TKey>
-        where TKey : IEquatable<TKey>
     {
         public virtual TKey Id { get; protected set; }
-
 
         protected Entity() : base() { }
 

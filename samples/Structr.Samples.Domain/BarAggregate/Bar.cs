@@ -1,38 +1,16 @@
 using Structr.Domain;
-using Structr.Samples.Domain.FooAggregate;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Structr.Samples.Domain.BarAggregate
 {
-    public class Bar : Entity<Bar>
+    public class Bar : Entity<Bar, Guid>
     {
-        public Guid Id { get; private set; }
         public EBarType Type { get; private set; }
 
         public Bar(Guid id, EBarType type)
         {
             Id = id;
             Type = type;
-        }
-
-        public override bool Equals(Bar other)
-        {
-            if (other == null)
-                return false;
-
-            return Id == other.Id;
-        }
-
-        protected override int GenerateHashCode()
-        {
-            return (GetType().GetHashCode() * 31) ^ Id.GetHashCode();
-        }
-
-        public override bool IsTransient()
-        {
-            return Id == Guid.Empty;
         }
     }
 }
