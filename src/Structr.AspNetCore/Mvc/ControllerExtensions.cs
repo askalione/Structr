@@ -149,10 +149,10 @@ namespace Structr.AspNetCore.Mvc
                 throw new ArgumentNullException(nameof(url));
 
             var request = controller.HttpContext.Request;
-            string referrerUrl = request.HasFormContentType ? request.Form[ReferrerDefaults.UrlFormKey].ToString() : "";
-            string redirectUrl = !string.IsNullOrEmpty(referrerUrl) ? referrerUrl : url;
+            string referrer = request.HasFormContentType ? request.Form[Referrer.Key].ToString() : "";
+            string urlRedirect = !string.IsNullOrEmpty(referrer) ? referrer : url;
 
-            var redirect = new RedirectResult(redirectUrl);
+            var redirect = new RedirectResult(urlRedirect);
             return redirect;
         }
 
