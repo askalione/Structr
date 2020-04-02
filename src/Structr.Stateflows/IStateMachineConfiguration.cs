@@ -5,6 +5,6 @@ namespace Structr.Stateflows
 {
     public interface IStateMachineConfiguration<TEntity, TState, TTrigger>
     {
-        Task ConfigureAsync(Stateless.StateMachine<TState, TTrigger> stateMachine, TEntity entity, CancellationToken cancellationToken);
+        Task ConfigureAsync(Stateless.StateMachine<TState, TTrigger> stateMachine, TEntity entity, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

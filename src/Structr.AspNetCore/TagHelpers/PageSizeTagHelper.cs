@@ -103,7 +103,6 @@ namespace Structr.AspNetCore.TagHelpers
 
     public class PageSizeOptions
     {
-        public string Format { get; set; }
         public string AllItemsFormat { get; set; }
         public PageSizeDropdownMenuAlign DropdownMenuAlign { get; set; }
         public string ContainerCssClass { get; set; }

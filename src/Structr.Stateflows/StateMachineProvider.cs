@@ -21,8 +21,7 @@ namespace Structr.Stateflows
             TEntity entity,
             Func<TEntity, TState> stateAccessor,
             Action<TEntity, TState> stateMutator,
-            CancellationToken cancellationToken
-            )
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));

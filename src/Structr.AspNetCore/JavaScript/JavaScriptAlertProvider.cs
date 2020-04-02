@@ -6,7 +6,7 @@ namespace Structr.AspNetCore.JavaScript
 {
     public class JavaScriptAlertProvider : IJavaScriptAlertProvider
     {
-        private const string _httpContextKey = "AspNetCore.JavaScriptAlerts";
+        private static readonly object _key = typeof(IJavaScriptAlertProvider);
 
         private readonly IHttpContextAccessor _contextAccessor;
 
@@ -37,10 +37,10 @@ namespace Structr.AspNetCore.JavaScript
         {
             var httpContext = _contextAccessor.HttpContext;
 
-            if (!httpContext.Items.ContainsKey(_httpContextKey))
-                httpContext.Items.Add(_httpContextKey, new List<JavaScriptAlert>());
+            if (!httpContext.Items.ContainsKey(_key))
+                httpContext.Items.Add(_key, new List<JavaScriptAlert>());
 
-            return httpContext.Items[_httpContextKey] as List<JavaScriptAlert>;
+            return httpContext.Items[_key] as List<JavaScriptAlert>;
         }
     }
 }

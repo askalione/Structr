@@ -8,7 +8,7 @@ namespace Structr.AspNetCore.JavaScript
 {
     public class JavaScriptOptionProvider : IJavaScriptOptionProvider
     {
-        private const string _httpContextKey = "AspNetCore.JavaScriptOptions";
+        private static readonly object _key = typeof(IJavaScriptOptionProvider);
 
         private readonly IHttpContextAccessor _contextAccessor;
 
@@ -73,10 +73,10 @@ namespace Structr.AspNetCore.JavaScript
         {
             var httpContext = _contextAccessor.HttpContext;
 
-            if (!httpContext.Items.ContainsKey(_httpContextKey))
-                httpContext.Items.Add(_httpContextKey, new Dictionary<string, Dictionary<string, object>>());
+            if (!httpContext.Items.ContainsKey(_key))
+                httpContext.Items.Add(_key, new Dictionary<string, Dictionary<string, object>>());
 
-            return httpContext.Items[_httpContextKey] as Dictionary<string, Dictionary<string, object>>;
+            return httpContext.Items[_key] as Dictionary<string, Dictionary<string, object>>;
         }
     }
 }

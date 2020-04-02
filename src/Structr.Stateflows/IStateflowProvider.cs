@@ -5,6 +5,7 @@ namespace Structr.Stateflows
 {
     public interface IStateflowProvider<TEntity, TKey, TState, TTrigger>
     {
-        Task<Stateflow<TEntity, TState, TTrigger>> GetStateflowAsync(TKey entityId, CancellationToken cancellationToken);
+        Task<Stateflow<TEntity, TState, TTrigger>> GetStateflowAsync(TKey entityId,
+            CancellationToken cancellationToken = default(CancellationToken));
     }
 }
