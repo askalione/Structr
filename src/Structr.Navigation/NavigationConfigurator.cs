@@ -16,14 +16,14 @@ namespace Structr.Navigation
             _services = services;
         }
 
-        public void Add<TNavigationItem>(INavigationProvider provider, NavigationItemOptions<TNavigationItem> options = null)
+        public void Add<TNavigationItem>(INavigationProvider provider, Action<NavigationItemOptions<TNavigationItem>> configure = null)
             where TNavigationItem : NavigationItem<TNavigationItem>
         {
             if (provider == null)
                 throw new ArgumentNullException(nameof(provider));
 
-            if (options == null)
-                options = new NavigationItemOptions<TNavigationItem>();
+           var options = new NavigationItemOptions<TNavigationItem>();
+            configure?.Invoke(options);
 
             var configuration = new NavigationConfiguration<TNavigationItem>(provider, options);
             _services.TryAddSingleton(configuration);

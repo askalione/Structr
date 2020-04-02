@@ -137,6 +137,11 @@ namespace Structr.Navigation
             {
                 if (item != except)
                     item.IsActive = false;
+                foreach(var descendant in item.Descendants)
+                {
+                    if (descendant != except)
+                        descendant.IsActive = false;
+                }
             }
         }
 

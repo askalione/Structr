@@ -69,9 +69,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Abstractions.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.AspNetCore", "src\Structr.AspNetCore\Structr.AspNetCore.csproj", "{954D49A0-EA52-417E-99DF-D1BD7C410AB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Navigation", "src\Structr.Navigation\Structr.Navigation.csproj", "{8FE89D63-D9EE-49C4-92AD-B73E72201088}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Navigation", "src\Structr.Navigation\Structr.Navigation.csproj", "{8FE89D63-D9EE-49C4-92AD-B73E72201088}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Samples.Navigation", "samples\Structr.Samples.Navigation\Structr.Samples.Navigation.csproj", "{04248864-11E0-4B2B-863A-B18FD41E9007}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Samples.Navigation", "samples\Structr.Samples.Navigation\Structr.Samples.Navigation.csproj", "{04248864-11E0-4B2B-863A-B18FD41E9007}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Navigation.Tests", "tests\Structr.Navigation.Tests\Structr.Navigation.Tests.csproj", "{8B0AF375-44DC-43DC-8EB7-2EC28441BC23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -207,6 +209,10 @@ Global
 		{04248864-11E0-4B2B-863A-B18FD41E9007}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04248864-11E0-4B2B-863A-B18FD41E9007}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04248864-11E0-4B2B-863A-B18FD41E9007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B0AF375-44DC-43DC-8EB7-2EC28441BC23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B0AF375-44DC-43DC-8EB7-2EC28441BC23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B0AF375-44DC-43DC-8EB7-2EC28441BC23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B0AF375-44DC-43DC-8EB7-2EC28441BC23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -244,6 +250,7 @@ Global
 		{954D49A0-EA52-417E-99DF-D1BD7C410AB4} = {F4AB6236-1EB0-4F74-8A14-8C08D5959AD9}
 		{8FE89D63-D9EE-49C4-92AD-B73E72201088} = {F4AB6236-1EB0-4F74-8A14-8C08D5959AD9}
 		{04248864-11E0-4B2B-863A-B18FD41E9007} = {2CFA96B8-B9CE-4E9B-AFEF-EC7164B37F3F}
+		{8B0AF375-44DC-43DC-8EB7-2EC28441BC23} = {77CAEE0B-590C-47CD-9AA8-18BDDD3F36BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {316D113C-3632-4A63-A1B6-0847E9818E28}

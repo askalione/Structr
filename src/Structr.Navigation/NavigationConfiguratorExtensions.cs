@@ -7,24 +7,24 @@ namespace Structr.Navigation
     {
         public static NavigationConfigurator AddJson<TNavigationItem>(this NavigationConfigurator configurations,
             string path,
-            NavigationItemOptions<TNavigationItem> options = null) where TNavigationItem : NavigationItem<TNavigationItem>
+            Action<NavigationItemOptions<TNavigationItem>> configure = null) where TNavigationItem : NavigationItem<TNavigationItem>
         {
             if (configurations == null)
                 throw new ArgumentNullException(nameof(configurations));
 
-            configurations.Add(new JsonNavigationProvider(path), options);
+            configurations.Add(new JsonNavigationProvider(path), configure);
 
             return configurations;
         }
 
         public static NavigationConfigurator AddXml<TNavigationItem>(this NavigationConfigurator configurations,
             string path,
-            NavigationItemOptions<TNavigationItem> options = null) where TNavigationItem : NavigationItem<TNavigationItem>
+            Action<NavigationItemOptions<TNavigationItem>> configure = null) where TNavigationItem : NavigationItem<TNavigationItem>
         {
             if (configurations == null)
                 throw new ArgumentNullException(nameof(configurations));
 
-            configurations.Add(new XmlNavigationProvider(path), options);
+            configurations.Add(new XmlNavigationProvider(path), configure);
 
             return configurations;
         }

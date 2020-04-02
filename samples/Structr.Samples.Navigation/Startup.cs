@@ -40,23 +40,23 @@ namespace Structr.Samples.Navigation
                 var rootPath = Env.ContentRootPath;
 
                 // Menu
-                config.AddXml(Path.Combine(rootPath, "menu.xml"), new NavigationItemOptions<MenuItem>
+                config.AddXml<MenuItem>(Path.Combine(rootPath, "menu.xml"), options =>
                 {
-                    Resource = typeof(MenuResource),
-                    Activator = (item, serviceProvider) =>
+                    options.Resource = typeof(MenuResource);
+                    options.Activator = (item, serviceProvider) =>
                     {
                         var _activator = serviceProvider.GetService<IMenuActivator>();
                         return _activator.Activate(item);
-                    }
+                    };
                 });
                 // Breadcrumbs
-                config.AddJson(Path.Combine(rootPath, "breadcrumbs.json"), new NavigationItemOptions<Breadcrumb>
+                config.AddJson<Breadcrumb>(Path.Combine(rootPath, "breadcrumbs.json"), options =>
                 {
-                    Activator = (breadcrumb, serviceProvider) =>
+                    options.Activator = (breadcrumb, serviceProvider) =>
                     {
                         var _activator = serviceProvider.GetService<IBreadcrumbActivator>();
                         return _activator.Activate(breadcrumb);
-                    }
+                    };
                 });
             });
         }
