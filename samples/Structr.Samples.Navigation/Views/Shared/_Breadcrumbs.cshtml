@@ -1,0 +1,22 @@
+@using Structr.Navigation
+@using Structr.Samples.Navigation.Infrastructure
+@model IBreadcrumbNavigation<Breadcrumb>
+
+<div class="navigation">
+    <h4 class="navigation-title">Breadcrumbs:</h4>
+    <ul class="navigation-content">
+        @foreach (var breadcrumb in Model)
+        {
+            <li>
+                @if (breadcrumb.IsActive)
+                {
+                    @breadcrumb.Title
+                }
+                else
+                {
+                    <a href="@Url.Action(breadcrumb.Action, breadcrumb.Controller, new { area = breadcrumb.Area })">@breadcrumb.Title</a>
+                }
+            </li>
+        }
+    </ul>
+</div>
