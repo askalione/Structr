@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -13,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Structr.Navigation;
 using Structr.Samples.Navigation.Infrastructure;
 using Structr.Samples.Navigation.Resources;
+using System.IO;
 
 namespace Structr.Samples.Navigation
 {
@@ -36,6 +31,10 @@ namespace Structr.Samples.Navigation
                 mvcBuilder.AddRazorRuntimeCompilation();
             }
 #endif
+
+            services.AddSingleton<IMenuActivator, MenuActivator>();
+            services.AddSingleton<IBreadcrumbActivator, BreadcrumbActivator>();
+
             services.AddNavigation(config =>
             {
                 var rootPath = Env.ContentRootPath;
@@ -69,6 +68,7 @@ namespace Structr.Samples.Navigation
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

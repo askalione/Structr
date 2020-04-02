@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Structr.Navigation
 {
-    public class MenuNavigation<TMenuItem> : IMenuNavigation<TMenuItem> where TMenuItem : NavigationItem<TMenuItem>
+    public class Navigation<TMenuItem> : INavigation<TMenuItem> where TMenuItem : NavigationItem<TMenuItem>
     {
         private readonly IEnumerable<TMenuItem> _items;
 
@@ -14,7 +14,7 @@ namespace Structr.Navigation
                 .SelectMany(x => x.Descendants)
                 .FirstOrDefault(x => x.IsActive);
 
-        public MenuNavigation(INavigationBuilder builder)
+        public Navigation(INavigationBuilder builder)
         {
             if (builder == null)
                 throw new ArgumentNullException(nameof(builder));

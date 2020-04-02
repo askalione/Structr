@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddMemoryCache();
             services.TryAddSingleton<INavigationBuilder, NavigationBuilder>();
-            services.TryAddScoped(typeof(IMenuNavigation<>), typeof(MenuNavigation<>));
+            services.TryAddScoped(typeof(INavigation<>), typeof(Navigation<>));
             services.TryAddScoped(typeof(IBreadcrumbNavigation<>), typeof(BreadcrumbNavigation<>));
 
             return services;
