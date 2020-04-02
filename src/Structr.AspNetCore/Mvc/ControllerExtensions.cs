@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
+using Structr.AspNetCore.Internal;
 using Structr.AspNetCore.JavaScript;
 using System;
 using System.Collections.Generic;
@@ -105,7 +106,7 @@ namespace Structr.AspNetCore.Mvc
 
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonSuccess(this Controller controller, string message, object data)
             => JsonResult(controller, true, message, data);
-
+        
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonError(this Controller controller, string message)
             => JsonResult(controller, false, message);
 
@@ -123,6 +124,14 @@ namespace Structr.AspNetCore.Mvc
                 throw new ArgumentNullException(nameof(controller));
 
             return controller.Json(new Json.JsonResult(messages, data));
+        }
+
+        public static Microsoft.AspNetCore.Mvc.JsonResult JsonData(this Controller controller, object data)
+        {
+            if (controller == null)
+                throw new ArgumentNullException(nameof(controller));
+
+            return controller.Json(new Json.JsonResult(true, data));
         }
 
         #endregion
@@ -148,7 +157,7 @@ namespace Structr.AspNetCore.Mvc
                 throw new ArgumentNullException(nameof(url));
 
             var request = controller.HttpContext.Request;
-            string referrer = request.HasFormContentType ? request.Form[Referrer.Key].ToString() : "";
+            string referrer = request.HasFormContentType ? request.Form[ReferrerConstants.Key].ToString() : "";
             string urlRedirect = !string.IsNullOrEmpty(referrer) ? referrer : url;
 
             var redirect = new RedirectResult(urlRedirect);

@@ -1,0 +1,13 @@
+@using Structr.Navigation
+@using Structr.Samples.Navigation.Infrastructure
+@model INavigation<MenuItem>
+
+<div class="navigation">
+    <h4 class="navigation-title">Menu:</h4>
+    <ul class="navigation-content">
+        @foreach (var menuItem in Model)
+        {
+            <partial name="_MenuItem" model="menuItem" />
+        }
+    </ul>
+</div>

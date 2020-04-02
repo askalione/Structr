@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Structr.AspNetCore.Internal;
 using System;
 
 namespace Structr.AspNetCore.Mvc
@@ -27,6 +28,18 @@ namespace Structr.AspNetCore.Mvc
             uriBuilder.Query = request.QueryString.ToString();
 
             return uriBuilder.Uri.AbsoluteUri;
+        }
+
+        public static string GetReferrer(this HttpRequest request, string defaultReferrer)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            string cachedReferrer = request.HasFormContentType && request.Form.ContainsKey(ReferrerConstants.Key)
+                ? request.Form[ReferrerConstants.Key].ToString()
+                : null;
+            string referrer = string.IsNullOrWhiteSpace(cachedReferrer) == false ? cachedReferrer : defaultReferrer;
+            return referrer;
         }
     }
 }

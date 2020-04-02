@@ -284,7 +284,7 @@ namespace Structr.AspNetCore.TagHelpers
             DisplayLinkToPreviousPage = PaginationDisplayMode.Never;
             DisplayLinkToNextPage = PaginationDisplayMode.Never;
             DisplayLinkToIndividualPages = true;
-            MaximumPageNumbersToDisplay = 10;
+            MaximumPageNumbersToDisplay = 3;
             DisplayEllipsesWhenNotShowingAllPageNumbers = true;
             EllipsesFormat = "…";
             LinkToFirstPageFormat = "««";

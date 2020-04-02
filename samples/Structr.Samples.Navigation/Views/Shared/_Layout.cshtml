@@ -1,0 +1,21 @@
+@using Structr.Navigation
+@using Structr.Samples.Navigation.Infrastructure
+@inject INavigation<MenuItem> menu
+@inject IBreadcrumbNavigation<Breadcrumb> breadcrumbs
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/style.css" rel="stylesheet">
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <partial name="_Breadcrumbs" model="breadcrumbs" />
+    <partial name="_Menu" model="menu" />
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

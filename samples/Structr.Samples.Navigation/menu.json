@@ -1,0 +1,64 @@
+[
+  {
+    "Id": "Parent_1",
+    "Title": "Parent 1",
+    "Url": "/Parent_1/",
+    "Icon": "icon-1",
+    "Action": "Parent_1_Action",
+    "Controller": "Parent_1_Controller",
+    "Children": [
+      {
+        "Id": "Child_1_1",
+        "Title": "Child 1 1",
+        "Url": "/Parent_1/Child_1_1/",
+        "Icon": "icon-1-1",
+        "Action": "Child_1_1_Action",
+        "Controller": "Child_1_1_Controller",
+        "Children": [
+          {
+            "Id": "Child_1_1_1",
+            "Title": "Child 1 1 1",
+            "Url": "/Parent_1/Child_1/Child_1_1_1/",
+            "Icon": "icon-1-1-1",
+            "Action": "Child_1_1_1_Action",
+            "Controller": "Child_1_1_1_Controller"
+          }
+        ]
+      },
+      {
+        "Id": "Child_1_2",
+        "Title": "Child 1 2",
+        "Url": "/Parent_1/Child_1_2/",
+        "Icon": "icon-1-2",
+        "Action": "Child_1_2_Action",
+        "Controller": "Child_1_2_Controller"
+      }
+    ]
+  },
+  {
+    "Id": "Parent_2",
+    "Title": "Parent 2",
+    "Url": "/Parent_2/",
+    "Icon": "icon-2",
+    "Action": "Parent_2_Action",
+    "Controller": "Parent_2_Controller",
+    "Children": [
+      {
+        "Id": "Child_2_1",
+        "Title": "Child 2 1",
+        "Url": "/Parent_2/Child_2_1/",
+        "Icon": "icon-2-1",
+        "Action": "Child_2_1_Action",
+        "Controller": "Child_2_1_Controller"
+      }
+    ]
+  },
+  {
+    "Id": "Parent_3",
+    "Title": "Parent 3",
+    "Url": "/Parent_3/",
+    "Icon": "icon-3",
+    "Action": "Parent_3_Action",
+    "Controller": "Parent_3_Controller"
+  }
+]

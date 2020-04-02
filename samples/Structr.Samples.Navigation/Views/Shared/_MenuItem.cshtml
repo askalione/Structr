@@ -1,0 +1,15 @@
+@using Structr.Samples.Navigation.Infrastructure
+@model MenuItem
+
+<li data-icon="@Model.Icon" data-id="@Model.Id">
+    <a href="@Url.Action(Model.Action, Model.Controller, new { area = Model.Area })" class="@(Model.IsActive ? "active" : "")">@Model.Title</a>
+    @if (Model.HasChildren)
+    {
+        <ul>
+            @foreach (var menuItem in Model.Children)
+            {
+                <partial name="_MenuItem" model="menuItem" />
+            }
+        </ul>
+    }
+</li>
