@@ -103,7 +103,7 @@ namespace Structr.Navigation
         }
 
         private void Build<TNavigationItem>(JObject jParentNavItem,
-            TNavigationItem ParentNavItem,
+            TNavigationItem parentNavItem,
             Func<TNavigationItem, IServiceProvider, bool> navItemFilter,
             Func<TNavigationItem, IServiceProvider, bool> navItemActivator,
             ResourceManager resourceManager,
@@ -118,7 +118,7 @@ namespace Structr.Navigation
                     var navItem = TryBuildNavigationItem(jNavItem, navItemFilter, navItemActivator, resourceManager, nav, navItemsIds);
                     if (navItem != null)
                     {
-                        ParentNavItem.AddChild(navItem);
+                        parentNavItem.AddChild(navItem);
                     }
                 }
             }
