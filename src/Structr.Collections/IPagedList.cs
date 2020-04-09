@@ -6,8 +6,8 @@ namespace Structr.Collections
     public interface IPagedList : IEnumerable
     {
         int TotalItems { get; }
-        int PageSize { get; }
-        int PageNumber { get; }               
+        int PageNumber { get; }
+        int PageSize { get; }                     
         int TotalPages { get; }
         bool HasPreviousPage { get; }
         bool HasNextPage { get; }
