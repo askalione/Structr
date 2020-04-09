@@ -1,6 +1,5 @@
 using Structr.Abstractions;
 using Structr.Collections;
-using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading;
@@ -10,40 +9,45 @@ namespace Structr.EntityFramework
 {
     public static class QueryableExtensions
     {
-        public static IPagedList<TSource> ToPagedList<TSource>(this IQueryable<TSource> source, int pageSize, int pageNumber)
+        public static IPagedList<TSource> ToPagedList<TSource>(this IQueryable<TSource> source, int pageNumber, int pageSize)
         {
             Ensure.NotNull(source, nameof(source));
-
-            if (pageSize < 1)
-                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater or equal 1");
-            if (pageNumber < 1)
-                throw new ArgumentOutOfRangeException(nameof(pageNumber), pageNumber, "Page number must be greater or equal 1");
 
             var totalItems = source.Count();
             if (totalItems == 0)
                 return PagedList.Empty<TSource>();
 
-            var skip = (pageNumber - 1) * pageSize;
-            return new PagedList<TSource>(source.Skip(() => skip).Take(() => pageSize).ToList(), totalItems, pageSize, pageNumber);
+            var skip = pageNumber > 0 && pageSize > 0 ? (pageNumber - 1) * pageSize : 0;
+            var take = pageSize > 0 ? pageSize : 0;
+
+            if (skip > 0)
+                source = source.Skip(() => skip);
+            if (take > 0)
+                source = source.Take(() => take);
+
+            return new PagedList<TSource>(source.ToList(), totalItems, pageNumber, pageSize > 0 ? pageSize : totalItems);
         }
 
         public static async Task<IPagedList<TSource>> ToPagedListAsync<TSource>(this IQueryable<TSource> source,
-            int pageSize, int pageNumber, CancellationToken cancellationToken = default(CancellationToken))
+            int pageNumber, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
             Ensure.NotNull(source, nameof(source));
-
-            if (pageSize < 1)
-                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater or equal 1");
-            if (pageNumber < 1)
-                throw new ArgumentOutOfRangeException(nameof(pageNumber), pageNumber, "Page number must be greater or equal 1");
 
             var totalItems = await source.CountAsync(cancellationToken).ConfigureAwait(false);
             if (totalItems == 0)
                 return PagedList.Empty<TSource>();
 
-            var skip = (pageNumber - 1) * pageSize;
-            return new PagedList<TSource>(await source.Skip(() => skip).Take(() => pageSize).ToListAsync(cancellationToken)
-                .ConfigureAwait(false), totalItems, pageSize, pageNumber);
+
+            var skip = pageNumber > 0 && pageSize > 0 ? (pageNumber - 1) * pageSize : 0;
+            var take = pageSize > 0 ? pageSize : 0;
+
+            if (skip > 0)
+                source = source.Skip(() => skip);
+            if (take > 0)
+                source = source.Take(() => take);
+
+            return new PagedList<TSource>(await source.ToListAsync(cancellationToken).ConfigureAwait(false),
+                totalItems, pageNumber, pageSize > 0 ? pageSize : totalItems);
         }
     }
 }
