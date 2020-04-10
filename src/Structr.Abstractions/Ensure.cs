@@ -30,7 +30,7 @@ namespace Structr.Abstractions
 
         public static void InRange(IComparable value, IComparable minValue, IComparable maxValue, string name)
         {
-            if (!(value.CompareTo(minValue) >= 0 && value.CompareTo(minValue) <= 0))
+            if (!(value.CompareTo(minValue) >= 0 && value.CompareTo(maxValue) <= 0))
                 throw new ArgumentOutOfRangeException(name, value, $"Value is out of range. Value must be between {minValue} and {maxValue}.");
         }
 
