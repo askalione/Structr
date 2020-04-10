@@ -59,9 +59,33 @@ namespace Structr.AspNetCore.Mvc
             var actionName = routeData.Values["Action"].ToString();
             var controllerName = routeData.Values["Controller"].ToString();
             var area = routeData.Values["area"];
-            string areaName = area != null ? area.ToString() : null;
-            var key = (!string.IsNullOrWhiteSpace(areaName) ? areaName.ToLower() + "-" : "") + controllerName.ToLower() + "-" + actionName.ToLower();
+            string areaName = area?.ToString();
+            var delimiter = JavaScriptOptionConstants.Delimiter;
+            var key = (!string.IsNullOrWhiteSpace(areaName) ? FormatJavaScriptOptionKey(areaName) + delimiter : "")
+                + FormatJavaScriptOptionKey(controllerName)
+                + delimiter
+                + FormatJavaScriptOptionKey(actionName);
             return key;
+        }
+
+        private static string FormatJavaScriptOptionKey(string value)
+        {
+            var str = "";
+            for (var i = 0; i < value.Length; i++)
+            {
+                if (i == 0)
+                {
+                    str += char.ToLower(value[i]);
+                }
+                else
+                {
+                    if (char.IsUpper(value[i]))
+                        str += "-";
+                    str += char.ToLower(value[i]);
+                }
+            }
+
+            return str;
         }
 
         private static IJavaScriptOptionProvider GetJavaScriptOptionProvider(Controller controller)
