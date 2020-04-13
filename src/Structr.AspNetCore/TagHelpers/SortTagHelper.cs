@@ -25,7 +25,7 @@ namespace Structr.AspNetCore.TagHelpers
         public EOrder? DefaultOrder { get; set; }
 
         [HtmlAttributeName("asp-options")]
-        public TableSortOptions Options { get; set; }
+        public SortOptions Options { get; set; }
 
         [ViewContext]
         [HtmlAttributeNotBound]
@@ -50,7 +50,7 @@ namespace Structr.AspNetCore.TagHelpers
 
             if (Options == null)
             {
-                Options = new TableSortOptions();
+                Options = new SortOptions();
             }
 
             bool active = false;
@@ -151,14 +151,14 @@ namespace Structr.AspNetCore.TagHelpers
         }
     }
 
-    public class TableSortOptions
+    public class SortOptions
     {
         public string LinkCssCLass { get; set; }
         public string ActiveCssClass { get; set; }
         public string SortRouteParamName { get; set; }
         public string OrderRouteParamName { get; set; }
 
-        public TableSortOptions()
+        public SortOptions()
         {
             LinkCssCLass = "sort";
             ActiveCssClass = "active";
