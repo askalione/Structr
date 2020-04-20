@@ -21,7 +21,10 @@ namespace Structr.Abstractions.Extensions
                     .GetProperties()
                     .FirstOrDefault(x => x.Name.Equals(firstPartBeforeDot, StringComparison.OrdinalIgnoreCase));
                 if (property != null)
-                    property.SetValue(instance, Convert.ChangeType(propertyValue, property.PropertyType), null);
+                {
+                    var propertyType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                    property.SetValue(instance, (propertyValue != null ? Convert.ChangeType(propertyValue, propertyType) : propertyValue), null);
+                }
             }
             else
             {
