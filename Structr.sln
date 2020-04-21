@@ -77,7 +77,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Navigation.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Samples.AspNetCore", "samples\Structr.Samples.AspNetCore\Structr.Samples.AspNetCore.csproj", "{B8601221-86CF-4064-9C20-78586A101BB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Samples.Abstractions", "samples\Structr.Samples.Abstractions\Structr.Samples.Abstractions.csproj", "{457042DB-4822-48D3-BD3A-937B2FA81D23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Samples.Abstractions", "samples\Structr.Samples.Abstractions\Structr.Samples.Abstractions.csproj", "{457042DB-4822-48D3-BD3A-937B2FA81D23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
