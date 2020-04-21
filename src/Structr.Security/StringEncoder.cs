@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,107 +7,84 @@ namespace Structr.Security
 {
     public static class StringEncoder
     {
-        // This constant is used to determine the keysize of the encryption algorithm in bits.
-        // We divide this by 8 within the code below to get the equivalent number of bytes.
-        private const int _keysize = 256;
-
-        // This constant determines the number of iterations for the password bytes generation function.
-        private const int _derivationIterations = 1000;
-
         public static string Encrypt(string input, string passphrase)
         {
-            if (string.IsNullOrEmpty(input))
-                throw new ArgumentNullException(nameof(input));
             if (string.IsNullOrEmpty(passphrase))
-                throw new ArgumentNullException(nameof(passphrase));
+                throw new ArgumentException("Key must have valid value.", nameof(passphrase));
+            if (string.IsNullOrEmpty(input))
+                throw new ArgumentException("The text must have valid value.", nameof(input));
 
-            // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
-            // so that the same Salt and IV values can be used when decrypting.  
-            var saltStringBytes = Generate256BitsOfRandomEntropy();
-            var ivStringBytes = Generate256BitsOfRandomEntropy();
-            var plainTextBytes = Encoding.UTF8.GetBytes(input);
-            using (var password = new Rfc2898DeriveBytes(passphrase, saltStringBytes, _derivationIterations))
+            var buffer = Encoding.UTF8.GetBytes(input);
+            var hash = new SHA512CryptoServiceProvider();
+            var aesKey = new byte[24];
+            Buffer.BlockCopy(hash.ComputeHash(Encoding.UTF8.GetBytes(passphrase)), 0, aesKey, 0, 24);
+
+            using (var aes = Aes.Create())
             {
-                var keyBytes = password.GetBytes(_keysize / 8);
-                using (var symmetricKey = new RijndaelManaged())
+                if (aes == null)
+                    throw new ArgumentException("Parameter must not be null.", nameof(aes));
+
+                aes.Key = aesKey;
+
+                using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
+                using (var resultStream = new MemoryStream())
                 {
-                    symmetricKey.BlockSize = 256;
-                    symmetricKey.Mode = CipherMode.CBC;
-                    symmetricKey.Padding = PaddingMode.PKCS7;
-                    using (var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes))
+                    using (var aesStream = new CryptoStream(resultStream, encryptor, CryptoStreamMode.Write))
+                    using (var plainStream = new MemoryStream(buffer))
                     {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                            {
-                                cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
-                                cryptoStream.FlushFinalBlock();
-                                // Create the final bytes as a concatenation of the random salt bytes, the random iv bytes and the cipher bytes.
-                                var cipherTextBytes = saltStringBytes;
-                                cipherTextBytes = cipherTextBytes.Concat(ivStringBytes).ToArray();
-                                cipherTextBytes = cipherTextBytes.Concat(memoryStream.ToArray()).ToArray();
-                                memoryStream.Close();
-                                cryptoStream.Close();
-                                return Convert.ToBase64String(cipherTextBytes);
-                            }
-                        }
+                        plainStream.CopyTo(aesStream);
                     }
+
+                    var result = resultStream.ToArray();
+                    var combined = new byte[aes.IV.Length + result.Length];
+                    Array.ConstrainedCopy(aes.IV, 0, combined, 0, aes.IV.Length);
+                    Array.ConstrainedCopy(result, 0, combined, aes.IV.Length, result.Length);
+
+                    return Convert.ToBase64String(combined);
                 }
             }
         }
 
         public static string Decrypt(string input, string passphrase)
         {
-            if (string.IsNullOrEmpty(input))
-                throw new ArgumentNullException(nameof(input));
             if (string.IsNullOrEmpty(passphrase))
-                throw new ArgumentNullException(nameof(passphrase));
+                throw new ArgumentException("Key must have valid value.", nameof(passphrase));
+            if (string.IsNullOrEmpty(input))
+                throw new ArgumentException("The encrypted text must have valid value.", nameof(input));
 
-            // Get the complete stream of bytes that represent:
-            // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
-            var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(input);
-            // Get the saltbytes by extracting the first 32 bytes from the supplied cipherText bytes.
-            var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(_keysize / 8).ToArray();
-            // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
-            var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(_keysize / 8).Take(_keysize / 8).ToArray();
-            // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
-            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((_keysize / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((_keysize / 8) * 2)).ToArray();
+            var combined = Convert.FromBase64String(input);
+            var buffer = new byte[combined.Length];
+            var hash = new SHA512CryptoServiceProvider();
+            var aesKey = new byte[24];
+            Buffer.BlockCopy(hash.ComputeHash(Encoding.UTF8.GetBytes(passphrase)), 0, aesKey, 0, 24);
 
-            using (var password = new Rfc2898DeriveBytes(passphrase, saltStringBytes, _derivationIterations))
+            using (var aes = Aes.Create())
             {
-                var keyBytes = password.GetBytes(_keysize / 8);
-                using (var symmetricKey = new RijndaelManaged())
+                if (aes == null)
+                    throw new ArgumentException("Parameter must not be null.", nameof(aes));
+
+                aes.Key = aesKey;
+
+                var iv = new byte[aes.IV.Length];
+                var ciphertext = new byte[buffer.Length - iv.Length];
+
+                Array.ConstrainedCopy(combined, 0, iv, 0, iv.Length);
+                Array.ConstrainedCopy(combined, iv.Length, ciphertext, 0, ciphertext.Length);
+
+                aes.IV = iv;
+
+                using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                using (var resultStream = new MemoryStream())
                 {
-                    symmetricKey.BlockSize = 256;
-                    symmetricKey.Mode = CipherMode.CBC;
-                    symmetricKey.Padding = PaddingMode.PKCS7;
-                    using (var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes))
+                    using (var aesStream = new CryptoStream(resultStream, decryptor, CryptoStreamMode.Write))
+                    using (var plainStream = new MemoryStream(ciphertext))
                     {
-                        using (var memoryStream = new MemoryStream(cipherTextBytes))
-                        {
-                            using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                            {
-                                var plainTextBytes = new byte[cipherTextBytes.Length];
-                                var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-                                memoryStream.Close();
-                                cryptoStream.Close();
-                                return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
-                            }
-                        }
+                        plainStream.CopyTo(aesStream);
                     }
+
+                    return Encoding.UTF8.GetString(resultStream.ToArray());
                 }
             }
-        }
-
-        private static byte[] Generate256BitsOfRandomEntropy()
-        {
-            var randomBytes = new byte[32]; // 32 Bytes will give us 256 bits.
-            using (var rngCsp = new RNGCryptoServiceProvider())
-            {
-                // Fill the array with cryptographically secure random bytes.
-                rngCsp.GetBytes(randomBytes);
-            }
-            return randomBytes;
         }
     }
 }
