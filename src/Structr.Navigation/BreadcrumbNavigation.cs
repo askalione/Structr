@@ -21,8 +21,13 @@ namespace Structr.Navigation
                 ?? navigation
                     .SelectMany(x => x.Descendants)
                     .FirstOrDefault(x => x.IsActive);
-            var breadcrumbs = activeNavItem.Ancestors.Reverse().ToList();
-            breadcrumbs.Add(activeNavItem);
+
+            var breadcrumbs = new List<TBreadcrumb>();
+            if (activeNavItem != null)
+            {
+                breadcrumbs = activeNavItem.Ancestors.Reverse().ToList();
+                breadcrumbs.Add(activeNavItem);
+            }
 
             _items = breadcrumbs;
         }
