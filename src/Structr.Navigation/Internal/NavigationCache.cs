@@ -19,7 +19,8 @@ namespace Structr.Navigation.Internal
             else
             {
                 navCache = new ConcurrentDictionary<Type, JArray>();
-                cache.Set(_key, navCache);
+                var cacheOptions = new MemoryCacheEntryOptions { Size = 1 };
+                cache.Set(_key, navCache, cacheOptions);
             }
 
             return navCache;
