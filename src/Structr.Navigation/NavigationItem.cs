@@ -13,6 +13,7 @@ namespace Structr.Navigation
 
         public string Id { get; protected set; }
         public string Title { get; internal protected set; }
+        public string ResourceName { get; protected set; }
 
         [JsonIgnore]
         public bool IsActive { get; internal protected set; }
