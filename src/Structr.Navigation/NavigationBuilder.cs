@@ -97,7 +97,10 @@ namespace Structr.Navigation
             if (resourceManager == null)
                 return;
 
-            string resourceString = resourceManager.GetString(navItem.Id);
+            var resourceName = !string.IsNullOrWhiteSpace(navItem.ResourceName)
+                ? navItem.ResourceName
+                : navItem.Id;
+            string resourceString = resourceManager.GetString(resourceName);
             if (resourceString != null)
                 navItem.Title = resourceString;
         }
