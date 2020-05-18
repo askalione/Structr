@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Structr.Security
 {
-    public static class StringEncoder
+    public static class StringEncryptor
     {
         public static string Encrypt(string input, string passphrase)
         {
