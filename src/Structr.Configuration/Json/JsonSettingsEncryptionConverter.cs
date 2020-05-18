@@ -25,7 +25,7 @@ namespace Structr.Configuration.Json
                 return;
             }
 
-            var encryptedValue = StringEncoder.Encrypt(stringValue, _passphrase);
+            var encryptedValue = StringEncryptor.Encrypt(stringValue, _passphrase);
             writer.WriteValue(encryptedValue);
         }
 
@@ -37,7 +37,7 @@ namespace Structr.Configuration.Json
                 return reader.Value;
             }
 
-            var decryptedValue = StringEncoder.Decrypt(stringValue, _passphrase);
+            var decryptedValue = StringEncryptor.Decrypt(stringValue, _passphrase);
             return decryptedValue;
         }
 
