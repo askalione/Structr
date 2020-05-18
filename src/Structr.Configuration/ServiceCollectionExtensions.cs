@@ -13,10 +13,27 @@ namespace Microsoft.Extensions.DependencyInjection
             if (configure == null)
                 throw new ArgumentNullException(nameof(configure));
 
-            var options = new ConfigurationOptions();
-            configure.Invoke(options);
+            AddConfiguration(services, (serviceProvider, options) =>
+            {
+                configure.Invoke(options);
+            });
 
-            services.TryAddSingleton(options);
+            return services;
+        }
+
+        public static IServiceCollection AddConfiguration(this IServiceCollection services, Action<IServiceProvider, ConfigurationOptions> configure)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+            if (configure == null)
+                throw new ArgumentNullException(nameof(configure));
+
+            services.TryAddSingleton(serviceProvider =>
+            {
+                var options = new ConfigurationOptions();
+                configure.Invoke(serviceProvider, options);
+                return options;
+            });
             services.TryAddSingleton(typeof(IConfiguration<>), typeof(Configuration<>));
             services.TryAddSingleton(typeof(IConfigurator<>), typeof(Configurator<>));
 
