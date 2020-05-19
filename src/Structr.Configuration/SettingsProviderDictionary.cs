@@ -27,7 +27,7 @@ namespace Structr.Configuration
         IEnumerator IEnumerable.GetEnumerator()
              => GetEnumerator();
 
-        public void Add<TSettings>(ISettingsProvider<TSettings> provider) where TSettings : class, new()
+        public void Add<TSettings>(SettingsProvider<TSettings> provider) where TSettings : class, new()
         {
             if (provider == null)
                 throw new ArgumentNullException(nameof(provider));
@@ -37,25 +37,25 @@ namespace Structr.Configuration
             _providers[type] = provider;
         }
 
-        public bool TryGet<TSettings>(out ISettingsProvider<TSettings> provider) where TSettings : class, new()
+        public bool TryGet<TSettings>(out SettingsProvider<TSettings> provider) where TSettings : class, new()
         {
             provider = null;
             var type = typeof(TSettings);
             if (_providers.ContainsKey(type))
             {
-                provider = (ISettingsProvider<TSettings>)_providers[type];
+                provider = (SettingsProvider<TSettings>)_providers[type];
                 return true;
             }
 
             return false;
         }
 
-        public ISettingsProvider<TSettings> Get<TSettings>() where TSettings : class, new()
+        public SettingsProvider<TSettings> Get<TSettings>() where TSettings : class, new()
         {
             var type = typeof(TSettings);
             if (_providers.TryGetValue(type, out object obj))
             {
-                var provider = (ISettingsProvider<TSettings>)obj;
+                var provider = (SettingsProvider<TSettings>)obj;
                 return provider;
             }
 
