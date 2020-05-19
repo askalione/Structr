@@ -1,4 +1,3 @@
-using Structr.Configuration.Internal;
 using System;
 
 namespace Structr.Configuration
@@ -7,29 +6,8 @@ namespace Structr.Configuration
     {
         private readonly ConfigurationOptions _options;
 
-        private TSettings _settings = null;
         public TSettings Settings
-        {
-            get
-            {
-                var provider = _options.Providers.Get<TSettings>();
-
-                if (_options.Cache == false || _settings == null)
-                {
-                    _settings = provider.GetSettings();
-                }
-                else
-                {
-                    if (provider.IsSettingsChanged())
-                    {
-                        var settings = provider.GetSettings();
-                        Mapper.Map(settings, _settings);
-                    }
-                }
-
-                return _settings;
-            }
-        }
+            => _options.Providers.Get<TSettings>().GetSettings();
 
         public Configuration(ConfigurationOptions options)
         {
