@@ -51,7 +51,7 @@ namespace Structr.AspNetCore.TagHelpers
         private bool MatchArea()
         {
             var area = ViewContext.RouteData.Values["Area"].ToString();
-            var match = string.IsNullOrEmpty(Area) || Controller.Equals(area, StringComparison.OrdinalIgnoreCase);
+            var match = string.IsNullOrEmpty(Area) || Area.Equals(area, StringComparison.OrdinalIgnoreCase);
             return match;
         }
 
