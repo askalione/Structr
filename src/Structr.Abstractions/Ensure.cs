@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Structr.Abstractions
 {
@@ -13,6 +15,12 @@ namespace Structr.Abstractions
         public static void NotEmpty(string value, string name)
         {
             if (string.IsNullOrEmpty(value))
+                throw new ArgumentNullException(name);
+        }
+
+        public static void NotEmpty<T>(IEnumerable<T> value, string name)
+        {
+            if (value == null || value.Count() == 0)
                 throw new ArgumentNullException(name);
         }
 

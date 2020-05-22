@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Structr.Abstractions.Tests
@@ -21,6 +22,18 @@ namespace Structr.Abstractions.Tests
         public void NotEmpty_EmptyString_ThrowArgumentNullException()
         {
             string value = "";
+            string name = nameof(value);
+            var actual = new ArgumentNullException(name);
+
+            var expected = Assert.Throws<ArgumentNullException>(() => Ensure.NotEmpty(value, name));
+
+            Assert.Equal(actual.Message, expected.Message);
+        }
+
+        [Fact]
+        public void NotEmpty_EmptyIEnumerable_ThrowArgumentNullException()
+        {
+            IEnumerable<string> value = new List<string>();
             string name = nameof(value);
             var actual = new ArgumentNullException(name);
 
