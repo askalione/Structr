@@ -27,10 +27,10 @@ namespace Structr.AspNetCore.TagHelpers
 
         private bool Match()
         {
-            var match = MatchAction()
-                && MatchController()
-                && MatchArea()
-                && MatchRouteValues();
+            var match = MatchArea()
+                 && MatchController()
+                 && MatchAction()
+                 && MatchRouteValues();
             return match;
         }
 
