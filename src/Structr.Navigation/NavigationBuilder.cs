@@ -77,13 +77,16 @@ namespace Structr.Navigation
                 return null;
 
             ValidateOrThrowNavItemId(navItem.Id, navItemsIds);
+
+            Build(jNavItem, navItem, navItemFilter, navItemActivator, resourceManager, nav, navItemsIds);
+            TryResource(navItem, resourceManager);
+
             if (navItemFilter(navItem, _serviceProvider))
             {
                 navItem.IsActive = navItemActivator(navItem, _serviceProvider);
                 if (navItem.IsActive)
                     DeactivateAllExceptOne(nav, navItem);
-                TryResource(navItem, resourceManager);
-                Build(jNavItem, navItem, navItemFilter, navItemActivator, resourceManager, nav, navItemsIds);
+
                 return navItem;
             }
             else
