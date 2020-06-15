@@ -31,7 +31,9 @@ namespace Structr.Collections
             if (pageNumber < 1)
                 throw new ArgumentOutOfRangeException(nameof(pageNumber), pageNumber, "Page number must be greater or equal 1");
             if (pageSize < 0)
-                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater or equal 0");            
+                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater or equal 0");
+            if (pageSize < collection.Count())
+                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater or equal collection items count");
 
             _collection = collection.ToList();
 
