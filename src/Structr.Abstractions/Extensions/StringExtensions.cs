@@ -143,5 +143,41 @@ namespace Structr.Abstractions.Extensions
 
             return resultStringBuilder.ToString();
         }
+
+        public static string ToHyphenCase(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return value;
+
+            var result = "";
+            for (var i = 0; i < value.Length; i++)
+            {
+                if (i == 0)
+                {
+                    result += char.ToLower(value[i]);
+                }
+                else
+                {
+                    if (char.IsUpper(value[i]))
+                        result += "-";
+                    result += char.ToLower(value[i]);
+                }
+            }
+
+            return result;
+        }
+
+        public static string ToCamelCase(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return value;
+
+            var result = value;
+            if (!string.IsNullOrEmpty(result) && result.Length > 1)
+            {
+                result = char.ToLowerInvariant(result[0]) + result.Substring(1);
+            }
+            return result;
+        }
     }
 }
