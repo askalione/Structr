@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Structr.AspNetCore.TagHelpers
 {
-    [HtmlTargetElement("a", Attributes = "asp-action,asp-match-class")]
+    [HtmlTargetElement("a", Attributes = "asp-match-class")]
     public class AnchorMatchTagHelper : AnchorTagHelper
     {
         [HtmlAttributeName("asp-match-class")]
@@ -37,7 +37,7 @@ namespace Structr.AspNetCore.TagHelpers
         private bool MatchAction()
         {
             var action = ViewContext.RouteData.Values["Action"].ToString();
-            var match = Action.Equals(action, StringComparison.OrdinalIgnoreCase);
+            var match = string.IsNullOrEmpty(Action) || Action.Equals(action, StringComparison.OrdinalIgnoreCase);
             return match;
         }
 
