@@ -20,7 +20,7 @@ deploy:
 - provider: NuGet
   api_key:
     secure: I2bN1YilgV6c9VzsXQXLvksCjQbhaVVfiqZXMNESugUPLp5L6YIIXvKxA66xmvpE
-  artifact: /build\/artifacts\/.+.nupkg/
+  artifact: /build\/artifacts\/.*(\.|\.s)nupkg/
   on:
     branch: master
 notifications:

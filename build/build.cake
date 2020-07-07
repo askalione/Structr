@@ -101,6 +101,7 @@ Task("Pack")
     {
 	    var settings = new DotNetCorePackSettings
 	    {
+            ArgumentCustomization = args => args.Append("/p:SymbolPackageFormat=snupkg"),
 		    Configuration = configuration,
 		    VersionSuffix = versionSuffix,
 		    IncludeSymbols = true,
