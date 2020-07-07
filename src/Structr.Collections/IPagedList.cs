@@ -17,7 +17,7 @@ namespace Structr.Collections
         int LastItemOnPage { get; }
     }
 
-    public interface IPagedList<T> : IPagedList, IEnumerable<T>
+    public interface IPagedList<out T> : IPagedList, IEnumerable<T>
     {
         T this[int index] { get; }
         int Count { get; }
