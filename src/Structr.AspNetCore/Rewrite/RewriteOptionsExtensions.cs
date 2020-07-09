@@ -7,26 +7,45 @@ namespace Structr.AspNetCore.Rewrite
     public static class RewriteOptionsExtensions
     {
         public static RewriteOptions AddRedirectToLowercase(this RewriteOptions options)
-            => AddRedirectToLowercase(options, StatusCodes.Status307TemporaryRedirect);
+            => AddRedirectToLowercase(options,
+                (request) => true,
+                StatusCodes.Status301MovedPermanently);
 
-        public static RewriteOptions AddRedirectToLowercasePermanent(this RewriteOptions options)
-            => AddRedirectToLowercase(options, StatusCodes.Status308PermanentRedirect);
-
-        public static RewriteOptions AddRedirectToLowercase(this RewriteOptions options, int statusCode)
+        public static RewriteOptions AddRedirectToLowercase(this RewriteOptions options, Func<HttpRequest, bool> filter, int statusCode)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            options.Add(new RedirectToLowercaseRule(statusCode));
+            options.Add(new RedirectToLowercaseRule(filter, statusCode));
             return options;
         }
 
         public static RewriteOptions AddRedirectToTrailingSlash(this RewriteOptions options)
+            => AddRedirectToTrailingSlash(options,
+                (request) => true,
+                StatusCodes.Status301MovedPermanently);
+
+        public static RewriteOptions AddRedirectToTrailingSlash(this RewriteOptions options, Func<HttpRequest, bool> filter, int statusCode)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            return options.AddRedirect(@"^(((.*/)|(/?))[^/.]+(?!/$))$", "$1/", StatusCodes.Status301MovedPermanently);
+            options.Add(new RedirectToTrailingSlashRule(filter, statusCode));
+            return options;
+        }
+
+        public static RewriteOptions AddRedirectToLowercaseTrailingSlash(this RewriteOptions options)
+            => AddRedirectToLowercaseTrailingSlash(options,
+                (request) => true,
+                StatusCodes.Status301MovedPermanently);
+
+        public static RewriteOptions AddRedirectToLowercaseTrailingSlash(this RewriteOptions options, Func<HttpRequest, bool> filter, int statusCode)
+        {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+            options.Add(new RedirectToLowercaseTrailingSlashRule(filter, statusCode));
+            return options;
         }
     }
 }

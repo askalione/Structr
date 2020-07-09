@@ -38,6 +38,15 @@ namespace Structr.Abstractions
 
         public static void InRange(IComparable value, IComparable minValue, IComparable maxValue, string name)
         {
+            var valueType = value.GetType();
+            var minValueType = minValue.GetType();
+            var maxValueType = maxValue.GetType();
+
+            if ((valueType == minValueType && valueType == maxValueType) == false)
+            {
+                throw new InvalidOperationException($"Value type and {nameof(minValue)} type and {nameof(maxValue)} type must bu equals.");
+            }
+
             if (!(value.CompareTo(minValue) >= 0 && value.CompareTo(maxValue) <= 0))
                 throw new ArgumentOutOfRangeException(name, value, $"Value is out of range. Value must be between {minValue} and {maxValue}.");
         }
@@ -56,6 +65,11 @@ namespace Structr.Abstractions
 
         public static void GreaterThan(IComparable value, IComparable minValue, string name)
         {
+            if (value.GetType() != minValue.GetType())
+            {
+                throw new InvalidOperationException($"Value type and {nameof(minValue)} type must be equals.");
+            }
+
             if (!(value.CompareTo(minValue) > 0))
                 throw new ArgumentOutOfRangeException(name, value, $"Value is out of range. Value must be greater than {minValue}.");
         }
@@ -74,6 +88,11 @@ namespace Structr.Abstractions
 
         public static void LessThan(IComparable value, IComparable maxValue, string name)
         {
+            if (value.GetType() != maxValue.GetType())
+            {
+                throw new InvalidOperationException($"Value type and {nameof(maxValue)} type must be equals.");
+            }
+
             if (!(value.CompareTo(maxValue) < 0))
                 throw new ArgumentOutOfRangeException(name, value, $"Value is out of range. Value must be less than {maxValue}.");
         }

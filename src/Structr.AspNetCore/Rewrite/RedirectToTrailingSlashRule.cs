@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Net.Http.Headers;
 using Structr.Abstractions;
 using System;
-using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Structr.AspNetCore.Rewrite
 {
-    public class RedirectToLowercaseRule : IRule
+    public class RedirectToTrailingSlashRule : IRule
     {
         private readonly int _statusCode;
         private readonly Func<HttpRequest, bool> _filter;
 
-        public RedirectToLowercaseRule(Func<HttpRequest, bool> filter, int statusCode)
+        public RedirectToTrailingSlashRule(Func<HttpRequest, bool> filter, int statusCode)
         {
             Ensure.NotNull(filter, nameof(filter));
 
@@ -39,21 +39,18 @@ namespace Structr.AspNetCore.Rewrite
                 return;
             }
 
-            var shouldUseLowercase = request.Scheme.Any(char.IsUpper)
-                || request.Host.Value.Any(char.IsUpper)
-                || request.PathBase.Value.Any(char.IsUpper)
-                || request.Path.Value.Any(char.IsUpper);
+            var shouldUseTrailingSlash = Regex.IsMatch(request.Path.Value, RedirectToTrailingSlashDefaults.MatchPattern);
 
-            if (shouldUseLowercase == false)
+            if (shouldUseTrailingSlash == false)
             {
                 context.Result = RuleResult.ContinueRules;
                 return;
             }
 
-            var url = UriHelper.BuildAbsolute(request.Scheme.ToLowerInvariant(),
-                new HostString(request.Host.Value.ToLowerInvariant()),
-                request.PathBase.Value.ToLowerInvariant(),
-                request.Path.Value.ToLowerInvariant(),
+            var url = UriHelper.BuildAbsolute(request.Scheme,
+                new HostString(request.Host.Value),
+                request.PathBase.Value,
+                request.Path.Value + "/",
                 request.QueryString);
 
             var response = context.HttpContext.Response;

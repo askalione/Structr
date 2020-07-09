@@ -11,6 +11,7 @@ skip_commits:
 image: Visual Studio 2019
 artifacts:
 - path: build\artifacts\*.nupkg
+- path: build\artifacts\*.snupkg
 build_script:
 - ps: >-
           cd build

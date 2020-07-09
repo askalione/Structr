@@ -5,15 +5,16 @@ using Microsoft.Net.Http.Headers;
 using Structr.Abstractions;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Structr.AspNetCore.Rewrite
 {
-    public class RedirectToLowercaseRule : IRule
+    public class RedirectToLowercaseTrailingSlashRule : IRule
     {
         private readonly int _statusCode;
         private readonly Func<HttpRequest, bool> _filter;
 
-        public RedirectToLowercaseRule(Func<HttpRequest, bool> filter, int statusCode)
+        public RedirectToLowercaseTrailingSlashRule(Func<HttpRequest, bool> filter, int statusCode)
         {
             Ensure.NotNull(filter, nameof(filter));
 
@@ -44,20 +45,25 @@ namespace Structr.AspNetCore.Rewrite
                 || request.PathBase.Value.Any(char.IsUpper)
                 || request.Path.Value.Any(char.IsUpper);
 
+            var shouldUseTrailingSlash = Regex.IsMatch(request.Path.Value, RedirectToTrailingSlashDefaults.MatchPattern);
+
             if (shouldUseLowercase == false)
             {
-                context.Result = RuleResult.ContinueRules;
-                return;
+                if (shouldUseTrailingSlash == false)
+                {
+                    context.Result = RuleResult.ContinueRules;
+                    return;
+                }
             }
 
             var url = UriHelper.BuildAbsolute(request.Scheme.ToLowerInvariant(),
                 new HostString(request.Host.Value.ToLowerInvariant()),
                 request.PathBase.Value.ToLowerInvariant(),
-                request.Path.Value.ToLowerInvariant(),
+                request.Path.Value.ToLowerInvariant() + (shouldUseTrailingSlash ? "/" : ""),
                 request.QueryString);
 
             var response = context.HttpContext.Response;
-            response.StatusCode = _statusCode;
+            response.StatusCode = StatusCodes.Status301MovedPermanently;
             response.Headers[HeaderNames.Location] = url;
             context.Result = RuleResult.EndResponse;
         }
