@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
-using Microsoft.Extensions.DependencyInjection;
 using Structr.AspNetCore.Validation.Internal;
 using System;
 
-namespace Structr.AspNetCore.Validation
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
