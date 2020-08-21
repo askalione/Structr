@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Version>1.0.0</Version>
+        <Description>Extend the Data Annotation validation provided in ASP.NET Core</Description>
+        <PackageTags>Structr;AspNetCore;Mvc;Validation;RequiredIf</PackageTags>
+        <Authors>Alexey Drapash</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="ClientScripts\aspnetcore.jquery.validation.js" />
+        <None Remove="ClientScripts\aspnetcore.msajax.validation.js" />
+        <None Remove="ClientScripts\aspnetcore.validation.js" />
+        <None Remove="ClientScripts\aspnetcore.validation.unobtrusive.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="ClientScripts\aspnetcore.jquery.validation.js" />
+        <Content Include="ClientScripts\aspnetcore.msajax.validation.js" />
+        <Content Include="ClientScripts\aspnetcore.validation.js" />
+        <Content Include="ClientScripts\aspnetcore.validation.unobtrusive.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
+    </ItemGroup>
+</Project>
