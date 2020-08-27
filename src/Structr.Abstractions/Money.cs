@@ -4,28 +4,28 @@ using System.Collections.Generic;
 
 namespace Structr.Abstractions
 {
-    public class Money<TAmount> : IEquatable<Money<TAmount>>, IComparable, IComparable<Money<TAmount>>
-        where TAmount : struct, IComparable, IComparable<TAmount>
+    public class Money<TValue> : IEquatable<Money<TValue>>, IComparable, IComparable<Money<TValue>>
+        where TValue : struct, IComparable, IComparable<TValue>
     {
-        public TAmount Amount { get; protected set; }
+        public TValue Value { get; protected set; }
 
         protected Money() { }
 
-        public Money(TAmount amount) : this()
+        public Money(TValue value) : this()
         {
-            Amount = amount;
+            Value = value;
         }
 
         #region IEquatable
 
-        public bool Equals(Money<TAmount> other)
+        public bool Equals(Money<TValue> other)
         {
             if (ReferenceEquals(null, other))
                 return false;
             if (ReferenceEquals(this, other))
                 return true;
 
-            return EqualityComparer<TAmount>.Default.Equals(this.Amount, other.Amount);
+            return EqualityComparer<TValue>.Default.Equals(this.Value, other.Value);
         }
 
         public override bool Equals(object obj)
@@ -33,17 +33,17 @@ namespace Structr.Abstractions
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Money<TAmount>)obj);
+            return Equals((Money<TValue>)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                if (Amount.Equals(default(TAmount)))
+                if (Value.Equals(default(TValue)))
                     return base.GetHashCode();
 
-                return GetType().GetHashCode() ^ Amount.GetHashCode();
+                return GetType().GetHashCode() ^ Value.GetHashCode();
             }
         }
 
@@ -51,12 +51,12 @@ namespace Structr.Abstractions
 
         #region IComparable
 
-        public int CompareTo(Money<TAmount> other)
+        public int CompareTo(Money<TValue> other)
         {
             if (ReferenceEquals(null, other))
                 return 1;
 
-            return Amount.CompareTo(other.Amount);
+            return Value.CompareTo(other.Value);
         }
 
         public virtual int CompareTo(object obj)
@@ -70,14 +70,14 @@ namespace Structr.Abstractions
             if (obj.GetType() != GetType())
                 throw new InvalidOperationException(string.Format("Cannot convert object of type '{0}' to '{1}'.", obj.GetType().FullName, GetType().FullName));
 
-            return CompareTo((Money<TAmount>)obj);
+            return CompareTo((Money<TValue>)obj);
         }
 
         #endregion
 
         #region Operators
 
-        public static bool operator ==(Money<TAmount> money1, Money<TAmount> money2)
+        public static bool operator ==(Money<TValue> money1, Money<TValue> money2)
         {
             if (ReferenceEquals(null, money1))
                 return false;
@@ -87,12 +87,12 @@ namespace Structr.Abstractions
             return money1.Equals(money2);
         }
 
-        public static bool operator !=(Money<TAmount> money1, Money<TAmount> money2)
+        public static bool operator !=(Money<TValue> money1, Money<TValue> money2)
         {
             return !(money1 == money2);
         }
 
-        public static bool operator >(Money<TAmount> money1, Money<TAmount> money2)
+        public static bool operator >(Money<TValue> money1, Money<TValue> money2)
         {
             if (ReferenceEquals(null, money1))
                 return false;
@@ -102,17 +102,17 @@ namespace Structr.Abstractions
             return money1.CompareTo(money2) > 0;
         }
 
-        public static bool operator >=(Money<TAmount> money1, Money<TAmount> money2)
+        public static bool operator >=(Money<TValue> money1, Money<TValue> money2)
         {
             return (money1 > money2 || money1 == money2);
         }
 
-        public static bool operator <(Money<TAmount> money1, Money<TAmount> money2)
+        public static bool operator <(Money<TValue> money1, Money<TValue> money2)
         {
             return !(money1 >= money2);
         }
 
-        public static bool operator <=(Money<TAmount> money1, Money<TAmount> money2)
+        public static bool operator <=(Money<TValue> money1, Money<TValue> money2)
         {
             return !(money1 > money2);
         }
@@ -121,33 +121,33 @@ namespace Structr.Abstractions
 
         public override string ToString()
         {
-            return string.Format("{0:N2}", Amount);
+            return string.Format("{0:N2}", Value);
         }
     }
 
-    public class Money<TAmount, TCurrency> : Money<TAmount>, IEquatable<Money<TAmount, TCurrency>>, IComparable, IComparable<Money<TAmount, TCurrency>>
-        where TAmount : struct, IComparable, IComparable<TAmount>
+    public class Money<TValue, TCurrency> : Money<TValue>, IEquatable<Money<TValue, TCurrency>>, IComparable, IComparable<Money<TValue, TCurrency>>
+        where TValue : struct, IComparable, IComparable<TValue>
         where TCurrency : struct
     {
         public TCurrency Currency { get; protected set; }
 
         protected Money() : base() { }
 
-        public Money(TAmount amount, TCurrency currency) : base(amount)
+        public Money(TValue value, TCurrency currency) : base(value)
         {
             Currency = currency;
         }
 
         #region IEquatable
 
-        public bool Equals(Money<TAmount, TCurrency> other)
+        public bool Equals(Money<TValue, TCurrency> other)
         {
             if (ReferenceEquals(null, other))
                 return false;
             if (ReferenceEquals(this, other))
                 return true;
 
-            return EqualityComparer<TAmount>.Default.Equals(Amount, other.Amount) &&
+            return EqualityComparer<TValue>.Default.Equals(Value, other.Value) &&
                 string.Equals(Currency, other.Currency);
         }
 
@@ -156,14 +156,14 @@ namespace Structr.Abstractions
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Money<TAmount, TCurrency>)obj);
+            return Equals((Money<TValue, TCurrency>)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (EqualityComparer<TAmount>.Default.GetHashCode(Amount) * 397) ^ Currency.GetHashCode();
+                return (EqualityComparer<TValue>.Default.GetHashCode(Value) * 397) ^ Currency.GetHashCode();
             }
         }
 
@@ -171,7 +171,7 @@ namespace Structr.Abstractions
 
         #region IComparable
 
-        public int CompareTo(Money<TAmount, TCurrency> other)
+        public int CompareTo(Money<TValue, TCurrency> other)
         {
             if (ReferenceEquals(null, other))
                 return 1;
@@ -179,7 +179,7 @@ namespace Structr.Abstractions
             if (!Currency.Equals(other.Currency))
                 throw new InvalidOperationException(string.Format("Cannot compare {0} and {1}.", Currency, other.Currency));
 
-            return Amount.CompareTo(other.Amount);
+            return Value.CompareTo(other.Value);
         }
 
         public override int CompareTo(object obj)
@@ -193,14 +193,14 @@ namespace Structr.Abstractions
             if (obj.GetType() != GetType())
                 throw new InvalidOperationException(string.Format("Cannot convert object of type '{0}' to '{1}'.", obj.GetType().FullName, GetType().FullName));
 
-            return CompareTo(obj as Money<TAmount, TCurrency>);
+            return CompareTo(obj as Money<TValue, TCurrency>);
         }
 
         #endregion
 
         #region Operators
 
-        public static bool operator ==(Money<TAmount, TCurrency> money1, Money<TAmount, TCurrency> money2)
+        public static bool operator ==(Money<TValue, TCurrency> money1, Money<TValue, TCurrency> money2)
         {
             if (ReferenceEquals(null, money1))
                 return false;
@@ -210,12 +210,12 @@ namespace Structr.Abstractions
             return money1.Equals(money2);
         }
 
-        public static bool operator !=(Money<TAmount, TCurrency> money1, Money<TAmount, TCurrency> money2)
+        public static bool operator !=(Money<TValue, TCurrency> money1, Money<TValue, TCurrency> money2)
         {
             return !(money1 == money2);
         }
 
-        public static bool operator >(Money<TAmount, TCurrency> money1, Money<TAmount, TCurrency> money2)
+        public static bool operator >(Money<TValue, TCurrency> money1, Money<TValue, TCurrency> money2)
         {
             if (ReferenceEquals(null, money1))
                 return false;
@@ -225,17 +225,17 @@ namespace Structr.Abstractions
             return money1.CompareTo(money2) > 0;
         }
 
-        public static bool operator >=(Money<TAmount, TCurrency> money1, Money<TAmount, TCurrency> money2)
+        public static bool operator >=(Money<TValue, TCurrency> money1, Money<TValue, TCurrency> money2)
         {
             return (money1 > money2 || money1 == money2);
         }
 
-        public static bool operator <(Money<TAmount, TCurrency> money1, Money<TAmount, TCurrency> money2)
+        public static bool operator <(Money<TValue, TCurrency> money1, Money<TValue, TCurrency> money2)
         {
             return !(money1 >= money2);
         }
 
-        public static bool operator <=(Money<TAmount, TCurrency> money1, Money<TAmount, TCurrency> money2)
+        public static bool operator <=(Money<TValue, TCurrency> money1, Money<TValue, TCurrency> money2)
         {
             return !(money1 > money2);
         }
@@ -247,7 +247,7 @@ namespace Structr.Abstractions
             string currency = Currency.ToString();
             if (Currency is Enum enumCurrency)
                 currency = enumCurrency.GetDescription();
-            return string.Format("{0:N2}", Amount) + " " + currency;
+            return string.Format("{0:N2}", Value) + " " + currency;
         }
     }
 }
