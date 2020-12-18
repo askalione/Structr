@@ -1,9 +1,9 @@
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace Structr.Navigation
 {
-    public interface INavigationProvider
+    public interface INavigationProvider<TNavigationItem> where TNavigationItem : NavigationItem<TNavigationItem>
     {
-        JArray GetNavigation();
+        IEnumerable<TNavigationItem> CreateNavigation();
     }
 }

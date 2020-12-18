@@ -7,6 +7,7 @@ namespace Structr.Navigation.Internal
         internal static bool IsPropertyWithSetter(this MemberInfo member)
         {
             var property = member as PropertyInfo;
+
             return property?.SetMethod != null;
         }
     }

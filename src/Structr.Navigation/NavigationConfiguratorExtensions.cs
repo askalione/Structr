@@ -5,28 +5,18 @@ namespace Structr.Navigation
 {
     public static class NavigationConfiguratorExtensions
     {
-        public static NavigationConfigurator AddJson<TNavigationItem>(this NavigationConfigurator configurations,
+        public static NavigationConfigurator AddJson<TNavigationItem>(this NavigationConfigurator configurator,
             string path,
-            Action<NavigationItemOptions<TNavigationItem>> configure = null) where TNavigationItem : NavigationItem<TNavigationItem>
+            Action<NavigationOptions<TNavigationItem>> configure = null) where TNavigationItem : NavigationItem<TNavigationItem>
         {
-            if (configurations == null)
-                throw new ArgumentNullException(nameof(configurations));
+            if (configurator == null)
+            {
+                throw new ArgumentNullException(nameof(configurator));
+            }
 
-            configurations.Add(new JsonNavigationProvider(path), configure);
+            configurator.Add(new JsonNavigationProvider<TNavigationItem>(path), configure);
 
-            return configurations;
-        }
-
-        public static NavigationConfigurator AddXml<TNavigationItem>(this NavigationConfigurator configurations,
-            string path,
-            Action<NavigationItemOptions<TNavigationItem>> configure = null) where TNavigationItem : NavigationItem<TNavigationItem>
-        {
-            if (configurations == null)
-                throw new ArgumentNullException(nameof(configurations));
-
-            configurations.Add(new XmlNavigationProvider(path), configure);
-
-            return configurations;
+            return configurator;
         }
     }
 }

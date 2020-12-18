@@ -22,8 +22,8 @@ namespace Structr.Samples.Navigation.Infrastructure
             string controller = actionContext.RouteData.Values["controller"].ToString();
             string area = actionContext.RouteData.Values["area"]?.ToString();
 
-            return breadcrumb.Action.Equals(action, StringComparison.OrdinalIgnoreCase)
-                && breadcrumb.Controller.Equals(controller, StringComparison.OrdinalIgnoreCase)
+            return string.Equals(breadcrumb.Action, action, StringComparison.OrdinalIgnoreCase)
+                && string.Equals(breadcrumb.Controller, controller, StringComparison.OrdinalIgnoreCase)
                 && string.Equals(breadcrumb.Area, area, StringComparison.OrdinalIgnoreCase);
         }
     }

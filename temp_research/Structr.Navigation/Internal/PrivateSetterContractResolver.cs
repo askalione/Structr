@@ -9,10 +9,8 @@ namespace Structr.Navigation.Internal
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var jProperty = base.CreateProperty(member, memberSerialization);
-            if (jProperty.Writable == true)
-            {
+            if (jProperty.Writable)
                 return jProperty;
-            }
 
             jProperty.Writable = member.IsPropertyWithSetter();
 
