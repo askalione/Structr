@@ -74,7 +74,7 @@ namespace Structr.Navigation.Providers
             var xmlElementChildren = xmlElement.Elements();
             if (xmlElementChildren != null && xmlElementChildren.Any() == true)
             {
-                foreach(var xmlElementChild in xmlElementChildren)
+                foreach (var xmlElementChild in xmlElementChildren)
                 {
                     var navItemChild = ParseNavigationItem(xmlElementChild);
                     if (navItemChild != null)

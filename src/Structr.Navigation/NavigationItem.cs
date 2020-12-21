@@ -8,7 +8,7 @@ namespace Structr.Navigation
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
         private TNavigationItem _this => (TNavigationItem)this;
-        
+
         public string Id { get; set; }
         public string Title { get; set; }
         public string ResourceName { get; set; }

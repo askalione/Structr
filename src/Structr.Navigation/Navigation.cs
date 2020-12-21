@@ -10,7 +10,7 @@ namespace Structr.Navigation
     {
         private readonly IEnumerable<TNavigationItem> _items;
 
-        public TNavigationItem Active { get; private set; }
+        public TNavigationItem Active { get; }
 
         public Navigation(INavigationBuilder<TNavigationItem> builder)
         {

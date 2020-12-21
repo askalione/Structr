@@ -1,6 +1,8 @@
 using Structr.Navigation.Internal;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Resources;
 
 namespace Structr.Navigation
@@ -12,7 +14,9 @@ namespace Structr.Navigation
         private readonly NavigationOptions<TNavigationItem> _options;
         private readonly INavigationCache _cache;
 
-        private bool _hasActiveNavItem = false;
+        private Type _navigationItemType;
+        private IEnumerable<PropertyInfo> _navigationItemTypeProperties;
+        private bool _hasActiveNavigationItem;
 
         public NavigationBuilder(INavigationProvider<TNavigationItem> provider,
             NavigationOptions<TNavigationItem> options,
@@ -38,6 +42,12 @@ namespace Structr.Navigation
 
         public IEnumerable<TNavigationItem> BuildNavigation()
         {
+            _navigationItemType = typeof(TNavigationItem);
+            _navigationItemTypeProperties = _navigationItemType
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .Where(x => x.CanWrite == true)
+                .ToList();
+
             var navItems = _options.EnableCaching == true
                 ? _cache.GetOrAdd(CreateNavigation)
                 : CreateNavigation();
@@ -50,7 +60,7 @@ namespace Structr.Navigation
         private IEnumerable<TNavigationItem> BuildNavigation(IEnumerable<TNavigationItem> srcNavItems)
         {
             var navItems = new List<TNavigationItem>();
-            foreach(var srcNavItem in srcNavItems)
+            foreach (var srcNavItem in srcNavItems)
             {
                 var navItem = HandleNavigationItem(srcNavItem);
                 if (navItem != null)
@@ -63,7 +73,7 @@ namespace Structr.Navigation
         }
 
         private void HandleNavigationItemChildren(TNavigationItem navItem, TNavigationItem srcNavItem)
-        {            
+        {
             foreach (var srcNavItemChild in srcNavItem.Children)
             {
                 var navItemChild = HandleNavigationItem(srcNavItemChild);
@@ -81,13 +91,17 @@ namespace Structr.Navigation
 
             if (_options.ItemFilter?.Invoke(srcNavItem) == true)
             {
-                navItem = srcNavItem.Clone();
-                if (_hasActiveNavItem == false)
+                navItem = new TNavigationItem();
+                foreach (var prop in _navigationItemTypeProperties)
+                {
+                    prop.SetValue(navItem, prop.GetValue(srcNavItem, null), null);
+                }
+                if (_hasActiveNavigationItem == false)
                 {
                     navItem.SetActive(_options.ItemActivator?.Invoke(srcNavItem) == true);
                     if (navItem.IsActive == true)
                     {
-                        _hasActiveNavItem = true;
+                        _hasActiveNavigationItem = true;
                     }
                 }
 
@@ -110,7 +124,7 @@ namespace Structr.Navigation
                     if (resourceManager != null)
                     {
                         LoadResource(navItems, resourceManager);
-                        foreach(var navItem in navItems)
+                        foreach (var navItem in navItems)
                         {
                             LoadResource(navItem.Descendants, resourceManager);
                         }
@@ -123,7 +137,7 @@ namespace Structr.Navigation
 
         private void LoadResource(IEnumerable<TNavigationItem> navItems, ResourceManager resourceManager)
         {
-            foreach(var navItem in navItems)
+            foreach (var navItem in navItems)
             {
                 var resourceName = string.IsNullOrWhiteSpace(navItem.ResourceName) == false
                     ? navItem.ResourceName

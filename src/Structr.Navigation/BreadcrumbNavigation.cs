@@ -10,7 +10,7 @@ namespace Structr.Navigation
     {
         private readonly IEnumerable<TNavigationItem> _items;
 
-        public TNavigationItem Active { get; private set; }
+        public TNavigationItem Active { get; }
 
         public BreadcrumbNavigation(INavigationBuilder<TNavigationItem> builder)
         {
@@ -27,7 +27,7 @@ namespace Structr.Navigation
 
             if (Active != null)
             {
-                breadcrumbs = Active.Ancestors.Reverse().ToList();
+                breadcrumbs = Active.Ancestors.ToList();
                 breadcrumbs.Add(Active);
             }
 
