@@ -1,431 +1,64 @@
 [
   {
-    "Id": "Menu_Admin_SubjectArea",
-    "Title": "Предметная область",
+    "Id": "Parent_1",
+    "Title": "Parent 1",
+    "Url": "/Parent_1/",
+    "Icon": "icon-1",
+    "Action": "Parent_1_Action",
+    "Controller": "Parent_1_Controller",
     "Children": [
       {
-        "Id": "Menu_Admin_Org",
-        "Title": "Университет",
-        "Icon": "la la-landmark",
+        "Id": "Child_1_1",
+        "Title": "Child 1 1",
+        "Url": "/Parent_1/Child_1_1/",
+        "Icon": "icon-1-1",
+        "Action": "Child_1_1_Action",
+        "Controller": "Child_1_1_Controller",
         "Children": [
           {
-            "Id": "Menu_Admin_Org_Departments",
-            "Title": "Подразделения",
-            "Url": "/admin/departments/",
-            "Permission": "DepartmentList"
-          },
-          {
-            "Id": "Menu_Admin_Org_AuthorProfiles",
-            "Title": "Профили авторов",
-            "Url": "/admin/author-profiles/",
-            "Permission": "AuthorProfileList"
-          },
-          {
-            "Id": "Menu_Admin_Org_Curators",
-            "Title": "Представители",
-            "Url": "/admin/curators/",
-            "Permission": "CuratorList"
-          },
-          {
-            "Id": "Menu_Admin_Org_Positions",
-            "Title": "Должности",
-            "Url": "/admin/positions/",
-            "Permission": "PositionList"
+            "Id": "Child_1_1_1",
+            "Title": "Child 1 1 1",
+            "Url": "/Parent_1/Child_1/Child_1_1_1/",
+            "Icon": "icon-1-1-1",
+            "Action": "Child_1_1_1_Action",
+            "Controller": "Child_1_1_1_Controller"
           }
         ]
       },
       {
-        "Id": "Menu_Admin_Orgs",
-        "Title": "Организации",
-        "Url": "/admin/organizations/",
-        "Icon": "la la-building",
-        "Permission": "OrganizationList"
-      },
-      {
-        "Id": "Menu_Admin_Funding",
-        "Title": "Финансирование",
-        "Icon": "la la-money-bill",
-        "Children": [
-          {
-            "Id": "Menu_Admin_Funding_Funders",
-            "Title": "Организации",
-            "Url": "/admin/funders/",
-            "Permission": "FunderList"
-          },
-          {
-            "Id": "Menu_Admin_Funding_FundingSubjects",
-            "Title": "Темы",
-            "Url": "/admin/funding-subjects/",
-            "Permission": "FundingSubjectList"
-          }
-        ]
-      },
-      {
-        "Id": "Menu_Admin_Pubs",
-        "Title": "Публикации",
-        "Icon": "la la-book-open",
-        "Children": [
-          {
-            "Id": "Menu_Admin_Pubs_Pubs",
-            "Title": "Публикации",
-            "Url": "/admin/publications/",
-            "Permission": "RecordList"
-          },
-          {
-            "Id": "Menu_Admin_Record_Sources",
-            "Title": "Источники публикаций",
-            "Url": "/admin/record-sources/",
-            "Permission": "RecordSourceList"
-          }
-        ]
+        "Id": "Child_1_2",
+        "Title": "Child 1 2",
+        "Url": "/Parent_1/Child_1_2/",
+        "Icon": "icon-1-2",
+        "Action": "Child_1_2_Action",
+        "Controller": "Child_1_2_Controller"
       }
     ]
   },
   {
-    "Id": "Menu_Admin_Infrastructure",
-    "Title": "Инфрастуктура",
+    "Id": "Parent_2",
+    "Title": "Parent 2",
+    "Url": "/Parent_2/",
+    "Icon": "icon-2",
+    "Action": "Parent_2_Action",
+    "Controller": "Parent_2_Controller",
     "Children": [
       {
-        "Id": "Menu_Admin_Users",
-        "Title": "Пользователи",
-        "Url": "/admin/users/",
-        "Icon": "la la-user-friends",
-        "Permission": "UserList"
-      },
-      {
-        "Id": "Menu_Admin_Invitations",
-        "Title": "Приглашения",
-        "Url": "/admin/invitations/",
-        "Icon": "la la-at",
-        "Permission": "InvitationList"
-      },
-      {
-        "Id": "Menu_Admin_Content",
-        "Title": "Контент",
-        "Icon": "la la-pencil-ruler",
-        "Children": [
-          {
-            "Id": "Menu_Admin_Content_StaticPages",
-            "Title": "Статические страницы",
-            "Url": "/admin/static-pages/",
-            "Permission": "StaticPageList"
-          }
-        ]
-      },
-      {
-        "Id": "Menu_Admin_Dictionaries",
-        "Title": "Справочники",
-        "Icon": "la la-list",
-        "Children": [
-          {
-            "Id": "Menu_Admin_Dictionaries_Common",
-            "Title": "Общие",
-            "Children": [
-              {
-                "Id": "Menu_Admin_Dictionaries_AcademicRanks",
-                "Title": "Ученые звания",
-                "Url": "/admin/dictionaries/academic-ranks",
-                "Permission": "DictionaryList"
-              },
-              {
-                "Id": "Menu_Admin_Dictionaries_ScientificDegrees",
-                "Title": "Научные степени",
-                "Url": "/admin/dictionaries/scientific-degrees",
-                "Permission": "DictionaryList"
-              },
-              {
-                "Id": "Menu_Admin_Dictionaries_Specialities",
-                "Title": "Специальности",
-                "Url": "/admin/dictionaries/specialities",
-                "Permission": "DictionaryList"
-              },
-              {
-                "Id": "Menu_Admin_Dictionaries_Countries",
-                "Title": "Страны",
-                "Url": "/admin/dictionaries/countries",
-                "Permission": "DictionaryList"
-              },
-              {
-                "Id": "Menu_Admin_Dictionaries_Languages",
-                "Title": "Языки",
-                "Url": "/admin/dictionaries/languages",
-                "Permission": "DictionaryList"
-              }
-            ]
-          },
-          {
-            "Id": "Menu_Admin_Dictionaries_Pubs",
-            "Title": "Публикации",
-            "Children": [
-              {
-                "Id": "Menu_Admin_Dictionaries_DataSources",
-                "Title": "Источники данных",
-                "Url": "/admin/dictionaries/data-sources",
-                "Permission": "DictionaryList"
-              },
-              {
-                "Id": "Menu_Admin_Dictionaries_SubjectCategories",
-                "Title": "Тематические категории",
-                "Url": "/admin/dictionaries/subject-categories",
-                "Permission": "DictionaryList"
-              },
-              {
-                "Id": "Menu_Admin_Dictionaries_Records",
-                "Title": "Записи",
-                "Children": [
-                  {
-                    "Id": "Menu_Admin_Dictionaries_RecordAuthorTypes",
-                    "Title": "Типы авторов",
-                    "Url": "/admin/dictionaries/record-author-types",
-                    "Permission": "DictionaryList"
-                  },
-                  {
-                    "Id": "Menu_Admin_Dictionaries_RecordEntryTypes",
-                    "Title": "Типы флагов",
-                    "Url": "/admin/dictionaries/record-entry-types",
-                    "Permission": "DictionaryList"
-                  },
-                  {
-                    "Id": "Menu_Admin_Dictionaries_RecordKeywordTypes",
-                    "Title": "Типы ключевых слов",
-                    "Url": "/admin/dictionaries/record-keyword-types",
-                    "Permission": "DictionaryList"
-                  },
-                  {
-                    "Id": "Menu_Admin_Dictionaries_RecordTypes",
-                    "Title": "Типы записей",
-                    "Url": "/admin/dictionaries/record-types",
-                    "Permission": "DictionaryList"
-                  },
-                  {
-                    "Id": "Menu_Admin_Dictionaries_RecordIndicatorTypes",
-                    "Title": "Типы показателей",
-                    "Url": "/admin/dictionaries/record-indicator-types",
-                    "Permission": "DictionaryList"
-                  }
-                ]
-              },
-              {
-                "Id": "Menu_Admin_Dictionaries_RecordSources",
-                "Title": "Источники записей",
-                "Children": [
-                  {
-                    "Id": "Menu_Admin_Dictionaries_RecordSourceIndicatorTypes",
-                    "Title": "Типы показателей",
-                    "Url": "/admin/dictionaries/record-source-indicator-types",
-                    "Permission": "DictionaryList"
-                  },
-                  {
-                    "Id": "Menu_Admin_Dictionaries_RecordSourceQuartileTypes",
-                    "Title": "Типы квартилей",
-                    "Url": "/admin/dictionaries/record-source-quartile-types",
-                    "Permission": "DictionaryList"
-                  },
-                  {
-                    "Id": "Menu_Admin_Dictionaries_RecordSourceRankingTypes",
-                    "Title": "Типы рейтингов",
-                    "Url": "/admin/dictionaries/record-source-ranking-types",
-                    "Permission": "DictionaryList"
-                  },
-                  {
-                    "Id": "Menu_Admin_Dictionaries_RecordSourceType",
-                    "Title": "Типы источников",
-                    "Url": "/admin/dictionaries/record-source-types",
-                    "Permission": "DictionaryList"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "Id": "Child_2_1",
+        "Title": "Child 2 1",
+        "Url": "/Parent_2/Child_2_1/",
+        "Icon": "icon-2-1",
+        "Action": "Child_2_1_Action",
+        "Controller": "Child_2_1_Controller"
       }
     ]
   },
   {
-    "Id": "Menu_Admin_Processes",
-    "Title": "Процессы",
-    "Children": [
-      {
-        "Id": "Menu_Admin_Management",
-        "Title": "Управление",
-        "Icon": "la la-sliders-h",
-        "Children": [
-          {
-            "Id": "Menu_Admin_Management_RecordTypes",
-            "Title": "Типы записей",
-            "Url": "/admin/record-types/",
-            "Permission": "DataSourceRecordTypeList"
-          },
-          {
-            "Id": "Menu_Admin_Management_Bundles",
-            "Title": "Группы записей",
-            "Url": "/admin/bundles/",
-            "Permission": "RecordRawBundleList"
-          },
-          {
-            "Id": "Menu_Admin_Management_Authors",
-            "Title": "Авторы",
-            "Url": "/admin/record-authors/",
-            "Permission": "RecordAuthorList"
-          }
-        ]
-      },
-      {
-        "Id": "Menu_Admin_Import",
-        "Title": "Импорт",
-        "Icon": "la la-file-import",
-        "Children": [
-          {
-            "Id": "Menu_Admin_Import_Org",
-            "Title": "Университет",
-            "Children": [
-              {
-                "Id": "Menu_Admin_Import_Org_Departments",
-                "Title": "Подразделения",
-                "Url": "/admin/import-departments/",
-                "Permission": "ImportDepartments"
-              },
-              {
-                "Id": "Menu_Admin_Import_Org_AuthorProfiles",
-                "Title": "Профили авторов",
-                "Url": "/admin/import-employee-author-profiles/",
-                "Permission": "ImportAuthorProfiles"
-              }
-            ]
-          },
-          {
-            "Id": "Menu_Admin_Import_Funding",
-            "Title": "Финансирование",
-            "Children": [
-              {
-                "Id": "Menu_Admin_Import_Funding_FundingSubjects",
-                "Title": "Темы",
-                "Url": "/admin/import-funding-subjects/",
-                "Permission": "ImportFundingSubjects"
-              }
-            ]
-          },
-          {
-            "Id": "Menu_Admin_Import_Records",
-            "Title": "Записи",
-            "Url": "/admin/import-records/",
-            "Permission": "ImportRecords"
-          },
-          {
-            "Id": "Menu_Admin_Import_Metrics",
-            "Title": "Метрики",
-            "Url": "/admin/import-metrics/",
-            "Permission": "ImportMetrics"
-          }
-        ]
-      },
-      {
-        "Id": "Menu_Admin_Tools",
-        "Title": "Инструменты",
-        "Icon": "la la-wrench",
-        "Url": "/admin/tools/",
-        "Permission": "Tools"
-      }
-    ]
-  },
-  {
-    "Id": "Menu_Admin_Administration",
-    "Title": "Администрирование",
-    "Children": [
-      {
-        "Id": "Menu_Admin_UserRoles",
-        "Title": "Роли и разрешения",
-        "Url": "/admin/user-roles/",
-        "Icon": "la la-key",
-        "Permission": "UserRoleList"
-      },
-      {
-        "Id": "Menu_Admin_Settings",
-        "Title": "Настройки",
-        "Icon": "la la-cog",
-        "Children": [
-          {
-            "Id": "Menu_Admin_Settings_Auth",
-            "Title": "Авторизация",
-            "Url": "/admin/settings/auth/",
-            "Permission": "AuthSettingsEdit"
-          },
-          {
-            "Id": "Menu_Admin_Settings_Email",
-            "Title": "Уведомления",
-            "Url": "/admin/settings/email/",
-            "Permission": "EmailNotifierSettingsEdit"
-          },
-          {
-            "Id": "Menu_Admin_Settings_Captcha",
-            "Title": "Защита от спама",
-            "Url": "/admin/settings/captcha/",
-            "Permission": "CaptchaSettingsEdit"
-          },
-          {
-            "Id": "Menu_Admin_Settings_Services",
-            "Title": "Сервисы",
-            "Children": [
-              {
-                "Id": "Menu_Admin_Settings_Services_Elsevier",
-                "Title": "Elsevier",
-                "Url": "/admin/settings/elsevier/",
-                "Permission": "ServicesSettingsEdit"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "Id": "Menu_Admin_Integration",
-    "Title": "Интеграция",
-    "Children": [
-      {
-        "Id": "Menu_Admin_Integration_Api",
-        "Title": "API",
-        "Icon": "la la-tools",
-        "Children": [
-          {
-            "Id": "Menu_Admin_ApiClients",
-            "Title": "Клиенты",
-            "Url": "/admin/api-clients/",
-            "Permission": "ApiClientList"
-          },
-          {
-            "Id": "Menu_Admin_ApiRoles",
-            "Title": "Роли и разрешения",
-            "Url": "/admin/api-roles/",
-            "Permission": "ApiRoleList"
-          },
-          {
-            "Id": "Menu_Admin_ApiClientCalls",
-            "Title": "Журнал вызовов",
-            "Url": "/admin/api-client-calls/",
-            "Permission": "ApiClientCallList"
-          }
-        ]
-      },
-      {
-        "Id": "Menu_Admin_Integration_Auth",
-        "Title": "Авторизация",
-        "Icon": "la la-id-card",
-        "Children": [
-          {
-            "Id": "Menu_Admin_AuthClients",
-            "Title": "Клиенты",
-            "Url": "/admin/auth-clients/",
-            "Permission": "AuthClientList"
-          },
-          {
-            "Id": "Menu_Admin_AuthClientCalls",
-            "Title": "Журнал вызовов",
-            "Url": "/admin/auth-client-calls",
-            "Permission": "AuthClientCallList"
-          }
-        ]
-      }
-    ]
+    "Id": "Parent_3",
+    "Title": "Parent 3",
+    "Url": "/Parent_3/",
+    "Icon": "icon-3",
+    "Action": "Parent_3_Action",
+    "Controller": "Parent_3_Controller"
   }
 ]
