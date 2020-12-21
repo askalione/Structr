@@ -13,7 +13,7 @@ namespace Structr.Navigation.Providers
         private readonly string _path;
         private readonly JsonSerializer _jsonSerializer = new JsonSerializer
         {
-            ContractResolver = new PrivateSetterContractResolver()
+            ContractResolver = new PrivateSetterContractResolver()             
         };
 
         public JsonNavigationProvider(string path)

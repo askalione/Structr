@@ -36,7 +36,16 @@ namespace Structr.Samples.Navigation
             services.AddSingleton<IMenuActivator, MenuActivator>();
             services.AddSingleton<IBreadcrumbActivator, BreadcrumbActivator>();
 
-            services.AddXmlNavigation<MenuItem>(Path.Combine(rootPath, "menu.xml"), (serviceProvider, options) =>
+            //services.AddXmlNavigation<MenuItem>(Path.Combine(rootPath, "menu.xml"), (serviceProvider, options) =>
+            //{
+            //    options.ResourceType = typeof(MenuResource);
+            //    options.ItemActivator = item =>
+            //    {
+            //        var _activator = serviceProvider.GetService<IMenuActivator>();
+            //        return _activator.Activate(item);
+            //    };
+            //});
+            services.AddJsonNavigation<MenuItem>(Path.Combine(rootPath, "menu.json"), (serviceProvider, options) =>
             {
                 options.ResourceType = typeof(MenuResource);
                 options.ItemActivator = item =>
