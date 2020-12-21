@@ -26,4 +26,8 @@
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Structr.Navigation\Structr.Navigation.csproj" />
+  </ItemGroup>
+
 </Project>

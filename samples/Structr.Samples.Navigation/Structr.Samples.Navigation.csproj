@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Structr.Navigation\Structr.Navigation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\MenuResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

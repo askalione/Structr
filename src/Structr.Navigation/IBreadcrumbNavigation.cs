@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Structr.Navigation
 {
-    public interface INavigationProvider<TNavigationItem>
+    public interface IBreadcrumbNavigation<out TNavigationItem> : IEnumerable<TNavigationItem>
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
-        IEnumerable<TNavigationItem> CreateNavigation();
+        TNavigationItem Active { get; }
     }
 }

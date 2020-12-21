@@ -1,32 +1,142 @@
+using Structr.Navigation.Internal;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Resources;
 
 namespace Structr.Navigation
 {
-    public class NavigationBuilder : INavigationBuilder
+    public class NavigationBuilder<TNavigationItem> : INavigationBuilder<TNavigationItem>
+        where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
-        private readonly NavigationConfigurator _configurator;
+        private readonly INavigationProvider<TNavigationItem> _provider;
+        private readonly NavigationOptions<TNavigationItem> _options;
+        private readonly INavigationCache _cache;
 
-        public NavigationBuilder(NavigationConfigurator configurator)
+        private bool _hasActiveNavItem = false;
+
+        public NavigationBuilder(INavigationProvider<TNavigationItem> provider,
+            NavigationOptions<TNavigationItem> options,
+            INavigationCache cache)
         {
-            if (configurator == null)
+            if (provider == null)
             {
-                throw new ArgumentNullException(nameof(configurator));
+                throw new ArgumentNullException(nameof(provider));
+            }
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+            if (cache == null)
+            {
+                throw new ArgumentNullException(nameof(cache));
             }
 
-            _configurator = configurator;
+            _provider = provider;
+            _options = options;
+            _cache = cache;
         }
 
-        public IEnumerable<TNavigationItem> BuildNavigation<TNavigationItem>() where TNavigationItem : NavigationItem<TNavigationItem>
+        public IEnumerable<TNavigationItem> BuildNavigation()
         {
-            var configuration = _configurator.Get<TNavigationItem>();
-            if (configuration == null)
+            var navItems = _options.EnableCaching == true
+                ? _cache.GetOrAdd(CreateNavigation)
+                : CreateNavigation();
+
+            navItems = BuildNavigation(navItems);
+
+            return navItems;
+        }
+
+        private IEnumerable<TNavigationItem> BuildNavigation(IEnumerable<TNavigationItem> srcNavItems)
+        {
+            var navItems = new List<TNavigationItem>();
+            foreach(var srcNavItem in srcNavItems)
             {
-                throw new InvalidOperationException($"Navigation configuration of type {typeof(TNavigationItem).FullName} not found.");
+                var navItem = HandleNavigationItem(srcNavItem);
+                if (navItem != null)
+                {
+                    HandleNavigationItemChildren(navItem, srcNavItem);
+                    navItems.Add(navItem);
+                }
+            }
+            return navItems;
+        }
+
+        private void HandleNavigationItemChildren(TNavigationItem navItem, TNavigationItem srcNavItem)
+        {            
+            foreach (var srcNavItemChild in srcNavItem.Children)
+            {
+                var navItemChild = HandleNavigationItem(srcNavItemChild);
+                if (navItemChild != null)
+                {
+                    navItem.AddChild(navItemChild);
+                    HandleNavigationItemChildren(navItemChild, srcNavItemChild);
+                }
+            }
+        }
+
+        private TNavigationItem HandleNavigationItem(TNavigationItem srcNavItem)
+        {
+            TNavigationItem navItem = null;
+
+            if (_options.ItemFilter?.Invoke(srcNavItem) == true)
+            {
+                navItem = srcNavItem.Clone();
+                if (_hasActiveNavItem == false)
+                {
+                    navItem.SetActive(_options.ItemActivator?.Invoke(srcNavItem) == true);
+                    if (navItem.IsActive == true)
+                    {
+                        _hasActiveNavItem = true;
+                    }
+                }
+
+                return navItem;
             }
 
+            return navItem;
+        }
 
+        private IEnumerable<TNavigationItem> CreateNavigation()
+        {
+            var navItems = _provider.CreateNavigation();
+
+            if (navItems != null)
+            {
+                var resourceType = _options.ResourceType;
+                if (resourceType != null)
+                {
+                    var resourceManager = ResourceProvider.TryGetResourceManager(resourceType);
+                    if (resourceManager != null)
+                    {
+                        LoadResource(navItems, resourceManager);
+                        foreach(var navItem in navItems)
+                        {
+                            LoadResource(navItem.Descendants, resourceManager);
+                        }
+                    }
+                }
+            }
+
+            return navItems;
+        }
+
+        private void LoadResource(IEnumerable<TNavigationItem> navItems, ResourceManager resourceManager)
+        {
+            foreach(var navItem in navItems)
+            {
+                var resourceName = string.IsNullOrWhiteSpace(navItem.ResourceName) == false
+                    ? navItem.ResourceName
+                    : navItem.Id;
+                if (string.IsNullOrEmpty(resourceName) == false)
+                {
+                    var resourceString = resourceManager.GetString(resourceName);
+                    if (resourceString != null)
+                    {
+                        navItem.Title = resourceString;
+                    }
+                }
+            }
         }
     }
 }

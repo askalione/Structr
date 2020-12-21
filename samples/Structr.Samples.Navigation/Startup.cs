@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Structr.Navigation;
 using Structr.Samples.Navigation.Infrastructure;
 using Structr.Samples.Navigation.Resources;
 using System.IO;
@@ -32,32 +31,27 @@ namespace Structr.Samples.Navigation
             }
 #endif
 
+            var rootPath = Env.ContentRootPath;
+
             services.AddSingleton<IMenuActivator, MenuActivator>();
             services.AddSingleton<IBreadcrumbActivator, BreadcrumbActivator>();
 
-            services.AddNavigation(config =>
+            services.AddXmlNavigation<MenuItem>(Path.Combine(rootPath, "menu.xml"), (serviceProvider, options) =>
             {
-                var rootPath = Env.ContentRootPath;
-
-                // Menu
-                config.AddXml<MenuItem>(Path.Combine(rootPath, "menu.xml"), options =>
+                options.ResourceType = typeof(MenuResource);
+                options.ItemActivator = item =>
                 {
-                    options.Resource = typeof(MenuResource);
-                    options.Activator = (item, serviceProvider) =>
-                    {
-                        var _activator = serviceProvider.GetService<IMenuActivator>();
-                        return _activator.Activate(item);
-                    };
-                });
-                // Breadcrumbs
-                config.AddJson<Breadcrumb>(Path.Combine(rootPath, "breadcrumbs.json"), options =>
+                    var _activator = serviceProvider.GetService<IMenuActivator>();
+                    return _activator.Activate(item);
+                };
+            });
+            services.AddJsonNavigation<Breadcrumb>(Path.Combine(rootPath, "breadcrumbs.json"), (serviceProvider, options) =>
+            {
+                options.ItemActivator = breadcrumb =>
                 {
-                    options.Activator = (breadcrumb, serviceProvider) =>
-                    {
-                        var _activator = serviceProvider.GetService<IBreadcrumbActivator>();
-                        return _activator.Activate(breadcrumb);
-                    };
-                });
+                    var _activator = serviceProvider.GetService<IBreadcrumbActivator>();
+                    return _activator.Activate(breadcrumb);
+                };
             });
         }
 

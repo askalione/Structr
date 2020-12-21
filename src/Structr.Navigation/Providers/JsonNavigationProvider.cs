@@ -7,10 +7,14 @@ using System.IO;
 
 namespace Structr.Navigation.Providers
 {
-    public class JsonNavigationProvider<TNavigationItem> : INavigationProvider<TNavigationItem> where TNavigationItem : NavigationItem<TNavigationItem>
+    public class JsonNavigationProvider<TNavigationItem> : INavigationProvider<TNavigationItem>
+        where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
         private readonly string _path;
-        private readonly JsonSerializer _jsonSerializer = new JsonSerializer { ContractResolver = new PrivateSetterContractResolver() };
+        private readonly JsonSerializer _jsonSerializer = new JsonSerializer
+        {
+            ContractResolver = new PrivateSetterContractResolver()
+        };
 
         public JsonNavigationProvider(string path)
         {
@@ -29,7 +33,7 @@ namespace Structr.Navigation.Providers
                 throw new FileNotFoundException("Navigation file not found.", _path);
             }
 
-            var nav = new List<TNavigationItem>();
+            var navItems = new List<TNavigationItem>();
             var content = File.ReadAllText(_path);
 
             if (string.IsNullOrWhiteSpace(content) == false)
@@ -43,13 +47,13 @@ namespace Structr.Navigation.Providers
                         var navItem = ParseNavigationItem(navItemJson);
                         if (navItem != null)
                         {
-                            nav.Add(navItem);
+                            navItems.Add(navItem);
                         }
                     }
                 }
             }
 
-            return nav;
+            return navItems;
         }
 
         private TNavigationItem ParseNavigationItem(JObject navItemJson)

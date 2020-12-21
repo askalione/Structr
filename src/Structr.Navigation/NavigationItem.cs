@@ -1,46 +1,41 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Structr.Navigation
 {
-    public abstract class NavigationItem<TNavigationItem> : IEquatable<TNavigationItem> where TNavigationItem : NavigationItem<TNavigationItem>
+    public abstract class NavigationItem<TNavigationItem> : IEquatable<TNavigationItem>
+        where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
         private TNavigationItem _this => (TNavigationItem)this;
-        private readonly ICollection<TNavigationItem> _ancestors = new HashSet<TNavigationItem>();
-        private readonly ICollection<TNavigationItem> _children = new HashSet<TNavigationItem>();
-        private readonly ICollection<TNavigationItem> _descendants = new HashSet<TNavigationItem>();
+        
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string ResourceName { get; set; }
 
-        public string Id { get; protected set; }
-        public string Title { get; protected set; }
-        public string ResourceName { get; protected set; }
-
+        private readonly List<TNavigationItem> _children = new List<TNavigationItem>();
         public IEnumerable<TNavigationItem> Children => _children;
+
+        private readonly List<TNavigationItem> _ancestors = new List<TNavigationItem>();
         public IEnumerable<TNavigationItem> Ancestors => _ancestors;
+
+        private readonly List<TNavigationItem> _descendants = new List<TNavigationItem>();
         public IEnumerable<TNavigationItem> Descendants => _descendants;
 
-        public TNavigationItem Parent { get; private set; }
+        private TNavigationItem _parent = null;
+        public TNavigationItem Parent => _parent;
 
-        protected NavigationItem() { }
+        private bool _isActive = false;
+        public bool IsActive => _isActive;
 
-        public NavigationItem(string id, string title, string resourceName) : this()
-        {
-            if (string.IsNullOrWhiteSpace(id) == true)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
-            if (string.IsNullOrWhiteSpace(title) == true)
-            {
-                throw new ArgumentNullException(nameof(title));
-            }
-            if (string.IsNullOrWhiteSpace(resourceName) == true)
-            {
-                throw new ArgumentNullException(nameof(resourceName));
-            }
+        public bool HasChildren => _children.Any();
+        public bool HasActiveChild => _children.Any(x => x.IsActive);
+        public bool HasActiveDescendant => _descendants.Any(x => x.IsActive);
+        public bool HasActiveAncestor => _ancestors.Any(x => x.IsActive);
 
-            Id = id;
-            Title = title;
-            ResourceName = resourceName;
-        }
+        public NavigationItem() { }
+
+        #region Relation
 
         public void AddChild(TNavigationItem child)
         {
@@ -50,26 +45,49 @@ namespace Structr.Navigation
             }
 
             _children.Add(child);
-            child.Parent = _this;
+            child._parent = _this;
 
-            ConfigureRelation(_this, child);
+            ConfigureRelation(_this, child, true);
         }
 
-        private static void ConfigureRelation(TNavigationItem ancestor, TNavigationItem descendant)
+        public void RemoveChild(TNavigationItem child)
         {
-            if (ancestor.Parent != null)
+            if (child == null)
             {
-                ConfigureRelation(ancestor.Parent, descendant);
+                throw new ArgumentNullException(nameof(child));
+            }
+
+            _children.Remove(child);
+            child._parent = null;
+
+            ConfigureRelation(_this, child, false);
+        }
+
+        private static void ConfigureRelation(TNavigationItem ancestor, TNavigationItem descendant, bool addRelation)
+        {
+            if (ancestor._parent != null)
+            {
+                ConfigureRelation(ancestor._parent, descendant, addRelation);
             }
 
             foreach (var grandDescendant in descendant._children)
             {
-                ConfigureRelation(ancestor, grandDescendant);
+                ConfigureRelation(ancestor, grandDescendant, addRelation);
             }
 
-            ancestor._descendants.Add(descendant);
-            descendant._ancestors.Add(ancestor);
+            if (addRelation == true)
+            {
+                ancestor._descendants.Add(descendant);
+                descendant._ancestors.Add(ancestor);
+            }
+            else
+            {
+                ancestor._descendants.Remove(descendant);
+                descendant._ancestors.Remove(ancestor);
+            }
         }
+
+        #endregion
 
         #region IEquatable
 
@@ -89,5 +107,8 @@ namespace Structr.Navigation
         }
 
         #endregion
+
+        internal void SetActive(bool isActive)
+            => _isActive = isActive;
     }
 }

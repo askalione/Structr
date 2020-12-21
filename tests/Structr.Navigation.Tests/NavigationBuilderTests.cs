@@ -15,25 +15,22 @@ namespace Structr.Navigation.Tests
             var services = new ServiceCollection();
             string path = Path.Combine(new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
                 .Parent.Parent.Parent.FullName, "menu.json");
-            services.AddNavigation(config =>
+            services.AddJsonNavigation<MenuItem>(path, (serviceProvider, options) =>
             {
-                config.AddJson<MenuItem>(path, options =>
+                options.ItemActivator = item =>
                 {
-                    options.Activator = (item, serviceProvider) =>
-                    {
-                        return true;
-                    };
-                });
+                    return true;
+                };
             });
             var serviceProvider = services.BuildServiceProvider();
             var navigation = serviceProvider.GetService<INavigation<MenuItem>>();
             var activeMenuItem = navigation.Active;
 
             int activeCount = RecursivelyCountActiveChildren(navigation);
-            var lastMenuItem = GetLastChild(navigation);
+            var firstMenuItem = navigation.FirstOrDefault();
 
             Assert.Equal(1, activeCount);
-            Assert.Equal(lastMenuItem.Id, activeMenuItem.Id);
+            Assert.Equal(firstMenuItem.Id, activeMenuItem.Id);
         }
 
         private static int RecursivelyCountActiveChildren(IEnumerable<MenuItem> items)
@@ -47,16 +44,6 @@ namespace Structr.Navigation.Tests
                     activeCount += RecursivelyCountActiveChildren(item.Children);
             }
             return activeCount;
-        }
-
-        private static MenuItem GetLastChild(IEnumerable<MenuItem> items)
-        {
-            MenuItem last = items.LastOrDefault();
-            if (last != null && last.HasChildren)
-            {
-                last = GetLastChild(last.Children);
-            }
-            return last;
         }
     }
 }
