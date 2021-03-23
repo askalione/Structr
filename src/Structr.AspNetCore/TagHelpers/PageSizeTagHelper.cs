@@ -48,6 +48,7 @@ namespace Structr.AspNetCore.TagHelpers
             var controller = ViewContext.RouteData.Values["controller"].ToString();
             var pageSizeRouteParamName = !string.IsNullOrEmpty(Options.PageSizeRouteParamName) ? Options.PageSizeRouteParamName : "pagesize";
             var allItemsFormat = !string.IsNullOrEmpty(Options.AllItemsFormat) ? Options.AllItemsFormat : "All";
+            var dataToggleAttributeName = !string.IsNullOrEmpty(Options.DataToggleAttributeName) ? Options.DataToggleAttributeName : "data-toggle";
 
             TagBuilder menu = new TagBuilder("div");
             menu.AddCssClass("dropdown-menu");
@@ -84,7 +85,7 @@ namespace Structr.AspNetCore.TagHelpers
                 toggle.AddCssClass(Options.DropdownToggleCssClass);
             }
             toggle.Attributes.Add("type", "button");
-            toggle.Attributes.Add("data-toggle", "dropdown");
+            toggle.Attributes.Add(dataToggleAttributeName, "dropdown");
             toggle.InnerHtml.Append((Options.DefaultPageSize > 0 ? Options.DefaultPageSize.ToString() : allItemsFormat));
 
             output.TagMode = TagMode.StartTagAndEndTag;
@@ -111,6 +112,7 @@ namespace Structr.AspNetCore.TagHelpers
         public IEnumerable<int> ItemsPerPage { get; set; }
         public string PageSizeRouteParamName { get; set; }
         public int DefaultPageSize { get; set; }
+        public string DataToggleAttributeName { get; set; }
 
         public PageSizeOptions()
         {
@@ -118,6 +120,7 @@ namespace Structr.AspNetCore.TagHelpers
             DropdownMenuAlign = PageSizeDropdownMenuAlign.Right;
             DropdownToggleCssClass = "btn btn-secondary";
             PageSizeRouteParamName = "pagesize";
+            DataToggleAttributeName = "data-toggle";
         }
     }
 }
