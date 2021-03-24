@@ -48,7 +48,7 @@ namespace Structr.AspNetCore.TagHelpers
             var controller = ViewContext.RouteData.Values["controller"].ToString();
             var pageSizeRouteParamName = !string.IsNullOrEmpty(Options.PageSizeRouteParamName) ? Options.PageSizeRouteParamName : "pagesize";
             var allItemsFormat = !string.IsNullOrEmpty(Options.AllItemsFormat) ? Options.AllItemsFormat : "All";
-            var dataToggleAttributeName = !string.IsNullOrEmpty(Options.DataToggleAttributeName) ? Options.DataToggleAttributeName : "data-toggle";
+            var dropdownToggleAttribute = !string.IsNullOrEmpty(Options.DropdownToggleAttribute) ? Options.DropdownToggleAttribute : "data-bs-toggle";
 
             TagBuilder menu = new TagBuilder("div");
             menu.AddCssClass("dropdown-menu");
@@ -85,7 +85,7 @@ namespace Structr.AspNetCore.TagHelpers
                 toggle.AddCssClass(Options.DropdownToggleCssClass);
             }
             toggle.Attributes.Add("type", "button");
-            toggle.Attributes.Add(dataToggleAttributeName, "dropdown");
+            toggle.Attributes.Add(dropdownToggleAttribute, "dropdown");
             toggle.InnerHtml.Append((Options.DefaultPageSize > 0 ? Options.DefaultPageSize.ToString() : allItemsFormat));
 
             output.TagMode = TagMode.StartTagAndEndTag;
@@ -109,18 +109,18 @@ namespace Structr.AspNetCore.TagHelpers
         public string ContainerCssClass { get; set; }
         public string DropdownCssClass { get; set; }
         public string DropdownToggleCssClass { get; set; }
+        public string DropdownToggleAttribute { get; set; }
         public IEnumerable<int> ItemsPerPage { get; set; }
         public string PageSizeRouteParamName { get; set; }
         public int DefaultPageSize { get; set; }
-        public string DataToggleAttributeName { get; set; }
 
         public PageSizeOptions()
         {
             AllItemsFormat = "All";
             DropdownMenuAlign = PageSizeDropdownMenuAlign.Right;
             DropdownToggleCssClass = "btn btn-secondary";
+            DropdownToggleAttribute = "data-bs-toggle";
             PageSizeRouteParamName = "pagesize";
-            DataToggleAttributeName = "data-toggle";
         }
     }
 }
