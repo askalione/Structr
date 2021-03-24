@@ -20,7 +20,7 @@ build_script:
 deploy:
 - provider: NuGet
   api_key:
-    secure: I2bN1YilgV6c9VzsXQXLvksCjQbhaVVfiqZXMNESugUPLp5L6YIIXvKxA66xmvpE
+    secure: 5/q0ewjQ+qJ/M+JRTpKK5b4pX1VecrSKLf5qHjgOI7fpr6GNlFwRQxjeGoaFPqAX
   artifact: /build\/artifacts\/.*(\.|\.s)nupkg/
   on:
     branch: master
