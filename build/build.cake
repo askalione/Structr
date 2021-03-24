@@ -39,7 +39,7 @@ Task("Clean-Outputs")
     {
         if (DirectoryExists(artifactsDirectory))
 	    {
-		    DeleteDirectory(artifactsDirectory, true);
+		    DeleteDirectory(artifactsDirectory, new DeleteDirectorySettings { Recursive = true });
 	    }
         
     });
