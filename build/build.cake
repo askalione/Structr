@@ -48,10 +48,10 @@ Task("Clean")
 	.IsDependentOn("Clean-Outputs")
 	.Does(() => 
 	{
-		DotNetBuild(solutionFile, settings => settings
-			.SetConfiguration(configuration)
-			.WithTarget("Clean")
-			.SetVerbosity(Verbosity.Minimal));
+		foreach (var project in srcProjects)
+	    {
+		    DotNetCoreClean(project.FullPath);
+	    }
 	});
 
 
