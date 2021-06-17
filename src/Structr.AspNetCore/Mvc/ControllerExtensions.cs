@@ -122,7 +122,7 @@ namespace Structr.AspNetCore.Mvc
             if (controller == null)
                 throw new ArgumentNullException(nameof(controller));
 
-            return controller.Json(new Json.JsonResult(ok, message));
+            return controller.Json(new Json.JsonResult(ok, message, data));
         }
 
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonSuccess(this Controller controller, string message)
