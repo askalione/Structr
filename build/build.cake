@@ -34,7 +34,7 @@ var testProjects = GetFiles("../tests/**/*.csproj");
 
 var artifactsDirectory = Directory("./artifacts");
 
-Task("Clean-Outputs")
+Task("Clean-Artifacts")
     .Does(() =>
     {
         if (DirectoryExists(artifactsDirectory))
@@ -45,73 +45,81 @@ Task("Clean-Outputs")
     });
 
 Task("Clean")
-	.IsDependentOn("Clean-Outputs")
+	.IsDependentOn("Clean-Artifacts")
 	.Does(() => 
 	{
 		foreach (var project in srcProjects)
 	    {
-		    DotNetCoreClean(project.FullPath);
+		    DotNetClean(project.FullPath);
 	    }
 	});
 
-
-Task("NuGet-Restore")
+Task("Restore")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore(solutionFile);
+        var settings = new DotNetRestoreSettings
+        {
+            Force = true,
+            Interactive = true
+        };
+        DotNetRestore(solutionFile.FullPath);
     });
 
- Task("Build")
-    .IsDependentOn("NuGet-Restore")
+Task("Build")
+    .IsDependentOn("Restore")
     .Does(() =>
     {
-        var settings = new DotNetCoreBuildSettings
-            {
-                Configuration = configuration,
-                VersionSuffix = versionSuffix
-            };
+        var settings = new DotNetBuildSettings
+        {
+            Configuration = configuration,
+            VersionSuffix = versionSuffix
+        };
 
         var projects = srcProjects
             .Concat(sampleProjects)
             .Concat(testProjects);
 
-        foreach(var project in projects)
-            DotNetCoreBuild(project.FullPath, settings);
+        foreach(var project in projects) 
+        {
+            DotNetBuild(project.FullPath, settings);
+        }
     });
 
 Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var settings = new DotNetCoreTestSettings
+        var settings = new DotNetTestSettings
         {
             Configuration = configuration,
             NoRestore = true,
             NoBuild = true,
         };
 
-        foreach(var project in testProjects)
-            DotNetCoreTest(project.FullPath, settings);
+        foreach(var project in testProjects) 
+        {
+            DotNetTest(project.FullPath, settings);
+        }
     });
 
 Task("Pack")
     .IsDependentOn("Test")
 	.Does(() =>
     {
-	    var settings = new DotNetCorePackSettings
+	    var settings = new DotNetPackSettings
 	    {
             ArgumentCustomization = args => args.Append("/p:SymbolPackageFormat=snupkg"),
 		    Configuration = configuration,
 		    VersionSuffix = versionSuffix,
-		    IncludeSymbols = true,
+            IncludeSymbols = true,
             NoRestore = true,
             NoBuild = true,
 		    OutputDirectory = artifactsDirectory
 	    };
 	    foreach (var project in srcProjects)
 	    {
-		    DotNetCorePack(project.FullPath, settings);
+		    DotNetPack(project.FullPath, settings);
 	    }
     });
 
