@@ -26,7 +26,16 @@ namespace Structr.Samples.EntityFrameworkCore.DataAccess
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyEntityConfiguration();
-            builder.ApplyValueObjectConfiguration();
+            builder.ApplyValueObjectConfiguration(options =>
+            {
+                options.Configure = (entityType, builder) =>
+                {
+                    foreach (var property in entityType.GetProperties())
+                    {
+                        property.SetColumnName(property.Name);
+                    }
+                };
+            });
             builder.ApplyAuditableConfiguration();
             builder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         }

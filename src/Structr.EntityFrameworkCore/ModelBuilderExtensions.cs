@@ -67,14 +67,6 @@ namespace Structr.EntityFrameworkCore
                         options.Configure.Invoke(entityType, entityTypeBuilder);
                     });
                 }
-
-                if (options.ScalarPropertyNameFactory != null)
-                {
-                    foreach (var prop in entityType.GetProperties())
-                    {
-                        prop.SetColumnName(options.ScalarPropertyNameFactory(entityType, prop));
-                    }
-                }
             }
 
             return builder;

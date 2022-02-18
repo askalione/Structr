@@ -90,7 +90,7 @@ namespace Structr.Domain
 
         public override string ToString()
         {
-            return GetType().Name + " (Id=" + Id.ToString() + ")";
+            return GetType().Name + $" [{nameof(Id)}={Id}]";
         }
     }
 }

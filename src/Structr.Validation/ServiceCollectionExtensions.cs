@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Scrutor;
 using Structr.Validation;
 using System;
 using System.Linq;
@@ -17,11 +16,9 @@ namespace Microsoft.Extensions.DependencyInjection
             params Assembly[] assembliesToScan)
         {
             if (services == null)
+            {
                 throw new ArgumentNullException(nameof(services));
-            if (assembliesToScan == null)
-                throw new ArgumentNullException(nameof(assembliesToScan));
-            if (!assembliesToScan.Any())
-                throw new ArgumentException("No assemblies found to scan. At least one assembly to scan for validators is required");
+            }
 
             var options = new ValidationServiceOptions();
 
@@ -29,15 +26,49 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.TryAdd(new ServiceDescriptor(typeof(IValidationProvider), options.ProviderType, options.Lifetime));
 
-            services
-                .Scan(opt => opt.FromAssemblies(assembliesToScan)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
-                    .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-                    .AsImplementedInterfaces()
-                    //.As(c => c.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IValidator<>)))
-                    .WithScopedLifetime());
+            services.AddClasses(assembliesToScan);
 
             return services;
         }
+
+        private static IServiceCollection AddClasses(this IServiceCollection services, params Assembly[] assembliesToScan)
+        {
+            if (assembliesToScan != null && assembliesToScan.Length > 0)
+            {
+                var allTypes = assembliesToScan
+                    .Where(a => !a.IsDynamic && a != typeof(IValidationProvider).Assembly)
+                    .Distinct()
+                    .SelectMany(a => a.DefinedTypes)
+                    .ToArray();
+
+                var openTypes = new[]
+                {
+                    typeof(IValidator<>)
+                };
+
+                foreach (var typeInfo in openTypes.SelectMany(openType => allTypes
+                    .Where(t => t.IsClass
+                        && !t.IsGenericType
+                        && !t.IsAbstract
+                        && t.AsType().ImplementsGenericInterface(openType))))
+                {
+                    var implementationType = typeInfo.AsType();
+
+                    foreach (var interfaceType in implementationType.GetInterfaces()
+                        .Where(i => openTypes.Any(openType => i.ImplementsGenericInterface(openType))))
+                    {
+                        services.TryAddTransient(interfaceType, implementationType);
+                    }
+                }
+            }
+
+            return services;
+        }
+
+        private static bool ImplementsGenericInterface(this Type type, Type interfaceType)
+            => type.IsGenericType(interfaceType) || type.GetTypeInfo().ImplementedInterfaces.Any(@interface => @interface.IsGenericType(interfaceType));
+
+        private static bool IsGenericType(this Type type, Type genericType)
+            => type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == genericType;
     }
 }

@@ -6,12 +6,12 @@ namespace Structr.Notices
     public class NoticeServiceOptions
     {
         public Type PublisherType { get; set; }
-        public ServiceLifetime Lifetime { get; set; }
+        public ServiceLifetime PublisherServiceLifetime { get; set; }
 
         public NoticeServiceOptions()
         {
             PublisherType = typeof(NoticePublisher);
-            Lifetime = ServiceLifetime.Scoped;
+            PublisherServiceLifetime = ServiceLifetime.Scoped;
         }
     }
 }

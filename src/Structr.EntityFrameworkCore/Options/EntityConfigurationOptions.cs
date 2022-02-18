@@ -10,7 +10,6 @@ namespace Structr.EntityFrameworkCore.Options
 
         public EntityConfigurationOptions()
         {
-
         }
     }
 }

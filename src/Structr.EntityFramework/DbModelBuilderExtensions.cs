@@ -58,16 +58,6 @@ namespace Structr.EntityFramework
                 {
                     options.Configure.Invoke(x);
                 }
-
-                if (options.ScalarPropertyNameFactory != null)
-                {
-                    var props = x.ClrType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                        .Where(p => (!p.PropertyType.IsClass || p.PropertyType == typeof(String)) && !p.PropertyType.IsInterface);
-                    foreach (var prop in x.ClrType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-                    {
-                        x.Property(prop).HasColumnName(options.ScalarPropertyNameFactory(x, prop));
-                    }
-                }
             });
 
             return builder;

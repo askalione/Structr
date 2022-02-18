@@ -6,12 +6,12 @@ namespace Structr.Operations
     public class OperationServiceOptions
     {
         public Type ExecutorType { get; set; }
-        public ServiceLifetime Lifetime { get; set; }
+        public ServiceLifetime ExecutorServiceLifetime { get; set; }
 
         public OperationServiceOptions()
         {
             ExecutorType = typeof(OperationExecutor);
-            Lifetime = ServiceLifetime.Scoped;
+            ExecutorServiceLifetime = ServiceLifetime.Scoped;
         }
     }
 }

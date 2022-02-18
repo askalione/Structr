@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Scrutor;
 using Structr.Operations;
 using System;
 using System.Linq;
@@ -17,32 +16,59 @@ namespace Microsoft.Extensions.DependencyInjection
             params Assembly[] assembliesToScan)
         {
             if (services == null)
+            {
                 throw new ArgumentNullException(nameof(services));
-            if (assembliesToScan == null)
-                throw new ArgumentNullException(nameof(assembliesToScan));
-            if (!assembliesToScan.Any())
-                throw new ArgumentException("No assemblies found to scan. At least one assembly to scan for handlers is required");
+            }
 
             var options = new OperationServiceOptions();
 
             configureOptions?.Invoke(options);
 
-            services.TryAdd(new ServiceDescriptor(typeof(IOperationExecutor), options.ExecutorType, options.Lifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IOperationExecutor), options.ExecutorType, options.ExecutorServiceLifetime));
 
-            services.Scan(scan =>
-               scan.FromAssemblies(assembliesToScan)
-                   .AddClasses(classes => classes.AssignableTo(typeof(IOperationHandler<>)))
-                   .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-                   .AsImplementedInterfaces()
-                   //.As(t => t.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IOperationHandler<>)))
-                   .WithTransientLifetime()
-                   .AddClasses(classes => classes.AssignableTo(typeof(IOperationHandler<,>)))
-                   .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-                   .AsImplementedInterfaces()
-                   //.As(t => t.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IOperationHandler<,>)))
-                   .WithTransientLifetime());
+            services.AddClasses(assembliesToScan);
 
             return services;
         }
+
+        private static IServiceCollection AddClasses(this IServiceCollection services, params Assembly[] assembliesToScan)
+        {
+            if (assembliesToScan != null && assembliesToScan.Length > 0)
+            {
+                var allTypes = assembliesToScan
+                    .Where(a => !a.IsDynamic && a != typeof(IOperationExecutor).Assembly)
+                    .Distinct()
+                    .SelectMany(a => a.DefinedTypes)
+                    .ToArray();
+
+                var openTypes = new[]
+                {
+                    typeof(IOperationHandler<>),
+                    typeof(IOperationHandler<,>)
+                };
+
+                foreach (var typeInfo in openTypes.SelectMany(openType => allTypes
+                    .Where(t => t.IsClass
+                        && !t.IsGenericType 
+                        && !t.IsAbstract
+                        && t.AsType().ImplementsGenericInterface(openType))))
+                {
+                    var implementationType = typeInfo.AsType();
+                    foreach (var interfaceType in implementationType.GetInterfaces()
+                        .Where(i => openTypes.Any(openType => i.ImplementsGenericInterface(openType))))
+                    {
+                        services.TryAddTransient(interfaceType, implementationType);
+                    }
+                }
+            }
+
+            return services;
+        }
+
+        private static bool ImplementsGenericInterface(this Type type, Type interfaceType)
+            => type.IsGenericType(interfaceType) || type.GetTypeInfo().ImplementedInterfaces.Any(@interface => @interface.IsGenericType(interfaceType));
+
+        private static bool IsGenericType(this Type type, Type genericType)
+            => type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == genericType;
     }
 }

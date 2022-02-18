@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Scrutor;
 using Structr.Notices;
 using System;
 using System.Linq;
@@ -17,27 +16,59 @@ namespace Microsoft.Extensions.DependencyInjection
             params Assembly[] assembliesToScan)
         {
             if (services == null)
+            {
                 throw new ArgumentNullException(nameof(services));
-            if (assembliesToScan == null)
-                throw new ArgumentNullException(nameof(assembliesToScan));
-            if (!assembliesToScan.Any())
-                throw new ArgumentException("No assemblies found to scan. At least one assembly to scan for handlers is required");
+            }
 
             var options = new NoticeServiceOptions();
 
             configureOptions?.Invoke(options);
 
-            services.TryAdd(new ServiceDescriptor(typeof(INoticePublisher), options.PublisherType, options.Lifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(INoticePublisher), options.PublisherType, options.PublisherServiceLifetime));
 
-            services
-                .Scan(opt => opt.FromAssemblies(assembliesToScan)
-                    .AddClasses(classes => classes.AssignableTo(typeof(INoticeHandler<>)))
-                    .UsingRegistrationStrategy(RegistrationStrategy.Append)
-                    .AsImplementedInterfaces()
-                    //.As(c => c.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(INoticeHandler<>)))
-                    .WithTransientLifetime());
+            services.AddClasses(assembliesToScan);
 
             return services;
         }
+
+        private static IServiceCollection AddClasses(this IServiceCollection services, params Assembly[] assembliesToScan)
+        {
+            if (assembliesToScan!= null && assembliesToScan.Length > 0)
+            {
+                var allTypes = assembliesToScan
+                    .Where(a => !a.IsDynamic && a != typeof(INoticePublisher).Assembly)
+                    .Distinct()
+                    .SelectMany(a => a.DefinedTypes)
+                    .ToArray();
+
+                var openTypes = new[]
+                {
+                    typeof(INoticeHandler<>)
+                };
+
+                foreach (var typeInfo in openTypes.SelectMany(openType => allTypes
+                    .Where(t => t.IsClass
+                        && !t.IsGenericType
+                        && !t.IsAbstract
+                        && t.AsType().ImplementsGenericInterface(openType))))
+                {
+                    var implementationType = typeInfo.AsType();
+
+                    foreach(var interfaceType in implementationType.GetInterfaces()
+                        .Where(i => openTypes.Any(openType => i.ImplementsGenericInterface(openType))))
+                    {
+                        services.AddTransient(interfaceType, implementationType);
+                    }                    
+                }
+            }
+
+            return services;
+        }
+
+        private static bool ImplementsGenericInterface(this Type type, Type interfaceType)
+            => type.IsGenericType(interfaceType) || type.GetTypeInfo().ImplementedInterfaces.Any(@interface => @interface.IsGenericType(interfaceType));
+
+        private static bool IsGenericType(this Type type, Type genericType)
+            => type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == genericType;
     }
 }

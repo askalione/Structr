@@ -3,6 +3,8 @@ using Structr.EntityFramework;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +32,16 @@ namespace Structr.Samples.EntityFramework.DataAccess
         protected override void OnModelCreating(DbModelBuilder builder)
         {
             builder.ApplyEntityConfiguration();
-            builder.ApplyValueObjectConfiguration();
+            builder.ApplyValueObjectConfiguration(options =>
+            {
+                options.Configure = (typeConfiguration) =>
+                {
+                    foreach (var property in typeConfiguration.ClrType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                    {
+                        typeConfiguration.Property(property).HasColumnName(property.Name);
+                    }
+                };
+            });
             builder.ApplyAuditableConfiguration();
 
             builder.Conventions.Remove<PluralizingTableNameConvention>();
