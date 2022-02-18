@@ -29,7 +29,9 @@ namespace Structr.Domain
         public override int GetHashCode()
         {
             if (CachedHashCode.HasValue)
+            {
                 return CachedHashCode.Value;
+            }
 
             if (IsTransient())
             {
