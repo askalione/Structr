@@ -74,13 +74,19 @@ namespace Structr.Domain
         public override bool Equals(TEntity other)
         {
             if (other == null || !GetType().IsInstanceOfType(other))
+            {
                 return false;
+            }
 
             if (IsTransient() ^ other.IsTransient())
+            {
                 return false;
+            }
 
             if (IsTransient() && other.IsTransient())
+            {
                 return ReferenceEquals(this, other);
+            }
 
             return Equals(Id, other.Id);
         }

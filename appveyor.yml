@@ -8,7 +8,7 @@ skip_commits:
   - assets/*
   - LICENSE
   - README.md
-image: Visual Studio 2019
+image: Visual Studio 2022
 artifacts:
 - path: build\artifacts\*.nupkg
 - path: build\artifacts\*.snupkg
