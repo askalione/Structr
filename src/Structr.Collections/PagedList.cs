@@ -9,7 +9,7 @@ namespace Structr.Collections
     {
         public int TotalItems { get; }
         public int PageNumber { get; }
-        public int PageSize { get; }                     
+        public int PageSize { get; }
         public int TotalPages { get; }
         public bool HasPreviousPage { get; }
         public bool HasNextPage { get; }
@@ -39,8 +39,8 @@ namespace Structr.Collections
 
             TotalItems = totalItems;
             PageNumber = pageNumber;
-            PageSize = pageSize;            
-            
+            PageSize = pageSize;
+
             TotalPages = TotalItems > 0 ? (int)(Math.Ceiling(TotalItems / (double)PageSize)) : 0;
             HasPreviousPage = PageNumber > 1 && PageNumber <= TotalPages;
             HasNextPage = PageNumber < TotalPages;

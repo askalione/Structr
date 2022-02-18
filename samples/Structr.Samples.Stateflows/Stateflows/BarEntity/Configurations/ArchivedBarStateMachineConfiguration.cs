@@ -1,8 +1,5 @@
 using Structr.Samples.Stateflows.Domain.BarEntity;
 using Structr.Stateflows;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Structr.Samples.Stateflows.Stateflows.BarEntity.Configurations
 {

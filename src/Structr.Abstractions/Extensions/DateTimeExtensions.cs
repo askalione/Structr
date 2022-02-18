@@ -53,8 +53,8 @@ namespace Structr.Abstractions.Extensions
 
         private static string ToLocalDateString(this DateTime dateTime, bool @short)
         {
-                var format = GetFormat(@short);
-                return dateTime.ToLocalTime().ToString(format);
+            var format = GetFormat(@short);
+            return dateTime.ToLocalTime().ToString(format);
         }
 
         private static string GetFormat(bool @short)

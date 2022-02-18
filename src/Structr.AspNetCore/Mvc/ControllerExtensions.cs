@@ -130,7 +130,7 @@ namespace Structr.AspNetCore.Mvc
 
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonSuccess(this Controller controller, string message, object data)
             => JsonResult(controller, true, message, data);
-        
+
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonError(this Controller controller, string message)
             => JsonResult(controller, false, message);
 

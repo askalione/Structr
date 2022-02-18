@@ -1,9 +1,6 @@
 using AutoMapper;
 using Structr.Samples.Collections.Dto;
 using Structr.Samples.Collections.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Structr.Samples.Collections.AutoMapperProfiles
 {

@@ -1,5 +1,4 @@
 using Structr.Abstractions.Attributes;
-using System;
 
 namespace Structr.Samples.Abstractions.Enum
 {

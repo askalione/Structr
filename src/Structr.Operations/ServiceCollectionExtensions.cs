@@ -49,7 +49,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 foreach (var typeInfo in openTypes.SelectMany(openType => allTypes
                     .Where(t => t.IsClass
-                        && !t.IsGenericType 
+                        && !t.IsGenericType
                         && !t.IsAbstract
                         && t.AsType().ImplementsGenericInterface(openType))))
                 {

@@ -65,7 +65,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         else
                         {
                             services.AddTransient(interfaceType, implementationType);
-                        }                        
+                        }
                     }
                 }
             }

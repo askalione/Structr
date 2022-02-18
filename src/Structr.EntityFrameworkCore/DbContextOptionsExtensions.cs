@@ -1,9 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Structr.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Structr.EntityFrameworkCore
 {

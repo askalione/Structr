@@ -1,8 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Operations;
 using Structr.Samples.Operations.Decorators;
-using Structr.Samples.IO;
-using System;
 using System.Threading.Tasks;
 
 namespace Structr.Samples.Operations

@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         private static IServiceCollection AddClasses(this IServiceCollection services, params Assembly[] assembliesToScan)
         {
-            if (assembliesToScan!= null && assembliesToScan.Length > 0)
+            if (assembliesToScan != null && assembliesToScan.Length > 0)
             {
                 var allTypes = assembliesToScan
                     .Where(a => !a.IsDynamic && a != typeof(INoticePublisher).Assembly)
@@ -54,11 +54,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     var implementationType = typeInfo.AsType();
 
-                    foreach(var interfaceType in implementationType.GetInterfaces()
+                    foreach (var interfaceType in implementationType.GetInterfaces()
                         .Where(i => openTypes.Any(openType => i.ImplementsGenericInterface(openType))))
                     {
                         services.AddTransient(interfaceType, implementationType);
-                    }                    
+                    }
                 }
             }
 

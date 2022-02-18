@@ -3,9 +3,6 @@ using Structr.AspNetCore.Mvc;
 using Structr.AspNetCore.Mvc.Attributes;
 using Structr.Samples.AspNetCore.Extensions;
 using Structr.Samples.AspNetCore.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Structr.Samples.AspNetCore.Controllers
@@ -16,18 +13,19 @@ namespace Structr.Samples.AspNetCore.Controllers
         {
             // Add javascript options
             // NOTE: Use IJavaScriptOptionProvider to get options. For example in TagHelper
-            this.AddJavaScriptOptions(new {
+            this.AddJavaScriptOptions(new
+            {
                 option1 = "value"
             });
 
             // Return alert with type Success
             // NOTE: Use IJavaScriptAlertProvider to get alerts. For example in TagHelper
             return View()
-                .Success("Done"); 
+                .Success("Done");
         }
 
         // Permit ajax only request
-        [AjaxOnly] 
+        [AjaxOnly]
         public IActionResult JsonIndex()
         {
             // Use JsonResult(), JsonSuccess() and JsonError()

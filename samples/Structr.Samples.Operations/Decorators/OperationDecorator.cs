@@ -10,7 +10,7 @@ namespace Structr.Samples.Operations.Decorators
     public class OperationDecorator<TOperation> : IOperationHandler<TOperation> where TOperation : IOperation
     {
         private readonly IOperationHandler<TOperation> _handler;
-        private readonly ICommandDecorator<TOperation> _commandDecorator;        
+        private readonly ICommandDecorator<TOperation> _commandDecorator;
 
         public OperationDecorator(IOperationHandler<TOperation> handler, ICommandDecorator<TOperation> commandDecorator)
         {

@@ -1,8 +1,5 @@
 using Structr.Abstractions.Helpers;
 using Structr.Samples.Abstractions.Enum;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Structr.Samples.Abstractions

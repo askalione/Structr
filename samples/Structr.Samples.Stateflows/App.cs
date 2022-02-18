@@ -1,5 +1,4 @@
 using Structr.Samples.IO;
-using Structr.Samples.Stateflows.Domain.BarEntity;
 using Structr.Samples.Stateflows.Services;
 using Structr.Samples.Stateflows.Stateflows;
 using System;

@@ -5,8 +5,6 @@ using Structr.Domain;
 using Structr.EntityFramework.Options;
 using System;
 using System.Data.Entity;
-using System.Linq;
-using System.Reflection;
 
 namespace Structr.EntityFramework
 {

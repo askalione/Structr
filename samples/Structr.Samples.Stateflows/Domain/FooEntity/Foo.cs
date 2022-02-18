@@ -1,5 +1,3 @@
-using System;
-
 namespace Structr.Samples.Stateflows.Domain.FooEntity
 {
     public class Foo : Entity

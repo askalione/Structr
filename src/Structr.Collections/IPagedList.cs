@@ -7,7 +7,7 @@ namespace Structr.Collections
     {
         int TotalItems { get; }
         int PageNumber { get; }
-        int PageSize { get; }                     
+        int PageSize { get; }
         int TotalPages { get; }
         bool HasPreviousPage { get; }
         bool HasNextPage { get; }

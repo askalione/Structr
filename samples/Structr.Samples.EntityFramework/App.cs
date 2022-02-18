@@ -1,5 +1,4 @@
 using Structr.Abstractions.Extensions;
-using Structr.EntityFramework;
 using Structr.Samples.EntityFramework.DataAccess;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
 using Structr.Samples.IO;
@@ -50,7 +49,7 @@ namespace Structr.Samples.EntityFramework
             await Task.Delay(10000);
 
             foo.Detail.Name = "Modified-Name";
-            
+
             await _dataContext.SaveChangesAsync();
 
             await WriteAsync("Modified", foo);

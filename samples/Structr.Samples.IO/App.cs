@@ -21,7 +21,7 @@ namespace Structr.Samples.IO
             PathHelper.Configure(options =>
             {
                 options.Directories[EDirectory.Base] = @"C:\Creacode";
-                options.Directories[EDirectory.Data] = @"C:\Creacode\App_Data";                
+                options.Directories[EDirectory.Data] = @"C:\Creacode\App_Data";
             });
 
             await _writer.WriteLineAsync(PathHelper.Combine(EDirectory.Base, "foo.bar"));

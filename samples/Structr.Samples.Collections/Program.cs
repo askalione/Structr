@@ -1,6 +1,4 @@
-using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Threading.Tasks;
 
 namespace Structr.Samples.Collections

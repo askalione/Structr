@@ -8,8 +8,8 @@ namespace Structr.Abstractions.Helpers
     public static class AsyncHelper
     {
         private static readonly TaskFactory _myTaskFactory = new TaskFactory(CancellationToken.None,
-            TaskCreationOptions.None, 
-            TaskContinuationOptions.None, 
+            TaskCreationOptions.None,
+            TaskContinuationOptions.None,
             TaskScheduler.Default);
 
         public static TResult RunSync<TResult>(Func<Task<TResult>> func)
