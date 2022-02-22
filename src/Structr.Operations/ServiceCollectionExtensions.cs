@@ -26,12 +26,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.TryAdd(new ServiceDescriptor(typeof(IOperationExecutor), options.ExecutorType, options.ExecutorServiceLifetime));
 
-            services.AddClasses(assembliesToScan);
+            services.AddHandlerClasses(assembliesToScan);
 
             return services;
         }
 
-        private static IServiceCollection AddClasses(this IServiceCollection services, params Assembly[] assembliesToScan)
+        private static IServiceCollection AddHandlerClasses(this IServiceCollection services, params Assembly[] assembliesToScan)
         {
             if (assembliesToScan != null && assembliesToScan.Length > 0)
             {

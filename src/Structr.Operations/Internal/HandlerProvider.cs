@@ -11,7 +11,7 @@ namespace Structr.Operations.Internal
 
             try
             {
-                handler = (THandler)serviceProvider.GetService(handlerType);
+                handler = serviceProvider.GetService<THandler>();
             }
             catch (Exception ex)
             {
@@ -19,7 +19,9 @@ namespace Structr.Operations.Internal
             }
 
             if (handler == null)
+            {
                 throw new InvalidOperationException($"Operation handler of type {handlerType} was not found");
+            }
 
             return handler;
         }

@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Scrutor" Version="4.0.0" />
+    <PackageReference Include="Structr.Validation" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

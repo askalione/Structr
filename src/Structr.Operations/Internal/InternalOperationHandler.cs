@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,8 +12,12 @@ namespace Structr.Operations.Internal
             IServiceProvider serviceProvider,
             CancellationToken cancellationToken)
         {
-            var handler = HandlerProvider.GetHandler<IOperationHandler<TOperation>>(serviceProvider);
-            return handler.HandleAsync((TOperation)operation, cancellationToken);
+            Task HandleAsync() => HandlerProvider.GetHandler<IOperationHandler<TOperation>>(serviceProvider).HandleAsync((TOperation)operation, cancellationToken);
+            var filters = serviceProvider.GetServices<IOperationFilter<TOperation>>();
+            return filters
+                .Reverse()
+                .Aggregate((OperationHandlerDelegate)HandleAsync,
+                    (next, filter) => () => filter.HandleAsync((TOperation)operation, cancellationToken, next))();
         }
     }
 
@@ -22,8 +27,12 @@ namespace Structr.Operations.Internal
             IServiceProvider serviceProvider,
             CancellationToken cancellationToken)
         {
-            var handler = HandlerProvider.GetHandler<IOperationHandler<TOperation, TResult>>(serviceProvider);
-            return handler.HandleAsync((TOperation)operation, cancellationToken);
+            Task<TResult> HandleAsync() => HandlerProvider.GetHandler<IOperationHandler<TOperation, TResult>>(serviceProvider).HandleAsync((TOperation)operation, cancellationToken);
+            var filters = serviceProvider.GetServices<IOperationFilter<TOperation, TResult>>();
+            return filters
+                .Reverse()
+                .Aggregate((OperationHandlerDelegate<TResult>)HandleAsync,
+                    (next, filter) => () => filter.HandleAsync((TOperation)operation, cancellationToken, next))();
         }
     }
 }
