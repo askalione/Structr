@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Structr.Samples.Operations.Queries.Foo
 {
-    public class FooQueryHandler : IOperationHandler<FooQuery, int>
+    public class FooQueryHandler : AsyncOperationHandler<FooQuery, int>
     {
         private readonly IStringWriter _writer;
 
@@ -18,7 +18,7 @@ namespace Structr.Samples.Operations.Queries.Foo
             _writer = writer;
         }
 
-        public async Task<int> HandleAsync(FooQuery operation, CancellationToken cancellationToken)
+        public override async Task<int> HandleAsync(FooQuery operation, CancellationToken cancellationToken)
         {
             var sum = operation.Number1 + operation.Number2;
             var result = $"Handle FooQuery. Sum is `{sum}`";

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Structr.Samples.Operations.Commands.Foo
 {
-    public class FooCommandHandler : IOperationHandler<FooCommand>
+    public class FooCommandHandler : AsyncOperationHandler<FooCommand>
     {
         private readonly IStringWriter _writer;
 
@@ -18,7 +18,7 @@ namespace Structr.Samples.Operations.Commands.Foo
             _writer = writer;
         }
 
-        public Task HandleAsync(FooCommand operation, CancellationToken cancellationToken)
+        protected override Task HandleAsync(FooCommand operation, CancellationToken cancellationToken)
         {
             return _writer.WriteLineAsync($"Handle FooCommand. Name is `{operation.Name}`");
         }

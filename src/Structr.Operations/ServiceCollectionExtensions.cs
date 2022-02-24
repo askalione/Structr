@@ -43,8 +43,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 var openTypes = new[]
                 {
-                    typeof(IOperationHandler<>),
-                    typeof(IOperationHandler<,>)
+                    typeof(IOperationHandler<,>),
+                    typeof(IOperationHandler<>)
                 };
 
                 foreach (var typeInfo in openTypes.SelectMany(openType => allTypes

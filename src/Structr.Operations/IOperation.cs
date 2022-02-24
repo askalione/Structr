@@ -1,10 +1,10 @@
 namespace Structr.Operations
 {
-    public interface IOperation
+    public interface IOperation<out TResult> : IBaseOperation
     {
     }
 
-    public interface IOperation<out TResult> : IOperation
+    public interface IOperation : IOperation<VoidResult>
     {
     }
 }

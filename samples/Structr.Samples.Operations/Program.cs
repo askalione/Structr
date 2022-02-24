@@ -22,14 +22,12 @@ namespace Structr.Samples.Operations
             services.AddOperations(typeof(Program).Assembly);
 
             // Add operation filters
-            services.AddTransient(typeof(IOperationFilter<>), typeof(CommandValidationFilter<>));
             services.AddTransient(typeof(IOperationFilter<,>), typeof(CommandValidationFilter<,>));
+            services.AddTransient(typeof(IOperationFilter<,>), typeof(QueryLoggingFilter<,>));
 
             // Add decorators
-            services.AddTransient(typeof(ICommandDecorator<>), typeof(CommandDecorator<>));
             services.AddTransient(typeof(ICommandDecorator<,>), typeof(CommandDecorator<,>));
             services.AddTransient(typeof(IQueryDecorator<,>), typeof(QueryDecorator<,>));
-            //services.Decorate(typeof(IOperationHandler<>), typeof(OperationDecorator<>));
             services.Decorate(typeof(IOperationHandler<,>), typeof(OperationDecorator<,>));
                         
             var serviceProvider = services.BuildServiceProvider();

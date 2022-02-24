@@ -48,21 +48,6 @@ namespace Structr.Samples.Operations
             await _writer.WriteLineAsync("----------------");
         }
 
-        private async Task ExecuteAsync(IOperation operation)
-        {
-            try
-            {
-                await _executor.ExecuteAsync(operation);
-            }
-            catch (ValidationException ex)
-            {
-                foreach (var failure in ex.ValidationResult)
-                {
-                    await _writer.WriteLineAsync($"Validation Error: {failure.ErrorMessage}");
-                }
-            }
-        }
-
         private async Task<TResult> ExecuteAsync<TResult>(IOperation<TResult> operation)
         {
             try

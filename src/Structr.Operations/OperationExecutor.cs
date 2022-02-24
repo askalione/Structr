@@ -14,28 +14,19 @@ namespace Structr.Operations
         public OperationExecutor(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null)
+            {
                 throw new ArgumentNullException(nameof(serviceProvider));
+            }
 
             _serviceProvider = serviceProvider;
         }
 
-        public Task ExecuteAsync(IOperation operation, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<TResult> ExecuteAsync<TResult>(IOperation<TResult> operation, CancellationToken cancellationToken = default)
         {
             if (operation == null)
+            {
                 throw new ArgumentNullException(nameof(operation));
-
-            var operationType = operation.GetType();
-
-            var handler = _cache.GetOrAdd(operationType,
-                type => Activator.CreateInstance(typeof(InternalOperationHandler<>).MakeGenericType(type)));
-
-            return ((InternalHandler)handler).HandleAsync(operation, _serviceProvider, cancellationToken);
-        }
-
-        public Task<TResult> ExecuteAsync<TResult>(IOperation<TResult> operation, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (operation == null)
-                throw new ArgumentNullException(nameof(operation));
+            }
 
             var operationType = operation.GetType();
 
