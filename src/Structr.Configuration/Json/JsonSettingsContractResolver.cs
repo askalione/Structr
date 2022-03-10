@@ -13,20 +13,26 @@ namespace Structr.Configuration.Json
             PropertyInfo propertyInfo = member as PropertyInfo;
             if (propertyInfo != null)
             {
-                if (!property.Writable)
+                if (property.Writable == false)
+                {
                     property.Writable = propertyInfo.GetSetMethod(true) != null;
+                }
 
-                var settingAttr = propertyInfo.GetCustomAttribute<SettingAttribute>();
+                var settingAttr = propertyInfo.GetCustomAttribute<OptionAttribute>();
                 if (settingAttr != null)
                 {
-                    if (!string.IsNullOrWhiteSpace(settingAttr.Alias))
+                    if (string.IsNullOrWhiteSpace(settingAttr.Alias) == false)
+                    {
                         property.PropertyName = settingAttr.Alias;
+                    }
 
                     property.DefaultValue = settingAttr.DefaultValue;
                     property.DefaultValueHandling = DefaultValueHandling.Populate;
 
                     if (propertyInfo.PropertyType == typeof(string) && !string.IsNullOrWhiteSpace(settingAttr.EncryptionPassphrase))
+                    {
                         property.Converter = new JsonSettingsEncryptionConverter(settingAttr.EncryptionPassphrase);
+                    }
                 }
             }
 

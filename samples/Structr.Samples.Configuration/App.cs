@@ -1,6 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
 using Structr.Configuration;
 using Structr.Samples.Configuration.Settings;
-using Structr.Samples.IO;
 using System;
 using System.Threading.Tasks;
 
@@ -8,24 +8,16 @@ namespace Structr.Samples.Configuration
 {
     public class App : IApp
     {
-        private readonly IStringWriter _writer;
-        private readonly IConfiguration<AppSettings> _configuration;
-        private readonly IConfigurator<AppSettings> _configurator;
+        private readonly IServiceProvider _serviceProvider;
 
-        public App(IStringWriter writer,
-            IConfiguration<AppSettings> configuration,
-            IConfigurator<AppSettings> configurator)
+        public App(IServiceProvider serviceProvider)
         {
-            if (writer == null)
-                throw new ArgumentNullException(nameof(writer));
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-            if (configurator == null)
-                throw new ArgumentNullException(nameof(configurator));
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
 
-            _writer = writer;
-            _configuration = configuration;
-            _configurator = configurator;
+            _serviceProvider = serviceProvider;
         }
 
         public Task RunAsync()
@@ -36,13 +28,40 @@ namespace Structr.Samples.Configuration
 
         public void Run()
         {
+            // AppSettings
+            RunAppSettings();
+
+            // WebSettings
+            RunWebSettings();
+        }
+
+        private void RunAppSettings()
+        {
+            var configuration = _serviceProvider.GetRequiredService<IConfiguration<AppSettings>>();
+            var configurator = _serviceProvider.GetRequiredService<IConfigurator<AppSettings>>();
+
             // Get settings
-            var settings = _configuration.Settings;
+            var settings = configuration.Settings;
 
             // Set settings
-            _configurator.Configure(settings =>
+            configurator.Configure(settings =>
             {
                 settings.AppName = "Structr";
+            });
+        }
+
+        private void RunWebSettings()
+        {
+            var configuration = _serviceProvider.GetRequiredService<IConfiguration<WebSettings>>();
+            var configurator = _serviceProvider.GetRequiredService<IConfigurator<WebSettings>>();
+
+            // Get settings
+            var settings = configuration.Settings;
+
+            // Set settings
+            configurator.Configure(settings =>
+            {
+                settings.CsvPath = @"D:\file.csv";
             });
         }
     }

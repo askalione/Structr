@@ -1,14 +1,19 @@
+using System;
+
 namespace Structr.Configuration
 {
-    public class ConfigurationOptions
+    public class ConfigurationOptions<TSettings> where TSettings : class, new()
     {
-        public SettingsProviderDictionary Providers { get; set; }
-        public bool Cache { get; set; }
+        public SettingsProvider<TSettings> Provider { get; }
 
-        public ConfigurationOptions()
+        public ConfigurationOptions(SettingsProvider<TSettings> provider)
         {
-            Providers = new SettingsProviderDictionary();
-            Cache = true;
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
+            Provider = provider;
         }
     }
 }

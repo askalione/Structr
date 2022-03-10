@@ -15,7 +15,9 @@ namespace Structr.Configuration.Providers
         public FileSettingsProvider(SettingsProviderOptions options, string path) : base(options)
         {
             if (string.IsNullOrEmpty(path))
+            {
                 throw new ArgumentNullException(nameof(path));
+            }
 
             Path = path;
             JsonSerializer = new JsonSerializer
@@ -38,8 +40,10 @@ namespace Structr.Configuration.Providers
 
         protected void ValidatePathOrThrow()
         {
-            if (!File.Exists(Path))
+            if (File.Exists(Path) == false)
+            {
                 throw new FileNotFoundException($"Settings file not found.", Path);
+            }
         }
     }
 }

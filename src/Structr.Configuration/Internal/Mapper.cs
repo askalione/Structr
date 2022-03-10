@@ -7,7 +7,9 @@ namespace Structr.Configuration.Internal
         internal static void Map<T>(T source, T destination) where T : class
         {
             if (source == null || destination == null)
+            {
                 return;
+            }
 
             Type type = typeof(T);
 

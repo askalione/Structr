@@ -11,7 +11,9 @@ namespace Structr.Configuration.Json
         public JsonSettingsEncryptionConverter(string passphrase)
         {
             if (string.IsNullOrEmpty(passphrase))
+            {
                 throw new ArgumentNullException(nameof(passphrase));
+            }
 
             _passphrase = passphrase;
         }

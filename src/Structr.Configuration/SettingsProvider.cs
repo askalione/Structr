@@ -5,20 +5,22 @@ namespace Structr.Configuration
 {
     public abstract class SettingsProvider<TSettings> where TSettings : class, new()
     {
-        protected readonly SettingsProviderOptions Options;
+        private readonly SettingsProviderOptions _options;
         private TSettings _cache;
 
         public SettingsProvider(SettingsProviderOptions options)
         {
             if (options == null)
+            {
                 throw new ArgumentNullException(nameof(options));
+            }
 
-            Options = options;
+            _options = options;
         }
 
         public TSettings GetSettings()
         {
-            if (Options.Cache == false || _cache == null)
+            if (_options.Cache == false || _cache == null)
             {
                 _cache = LoadSettings();
             }

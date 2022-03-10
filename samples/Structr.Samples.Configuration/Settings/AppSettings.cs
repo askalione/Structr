@@ -4,7 +4,7 @@ namespace Structr.Samples.Configuration.Settings
 {
     public class AppSettings
     {
-        [Setting(Alias = "app_name")]
+        [Option(Alias = "app_name")]
         public string AppName { get; set; }
         public OAuthSettings OAuth { get; set; }
     }
@@ -12,7 +12,7 @@ namespace Structr.Samples.Configuration.Settings
     public class OAuthSettings
     {
         public string ClientId { get; set; }
-        [Setting(EncryptionPassphrase = "&-AjC*pn_bDix+")]
+        [Option(EncryptionPassphrase = "&-AjC*pn_bDix+")]
         public string ClientSecret { get; set; }
     }
 }
