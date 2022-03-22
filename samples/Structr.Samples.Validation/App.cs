@@ -46,7 +46,7 @@ namespace Structr.Samples.Validation
 
         private async Task ValidateAsync(object instance)
         {
-            IValidationResult result = await _provider.ValidateAsync(instance);
+            var result = await _provider.ValidateAsync(instance);
             await _writer.WriteLineAsync(result.ToString());
             await _writer.WriteLineAsync("----------------");
         }

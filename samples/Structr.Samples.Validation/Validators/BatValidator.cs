@@ -6,16 +6,18 @@ namespace Structr.Samples.Validation.Validators
 {
     public class BatValidator : BarValidator<Bat>
     {
-        protected override IValidationResult Validate(Bat instance)
+        protected override ValidationResult Validate(Bat instance)
         {
-            List<IValidationFailure> failures = new List<IValidationFailure>();
+            var failures = new List<ValidationFailure>();
 
             failures.AddRange(base.Validate(instance));
 
             if (instance.IsRough)
+            {
                 failures.Add(new ValidationFailure(nameof(instance.IsRough), instance.IsRough, "So rough"));
+            }
 
-            return new ValidationResult(failures);
+            return failures.ToValidationResult();
         }
     }
 }

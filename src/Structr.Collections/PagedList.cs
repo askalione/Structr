@@ -22,6 +22,9 @@ namespace Structr.Collections
 
         private readonly List<T> _collection;
 
+        public PagedList() : this(Enumerable.Empty<T>(), 0, 1, 0)
+        { }
+
         public PagedList(IEnumerable<T> collection, int totalItems, int pageNumber, int pageSize)
         {
             if (collection == null)
@@ -68,6 +71,6 @@ namespace Structr.Collections
     public static class PagedList
     {
         public static IPagedList<T> Empty<T>()
-            => new PagedList<T>(Enumerable.Empty<T>(), 0, 1, 0);
+            => new PagedList<T>();
     }
 }

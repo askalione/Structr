@@ -15,15 +15,19 @@ namespace Structr.Validation
         public ValidationProvider(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null)
+            {
                 throw new ArgumentNullException(nameof(serviceProvider));
+            }
 
             _serviceProvider = serviceProvider;
         }
 
-        public Task<IValidationResult> ValidateAsync(object instance, CancellationToken cancellationToken = default)
+        public Task<ValidationResult> ValidateAsync(object instance, CancellationToken cancellationToken = default)
         {
             if (instance == null)
+            {
                 throw new ArgumentNullException(nameof(instance));
+            }
 
             var instanceType = instance.GetType();
 
@@ -36,12 +40,16 @@ namespace Structr.Validation
         public async Task ValidateAndThrowAsync(object instance, CancellationToken cancellationToken = default)
         {
             if (instance == null)
+            {
                 throw new ArgumentNullException(nameof(instance));
+            }
 
             var failures = await ValidateAsync(instance, cancellationToken).ConfigureAwait(false);
 
             if (failures.Any())
+            {
                 throw new ValidationException(failures);
+            }
         }
     }
 }

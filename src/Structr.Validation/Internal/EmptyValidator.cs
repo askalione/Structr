@@ -4,9 +4,9 @@ namespace Structr.Validation.Internal
 {
     internal class EmptyValidator<T> : Validator<T>
     {
-        protected override IValidationResult Validate(T instance)
+        protected override ValidationResult Validate(T instance)
         {
-            return new ValidationResult(Enumerable.Empty<IValidationFailure>());
+            return new ValidationResult(Enumerable.Empty<ValidationFailure>());
         }
     }
 }

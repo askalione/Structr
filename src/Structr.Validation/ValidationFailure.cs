@@ -1,25 +1,26 @@
-using System;
-
 namespace Structr.Validation
 {
-    public class ValidationFailure : IValidationFailure
+    public class ValidationFailure
     {
-        public string ParameterName { get; }
-        public object ActualValue { get; }
-        public string ErrorMessage { get; }
+        public string ParameterName { get; set; }
+        public object ActualValue { get; set; }
+        public string Message { get; set; }
+        public string Code { get; set; }
+        public ValidationFailureLevel Level { get; set; } = ValidationFailureLevel.Error;
 
-        public ValidationFailure(string parameterName, object actualValue, string errorMessage)
+        public ValidationFailure(string message)
         {
-            if (string.IsNullOrWhiteSpace(errorMessage))
-                throw new ArgumentNullException(nameof(errorMessage));
-
-            ParameterName = parameterName;
-            ActualValue = actualValue;
-            ErrorMessage = errorMessage;
+            Message = message;
         }
 
-        public ValidationFailure(string errorMessage) : this(null, null, errorMessage)
+        public ValidationFailure(string parameterName, string message) : this(message)
         {
+            ParameterName = parameterName;
+        }
+
+        public ValidationFailure(string parameterName, object actualValue, string message) : this(parameterName, message)
+        {
+            ActualValue = actualValue;
         }
     }
 }

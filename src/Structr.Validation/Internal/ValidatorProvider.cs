@@ -19,7 +19,9 @@ namespace Structr.Validation.Internal
             }
 
             if (validator == null)
+            {
                 validator = new EmptyValidator<T>();
+            }
 
             return validator;
         }

@@ -6,21 +6,21 @@ namespace Structr.Validation.Internal
 {
     internal abstract class InternalValidator
     {
-        public abstract Task<IValidationResult> ValidateAsync(object instance,
+        public abstract Task<ValidationResult> ValidateAsync(object instance,
             IServiceProvider serviceProvider,
             CancellationToken cancellationToken);
     }
 
     internal class InternalValidator<T> : InternalValidator
     {
-        public override Task<IValidationResult> ValidateAsync(object instance,
+        public override Task<ValidationResult> ValidateAsync(object instance,
             IServiceProvider serviceProvider,
             CancellationToken cancellationToken)
         {
             return ValidateAsync((T)instance, serviceProvider, cancellationToken);
         }
 
-        private Task<IValidationResult> ValidateAsync(T instance,
+        private Task<ValidationResult> ValidateAsync(T instance,
             IServiceProvider serviceProvider,
             CancellationToken cancellationToken)
         {
