@@ -9,7 +9,7 @@ namespace Structr.Abstractions.Extensions
 {
     public static class EnumerableExtensions
     {
-        public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IReadOnlyDictionary<string, EOrder> sort)
+        public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IReadOnlyDictionary<string, Order> sort)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(sort, nameof(sort));
@@ -30,9 +30,9 @@ namespace Structr.Abstractions.Extensions
             return (IOrderedEnumerable<T>)source;
         }
 
-        public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, string propertyName, EOrder order)
+        public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, string propertyName, Order order)
         {
-            return Order(source, propertyName, order == EOrder.Asc ? EOrderMethod.OrderBy : EOrderMethod.OrderByDescending);
+            return Order(source, propertyName, order == Abstractions.Order.Asc ? EOrderMethod.OrderBy : EOrderMethod.OrderByDescending);
         }
 
         public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, string propertyName)
@@ -45,9 +45,9 @@ namespace Structr.Abstractions.Extensions
             return Order(source, propertyName, EOrderMethod.OrderByDescending);
         }
 
-        public static IOrderedEnumerable<T> ThenBy<T>(this IEnumerable<T> source, string propertyName, EOrder order)
+        public static IOrderedEnumerable<T> ThenBy<T>(this IEnumerable<T> source, string propertyName, Order order)
         {
-            return Order(source, propertyName, order == EOrder.Asc ? EOrderMethod.ThenBy : EOrderMethod.ThenByDescending);
+            return Order(source, propertyName, order == Abstractions.Order.Asc ? EOrderMethod.ThenBy : EOrderMethod.ThenByDescending);
         }
 
         public static IOrderedEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> source, string propertyName)

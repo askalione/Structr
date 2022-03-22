@@ -22,7 +22,7 @@ namespace Structr.AspNetCore.TagHelpers
         public string DefaultSort { get; set; }
 
         [HtmlAttributeName("asp-default-order")]
-        public EOrder? DefaultOrder { get; set; }
+        public Order? DefaultOrder { get; set; }
 
         [HtmlAttributeName("asp-options")]
         public SortOptions Options { get; set; }
@@ -56,7 +56,7 @@ namespace Structr.AspNetCore.TagHelpers
             bool active = false;
 
             var sort = Sort.Trim();
-            EOrder? order = null;
+            Order? order = null;
             var defaultSort = DefaultSort?.Trim();
             var defaultOrder = DefaultOrder;
 
@@ -91,7 +91,7 @@ namespace Structr.AspNetCore.TagHelpers
 
                     if (routeOrder != null)
                     {
-                        if (Enum.TryParse(routeOrder, out EOrder routeOrderValue))
+                        if (Enum.TryParse(routeOrder, out Order routeOrderValue))
                         {
                             order = routeOrderValue;
                         }
@@ -102,7 +102,7 @@ namespace Structr.AspNetCore.TagHelpers
             else
             {
                 if (SortEquals(defaultSort, sort) == true)
-                    order = (EOrder)defaultOrder;
+                    order = (Order)defaultOrder;
             }
 
             routeValues.Remove(Options.SortRouteParamName);
@@ -129,13 +129,13 @@ namespace Structr.AspNetCore.TagHelpers
             output.Content.SetHtmlContent(a);
         }
 
-        private static string GetOrderRouteValue(EOrder? order)
+        private static string GetOrderRouteValue(Order? order)
         {
             var result = order switch
             {
-                EOrder.Asc => EOrder.Desc,
-                EOrder.Desc => EOrder.Asc,
-                _ => EOrder.Asc
+                Abstractions.Order.Asc => Abstractions.Order.Desc,
+                Abstractions.Order.Desc => Abstractions.Order.Asc,
+                _ => Abstractions.Order.Asc
             };
             return result.ToString();
         }

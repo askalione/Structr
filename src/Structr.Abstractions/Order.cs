@@ -1,6 +1,6 @@
 namespace Structr.Abstractions
 {
-    public enum EOrder
+    public enum Order
     {
         Asc,
         Desc

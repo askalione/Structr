@@ -41,7 +41,7 @@ namespace Structr.Abstractions.Extensions
         /// <returns>
         /// Ordered query (IOrderedQueryable).
         /// </returns>
-        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, IReadOnlyDictionary<string, EOrder> sort)
+        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, IReadOnlyDictionary<string, Order> sort)
         {
             Ensure.NotNull(query, nameof(query));
             Ensure.NotNull(sort, nameof(sort));
@@ -72,9 +72,9 @@ namespace Structr.Abstractions.Extensions
         /// <returns>
         /// Ordered query (IOrderedQueryable).
         /// </returns>
-        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, string propertyName, EOrder order)
+        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, string propertyName, Order order)
         {
-            return Order(query, propertyName, order == EOrder.Asc ? EOrderMethod.OrderBy : EOrderMethod.OrderByDescending);
+            return Order(query, propertyName, order == Abstractions.Order.Asc ? EOrderMethod.OrderBy : EOrderMethod.OrderByDescending);
         }
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace Structr.Abstractions.Extensions
         /// <returns>
         /// Ordered query (IOrderedQueryable).
         /// </returns>
-        public static IOrderedQueryable<T> ThenBy<T>(this IQueryable<T> query, string propertyName, EOrder order)
+        public static IOrderedQueryable<T> ThenBy<T>(this IQueryable<T> query, string propertyName, Order order)
         {
-            return Order(query, propertyName, order == EOrder.Asc ? EOrderMethod.ThenBy : EOrderMethod.ThenByDescending);
+            return Order(query, propertyName, order == Abstractions.Order.Asc ? EOrderMethod.ThenBy : EOrderMethod.ThenByDescending);
         }
 
         /// <summary>
