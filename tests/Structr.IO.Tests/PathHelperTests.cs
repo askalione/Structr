@@ -12,11 +12,11 @@ namespace Structr.IO.Tests
 
             PathHelper.Configure(options =>
             {
-                options.Directories[Directory.Data] = PathDefaults.DataPath;
+                options.Directories[ContentDirectory.Data] = PathDefaults.DataPath;
             });
 
             var expectedPath = Path.Combine(PathDefaults.DataPath, relativePath);
-            var actualPath = PathHelper.Combine(Directory.Data, relativePath);
+            var actualPath = PathHelper.Combine(ContentDirectory.Data, relativePath);
 
             Assert.Equal(expectedPath, actualPath);
         }
@@ -29,10 +29,10 @@ namespace Structr.IO.Tests
             PathHelper.Configure(options =>
             {
                 options.Template = (directory) => $"|{directory}Directory|";
-                options.Directories[Directory.Data] = PathDefaults.DataPath;
+                options.Directories[ContentDirectory.Data] = PathDefaults.DataPath;
             });
 
-            var expectedPath = path.Replace(PathHelper.Options.Template(Directory.Data), PathDefaults.DataPath);
+            var expectedPath = path.Replace(PathHelper.Options.Template(ContentDirectory.Data), PathDefaults.DataPath);
             var actualPath = PathHelper.Format(path);
 
             Assert.Equal(expectedPath, actualPath);

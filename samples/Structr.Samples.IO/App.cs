@@ -20,11 +20,11 @@ namespace Structr.Samples.IO
         {
             PathHelper.Configure(options =>
             {
-                options.Directories[Directory.Base] = @"C:\Creacode";
-                options.Directories[Directory.Data] = @"C:\Creacode\App_Data";
+                options.Directories[ContentDirectory.Base] = @"C:\Creacode";
+                options.Directories[ContentDirectory.Data] = @"C:\Creacode\App_Data";
             });
 
-            await _writer.WriteLineAsync(PathHelper.Combine(Directory.Base, "foo.bar"));
+            await _writer.WriteLineAsync(PathHelper.Combine(ContentDirectory.Base, "foo.bar"));
             await _writer.WriteLineAsync(PathHelper.Format(@"|BaseDirectory|\foo.bar"));
             await _writer.WriteLineAsync(PathHelper.Format(@"|DataDirectory|\foo\bar\baz"));
         }

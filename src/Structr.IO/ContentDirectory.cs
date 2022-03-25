@@ -1,6 +1,6 @@
 namespace Structr.IO
 {
-    public enum Directory
+    public enum ContentDirectory
     {
         /// <summary>
         /// Base directory of executed project
