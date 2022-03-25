@@ -11,7 +11,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddJavaScriptAlerts(this IServiceCollection services)
         {
             if (services == null)
+            {
                 throw new ArgumentNullException(nameof(services));
+            }
 
             services.TryAddTransient<IJavaScriptAlertProvider, JavaScriptAlertProvider>();
 
@@ -21,7 +23,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddJavaScriptOptions(this IServiceCollection services)
         {
             if (services == null)
+            {
                 throw new ArgumentNullException(nameof(services));
+            }
 
             services.TryAddTransient<IJavaScriptOptionProvider, JavaScriptOptionProvider>();
 
@@ -31,7 +35,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddActionContextAccessor(this IServiceCollection services)
         {
             if (services == null)
+            {
                 throw new ArgumentNullException(nameof(services));
+            }
 
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
@@ -41,7 +47,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddUrlHelper(this IServiceCollection services)
         {
             if (services == null)
+            {
                 throw new ArgumentNullException(nameof(services));
+            }
 
             services.TryAddScoped(x =>
             {
