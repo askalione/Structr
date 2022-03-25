@@ -3,11 +3,11 @@ using System;
 
 namespace Structr.Samples.Domain.BazAggregate
 {
-    public class Baz : Entity<Baz, EBaz>
+    public class Baz : Entity<Baz, BazId>
     {
         public string Name { get; }
 
-        public Baz(EBaz id, string name)
+        public Baz(BazId id, string name)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));

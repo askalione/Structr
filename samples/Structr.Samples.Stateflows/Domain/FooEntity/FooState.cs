@@ -1,6 +1,6 @@
 namespace Structr.Samples.Stateflows.Domain.FooEntity
 {
-    public enum EFooState
+    public enum FooState
     {
         Unsent,
         Sent,

@@ -34,7 +34,7 @@ namespace Structr.Samples.EntityFrameworkCore
             await _dataContext.Database.EnsureCreatedAsync();
 
             var foo = new Foo(
-                EFooType.Smooth,
+                FooType.Smooth,
                 new FooDetail
                 {
                     Name = "Foo-Name",

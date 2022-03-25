@@ -3,13 +3,13 @@ using Structr.Stateflows;
 
 namespace Structr.Samples.Stateflows.Stateflows.BarEntity.Configurations
 {
-    public class ClosedBarStateMachineConfiguration : StateMachineConfiguration<Bar, EBarState, EBarAction>, IBarStateMachineConfiguration
+    public class ClosedBarStateMachineConfiguration : StateMachineConfiguration<Bar, BarState, EBarAction>, IBarStateMachineConfiguration
     {
-        protected override void Configure(Stateless.StateMachine<EBarState, EBarAction> stateMachine, Bar entity)
+        protected override void Configure(Stateless.StateMachine<BarState, EBarAction> stateMachine, Bar entity)
         {
-            stateMachine.Configure(EBarState.Closed)
-                .Permit(EBarAction.Archive, EBarState.Archived)
-                .Permit(EBarAction.Open, EBarState.Opened);
+            stateMachine.Configure(BarState.Closed)
+                .Permit(EBarAction.Archive, BarState.Archived)
+                .Permit(EBarAction.Open, BarState.Opened);
         }
     }
 }

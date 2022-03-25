@@ -1,6 +1,6 @@
 namespace Structr.Samples.Domain.BarAggregate
 {
-    public enum EBarType
+    public enum BarType
     {
         Cold,
         Warm

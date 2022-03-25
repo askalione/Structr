@@ -25,11 +25,11 @@ namespace Structr.Samples.Stateflows
             services.AddStateflows(typeof(Program).Assembly);
 
             // Add custom state machine configurations
-            services.AddFactory<EBarState, IBarStateMachineConfiguration>(new Dictionary<EBarState, Type>
+            services.AddFactory<BarState, IBarStateMachineConfiguration>(new Dictionary<BarState, Type>
             {
-                { EBarState.Opened, typeof(OpenedBarStateMachineConfiguration) },
-                { EBarState.Closed, typeof(ClosedBarStateMachineConfiguration) },
-                { EBarState.Archived, typeof(ArchivedBarStateMachineConfiguration) }
+                { BarState.Opened, typeof(OpenedBarStateMachineConfiguration) },
+                { BarState.Closed, typeof(ClosedBarStateMachineConfiguration) },
+                { BarState.Archived, typeof(ArchivedBarStateMachineConfiguration) }
             });
 
             var serviceProvider = services.BuildServiceProvider();

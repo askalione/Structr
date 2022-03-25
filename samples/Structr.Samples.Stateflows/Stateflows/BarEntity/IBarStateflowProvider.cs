@@ -4,7 +4,7 @@ using System;
 
 namespace Structr.Samples.Stateflows.Stateflows.BarEntity
 {
-    public interface IBarStateflowProvider : IStateflowProvider<Bar, Guid, EBarState, EBarAction>
+    public interface IBarStateflowProvider : IStateflowProvider<Bar, Guid, BarState, EBarAction>
     {
     }
 }

@@ -31,12 +31,12 @@ namespace Structr.IO
             filePath = RemoveInvalidFileNameChars(filePath);
             string dir = Path.GetDirectoryName(filePath);
 
-            if (!Directory.Exists(dir))
+            if (!System.IO.Directory.Exists(dir))
             {
                 if (!createDirIfNotExists)
                     throw new InvalidOperationException($"Directory {dir} was not found");
 
-                Directory.CreateDirectory(dir);
+                System.IO.Directory.CreateDirectory(dir);
             }
 
             if (File.Exists(filePath))
@@ -77,12 +77,12 @@ namespace Structr.IO
             filePath = RemoveInvalidFileNameChars(filePath);
             string dir = Path.GetDirectoryName(filePath);
 
-            if (!Directory.Exists(dir))
+            if (!System.IO.Directory.Exists(dir))
             {
                 if (!createDirIfNotExists)
                     throw new InvalidOperationException($"Directory {dir} was not found");
 
-                Directory.CreateDirectory(dir);
+                System.IO.Directory.CreateDirectory(dir);
             }
 
             if (File.Exists(filePath))

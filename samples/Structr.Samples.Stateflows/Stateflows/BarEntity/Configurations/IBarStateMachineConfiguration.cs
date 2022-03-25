@@ -3,7 +3,7 @@ using Structr.Stateflows;
 
 namespace Structr.Samples.Stateflows.Stateflows.BarEntity.Configurations
 {
-    public interface IBarStateMachineConfiguration : IStateMachineConfiguration<Bar, EBarState, EBarAction>
+    public interface IBarStateMachineConfiguration : IStateMachineConfiguration<Bar, BarState, EBarAction>
     {
     }
 }

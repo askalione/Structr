@@ -1,6 +1,6 @@
 namespace Structr.Samples.EntityFrameworkCore.Domain.FooAggregate
 {
-    public enum EFooType
+    public enum FooType
     {
         Smooth,
         Rough

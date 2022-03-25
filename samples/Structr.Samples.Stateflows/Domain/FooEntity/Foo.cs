@@ -2,13 +2,13 @@ namespace Structr.Samples.Stateflows.Domain.FooEntity
 {
     public class Foo : Entity
     {
-        public EFooState State { get; private set; }
+        public FooState State { get; private set; }
         public string Email { get; private set; }
 
         public Foo(string email) : base()
         {
             Email = email;
-            State = EFooState.Unsent;
+            State = FooState.Unsent;
         }
 
         public void Edit(string email)
@@ -16,7 +16,7 @@ namespace Structr.Samples.Stateflows.Domain.FooEntity
             Email = email;
         }
 
-        public void ChangeState(EFooState state)
+        public void ChangeState(FooState state)
         {
             State = state;
         }

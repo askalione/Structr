@@ -2,13 +2,13 @@ namespace Structr.Samples.Stateflows.Domain.BarEntity
 {
     public class Bar : Entity
     {
-        public EBarState State { get; private set; }
+        public BarState State { get; private set; }
         public string Name { get; private set; }
 
         public Bar(string name)
         {
             Name = name;
-            State = EBarState.Opened;
+            State = BarState.Opened;
         }
 
         public void Edit(string name)
@@ -16,7 +16,7 @@ namespace Structr.Samples.Stateflows.Domain.BarEntity
             Name = name;
         }
 
-        public void ChangeState(EBarState state)
+        public void ChangeState(BarState state)
         {
             State = state;
         }

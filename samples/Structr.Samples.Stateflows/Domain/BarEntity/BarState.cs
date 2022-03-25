@@ -1,6 +1,6 @@
 namespace Structr.Samples.Stateflows.Domain.BarEntity
 {
-    public enum EBarState
+    public enum BarState
     {
         Opened,
         Closed,

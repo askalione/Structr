@@ -5,9 +5,9 @@ namespace Structr.Samples.Domain.BarAggregate
 {
     public class Bar : Entity<Bar, Guid>
     {
-        public EBarType Type { get; private set; }
+        public BarType Type { get; private set; }
 
-        public Bar(Guid id, EBarType type)
+        public Bar(Guid id, BarType type)
         {
             Id = id;
             Type = type;

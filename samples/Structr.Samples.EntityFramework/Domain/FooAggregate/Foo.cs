@@ -7,7 +7,7 @@ namespace Structr.Samples.EntityFrameworkCore.Domain.FooAggregate
 {
     public class Foo : Entity<Foo, int>, ICreatable, ISignedModifiable, ISoftDeletable
     {
-        public EFooType Type { get; private set; }
+        public FooType Type { get; private set; }
         public FooDetail Detail { get; private set; }
 
         public virtual ICollection<FooItem> Items { get; private set; } = new HashSet<FooItem>();
@@ -19,7 +19,7 @@ namespace Structr.Samples.EntityFrameworkCore.Domain.FooAggregate
 
         private Foo() { }
 
-        public Foo(EFooType type, FooDetail detail) : this()
+        public Foo(FooType type, FooDetail detail) : this()
         {
             Ensure.NotNull(detail, nameof(detail));
 

@@ -19,30 +19,30 @@ namespace Structr.IO
             action(Options);
         }
 
-        public static string Combine(EDirectory directory, string path)
+        public static string Combine(Directory directory, string path)
         {
             return Path.Combine(GetPath(directory), path);
         }
 
         public static string Format(string path)
         {
-            return Format(path, Enum.GetValues(typeof(EDirectory)).Cast<EDirectory>().ToArray());
+            return Format(path, Enum.GetValues(typeof(Directory)).Cast<Directory>().ToArray());
         }
 
-        public static string Format(string path, EDirectory[] directories)
+        public static string Format(string path, Directory[] directories)
         {
             if (directories == null)
                 throw new ArgumentNullException(nameof(directories));
 
             string formattedPath = path;
 
-            foreach (EDirectory directory in directories)
+            foreach (Directory directory in directories)
                 formattedPath = Format(formattedPath, directory);
 
             return formattedPath;
         }
 
-        public static string Format(string path, EDirectory directory)
+        public static string Format(string path, Directory directory)
         {
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentNullException(nameof(path));
@@ -55,7 +55,7 @@ namespace Structr.IO
             return Regex.Replace(formattedPath, "\\\\{2,}", @"\");
         }
 
-        private static string GetPath(EDirectory directory)
+        private static string GetPath(Directory directory)
         {
             Options.Directories.TryGetValue(directory, out string path);
             return path?.Trim() ?? "";

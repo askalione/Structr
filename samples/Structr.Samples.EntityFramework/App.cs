@@ -30,7 +30,7 @@ namespace Structr.Samples.EntityFramework
             Database.EnsureDeleted(connectionString);
 
             var foo = new Foo(
-                EFooType.Smooth,
+                FooType.Smooth,
                 new FooDetail
                 {
                     Name = "Foo-Name",

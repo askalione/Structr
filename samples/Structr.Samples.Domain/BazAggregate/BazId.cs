@@ -1,6 +1,6 @@
 namespace Structr.Samples.Domain.BazAggregate
 {
-    public enum EBaz
+    public enum BazId
     {
         Primary,
         Secondary

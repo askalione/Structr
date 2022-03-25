@@ -3,17 +3,17 @@ using Structr.Stateflows;
 
 namespace Structr.Samples.Stateflows.Stateflows.FooEntity
 {
-    public class FooStateMachineConfigurator : StateMachineConfiguration<Foo, EFooState, EFooAction>, IStateMachineConfigurator<Foo, EFooState, EFooAction>
+    public class FooStateMachineConfigurator : StateMachineConfiguration<Foo, FooState, EFooAction>, IStateMachineConfigurator<Foo, FooState, EFooAction>
     {
-        protected override void Configure(Stateless.StateMachine<EFooState, EFooAction> stateMachine, Foo entity)
+        protected override void Configure(Stateless.StateMachine<FooState, EFooAction> stateMachine, Foo entity)
         {
-            stateMachine.Configure(EFooState.Unsent)
-                .PermitIf(EFooAction.Send, EFooState.Sent, () => !string.IsNullOrEmpty(entity.Email));
+            stateMachine.Configure(FooState.Unsent)
+                .PermitIf(EFooAction.Send, FooState.Sent, () => !string.IsNullOrEmpty(entity.Email));
 
-            stateMachine.Configure(EFooState.Sent)
+            stateMachine.Configure(FooState.Sent)
                 .InternalTransitionIf(EFooAction.Send, (x) => !string.IsNullOrEmpty(entity.Email), (t) => { })
-                .Permit(EFooAction.Accept, EFooState.Accepted)
-                .Permit(EFooAction.Decline, EFooState.Declined);
+                .Permit(EFooAction.Accept, FooState.Accepted)
+                .Permit(EFooAction.Decline, FooState.Declined);
         }
     }
 }

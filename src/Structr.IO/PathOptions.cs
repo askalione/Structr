@@ -5,16 +5,16 @@ namespace Structr.IO
 {
     public class PathOptions
     {
-        public Func<EDirectory, string> Template { get; set; }
-        public Dictionary<EDirectory, string> Directories { get; }
+        public Func<Directory, string> Template { get; set; }
+        public Dictionary<Directory, string> Directories { get; }
 
         public PathOptions()
         {
             Template = (directory) => $"|{directory}Directory|";
-            Directories = new Dictionary<EDirectory, string>
+            Directories = new Dictionary<Directory, string>
             {
-                { EDirectory.Base, AppDomain.CurrentDomain?.BaseDirectory ?? "" },
-                { EDirectory.Data, AppDomain.CurrentDomain?.GetData("DataDirectory")?.ToString() ?? "" }
+                { Directory.Base, AppDomain.CurrentDomain?.BaseDirectory ?? "" },
+                { Directory.Data, AppDomain.CurrentDomain?.GetData("DataDirectory")?.ToString() ?? "" }
             };
         }
     }
