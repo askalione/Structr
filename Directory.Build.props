@@ -4,9 +4,9 @@
     <Company>Creacode</Company>
     <Product>$(PackageId)</Product>
     <Copyright>Copyright 2019 Alexey Drapash</Copyright>
-    <PackageProjectUrl>http://src.crcd.io/structr</PackageProjectUrl>
-    <PackageIconUrl>http://src.crcd.io/structr/assets/logo/logo_128x128.png</PackageIconUrl>
-    <PackageLicenseUrl>http://src.crcd.io/structr/license</PackageLicenseUrl>
+    <PackageProjectUrl>http://src.creacode.ru/structr</PackageProjectUrl>
+    <PackageIconUrl>http://src.creacode.ru/structr/assets/logo/logo_128x128.png</PackageIconUrl>
+    <PackageLicenseUrl>http://src.creacode.ru/structr/license</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <NeutralLanguage>en-US</NeutralLanguage>

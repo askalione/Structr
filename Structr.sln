@@ -83,7 +83,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.AspNetCore.Validati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Navigation", "src\Structr.Navigation\Structr.Navigation.csproj", "{AE06D1A6-A521-47A3-A9B9-68E1D419DBB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Samples.EntityFramework", "samples\Structr.Samples.EntityFramework\Structr.Samples.EntityFramework.csproj", "{1F55D273-A817-4D40-AAEA-2D332CCF2D95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Samples.EntityFramework", "samples\Structr.Samples.EntityFramework\Structr.Samples.EntityFramework.csproj", "{1F55D273-A817-4D40-AAEA-2D332CCF2D95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

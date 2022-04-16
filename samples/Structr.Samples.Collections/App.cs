@@ -34,7 +34,7 @@ namespace Structr.Samples.Collections
                 new Foo("Foo2", ECurrency.Rub, 20),
                 new Foo("Foo3", ECurrency.Rub, 30)
             };
-            var pagedListEntities = items.ToPagedList(5, 1);
+            var pagedListEntities = items.ToPagedList(1, 5);
             await WriteAsync(pagedListEntities);
 
             await _writer.WriteLineAsync("-------------------");
