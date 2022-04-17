@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Structr.Abstractions;
-using Structr.Abstractions.Extensions;
 using Structr.Domain;
+using Structr.EntityFrameworkCore.Internal;
 using Structr.EntityFrameworkCore.Options;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,10 @@ namespace Structr.EntityFrameworkCore
 
         public static ModelBuilder ApplyEntityConfiguration(this ModelBuilder builder, Action<EntityConfigurationOptions> configureOptions)
         {
-            Ensure.NotNull(builder, nameof(builder));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             var options = new EntityConfigurationOptions();
 
@@ -52,7 +54,10 @@ namespace Structr.EntityFrameworkCore
 
         public static ModelBuilder ApplyValueObjectConfiguration(this ModelBuilder builder, Action<ValueObjectConfigurationOptions> configureOptions)
         {
-            Ensure.NotNull(builder, nameof(builder));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             var options = new ValueObjectConfigurationOptions();
 
@@ -77,7 +82,10 @@ namespace Structr.EntityFrameworkCore
 
         public static ModelBuilder ApplyAuditableConfiguration(this ModelBuilder builder, Action<AuditableConfigurationOptions> configureOptions)
         {
-            Ensure.NotNull(builder, nameof(builder));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             var options = new AuditableConfigurationOptions();
 
@@ -141,8 +149,14 @@ namespace Structr.EntityFrameworkCore
 
         public static IEnumerable<IMutableEntityType> GetEntityTypes(this ModelBuilder builder, Type type, Func<IMutableEntityType, bool> filter)
         {
-            Ensure.NotNull(builder, nameof(builder));
-            Ensure.NotNull(type, nameof(type));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
 
             var types = builder.Model.GetEntityTypes()
                 .Where(x => type.IsGenericType ? type.IsAssignableFromGenericType(x.ClrType) : type.IsAssignableFrom(x.ClrType));

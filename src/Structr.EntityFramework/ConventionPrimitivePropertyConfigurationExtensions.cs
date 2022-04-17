@@ -1,4 +1,4 @@
-using Structr.Abstractions;
+using System;
 using System.Data.Entity.ModelConfiguration.Configuration;
 
 namespace Structr.EntityFramework
@@ -7,7 +7,10 @@ namespace Structr.EntityFramework
     {
         public static ConventionPrimitivePropertyConfiguration IsRequired(this ConventionPrimitivePropertyConfiguration configuration, bool required = true)
         {
-            Ensure.NotNull(configuration, nameof(configuration));
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
 
             if (required)
                 configuration.IsRequired();

@@ -59,7 +59,7 @@ namespace Structr.Samples.Operations
                 var commandType = operation.GetType().Name;
                 foreach (var failure in ex.ValidationResult)
                 {
-                    await _writer.WriteLineAsync($"Validation Error ({commandType}): {failure.ErrorMessage}");
+                    await _writer.WriteLineAsync($"Validation {failure.Level} ({commandType}): {failure.Message}");
                 }
                 return default;
             }

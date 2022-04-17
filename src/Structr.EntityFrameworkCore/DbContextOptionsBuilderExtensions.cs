@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
-using Structr.Abstractions;
+using System;
 
 namespace Structr.EntityFrameworkCore
 {
@@ -9,8 +9,14 @@ namespace Structr.EntityFrameworkCore
     {
         public static DbContextOptionsBuilder UseLoggerProvider(this DbContextOptionsBuilder builder, ILoggerProvider provider)
         {
-            Ensure.NotNull(builder, nameof(builder));
-            Ensure.NotNull(provider, nameof(provider));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
 
             var extension = builder.Options.FindExtension<CoreOptionsExtension>();
             var loggerFactory = extension?.LoggerFactory;

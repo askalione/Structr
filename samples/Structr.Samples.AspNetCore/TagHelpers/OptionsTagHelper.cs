@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Structr.Abstractions;
 using Structr.AspNetCore.JavaScript;
+using System;
 using System.Linq;
 
 namespace Structr.Samples.AspNetCore.TagHelpers
@@ -14,7 +14,10 @@ namespace Structr.Samples.AspNetCore.TagHelpers
 
         public OptionsTagHelper(IJavaScriptOptionProvider optionProvider)
         {
-            Ensure.NotNull(optionProvider, nameof(optionProvider));
+            if (optionProvider == null)
+            {
+                throw new ArgumentNullException(nameof(optionProvider));
+            }
 
             _optionProvider = optionProvider;
         }

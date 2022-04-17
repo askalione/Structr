@@ -1,4 +1,4 @@
-using Structr.Abstractions;
+using System;
 using System.Data.Entity;
 using System.Reflection;
 
@@ -25,8 +25,14 @@ namespace Structr.EntityFramework
 
         public static void Update<TEntity>(this DbSet<TEntity> entry, TEntity entity) where TEntity : class
         {
-            Ensure.NotNull(entry, nameof(entry));
-            Ensure.NotNull(entity, nameof(entity));
+            if (entry == null)
+            {
+                throw new ArgumentNullException(nameof(entry));
+            }
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
 
             entry.GetContext().Entry(entity).State = EntityState.Modified;
         }

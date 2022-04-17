@@ -32,35 +32,35 @@ namespace Structr.Abstractions.Extensions
 
         public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, string propertyName, Order order)
         {
-            return Order(source, propertyName, order == Abstractions.Order.Asc ? EOrderMethod.OrderBy : EOrderMethod.OrderByDescending);
+            return Order(source, propertyName, order == Abstractions.Order.Asc ? OrderMethod.OrderBy : OrderMethod.OrderByDescending);
         }
 
         public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, string propertyName)
         {
-            return Order(source, propertyName, EOrderMethod.OrderBy);
+            return Order(source, propertyName, OrderMethod.OrderBy);
         }
 
         public static IOrderedEnumerable<T> OrderByDescending<T>(this IEnumerable<T> source, string propertyName)
         {
-            return Order(source, propertyName, EOrderMethod.OrderByDescending);
+            return Order(source, propertyName, OrderMethod.OrderByDescending);
         }
 
         public static IOrderedEnumerable<T> ThenBy<T>(this IEnumerable<T> source, string propertyName, Order order)
         {
-            return Order(source, propertyName, order == Abstractions.Order.Asc ? EOrderMethod.ThenBy : EOrderMethod.ThenByDescending);
+            return Order(source, propertyName, order == Abstractions.Order.Asc ? OrderMethod.ThenBy : OrderMethod.ThenByDescending);
         }
 
         public static IOrderedEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> source, string propertyName)
         {
-            return Order(source, propertyName, EOrderMethod.ThenBy);
+            return Order(source, propertyName, OrderMethod.ThenBy);
         }
 
         public static IOrderedEnumerable<T> ThenByDescending<T>(this IOrderedEnumerable<T> source, string propertyName)
         {
-            return Order(source, propertyName, EOrderMethod.ThenByDescending);
+            return Order(source, propertyName, OrderMethod.ThenByDescending);
         }
 
-        private static IOrderedEnumerable<T> Order<T>(IEnumerable<T> source, string propertyName, EOrderMethod method)
+        private static IOrderedEnumerable<T> Order<T>(IEnumerable<T> source, string propertyName, OrderMethod method)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotEmpty(propertyName, nameof(propertyName));

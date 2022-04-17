@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Net.Http.Headers;
-using Structr.Abstractions;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -16,7 +15,10 @@ namespace Structr.AspNetCore.Rewrite
 
         public RedirectToLowercaseTrailingSlashRule(Func<HttpRequest, bool> filter, int statusCode)
         {
-            Ensure.NotNull(filter, nameof(filter));
+            if (filter == null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
 
             _statusCode = statusCode;
             _filter = filter;

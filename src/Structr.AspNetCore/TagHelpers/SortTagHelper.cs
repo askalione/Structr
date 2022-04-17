@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.Abstractions;
 using Structr.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -22,7 +21,7 @@ namespace Structr.AspNetCore.TagHelpers
         public string DefaultSort { get; set; }
 
         [HtmlAttributeName("asp-default-order")]
-        public Order? DefaultOrder { get; set; }
+        public SortOrder? DefaultOrder { get; set; }
 
         [HtmlAttributeName("asp-options")]
         public SortOptions Options { get; set; }
@@ -56,7 +55,7 @@ namespace Structr.AspNetCore.TagHelpers
             bool active = false;
 
             var sort = Sort.Trim();
-            Order? order = null;
+            SortOrder? order = null;
             var defaultSort = DefaultSort?.Trim();
             var defaultOrder = DefaultOrder;
 
@@ -91,7 +90,7 @@ namespace Structr.AspNetCore.TagHelpers
 
                     if (routeOrder != null)
                     {
-                        if (Enum.TryParse(routeOrder, out Order routeOrderValue))
+                        if (Enum.TryParse(routeOrder, out SortOrder routeOrderValue))
                         {
                             order = routeOrderValue;
                         }
@@ -102,7 +101,7 @@ namespace Structr.AspNetCore.TagHelpers
             else
             {
                 if (SortEquals(defaultSort, sort) == true)
-                    order = (Order)defaultOrder;
+                    order = (SortOrder)defaultOrder;
             }
 
             routeValues.Remove(Options.SortRouteParamName);
@@ -129,13 +128,13 @@ namespace Structr.AspNetCore.TagHelpers
             output.Content.SetHtmlContent(a);
         }
 
-        private static string GetOrderRouteValue(Order? order)
+        private static string GetOrderRouteValue(SortOrder? order)
         {
             var result = order switch
             {
-                Abstractions.Order.Asc => Abstractions.Order.Desc,
-                Abstractions.Order.Desc => Abstractions.Order.Asc,
-                _ => Abstractions.Order.Asc
+                SortOrder.Asc => SortOrder.Desc,
+                SortOrder.Desc => SortOrder.Asc,
+                _ => SortOrder.Asc
             };
             return result.ToString();
         }
@@ -165,5 +164,11 @@ namespace Structr.AspNetCore.TagHelpers
             SortRouteParamName = "sort";
             OrderRouteParamName = "order";
         }
+    }
+
+    public enum SortOrder
+    {
+        Asc,
+        Desc
     }
 }

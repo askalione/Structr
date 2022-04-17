@@ -1,7 +1,6 @@
 using EntityFramework.DynamicFilters;
-using Structr.Abstractions;
-using Structr.Abstractions.Extensions;
 using Structr.Domain;
+using Structr.EntityFramework.Internal;
 using Structr.EntityFramework.Options;
 using System;
 using System.Data.Entity;
@@ -15,7 +14,10 @@ namespace Structr.EntityFramework
 
         public static DbModelBuilder ApplyEntityConfiguration(this DbModelBuilder builder, Action<EntityConfigurationOptions> configureOptions)
         {
-            Ensure.NotNull(builder, nameof(builder));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             var options = new EntityConfigurationOptions();
 
@@ -44,7 +46,10 @@ namespace Structr.EntityFramework
 
         public static DbModelBuilder ApplyValueObjectConfiguration(this DbModelBuilder builder, Action<ValueObjectConfigurationOptions> configureOptions)
         {
-            Ensure.NotNull(builder, nameof(builder));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             var options = new ValueObjectConfigurationOptions();
 
@@ -66,7 +71,10 @@ namespace Structr.EntityFramework
 
         public static DbModelBuilder ApplyAuditableConfiguration(this DbModelBuilder builder, Action<AuditableConfigurationOptions> configureOptions)
         {
-            Ensure.NotNull(builder, nameof(builder));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             var options = new AuditableConfigurationOptions();
 

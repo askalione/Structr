@@ -74,7 +74,7 @@ namespace Structr.Abstractions.Extensions
         /// </returns>
         public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, string propertyName, Order order)
         {
-            return Order(query, propertyName, order == Abstractions.Order.Asc ? EOrderMethod.OrderBy : EOrderMethod.OrderByDescending);
+            return Order(query, propertyName, order == Abstractions.Order.Asc ? OrderMethod.OrderBy : OrderMethod.OrderByDescending);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Structr.Abstractions.Extensions
         /// </returns>
         public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, string propertyName)
         {
-            return Order(query, propertyName, EOrderMethod.OrderBy);
+            return Order(query, propertyName, OrderMethod.OrderBy);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Structr.Abstractions.Extensions
         /// </returns>
         public static IOrderedQueryable<T> OrderByDescending<T>(this IQueryable<T> query, string propertyName)
         {
-            return Order(query, propertyName, EOrderMethod.OrderByDescending);
+            return Order(query, propertyName, OrderMethod.OrderByDescending);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Structr.Abstractions.Extensions
         /// </returns>
         public static IOrderedQueryable<T> ThenBy<T>(this IQueryable<T> query, string propertyName, Order order)
         {
-            return Order(query, propertyName, order == Abstractions.Order.Asc ? EOrderMethod.ThenBy : EOrderMethod.ThenByDescending);
+            return Order(query, propertyName, order == Abstractions.Order.Asc ? OrderMethod.ThenBy : OrderMethod.ThenByDescending);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Structr.Abstractions.Extensions
         /// </returns>
         public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> query, string propertyName)
         {
-            return Order(query, propertyName, EOrderMethod.ThenBy);
+            return Order(query, propertyName, OrderMethod.ThenBy);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Structr.Abstractions.Extensions
         /// </returns>
         public static IOrderedQueryable<T> ThenByDescending<T>(this IOrderedQueryable<T> query, string propertyName)
         {
-            return Order(query, propertyName, EOrderMethod.ThenByDescending);
+            return Order(query, propertyName, OrderMethod.ThenByDescending);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Structr.Abstractions.Extensions
         /// <remarks>
         /// Use reflection (not ComponentModel) to mirror LINQ.
         /// </remarks>
-        private static IOrderedQueryable<T> Order<T>(IQueryable<T> query, string propertyName, EOrderMethod method)
+        private static IOrderedQueryable<T> Order<T>(IQueryable<T> query, string propertyName, OrderMethod method)
         {
             Ensure.NotNull(query, nameof(query));
             Ensure.NotEmpty(propertyName, nameof(propertyName));

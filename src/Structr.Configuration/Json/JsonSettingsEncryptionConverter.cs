@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using Structr.Security;
+using Structr.Configuration.Internal;
 using System;
 
 namespace Structr.Configuration.Json

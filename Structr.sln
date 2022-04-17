@@ -85,6 +85,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Navigation", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Samples.EntityFramework", "samples\Structr.Samples.EntityFramework\Structr.Samples.EntityFramework.csproj", "{1F55D273-A817-4D40-AAEA-2D332CCF2D95}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solution Items", "{0D8DA140-9D58-4F4C-949F-7CA1CCC2DF3D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,6 +1,6 @@
 namespace Structr.Abstractions.Internal
 {
-    internal enum EOrderMethod
+    internal enum OrderMethod
     {
         OrderBy,
         OrderByDescending,

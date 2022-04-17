@@ -1,5 +1,5 @@
-using Structr.Abstractions;
 using Structr.Collections;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading;
@@ -11,7 +11,10 @@ namespace Structr.EntityFramework
     {
         public static PagedList<TSource> ToPagedList<TSource>(this IQueryable<TSource> source, int pageNumber, int pageSize)
         {
-            Ensure.NotNull(source, nameof(source));
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
 
             var totalItems = source.Count();
             if (totalItems == 0)
@@ -37,7 +40,10 @@ namespace Structr.EntityFramework
         public static async Task<PagedList<TSource>> ToPagedListAsync<TSource>(this IQueryable<TSource> source,
             int pageNumber, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Ensure.NotNull(source, nameof(source));
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
 
             var totalItems = await source.CountAsync(cancellationToken).ConfigureAwait(false);
             if (totalItems == 0)

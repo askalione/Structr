@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Structr.Abstractions;
+using System;
 
 namespace Structr.EntityFrameworkCore
 {
@@ -8,7 +8,10 @@ namespace Structr.EntityFrameworkCore
     {
         public static T GetService<T>(this DbContextOptions options)
         {
-            Ensure.NotNull(options, nameof(options));
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
 
             var serviceProvider = options.GetExtension<CoreOptionsExtension>().ApplicationServiceProvider;
             return (T)serviceProvider?.GetService(typeof(T));

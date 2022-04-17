@@ -6,12 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scrutor" Version="4.0.0" />
-    <PackageReference Include="Structr.Validation" Version="2.0.0" />
+    <PackageReference Include="Scrutor" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Structr.Operations\Structr.Operations.csproj" />
+    <ProjectReference Include="..\..\src\Structr.Validation\Structr.Validation.csproj" />
     <ProjectReference Include="..\Structr.Samples\Structr.Samples.csproj" />
   </ItemGroup>
 

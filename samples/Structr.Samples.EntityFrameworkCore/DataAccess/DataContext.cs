@@ -17,6 +17,10 @@ namespace Structr.Samples.EntityFrameworkCore.DataAccess
         private readonly ITimestampProvider _timestampProvider;
         private readonly IPrincipal _principal;
 
+        public AuditTimestampProvider AuditTimestampProvider => _timestampProvider != null
+            ? _timestampProvider.GetTimestamp
+            : null;
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
             _timestampProvider = options.GetService<ITimestampProvider>();
@@ -42,13 +46,13 @@ namespace Structr.Samples.EntityFrameworkCore.DataAccess
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            this.Audit(_timestampProvider, _principal);
+            this.Audit(AuditTimestampProvider, _principal);
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
-            this.Audit(_timestampProvider, _principal);
+            this.Audit(AuditTimestampProvider, _principal);
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }

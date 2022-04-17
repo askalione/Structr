@@ -1,5 +1,3 @@
-using Structr.Abstractions;
-using Structr.Abstractions.Providers;
 using Structr.Domain;
 using System;
 using System.Collections.Generic;
@@ -12,16 +10,21 @@ namespace Structr.EntityFramework
 {
     public static class DbContextExtensions
     {
-        public static DbContext Audit(this DbContext context, ITimestampProvider timestampProvider = null, IPrincipal principal = null)
+        public static DbContext Audit(this DbContext context,
+            AuditTimestampProvider timestampProvider,
+            IPrincipal principal = null)
         {
-            Ensure.NotNull(context, nameof(context));
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             context.ChangeTracker.DetectChanges();
 
             var entries = context.ChangeTracker.Entries<IAuditable>()
                 .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified || x.State == EntityState.Deleted);
 
-            var timestamp = timestampProvider?.GetTimestamp() ?? DateTime.Now;
+            var timestamp = timestampProvider?.Invoke() ?? DateTime.Now;
             var sign = principal?.Identity?.Name;
 
             if (entries != null)
@@ -46,7 +49,9 @@ namespace Structr.EntityFramework
             return context;
         }
 
-        private static void OnAdded(DbContext context, DbEntityEntry entry, DateTime timestamp, string sign)
+        private static void OnAdded(DbContext context,
+            DbEntityEntry entry,
+            DateTime timestamp, string sign)
         {
             if (entry.Entity is ICreatable)
             {
@@ -70,7 +75,10 @@ namespace Structr.EntityFramework
             }
         }
 
-        private static void OnModified(DbContext context, DbEntityEntry entry, DateTime timestamp, string sign)
+        private static void OnModified(DbContext context,
+            DbEntityEntry entry,
+            DateTime timestamp,
+            string sign)
         {
             if (entry.Entity is ICreatable)
             {
@@ -87,7 +95,10 @@ namespace Structr.EntityFramework
             }
         }
 
-        private static void OnDeleted(DbContext context, DbEntityEntry entry, DateTime timestamp, string sign)
+        private static void OnDeleted(DbContext context,
+            DbEntityEntry entry,
+            DateTime timestamp,
+            string sign)
         {
             if (entry.Entity is ICreatable)
             {

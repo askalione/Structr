@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net462</TargetFramework>
-        <Version>2.1.0</Version>
+        <Version>2.1.1</Version>
         <Description>Base infrastructure for implement data context using EntityFramework</Description>
         <PackageTags>Structr;EntityFramework;EF6</PackageTags>
         <Authors>Alexey Drapash</Authors>
@@ -14,7 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Structr.Abstractions\Structr.Abstractions.csproj" />
       <ProjectReference Include="..\Structr.Collections\Structr.Collections.csproj" />
       <ProjectReference Include="..\Structr.Domain\Structr.Domain.csproj" />
     </ItemGroup>

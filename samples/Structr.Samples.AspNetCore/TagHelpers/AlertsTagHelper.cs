@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.Abstractions;
 using Structr.AspNetCore.JavaScript;
+using System;
 using System.Linq;
 
 namespace Structr.Samples.AspNetCore.TagHelpers
@@ -12,7 +12,10 @@ namespace Structr.Samples.AspNetCore.TagHelpers
 
         public AlertsTagHelper(IJavaScriptAlertProvider alertProvider)
         {
-            Ensure.NotNull(alertProvider, nameof(alertProvider));
+            if (alertProvider == null)
+            {
+                throw new ArgumentNullException(nameof(alertProvider));
+            }
 
             _alertProvider = alertProvider;
         }

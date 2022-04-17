@@ -5,9 +5,9 @@ namespace Structr.Samples.Operations.Commands.Bar
 {
     public class BarCommandValidator : Validator<BarCommand>
     {
-        protected override IValidationResult Validate(BarCommand command)
+        protected override ValidationResult Validate(BarCommand command)
         {
-            var failures = new List<IValidationFailure>();
+            var failures = new List<ValidationFailure>();
 
             if (string.IsNullOrEmpty(command.Name))
             {
