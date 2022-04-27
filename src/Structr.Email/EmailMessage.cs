@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Structr.Email
 {
@@ -24,7 +23,7 @@ namespace Structr.Email
         {
             if (string.IsNullOrEmpty(message))
             {
-               throw new ArgumentNullException(nameof(message));
+                throw new ArgumentNullException(nameof(message));
             }
 
             Message = message;

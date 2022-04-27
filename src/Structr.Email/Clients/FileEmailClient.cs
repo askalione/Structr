@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,6 +29,10 @@ namespace Structr.Email.Clients
                 $"Subject: {emailData.Subject}{Environment.NewLine}" +
                 $"{Environment.NewLine}" +
                 $"{body}";
+            if (File.Exists(_path) == false)
+            {
+                Directory.CreateDirectory(_path);
+            }
             using (var sw = new StreamWriter(File.OpenWrite(filePath)))
             {
                 await sw.WriteAsync(content);

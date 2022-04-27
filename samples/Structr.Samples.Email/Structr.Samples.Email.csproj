@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Structr.Email.Razor\Structr.Email.Razor.csproj" />
+    <ProjectReference Include="..\..\src\Structr.Email\Structr.Email.csproj" />
+    <ProjectReference Include="..\Structr.Samples\Structr.Samples.csproj" />
+  </ItemGroup>
+
+</Project>

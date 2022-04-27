@@ -1,15 +1,18 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Structr.Email;
-using Structr.Email.Clients;
 using Structr.Email.TemplateRenderers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
+        public static EmailServiceBuilder AddEmail(this IServiceCollection services, string from)
+            => AddEmail(services, _ => new EmailAddress(from));
+
+        public static EmailServiceBuilder AddEmail(this IServiceCollection services, EmailAddress from)
+            => AddEmail(services, _ => from);
+
         public static EmailServiceBuilder AddEmail(this IServiceCollection services, Func<IServiceProvider, EmailAddress> fromFactory)
         {
             if (services == null)

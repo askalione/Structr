@@ -1,5 +1,3 @@
-using Structr.Email.Clients;
-using Structr.Email.TemplateRenderers;
 using System;
 
 namespace Structr.Email

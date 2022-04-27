@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -64,6 +63,11 @@ namespace Structr.Email.Clients.Smtp
                 message.From = new MailAddress(emailData.From.Address, emailData.From.Name);
             }
 
+            foreach(var to in emailData.To)
+            {
+                message.To.Add(new MailAddress(to.Address, to.Name));
+            }
+            
             return message;
         }
     }
