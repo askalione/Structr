@@ -36,23 +36,18 @@ namespace Structr.Samples.Navigation
             services.AddSingleton<IMenuActivator, MenuActivator>();
             services.AddSingleton<IBreadcrumbActivator, BreadcrumbActivator>();
 
-            services.AddXmlNavigation<MenuItem>(Path.Combine(rootPath, "menu.xml"), (serviceProvider, options) =>
-            {
-                options.ResourceType = typeof(MenuResource);
-                options.ItemActivator = item =>
+            services.AddNavigation()
+                .AddXml<MenuItem>(Path.Combine(rootPath, "menu.xml"), (serviceProvider, options) =>
                 {
-                    var _activator = serviceProvider.GetService<IMenuActivator>();
-                    return _activator.Activate(item);
-                };
-            });
-            services.AddJsonNavigation<Breadcrumb>(Path.Combine(rootPath, "breadcrumbs.json"), (serviceProvider, options) =>
-            {
-                options.ItemActivator = breadcrumb =>
+                    options.ResourceType = typeof(MenuResource);
+                    options.ItemActivator =
+                        item => serviceProvider.GetService<IMenuActivator>().Activate(item);
+                })
+                .AddJson<Breadcrumb>(Path.Combine(rootPath, "breadcrumbs.json"), (serviceProvider, options) =>
                 {
-                    var _activator = serviceProvider.GetService<IBreadcrumbActivator>();
-                    return _activator.Activate(breadcrumb);
-                };
-            });
+                    options.ItemActivator =
+                        breadcrumb => serviceProvider.GetService<IBreadcrumbActivator>().Activate(breadcrumb);
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

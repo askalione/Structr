@@ -1,6 +1,6 @@
 namespace Structr.Samples.Collections.Entities
 {
-    public enum ECurrency
+    public enum Currency
     {
         Rub,
         Usd

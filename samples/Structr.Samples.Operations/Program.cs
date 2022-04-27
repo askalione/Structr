@@ -29,7 +29,7 @@ namespace Structr.Samples.Operations
             services.AddTransient(typeof(ICommandDecorator<,>), typeof(CommandDecorator<,>));
             services.AddTransient(typeof(IQueryDecorator<,>), typeof(QueryDecorator<,>));
             services.Decorate(typeof(IOperationHandler<,>), typeof(OperationDecorator<,>));
-                        
+
             var serviceProvider = services.BuildServiceProvider();
 
             var app = serviceProvider.GetRequiredService<IApp>();

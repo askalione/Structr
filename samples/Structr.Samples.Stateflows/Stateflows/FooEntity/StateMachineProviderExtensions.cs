@@ -8,7 +8,7 @@ namespace Structr.Samples.Stateflows.Stateflows.FooEntity
 {
     public static class StateMachineProviderExtensions
     {
-        public static Task<IStateMachine<FooState, EFooAction>> GetStateMachineAsync(
+        public static Task<IStateMachine<FooState, FooAction>> GetStateMachineAsync(
             this IStateMachineProvider provider,
             Foo entity,
             CancellationToken cancellationToken
@@ -19,7 +19,7 @@ namespace Structr.Samples.Stateflows.Stateflows.FooEntity
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            return provider.GetStateMachineAsync<Foo, FooState, EFooAction>(
+            return provider.GetStateMachineAsync<Foo, FooState, FooAction>(
                 entity,
                 x => x.State,
                 (x, state) => x.ChangeState(state),

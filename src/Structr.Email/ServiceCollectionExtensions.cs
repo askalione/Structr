@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Structr.Email;
-using Structr.Email.TemplateRenderers;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection

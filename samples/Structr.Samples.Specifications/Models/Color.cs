@@ -1,6 +1,6 @@
 namespace Structr.Samples.Specifications.Models
 {
-    public enum EColor
+    public enum Color
     {
         White,
         Red,

@@ -1,5 +1,3 @@
-using Structr.Operations;
-
 namespace Structr.Samples.Operations.Commands.Bar
 {
     public class BarCommand : ICommand<string>

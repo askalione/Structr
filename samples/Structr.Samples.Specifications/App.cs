@@ -25,11 +25,11 @@ namespace Structr.Samples.Specifications
         {
             List<Foo> items = new List<Foo>
             {
-                new Foo { Name = "Abc", Color = EColor.White, Age = 10, DateDeleted = null },
-                new Foo { Name = "Some name", Color = EColor.Black, Age = 5, DateDeleted = DateTime.Now.AddDays(-1) },
-                new Foo { Name = "Dfe", Color = EColor.Red, Age = 15, DateDeleted = null },
-                new Foo { Name = "Creacode", Color = EColor.Blue, Age = 25, DateDeleted = DateTime.Now.AddDays(-2) },
-                new Foo { Name = "Excalibur", Color = EColor.White, Age = 30, DateDeleted = null },
+                new Foo { Name = "Abc", Color = Color.White, Age = 10, DateDeleted = null },
+                new Foo { Name = "Some name", Color = Color.Black, Age = 5, DateDeleted = DateTime.Now.AddDays(-1) },
+                new Foo { Name = "Dfe", Color = Color.Red, Age = 15, DateDeleted = null },
+                new Foo { Name = "Creacode", Color = Color.Blue, Age = 25, DateDeleted = DateTime.Now.AddDays(-2) },
+                new Foo { Name = "Excalibur", Color = Color.White, Age = 30, DateDeleted = null },
             };
 
             await WriteAsync(items, new FooIsNotDeletedSpec(), nameof(FooIsNotDeletedSpec));

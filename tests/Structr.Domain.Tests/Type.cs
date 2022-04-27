@@ -1,6 +1,6 @@
 namespace Structr.Domain.Tests
 {
-    public enum EType
+    public enum Type
     {
         Cold,
         Warm

@@ -33,21 +33,21 @@ namespace Structr.Samples.Stateflows.Services
 
         public Task OpenAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return FireAsync(EBarAction.Open, id, cancellationToken);
+            return FireAsync(BarAction.Open, id, cancellationToken);
         }
 
         public Task CloseAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return FireAsync(EBarAction.Close, id, cancellationToken);
+            return FireAsync(BarAction.Close, id, cancellationToken);
         }
 
 
         public Task ArchiveAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return FireAsync(EBarAction.Archive, id, cancellationToken);
+            return FireAsync(BarAction.Archive, id, cancellationToken);
         }
 
-        private async Task FireAsync(EBarAction action, Guid id, CancellationToken cancellationToken)
+        private async Task FireAsync(BarAction action, Guid id, CancellationToken cancellationToken)
         {
             var stateflow = await _stateflowProvider.GetStateflowAsync(id, cancellationToken);
 

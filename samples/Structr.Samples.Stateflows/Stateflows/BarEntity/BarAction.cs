@@ -1,6 +1,6 @@
 namespace Structr.Samples.Stateflows.Stateflows.BarEntity
 {
-    public enum EBarAction
+    public enum BarAction
     {
         Open,
         Close,

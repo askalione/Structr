@@ -1,6 +1,6 @@
 namespace Structr.Samples.Stateflows.Stateflows.FooEntity
 {
-    public enum EFooAction
+    public enum FooAction
     {
         Send,
         Accept,

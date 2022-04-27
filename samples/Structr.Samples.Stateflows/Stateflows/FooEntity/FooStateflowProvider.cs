@@ -24,7 +24,7 @@ namespace Structr.Samples.Stateflows.Stateflows.FooEntity
             _stateMachineProvider = stateMachineProvider;
         }
 
-        public async Task<Stateflow<Foo, FooState, EFooAction>> GetStateflowAsync(Guid entityId, CancellationToken cancellationToken)
+        public async Task<Stateflow<Foo, FooState, FooAction>> GetStateflowAsync(Guid entityId, CancellationToken cancellationToken)
         {
             var entity = _repository.Get(entityId);
             if (entity == null)
@@ -32,7 +32,7 @@ namespace Structr.Samples.Stateflows.Stateflows.FooEntity
 
             var stateMachine = await _stateMachineProvider.GetStateMachineAsync(entity, cancellationToken);
 
-            return new Stateflow<Foo, FooState, EFooAction>(entity, stateMachine);
+            return new Stateflow<Foo, FooState, FooAction>(entity, stateMachine);
         }
     }
 }

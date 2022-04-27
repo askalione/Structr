@@ -6,7 +6,7 @@ namespace Structr.Email
     public class EmailAttachment
     {
         public Stream? Content { get; }
-        public string FileName { get; }        
+        public string FileName { get; }
         public string? ContentType { get; }
 
         public EmailAttachment(string fileName)
@@ -21,12 +21,12 @@ namespace Structr.Email
 
         public EmailAttachment(string fileName, string contentType)
             : this(fileName)
-        {            
+        {
             if (string.IsNullOrEmpty(contentType))
             {
                 throw new ArgumentNullException(nameof(contentType));
             }
-            
+
             ContentType = contentType;
         }
 

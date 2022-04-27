@@ -26,7 +26,7 @@ namespace Structr.Samples.Validation
         {
             var bat = new Bat
             {
-                Color = EColor.Red,
+                Color = Color.Red,
                 Weight = 120,
                 Length = 80,
                 Height = 200,
@@ -36,10 +36,10 @@ namespace Structr.Samples.Validation
 
             var baz = new Baz
             {
-                Color = EColor.White,
+                Color = Color.White,
                 Weight = 90,
                 Height = 250,
-                Shape = EShape.Triangle
+                Shape = Shape.Triangle
             };
             await ValidateAsync(baz);
         }

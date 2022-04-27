@@ -10,12 +10,12 @@ namespace Structr.Domain.Tests
             var vo1 = new FooValueObject
             {
                 Name = "Abc",
-                Type = EType.Cold,
+                Type = Type.Cold,
                 Weight = 100
             };
             var vo2 = new FooValueObject(vo1)
             {
-                Type = EType.Warm
+                Type = Type.Warm
             };
             var vo3 = new FooValueObject(vo1);
 

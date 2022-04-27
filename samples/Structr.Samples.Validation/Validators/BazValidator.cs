@@ -12,7 +12,7 @@ namespace Structr.Samples.Validation.Validators
 
             failures.AddRange(base.Validate(instance));
 
-            if (instance.Shape == EShape.Triangle)
+            if (instance.Shape == Shape.Triangle)
             {
                 failures.Add(new ValidationFailure(nameof(instance.Shape), instance.Shape, "Triangle is a bullshit. Circle is a king!"));
             }

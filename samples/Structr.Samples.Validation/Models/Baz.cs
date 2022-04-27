@@ -1,6 +1,6 @@
 namespace Structr.Samples.Validation.Models
 {
-    public enum EShape
+    public enum Shape
     {
         Square,
         Сircle,
@@ -9,6 +9,6 @@ namespace Structr.Samples.Validation.Models
 
     public class Baz : Foo
     {
-        public EShape Shape { get; set; }
+        public Shape Shape { get; set; }
     }
 }

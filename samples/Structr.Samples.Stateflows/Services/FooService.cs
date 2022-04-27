@@ -33,20 +33,20 @@ namespace Structr.Samples.Stateflows.Services
 
         public Task SendAsync(Guid id, CancellationToken cancellationToken)
         {
-            return FireAsync(EFooAction.Send, id, cancellationToken);
+            return FireAsync(FooAction.Send, id, cancellationToken);
         }
 
         public Task AcceptAsync(Guid id, CancellationToken cancellationToken)
         {
-            return FireAsync(EFooAction.Accept, id, cancellationToken);
+            return FireAsync(FooAction.Accept, id, cancellationToken);
         }
 
         public Task DeclineAsync(Guid id, CancellationToken cancellationToken)
         {
-            return FireAsync(EFooAction.Decline, id, cancellationToken);
+            return FireAsync(FooAction.Decline, id, cancellationToken);
         }
 
-        private async Task FireAsync(EFooAction action, Guid id, CancellationToken cancellationToken)
+        private async Task FireAsync(FooAction action, Guid id, CancellationToken cancellationToken)
         {
             var stateflow = await _stateflowProvider.GetStateflowAsync(id, cancellationToken);
 

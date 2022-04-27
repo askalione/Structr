@@ -34,7 +34,7 @@ namespace Structr.Email.Razor
 
         public Task<string> RenderAsync<TModel>(string template, TModel model)
         {
-            dynamic viewBag = (model as IRazorModel)?.ViewBag;
+            dynamic? viewBag = (model as IRazorModel)?.ViewBag;
             return _engine.CompileRenderStringAsync<TModel>(GetTemplateKey(template), template, model, viewBag);
         }
 

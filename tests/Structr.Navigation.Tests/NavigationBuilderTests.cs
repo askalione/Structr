@@ -15,13 +15,14 @@ namespace Structr.Navigation.Tests
             var services = new ServiceCollection();
             string path = Path.Combine(new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
                 .Parent.Parent.Parent.FullName, "menu.json");
-            services.AddJsonNavigation<MenuItem>(path, (serviceProvider, options) =>
-            {
-                options.ItemActivator = item =>
+            services.AddNavigation()
+                .AddJson<MenuItem>(path, (serviceProvider, options) =>
                 {
-                    return true;
-                };
-            });
+                    options.ItemActivator = item =>
+                    {
+                        return true;
+                    };
+                });
             var serviceProvider = services.BuildServiceProvider();
             var navigation = serviceProvider.GetService<INavigation<MenuItem>>();
             var activeMenuItem = navigation.Active;

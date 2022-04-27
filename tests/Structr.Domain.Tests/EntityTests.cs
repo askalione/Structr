@@ -39,12 +39,12 @@ namespace Structr.Domain.Tests
             entity2 = new FooEntity(new Guid("e94b119c-5815-4aa8-b558-45f2685c58c8"));
             Assert.False(entity1.Equals(entity2));
 
-            entity1 = new FooEntity(EType.Cold);
-            entity2 = new FooEntity(EType.Cold);
+            entity1 = new FooEntity(Type.Cold);
+            entity2 = new FooEntity(Type.Cold);
             Assert.True(entity1.Equals(entity2));
 
-            entity1 = new FooEntity(EType.Cold);
-            entity2 = new FooEntity(EType.Warm);
+            entity1 = new FooEntity(Type.Cold);
+            entity2 = new FooEntity(Type.Warm);
             Assert.False(entity1.Equals(entity2));
 
             entity1 = new FooEntity(new Id(1, 1));

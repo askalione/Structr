@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Structr.Samples.Stateflows.Stateflows.BarEntity
 {
-    public class BarStateMachineConfigurator : IStateMachineConfigurator<Bar, BarState, EBarAction>
+    public class BarStateMachineConfigurator : IStateMachineConfigurator<Bar, BarState, BarAction>
     {
         private readonly Func<BarState, IBarStateMachineConfiguration> _factory;
 
@@ -19,7 +19,7 @@ namespace Structr.Samples.Stateflows.Stateflows.BarEntity
             _factory = factory;
         }
 
-        public async Task ConfigureAsync(Stateless.StateMachine<BarState, EBarAction> stateMachine, Bar entity, CancellationToken cancellationToken)
+        public async Task ConfigureAsync(Stateless.StateMachine<BarState, BarAction> stateMachine, Bar entity, CancellationToken cancellationToken)
         {
             var configuration = _factory(entity.State);
             if (configuration != null)

@@ -5,7 +5,7 @@ namespace Structr.Samples.Specifications.Models
     public class Foo
     {
         public string Name { get; set; }
-        public EColor Color { get; set; }
+        public Color Color { get; set; }
         public int Age { get; set; }
         public DateTime? DateDeleted { get; set; }
 

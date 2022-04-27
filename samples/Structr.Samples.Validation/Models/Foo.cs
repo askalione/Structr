@@ -1,6 +1,6 @@
 namespace Structr.Samples.Validation.Models
 {
-    public enum EColor
+    public enum Color
     {
         White,
         Blue,
@@ -11,6 +11,6 @@ namespace Structr.Samples.Validation.Models
     {
         public int Height { get; set; }
         public int Weight { get; set; }
-        public EColor Color { get; set; }
+        public Color Color { get; set; }
     }
 }

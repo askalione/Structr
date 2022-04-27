@@ -1,7 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Samples.Configuration.Settings;
-using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Structr.Samples.Configuration
@@ -16,9 +14,10 @@ namespace Structr.Samples.Configuration
             services.AddSample<App>();
 
             // Add Configuration
-            services.AddJsonConfiguration<AppSettings>(AppHelper.GetRootPath("appsettings.json"));
-            services.AddXmlConfiguration<WebSettings>(AppHelper.GetRootPath("websettings.xml"));
-            // For example, use AddDbConfiguration<AppSettings>(...) with custom DbSettingsProvider
+            services.AddConfiguration()
+                .AddJson<AppSettings>(AppHelper.GetRootPath("appsettings.json"))
+                .AddXml<WebSettings>(AppHelper.GetRootPath("websettings.xml"));
+            // Use `.AddProvider<AppSettings>(...)` with custom DbSettingsProvider, for example
 
             var serviceProvider = services.BuildServiceProvider();
 

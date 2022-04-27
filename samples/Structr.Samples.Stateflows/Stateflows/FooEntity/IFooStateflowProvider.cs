@@ -4,7 +4,7 @@ using System;
 
 namespace Structr.Samples.Stateflows.Stateflows.FooEntity
 {
-    public interface IFooStateflowProvider : IStateflowProvider<Foo, Guid, FooState, EFooAction>
+    public interface IFooStateflowProvider : IStateflowProvider<Foo, Guid, FooState, FooAction>
     {
     }
 }

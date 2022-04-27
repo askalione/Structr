@@ -30,9 +30,9 @@ namespace Structr.Samples.Collections
         {
             var items = new List<Foo>
             {
-                new Foo("Foo1", ECurrency.Rub, 10),
-                new Foo("Foo2", ECurrency.Rub, 20),
-                new Foo("Foo3", ECurrency.Rub, 30)
+                new Foo("Foo1", Currency.Rub, 10),
+                new Foo("Foo2", Currency.Rub, 20),
+                new Foo("Foo3", Currency.Rub, 30)
             };
             var pagedListEntities = items.ToPagedList(1, 5);
             await WriteAsync(pagedListEntities);

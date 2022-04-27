@@ -10,7 +10,7 @@ namespace Structr.Samples.Validation.Validators
         {
             var failures = new List<ValidationFailure>();
 
-            if (instance.Color == EColor.Red)
+            if (instance.Color == Color.Red)
             {
                 failures.Add(new ValidationFailure(nameof(instance.Color), instance.Color, "Red color is wrong color"));
             }

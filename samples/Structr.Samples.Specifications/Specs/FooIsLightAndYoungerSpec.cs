@@ -16,7 +16,7 @@ namespace Structr.Samples.Specifications.Specs
 
         public override Expression<Func<Foo, bool>> ToExpression()
         {
-            return x => x.Age <= Age && x.Color != EColor.Black;
+            return x => x.Age <= Age && x.Color != Color.Black;
         }
     }
 }

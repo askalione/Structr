@@ -5,7 +5,7 @@ namespace Structr.Domain.Tests
     public class FooValueObject : ValueObject<FooValueObject>
     {
         public string Name { get; set; }
-        public EType Type { get; set; }
+        public Type Type { get; set; }
         public decimal Weight { get; set; }
 
         public FooValueObject() { }
