@@ -33,7 +33,10 @@ namespace Structr.Samples.Email
         {
             await _emailSender.SendEmailAsync(new EmailMessage("to@example.com", "Simple email message.")
             {
-                Subject = "Welcome to Structr"
+                Subject = "Welcome to Structr",
+                Attachments = new[] {
+                    new EmailAttachment(AppHelper.GetRootPath("Attachments/Attachment.txt"), "text/plain")
+                }
             });
         }
 

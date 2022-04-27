@@ -63,11 +63,30 @@ namespace Structr.Email.Clients.Smtp
                 message.From = new MailAddress(emailData.From.Address, emailData.From.Name);
             }
 
-            foreach(var to in emailData.To)
+            foreach (var to in emailData.To)
             {
                 message.To.Add(new MailAddress(to.Address, to.Name));
             }
-            
+
+            if (emailData.Attachments != null)
+            {
+                foreach (var attachment in emailData.Attachments)
+                {
+                    Attachment mailAttachment;
+
+                    if (attachment.Content == null)
+                    {
+                        mailAttachment = new Attachment(attachment.FileName, attachment.ContentType);
+                    }
+                    else
+                    {
+                        mailAttachment = new Attachment(attachment.Content, attachment.FileName, attachment.ContentType);
+                    }
+
+                    message.Attachments.Add(mailAttachment);
+                };
+            }
+
             return message;
         }
     }

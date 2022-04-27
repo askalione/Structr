@@ -10,7 +10,7 @@ namespace Structr.Email
         public IEnumerable<EmailAddress> To { get; }
         public string? Subject { get; set; }
         public bool IsHtml { get; set; }
-        //TODO: public IEnumerable<EmailAttachment> Attachments { get; set; }
+        public IEnumerable<EmailAttachment>? Attachments { get; set; }
 
         public EmailData(IEnumerable<EmailAddress> to)
         {

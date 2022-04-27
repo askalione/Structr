@@ -27,6 +27,7 @@ namespace Structr.Email.Clients
                 $"From: {emailData.From}{Environment.NewLine}" +
                 $"To: {string.Join(";", emailData.To.Select(x => x.ToString()))}{Environment.NewLine}" +
                 $"Subject: {emailData.Subject}{Environment.NewLine}" +
+                $"{(emailData.Attachments?.Any() == true ? $"Attachments: {string.Join(";", emailData.Attachments.Select(x => x.FileName))}{Environment.NewLine}" : "")}" +
                 $"{Environment.NewLine}" +
                 $"{body}";
             if (File.Exists(_path) == false)
