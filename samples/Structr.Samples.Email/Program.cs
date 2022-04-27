@@ -16,7 +16,7 @@ var emailBuilder = services.AddEmail(new EmailAddress("from@example.com", "Examp
     options.TemplateRootPath = AppHelper.GetRootPath("Templates");
 })
     // Use SMTP-client
-    //.AddSmtpClient(host: "127.0.0.1", port: 25)
+    //.AddSmtpClient(host: "127.0.0.1", port: 25);
     // Or use File-client, in development environment, for example
     .AddFileClient(AppHelper.GetExecutablePath("Emails"));
 
