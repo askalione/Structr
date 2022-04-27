@@ -9,7 +9,7 @@ namespace Structr.Email.TemplateRenderers
         {
             foreach (var pi in model!.GetType().GetRuntimeProperties())
             {
-                template = template.Replace($"{{{pi.Name}}}", pi.GetValue(model, null).ToString());
+                template = template.Replace($"{{{{{pi.Name}}}}}", pi.GetValue(model, null).ToString());
             }
 
             return Task.FromResult(template);

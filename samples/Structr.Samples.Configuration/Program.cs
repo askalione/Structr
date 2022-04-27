@@ -16,8 +16,8 @@ namespace Structr.Samples.Configuration
             services.AddSample<App>();
 
             // Add Configuration
-            services.AddJsonConfiguration<AppSettings>(GetPath("appsettings.json"));
-            services.AddXmlConfiguration<WebSettings>(GetPath("websettings.xml"));
+            services.AddJsonConfiguration<AppSettings>(AppHelper.GetRootPath("appsettings.json"));
+            services.AddXmlConfiguration<WebSettings>(AppHelper.GetRootPath("websettings.xml"));
             // For example, use AddDbConfiguration<AppSettings>(...) with custom DbSettingsProvider
 
             var serviceProvider = services.BuildServiceProvider();
@@ -25,16 +25,6 @@ namespace Structr.Samples.Configuration
             var app = serviceProvider.GetRequiredService<IApp>();
 
             return app.RunAsync();
-        }
-
-        private static string GetPath(string filename)
-        {
-            var path = Path.Combine(new DirectoryInfo(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
-                .Parent
-                .Parent
-                .Parent
-                .FullName, filename);
-            return path;
         }
     }
 }

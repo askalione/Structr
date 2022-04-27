@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static EmailServiceBuilder AddFileClient(this EmailServiceBuilder builder, string path)
         {
-            builder.Services.AddSingleton<IEmailClient>(_ => new FileEmailClient(path));
+            builder.Services.TryAddSingleton<IEmailClient>(_ => new FileEmailClient(path));
 
             return builder;
         }
@@ -29,7 +29,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             builder.Services.TryAddSingleton(serviceProvider => optionsFactory.Invoke(serviceProvider));
-            builder.Services.AddSingleton<IEmailClient, SmtpEmailClient>();
+            builder.Services.TryAddSingleton<IEmailClient, SmtpEmailClient>();
 
             return builder;
         }

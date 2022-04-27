@@ -4,7 +4,8 @@ namespace Structr.Email
 {
     public class EmailOptions
     {
-        public EmailAddress From { get; set; }
+        internal EmailAddress From { get; }
+        public string? TemplateRootPath { get; set; }
 
         public EmailOptions(EmailAddress from)
         {

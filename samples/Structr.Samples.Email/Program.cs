@@ -8,16 +8,22 @@ var services = new ServiceCollection();
 // Add sample app
 services.AddSample<App>();
 
+var path = AppHelper.GetRootPath("Templates");
+
 // Add email
-// Option 1: Use SMTP-client
-//services.AddEmail(new EmailAddress("from@example.com", "Example"))
-//    .AddSmtpClient(host: "127.0.0.1", port: 25);
+var emailBuilder = services.AddEmail(new EmailAddress("from@example.com", "Example"), options =>
+{
+    options.TemplateRootPath = AppHelper.GetRootPath("Templates");
+})
+    // Use SMTP-client
+    //.AddSmtpClient(host: "127.0.0.1", port: 25)
+    // Or use File-client, in development environment, for example
+    .AddFileClient(AppHelper.GetExecutablePath("Emails"));
 
-// Option 2: Use File-client, in development environment, for example
-services.AddEmail(new EmailAddress("from@example.com", "Example"))
-    .AddFileClient(Path.Combine(Directory.GetCurrentDirectory(), "Emails"));
-
-// TODO: Razor
+#if RAZOR
+// Optional: Use Razor templates.
+emailBuilder.AddRazorTemplateRenderer();
+#endif
 
 var serviceProvider = services.BuildServiceProvider();
 

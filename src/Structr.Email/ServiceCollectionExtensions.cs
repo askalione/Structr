@@ -7,13 +7,29 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static EmailServiceBuilder AddEmail(this IServiceCollection services, string from)
-            => AddEmail(services, _ => new EmailAddress(from));
+        public static EmailServiceBuilder AddEmail(this IServiceCollection services,
+           string from,
+           Action<EmailOptions>? configure = null)
+           => AddEmail(services, new EmailAddress(from), configure);
 
-        public static EmailServiceBuilder AddEmail(this IServiceCollection services, EmailAddress from)
-            => AddEmail(services, _ => from);
+        public static EmailServiceBuilder AddEmail(this IServiceCollection services,
+            string from,
+            Action<IServiceProvider, EmailOptions> configure)
+            => AddEmail(services, new EmailAddress(from), configure);
 
-        public static EmailServiceBuilder AddEmail(this IServiceCollection services, Func<IServiceProvider, EmailAddress> fromFactory)
+        public static EmailServiceBuilder AddEmail(this IServiceCollection services,
+            EmailAddress from,
+            Action<EmailOptions>? configure = null)
+            => AddEmail(services, _ => from, (_, options) => configure?.Invoke(options));
+
+        public static EmailServiceBuilder AddEmail(this IServiceCollection services,
+            EmailAddress from,
+            Action<IServiceProvider, EmailOptions> configure)
+            => AddEmail(services, _ => from, configure);
+
+        public static EmailServiceBuilder AddEmail(this IServiceCollection services,
+            Func<IServiceProvider, EmailAddress> fromFactory,
+            Action<IServiceProvider, EmailOptions>? configure = null)
         {
             if (services == null)
             {
@@ -22,8 +38,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var builder = new EmailServiceBuilder(services);
 
-            services.TryAddSingleton(serviceProvider => new EmailOptions(fromFactory(serviceProvider)));
-            services.TryAddSingleton<IEmailTemplateRenderer>(_ => new ReplaceEmailTemplateRenderer());
+            services.TryAddSingleton(serviceProvider =>
+            {
+                var options = new EmailOptions(fromFactory(serviceProvider));
+                configure?.Invoke(serviceProvider, options);
+                return options;
+            });
             services.TryAddSingleton<IEmailSender, EmailSender>();
 
             return builder;

@@ -44,7 +44,7 @@ namespace Structr.Email.Clients
         {
             string guidSegment = Guid.NewGuid().ToString("N");
             string dateSegment = DateTime.Now.ToString("yyyyMMddHHmmss");
-            return $"{dateSegment}-{guidSegment}.email";
+            return $"{dateSegment}-{guidSegment}";
         }
     }
 }

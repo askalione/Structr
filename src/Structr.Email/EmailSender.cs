@@ -1,3 +1,4 @@
+using Structr.Email.TemplateRenderers;
 using System;
 using System.IO;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace Structr.Email
         private readonly IEmailClient _client;
         private readonly IEmailTemplateRenderer _templateRenderer;
 
-        public EmailSender(EmailOptions options, IEmailClient client, IEmailTemplateRenderer templateRenderer)
+        public EmailSender(EmailOptions options, IEmailClient client, IEmailTemplateRenderer? templateRenderer = null)
         {
             if (options == null)
             {
@@ -21,14 +22,10 @@ namespace Structr.Email
             {
                 throw new ArgumentNullException(nameof(client));
             }
-            if (templateRenderer == null)
-            {
-                throw new ArgumentNullException(nameof(templateRenderer));
-            }
 
             _options = options;
             _client = client;
-            _templateRenderer = templateRenderer;
+            _templateRenderer = templateRenderer ?? new ReplaceEmailTemplateRenderer();
         }
 
         public Task<bool> SendEmailAsync(EmailMessage email, CancellationToken cancellationToken = default)
@@ -50,7 +47,8 @@ namespace Structr.Email
         {
             var template = "";
 
-            using (var sr = new StreamReader(File.OpenRead(templatePath)))
+            var templateFilePath = Path.Combine(_options.TemplateRootPath ?? "", templatePath);
+            using (var sr = new StreamReader(File.OpenRead(templateFilePath)))
             {
                 template = sr.ReadToEnd();
             }

@@ -1,5 +1,6 @@
 using RazorLight;
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,15 +11,23 @@ namespace Structr.Email.Razor
     {
         private readonly RazorLightEngine _engine;
 
-        public RazorEmailTemplateRenderer(string path)
+        public RazorEmailTemplateRenderer(EmailOptions options)
         {
-            if (string.IsNullOrEmpty(path))
+            if (options == null)
             {
-                throw new ArgumentNullException(nameof(path));
+                throw new ArgumentNullException(nameof(options));
+            }
+            if (string.IsNullOrEmpty(options.TemplateRootPath))
+            {
+                throw new InvalidOperationException($"Email option \"TemplateRootPath\" not specified.");
+            }
+            if (Directory.Exists(options.TemplateRootPath) == false)
+            {
+                throw new DirectoryNotFoundException($"Directory specified in email option \"TemplateRootPath\" not found.");
             }
 
             _engine = new RazorLightEngineBuilder()
-                .UseFileSystemProject(path)
+                .UseFileSystemProject(options.TemplateRootPath)
                 .UseMemoryCachingProvider()
                 .Build();
         }
