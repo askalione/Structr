@@ -4,8 +4,8 @@ namespace Structr.Email.Clients.Smtp
 {
     public class SmtpOptions
     {
-        public string Host { get; set; }
-        public int Port { get; set; }
+        public string Host { get; }
+        public int Port { get; }
         public string? User { get; set; }
         public string? Password { get; set; }
         public bool IsSslEnabled { get; set; }
@@ -15,6 +15,10 @@ namespace Structr.Email.Clients.Smtp
             if (string.IsNullOrEmpty(host))
             {
                 throw new ArgumentNullException(nameof(host));
+            }
+            if (port < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(port), port, $"Port cannot be less than zero.");
             }
 
             Host = host;
