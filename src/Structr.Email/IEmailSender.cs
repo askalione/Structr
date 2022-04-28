@@ -6,9 +6,9 @@ namespace Structr.Email
     public interface IEmailSender
     {
         Task<bool> SendEmailAsync(EmailMessage email, CancellationToken cancellationToken = default);
-        Task<bool> SendEmailAsync(EmailTemplate email, CancellationToken cancellationToken = default);
-        Task<bool> SendEmailAsync<TModel>(EmailTemplate<TModel> email, CancellationToken cancellationToken = default);
-        Task<bool> SendEmailAsync<TModel>(EmailTemplateFile email, CancellationToken cancellationToken = default);
-        Task<bool> SendEmailAsync<TModel>(EmailTemplateFile<TModel> email, CancellationToken cancellationToken = default);
+        Task<bool> SendEmailAsync(EmailTemplateMessage email, CancellationToken cancellationToken = default);
+        Task<bool> SendEmailAsync<TModel>(EmailTemplateMessage<TModel> email, CancellationToken cancellationToken = default);
+        Task<bool> SendEmailAsync(EmailTemplateFileMessage email, CancellationToken cancellationToken = default);
+        Task<bool> SendEmailAsync<TModel>(EmailTemplateFileMessage<TModel> email, CancellationToken cancellationToken = default);
     }
 }

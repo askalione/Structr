@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Structr.Email
 {
-    public class EmailTemplate : EmailData
+    public class EmailTemplateMessage : EmailData
     {
         public string Template { get; }
         public object Model { get; }
 
-        public EmailTemplate(string to,
+        public EmailTemplateMessage(string to,
             string template,
             object model)
             : this(new[] { to },
@@ -18,7 +18,7 @@ namespace Structr.Email
         {
         }
 
-        public EmailTemplate(IEnumerable<string> to,
+        public EmailTemplateMessage(IEnumerable<string> to,
             string template,
             object model)
             : this(to.Select(x => new EmailAddress(x)),
@@ -27,7 +27,7 @@ namespace Structr.Email
         {
         }
 
-        public EmailTemplate(IEnumerable<EmailAddress> to,
+        public EmailTemplateMessage(IEnumerable<EmailAddress> to,
             string template,
             object model)
             : base(to)
@@ -46,22 +46,22 @@ namespace Structr.Email
         }
     }
 
-    public abstract class EmailTemplate<TModel> : EmailData
+    public abstract class EmailTemplateMessage<TModel> : EmailData
     {
         public abstract string Template { get; }
         public TModel Model { get; }
 
-        public EmailTemplate(string to, TModel model)
+        public EmailTemplateMessage(string to, TModel model)
             : this(new[] { to }, model)
         {
         }
 
-        public EmailTemplate(IEnumerable<string> to, TModel model)
+        public EmailTemplateMessage(IEnumerable<string> to, TModel model)
             : this(to.Select(x => new EmailAddress(x)), model)
         {
         }
 
-        public EmailTemplate(IEnumerable<EmailAddress> to, TModel model)
+        public EmailTemplateMessage(IEnumerable<EmailAddress> to, TModel model)
             : base(to)
         {
             if (model == null)

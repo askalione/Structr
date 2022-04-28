@@ -31,16 +31,16 @@ namespace Structr.Email
         public Task<bool> SendEmailAsync(EmailMessage email, CancellationToken cancellationToken = default)
             => SendEmailAsync(email, email.Message, cancellationToken);
 
-        public Task<bool> SendEmailAsync(EmailTemplate email, CancellationToken cancellationToken = default)
+        public Task<bool> SendEmailAsync(EmailTemplateMessage email, CancellationToken cancellationToken = default)
             => SendEmailTemplateAsync(email, email.Template, email.Model, cancellationToken);
 
-        public Task<bool> SendEmailAsync<TModel>(EmailTemplate<TModel> email, CancellationToken cancellationToken = default)
+        public Task<bool> SendEmailAsync<TModel>(EmailTemplateMessage<TModel> email, CancellationToken cancellationToken = default)
             => SendEmailTemplateAsync(email, email.Template, email.Model!, cancellationToken);
 
-        public Task<bool> SendEmailAsync<TModel>(EmailTemplateFile email, CancellationToken cancellationToken = default)
+        public Task<bool> SendEmailAsync<TModel>(EmailTemplateFileMessage email, CancellationToken cancellationToken = default)
             => SendEmailTemplateFileAsync(email, email.TemplatePath, email.Model!, cancellationToken);
 
-        public Task<bool> SendEmailAsync<TModel>(EmailTemplateFile<TModel> email, CancellationToken cancellationToken = default)
+        public Task<bool> SendEmailAsync<TModel>(EmailTemplateFileMessage<TModel> email, CancellationToken cancellationToken = default)
             => SendEmailTemplateFileAsync(email, email.TemplatePath, email.Model!, cancellationToken);
 
         private Task<bool> SendEmailTemplateFileAsync(EmailData emailData, string templatePath, object model, CancellationToken cancellationToken)

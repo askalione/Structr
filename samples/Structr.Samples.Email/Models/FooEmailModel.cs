@@ -1,6 +1,6 @@
 namespace Structr.Samples.Email.Models
 {
-    public record BarEmail
+    public record FooEmailModel
     {
         public string Message { get; init; } = default!;
     }

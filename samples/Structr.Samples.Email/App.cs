@@ -67,7 +67,7 @@ namespace Structr.Samples.Email
         private async Task SendEmailTemplateAsync()
         {
             var template = $"Hello, world!{Environment.NewLine}{{{{Message}}}}";
-            await _emailSender.SendEmailAsync(new EmailTemplate("to@example.com",
+            await _emailSender.SendEmailAsync(new EmailTemplateMessage("to@example.com",
                 template,
                 new { Message = "Send email via template" })
             {
@@ -77,11 +77,11 @@ namespace Structr.Samples.Email
 
         private async Task SendEmailTemplateFileAsync()
         {
-            var fooEmail = new FooEmail
+            var fooEmail = new FooEmailModel
             {
                 Message = "Email via template file."
             };
-            await _emailSender.SendEmailAsync(new FooEmailTemplateFile("to@example.com", fooEmail)
+            await _emailSender.SendEmailAsync(new FooEmailTemplateFileMessage("to@example.com", fooEmail)
             {
                 Subject = "Welcome to Structr"
             });
