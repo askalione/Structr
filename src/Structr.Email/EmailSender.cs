@@ -37,7 +37,7 @@ namespace Structr.Email
         public Task<bool> SendEmailAsync<TModel>(EmailTemplateMessage<TModel> email, CancellationToken cancellationToken = default)
             => SendEmailTemplateAsync(email, email.Template, email.Model!, cancellationToken);
 
-        public Task<bool> SendEmailAsync<TModel>(EmailTemplateFileMessage email, CancellationToken cancellationToken = default)
+        public Task<bool> SendEmailAsync(EmailTemplateFileMessage email, CancellationToken cancellationToken = default)
             => SendEmailTemplateFileAsync(email, email.TemplatePath, email.Model!, cancellationToken);
 
         public Task<bool> SendEmailAsync<TModel>(EmailTemplateFileMessage<TModel> email, CancellationToken cancellationToken = default)
