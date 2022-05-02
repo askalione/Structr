@@ -1,14 +1,15 @@
+using Structr.Specifications;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Structr.Specifications.Tests
+namespace Structr.Tests.Specifications
 {
-    public class NoneSpecificationTests
+    public class AnySpecificationTests
     {
         [Fact]
-        public void IsSatisfiedBy_StringCollection_NoneItems()
+        public void IsSatisfiedBy_StringCollection_AllItems()
         {
-            var spec = new NoneSpecification<string>();
+            var spec = new AnySpecification<string>();
 
             List<string> actual = new List<string>();
             foreach (var item in StringCollection.Items)
@@ -19,7 +20,7 @@ namespace Structr.Specifications.Tests
                 }
             }
 
-            Assert.Equal(StringCollection.Empty, actual);
+            Assert.Equal(StringCollection.Items, actual);
         }
     }
 }

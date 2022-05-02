@@ -1,6 +1,7 @@
+using Structr.Domain;
 using System;
 
-namespace Structr.Domain.Tests
+namespace Structr.Tests.Domain
 {
     public class FooValueObject : ValueObject<FooValueObject>
     {

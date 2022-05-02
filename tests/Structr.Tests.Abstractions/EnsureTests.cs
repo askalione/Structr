@@ -1,8 +1,9 @@
+using Structr.Abstractions;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Structr.Abstractions.Tests
+namespace Structr.Tests.Abstractions
 {
     public class EnsureTests
     {

@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Structr.Domain.Tests
+namespace Structr.Tests.Domain
 {
     public class ValueObjectTests
     {

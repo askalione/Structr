@@ -1,4 +1,4 @@
-namespace Structr.Domain.Tests
+namespace Structr.Tests.Domain
 {
     public enum Type
     {

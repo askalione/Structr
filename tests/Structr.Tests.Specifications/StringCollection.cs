@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Structr.Specifications.Tests
+namespace Structr.Tests.Specifications
 {
     public class StringCollection
     {

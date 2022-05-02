@@ -1,7 +1,8 @@
+using Structr.IO;
 using System.IO;
 using Xunit;
 
-namespace Structr.IO.Tests
+namespace Structr.Tests.IO
 {
     public class PathHelperTests
     {

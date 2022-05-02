@@ -1,6 +1,6 @@
 using System;
 
-namespace Structr.Domain.Tests
+namespace Structr.Tests.Domain
 {
     public class Id : IEquatable<Id>
     {

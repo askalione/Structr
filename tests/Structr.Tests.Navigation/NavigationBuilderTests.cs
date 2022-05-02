@@ -1,11 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
+using Structr.Navigation;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Xunit;
 
-namespace Structr.Navigation.Tests
+namespace Structr.Tests.Navigation
 {
     public class NavigationBuilderTests
     {

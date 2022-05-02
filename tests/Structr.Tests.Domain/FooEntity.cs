@@ -1,4 +1,6 @@
-namespace Structr.Domain.Tests
+using Structr.Domain;
+
+namespace Structr.Tests.Domain
 {
     public class FooEntity : Entity<FooEntity, object>
     {

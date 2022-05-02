@@ -1,4 +1,4 @@
-namespace Structr.IO.Tests
+namespace Structr.Tests.IO
 {
     public static class PathDefaults
     {

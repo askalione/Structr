@@ -1,9 +1,10 @@
+using Structr.Specifications;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 
-namespace Structr.Specifications.Tests
+namespace Structr.Tests.Specifications
 {
     public class SpecificationTests
     {
