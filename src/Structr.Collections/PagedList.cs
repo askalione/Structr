@@ -28,15 +28,29 @@ namespace Structr.Collections
         public PagedList(IEnumerable<T> collection, int totalItems, int pageNumber, int pageSize)
         {
             if (collection == null)
+            {
                 throw new ArgumentNullException(nameof(collection));
+            }
             if (totalItems < 0)
-                throw new ArgumentOutOfRangeException(nameof(totalItems), totalItems, "Total numbers of elements in superset must be greater or equal 0");
+            {
+                throw new ArgumentOutOfRangeException(nameof(totalItems), totalItems, "Total number of elements in superset must be greater or equal 0");
+            }
+            if (totalItems < collection.Count())
+            {
+                throw new ArgumentOutOfRangeException(nameof(totalItems), totalItems, "Total number of elements in superset must be greater or equal collection items count");
+            }
             if (pageNumber < 1)
+            {
                 throw new ArgumentOutOfRangeException(nameof(pageNumber), pageNumber, "Page number must be greater or equal 1");
+            }
             if (pageSize < 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater or equal 0");
+            }
             if (pageSize < collection.Count())
+            {
                 throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater or equal collection items count");
+            }
 
             _collection = collection.ToList();
 

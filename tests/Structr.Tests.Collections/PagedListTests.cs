@@ -1,0 +1,117 @@
+using FluentAssertions;
+using Structr.Collections;
+using System;
+using System.Collections.Generic;
+using Xunit;
+
+namespace Structr.Tests.Collections
+{
+    public class PagedListTests
+    {
+        [Fact]
+        public void Source_collection_is_required()
+        {
+            // Arrange
+            List<int>? sourceCollection = null;
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 1, 1, 1);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Total_number_of_elements_should_be_non_negative()
+        {
+            // Arrange
+            var sourceCollection = new List<int>();
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, -1, 1, 1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Total_number_of_items_should_be_greater_or_equal_source_collection_count()
+        {
+            // Arrange
+            var sourceCollection = new List<int> { 1, 2, 3 };
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 1, 1, 3);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Page_number_must_be_greater_or_equal_1()
+        {
+            // Arrange
+            var sourceCollection = new List<int>();
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 1, 0, 3);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Page_size_should_be_non_negative()
+        {
+            // Arrange
+            var sourceCollection = new List<int>();
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 1, 1, -1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Page_size_should_be_greater_or_equal_source_collection_count()
+        {
+            // Arrange
+            var sourceCollection = new List<int> { 1, 2, 3 };
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 1, 1, 1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void Should_be_created_successfuly()
+        {
+            // Arrange
+            var totalItems = 10;
+            var pageNumber = 2;
+            var pageSize = 3;
+            var sourceCollection = new List<int> { 1, 2, 3 };
+
+            // Act
+            var result = new PagedList<int>(sourceCollection, totalItems, pageNumber, pageSize);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.TotalItems.Should().Be(totalItems);
+            result.PageNumber.Should().Be(pageNumber);
+            result.PageSize.Should().Be(pageSize);
+            result.TotalPages.Should().Be(4); // 10/3
+            result.HasPreviousPage.Should().BeTrue();
+            result.HasNextPage.Should().BeTrue();
+            result.IsFirstPage.Should().BeFalse();
+            result.IsLastPage.Should().BeFalse();
+            result.FirstItemOnPage.Should().Be(4);
+            result.LastItemOnPage.Should().Be(6);
+            result.Should().BeEquivalentTo(sourceCollection);
+            result.Count.Should().Be(sourceCollection.Count);
+        }
+    }
+}
