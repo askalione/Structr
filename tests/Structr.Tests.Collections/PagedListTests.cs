@@ -113,5 +113,27 @@ namespace Structr.Tests.Collections
             result.Should().BeEquivalentTo(sourceCollection);
             result.Count.Should().Be(sourceCollection.Count);
         }
+
+        [Fact]
+        public void Empty_list_should_be_created_successfuly()
+        {
+            // Act
+            var result = PagedList.Empty<int>();
+
+            // Assert
+            result.Should().NotBeNull();
+            result.TotalItems.Should().Be(0);
+            result.PageNumber.Should().Be(1);
+            result.PageSize.Should().Be(0);
+            result.TotalPages.Should().Be(0);
+            result.HasPreviousPage.Should().BeFalse();
+            result.HasNextPage.Should().BeFalse();
+            result.IsFirstPage.Should().BeFalse();
+            result.IsLastPage.Should().BeFalse();
+            result.FirstItemOnPage.Should().Be(0);
+            result.LastItemOnPage.Should().Be(0);
+            result.Should().BeEquivalentTo(new List<int>());
+            result.Count.Should().Be(0);
+        }
     }
 }

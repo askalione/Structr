@@ -6,7 +6,9 @@ namespace Structr.Samples.Collections.Infrastructure
         {
             string result = "";
             foreach (var prop in GetType().GetProperties())
+            {
                 result += $"{prop.Name}={prop.GetValue(this, null)};";
+            }
             return result;
         }
     }

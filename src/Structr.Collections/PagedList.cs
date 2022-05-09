@@ -5,6 +5,11 @@ using System.Linq;
 
 namespace Structr.Collections
 {
+    /// <summary>
+    /// Collection based class, suitable for pagination tasks. It supplies all
+    /// needed properties such as page size, number, first and last page attribute, etc.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PagedList<T> : IPagedList<T>
     {
         public int TotalItems { get; }
@@ -25,6 +30,17 @@ namespace Structr.Collections
         public PagedList() : this(Enumerable.Empty<T>(), 0, 1, 0)
         { }
 
+        /// <summary>
+        /// Initializes a new instance of the Structr.Collections.PagedList`1 class that
+        /// contains elements copied from the specified collection. It's intended to contain
+        /// currently displaying elements from corresponding superset.
+        /// </summary>
+        /// <param name="collection">Source colleciton of elements. For example: part of search results to be displayed.</param>
+        /// <param name="totalItems">Total count of items in superset. For example: total count of search results.</param>
+        /// <param name="pageNumber">Number of current page.</param>
+        /// <param name="pageSize">Count of items to be dislpayed on page.</param>
+        /// <exception cref="ArgumentNullException">Null source collection was provided.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">There are some inconsistence in provided page prameters.</exception>
         public PagedList(IEnumerable<T> collection, int totalItems, int pageNumber, int pageSize)
         {
             if (collection == null)
