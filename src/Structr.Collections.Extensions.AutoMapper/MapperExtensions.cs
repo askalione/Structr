@@ -10,9 +10,13 @@ namespace AutoMapper
         public static IEnumerable<TDestination> MapList<TDestination>(this IMapper mapper, IEnumerable collection)
         {
             if (mapper == null)
+            {
                 throw new ArgumentNullException(nameof(mapper));
+            }
             if (collection == null)
+            {
                 throw new ArgumentNullException(nameof(collection));
+            }
 
             return mapper.Map<IEnumerable<TDestination>>(collection);
         }
@@ -20,9 +24,13 @@ namespace AutoMapper
         public static IPagedList<TDestination> MapPagedList<TDestination>(this IMapper mapper, IPagedList collection)
         {
             if (mapper == null)
+            {
                 throw new ArgumentNullException(nameof(mapper));
+            }
             if (collection == null)
+            {
                 throw new ArgumentNullException(nameof(collection));
+            }
 
             return collection.ToPagedList(mapper.Map<IEnumerable<TDestination>>(collection));
         }
