@@ -111,5 +111,26 @@ namespace Structr.Abstractions.Extensions
 
             return source.OrderBy(x => Guid.NewGuid());
         }
+
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(action, nameof(action));
+
+            foreach (var item in source)
+                action(item);
+        }
+
+        public static void ForEachOrBreak<T>(this IEnumerable<T> source, Func<T, bool> func)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(func, nameof(func));
+
+            foreach (var item in source)
+            {
+                bool result = func(item);
+                if (result) break;
+            }
+        }
     }
 }
