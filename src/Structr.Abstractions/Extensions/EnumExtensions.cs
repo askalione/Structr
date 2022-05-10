@@ -9,10 +9,10 @@ namespace Structr.Abstractions.Extensions
     public static class EnumExtensions
     {
         /// <summary>
-        /// Get value of first description attribute for enum element.
+        /// Get value of the first <see cref="DescriptionAttribute"/> attribute for the enum element.
         /// </summary>
         /// <param name="value">Element of enumeration.</param>
-        /// <returns>Return description as string.</returns>
+        /// <returns>Description as string.</returns>
         public static string GetDescription(this Enum value)
         {
             Ensure.NotNull(value, nameof(value));
@@ -28,10 +28,10 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Get value of first display name attribute for enum element.
+        /// Get value of first <see cref="DisplayAttribute"/> attribute for the enum element.
         /// </summary>
         /// <param name="value">Element of enumeration.</param>
-        /// <returns></returns>
+        /// <returns>Display name as string.</returns>
         public static string GetDisplayName(this Enum value)
         {
             Ensure.NotNull(value, nameof(value));

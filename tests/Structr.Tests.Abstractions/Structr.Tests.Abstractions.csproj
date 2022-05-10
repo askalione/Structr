@@ -24,4 +24,19 @@
     <ProjectReference Include="..\..\src\Structr.Abstractions\Structr.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="TestsInfrastructure\TestResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="TestsInfrastructure\TestResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
