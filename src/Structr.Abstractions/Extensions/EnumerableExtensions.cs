@@ -9,18 +9,31 @@ namespace Structr.Abstractions.Extensions
 {
     public static class EnumerableExtensions
     {
+        /// <summary>
+        /// Sorts the elements of a sequence in order and by properties provided via dictionary.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="source">A sequence of values to order.</param>
+        /// <param name="sort">Dictionary with property names and correspounding orders to sort by.</param>
+        /// <returns>An System.Linq.IOrderedEnumerable`1 whose elements are sorted according to provided dictionary.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IReadOnlyDictionary<string, Order> sort)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(sort, nameof(sort));
 
             if (sort.Count == 0)
+            {
                 return (IOrderedEnumerable<T>)source;
+            }
 
             foreach (string propertyName in sort.Keys)
             {
                 if (string.IsNullOrWhiteSpace(propertyName))
+                {
                     throw new InvalidOperationException("Invalid property name to sort");
+                }
 
                 source = propertyName == sort.Keys.First()
                     ? source.OrderBy(propertyName, sort[propertyName])
@@ -74,7 +87,9 @@ namespace Structr.Abstractions.Extensions
                 // Use reflection (not ComponentModel) to mirror LINQ
                 PropertyInfo propertyInfo = type.GetProperty(propertyNamePart);
                 if (propertyInfo == null)
+                {
                     throw new InvalidOperationException($"Nested property with name {propertyName} for type {typeof(T).Name} was not found.");
+                }
                 expr = Expression.Property(expr, propertyInfo);
                 type = propertyInfo.PropertyType;
             }
@@ -91,6 +106,13 @@ namespace Structr.Abstractions.Extensions
             return (IOrderedEnumerable<T>)result;
         }
 
+        /// <summary>
+        /// Gets random element from provided collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source collection.</typeparam>
+        /// <param name="source">A sequence of values to pick from.</param>
+        /// <returns>Single element picked at random from source collection.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static T PickRandom<T>(this IEnumerable<T> source)
         {
             Ensure.NotNull(source, nameof(source));
@@ -98,6 +120,13 @@ namespace Structr.Abstractions.Extensions
             return source.PickRandom(1).Single();
         }
 
+        /// <summary>
+        /// Gets random number of first elements from provided collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source collection.</typeparam>
+        /// <param name="source">A sequence of values to pick from.</param>
+        /// <returns>Random number of first elements from source collection.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count)
         {
             Ensure.NotNull(source, nameof(source));
@@ -105,6 +134,13 @@ namespace Structr.Abstractions.Extensions
             return source.Shuffle().Take(count);
         }
 
+        /// <summary>
+        /// Shuffle source collection changing it's elements positions at random.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source collection.</typeparam>
+        /// <param name="source">A sequence of values to shuffle.</param>
+        /// <returns>Collection of elements from source collection, but shuffeled randomly.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
             Ensure.NotNull(source, nameof(source));
@@ -112,15 +148,30 @@ namespace Structr.Abstractions.Extensions
             return source.OrderBy(x => Guid.NewGuid());
         }
 
+        /// <summary>
+        /// Performs simple foreach-like iteration on source collection while invoking provided method for each element of collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source collection.</typeparam>
+        /// <param name="source">A sequence of values to shuffle.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(action, nameof(action));
 
             foreach (var item in source)
+            {
                 action(item);
+            }
         }
 
+        /// <summary>
+        /// Performs simple foreach-like iteration on source collection while invoking provided function for every
+        /// element of collection. Breaks iteration when first <see langword="true"/> result got from function.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source collection.</typeparam>
+        /// <param name="source">A sequence of values to shuffle.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void ForEachOrBreak<T>(this IEnumerable<T> source, Func<T, bool> func)
         {
             Ensure.NotNull(source, nameof(source));
@@ -129,7 +180,10 @@ namespace Structr.Abstractions.Extensions
             foreach (var item in source)
             {
                 bool result = func(item);
-                if (result) break;
+                if (result)
+                {
+                    break;
+                }
             }
         }
     }
