@@ -11,57 +11,67 @@ namespace Structr.Abstractions.Extensions
         /// <param name="string">Current string.</param>
         /// <param name="defaultValue">Default value.</param>
         /// <returns>
-        /// Return default value if current string is IsNullOrWhiteSpace, otherwise current string.
+        /// Default value if current string is IsNullOrWhiteSpace, otherwise current string.
         /// </returns>
         public static string DefaultIfEmpty(this string @string, string defaultValue)
         {
-            return !string.IsNullOrWhiteSpace(@string) ? @string : defaultValue;
+            return string.IsNullOrWhiteSpace(@string) == false ? @string : defaultValue;
         }
 
         /// <summary>
-        /// Returns a value indicating whether a specified substring occurs within this 
-        ///     string with using comparison.
+        /// Returns a value indicating whether a specified substring occurs within this string.
         /// </summary>
         /// <param name="string">Target string value.</param>
         /// <param name="value">Required substring value.</param>
         /// <param name="comparison">Comparison flag.</param>
         /// <returns>
-        /// True if the value parameter occurs within this string, or if value is 
-        ///     the empty string, otherwise, false.
+        /// <see langword="true"/> if the provided value occurs within this string or if value is 
+        /// the empty, otherwise, <see langword="false"/>.
         /// </returns>
         public static bool Contains(this string @string, string value, StringComparison comparison)
         {
             if (string.IsNullOrEmpty(@string))
+            {
                 return false;
+            }
             if (string.IsNullOrEmpty(value))
+            {
                 return true;
+            }
 
             return @string.IndexOf(value, comparison) >= 0;
         }
 
         /// <summary>
-        /// Cast string to another type with throwing error.
+        /// Cast string to another type.
         /// </summary>
-        /// <param name="string">Target string value.</param>
+        /// <param name="string">Source string value.</param>
         /// <param name="type">Type to convert to.</param>
-        /// <param name="throwIfInvalidCast">Throwing flag.</param>
+        /// <param name="throwIfInvalidCast">If <see langword="true"/> than exception will be thrown when failing the cast.</param>
         /// <returns>
-        /// Return converted value as object.
+        /// Converted value as object.
         /// </returns>
+        /// <exception cref="InvalidCastException"></exception>
         public static object Cast(this string @string, Type type, bool throwIfInvalidCast = false)
         {
             try
             {
                 if (type == typeof(string))
+                {
                     return @string;
+                }
 
                 if (string.IsNullOrWhiteSpace(@string))
+                {
                     return null;
+                }
 
                 type = Nullable.GetUnderlyingType(type) ?? type;
 
                 if (type.IsEnum)
+                {
                     return Enum.Parse(type, @string);
+                }
 
                 var value = Convert.ChangeType(@string, type);
                 return value;
@@ -69,21 +79,24 @@ namespace Structr.Abstractions.Extensions
             catch (Exception ex)
             {
                 if (throwIfInvalidCast)
+                {
                     throw new InvalidCastException($"Error with convert string \"{@string}\" to type \"{type.Name}\"", ex);
+                }
 
                 return null;
             }
         }
 
         /// <summary>
-        /// Cast string to another type with throwing error.
+        /// Cast string to another type.
         /// </summary>
         /// <typeparam name="T">Type to convert to.</typeparam>
-        /// <param name="string">Target string value.</param>
-        /// <param name="throwIfInvalidCast">Throwing flag.</param>
+        /// <param name="string">Source string value.</param>
+        /// <param name="throwIfInvalidCast">If <see langword="true"/> than exception will be thrown when failing the cast.</param>
         /// <returns>
-        /// Return converted value as object.
+        /// Converted value as object.
         /// </returns>
+        /// <exception cref="InvalidCastException"></exception>
         public static T Cast<T>(this string @string, bool throwIfInvalidCast = false)
         {
             return (T)Cast(@string, typeof(T), throwIfInvalidCast);
@@ -91,23 +104,33 @@ namespace Structr.Abstractions.Extensions
 
         /// <summary>
         /// Returns a new string in which all occurrences of a specified string in the current 
-        ///     instance are replaced with another specified string with using comparison.
+        /// instance are replaced with another specified string with using comparison.
         /// </summary>
         /// <param name="string">Target string value.</param>
         /// <param name="oldValue">The string to be replaced.</param>
         /// <param name="newValue">The string to replace all occurrences of oldValue.</param>
         /// <param name="comparisonType">Comparison flag.</param>
         /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public static string Replace(this string @string, string oldValue, string newValue, StringComparison comparisonType)
         {
             if (@string == null)
+            {
                 throw new ArgumentNullException(nameof(@string));
+            }
             if (@string.Length == 0)
+            {
                 return @string;
+            }
             if (oldValue == null)
+            {
                 throw new ArgumentNullException(nameof(oldValue));
+            }
             if (oldValue.Length == 0)
+            {
                 throw new ArgumentException("String cannot be of zero length.");
+            }
 
             StringBuilder resultStringBuilder = new StringBuilder(@string.Length);
 
@@ -121,12 +144,12 @@ namespace Structr.Abstractions.Extensions
 
                 int @charsUntilReplacment = foundAt - startSearchFromIndex;
                 bool isNothingToAppend = @charsUntilReplacment == 0;
-                if (!isNothingToAppend)
+                if (isNothingToAppend == false)
                 {
                     resultStringBuilder.Append(@string, startSearchFromIndex, @charsUntilReplacment);
                 }
 
-                if (!isReplacementNullOrEmpty)
+                if (isReplacementNullOrEmpty == false)
                 {
                     resultStringBuilder.Append(@newValue);
                 }
@@ -144,10 +167,17 @@ namespace Structr.Abstractions.Extensions
             return resultStringBuilder.ToString();
         }
 
+        /// <summary>
+        /// Formats string value into hyphen case format. For example "ToHyphenCase" will be formated into "to-hyphen-case".
+        /// </summary>
+        /// <param name="value">Value to be proccessed.</param>
+        /// <returns>String value formatted in hyphen case</returns> 
         public static string ToHyphenCase(this string value)
         {
             if (string.IsNullOrEmpty(value))
+            {
                 return value;
+            }
 
             var result = "";
             for (var i = 0; i < value.Length; i++)
@@ -159,7 +189,9 @@ namespace Structr.Abstractions.Extensions
                 else
                 {
                     if (char.IsUpper(value[i]))
+                    {
                         result += "-";
+                    }
                     result += char.ToLower(value[i]);
                 }
             }
@@ -167,13 +199,20 @@ namespace Structr.Abstractions.Extensions
             return result;
         }
 
+        /// <summary>
+        /// Formats string value into camel case format. For example "ToCamelCase" will be formated into "toCamelCase".
+        /// </summary>
+        /// <param name="value">Value to be proccessed.</param>
+        /// <returns>String value formatted in camel case</returns>
         public static string ToCamelCase(this string value)
         {
             if (string.IsNullOrEmpty(value))
+            {
                 return value;
+            }
 
             var result = value;
-            if (!string.IsNullOrEmpty(result) && result.Length > 1)
+            if (string.IsNullOrEmpty(result) == false && result.Length > 1)
             {
                 result = char.ToLowerInvariant(result[0]) + result.Substring(1);
             }
