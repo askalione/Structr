@@ -15,7 +15,7 @@ namespace Structr.Abstractions.Extensions
         /// </returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="NotSupportedException"></exception>
-        public static object GetValue(this MemberInfo memberInfo, object instance)
+        public static object GetMemberValue(this MemberInfo memberInfo, object instance)
         {
             Ensure.NotNull(memberInfo, nameof(memberInfo));
             Ensure.NotNull(instance, nameof(instance));
@@ -40,7 +40,7 @@ namespace Structr.Abstractions.Extensions
         /// </returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="NotSupportedException"></exception>
-        public static Type GetType(this MemberInfo memberInfo)
+        public static Type GetMemberType(this MemberInfo memberInfo)
         {
             Ensure.NotNull(memberInfo, nameof(memberInfo));
 
@@ -50,6 +50,10 @@ namespace Structr.Abstractions.Extensions
                     return ((FieldInfo)memberInfo).FieldType;
                 case MemberTypes.Property:
                     return ((PropertyInfo)memberInfo).PropertyType;
+                case MemberTypes.Event:
+                    return ((EventInfo)memberInfo).EventHandlerType;
+                case MemberTypes.Method:
+                    return ((MethodInfo)memberInfo).ReturnType;
                 default:
                     throw new NotSupportedException("Not supported member type");
             }

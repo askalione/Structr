@@ -82,27 +82,44 @@ namespace Structr.Abstractions.Extensions
             Type type = typeof(T);
             ParameterExpression arg = Expression.Parameter(type, "x");
             Expression expr = arg;
+
             foreach (string propertyNamePart in propertyNameParts)
             {
                 // Use reflection (not ComponentModel) to mirror LINQ
                 PropertyInfo propertyInfo = type.GetProperty(propertyNamePart);
                 if (propertyInfo == null)
                 {
-                    throw new InvalidOperationException($"Nested property with name {propertyName} for type {typeof(T).Name} was not found.");
+                    throw new InvalidOperationException($"Nested property with name {propertyName} for type {typeof(T).Name} not found.");
                 }
                 expr = Expression.Property(expr, propertyInfo);
                 type = propertyInfo.PropertyType;
             }
+
             Type delegateType = typeof(Func<,>).MakeGenericType(typeof(T), type);
             LambdaExpression lambda = Expression.Lambda(delegateType, expr, arg);
 
-            object result = typeof(Enumerable).GetMethods().Single(
-                    m => m.Name == method.ToString()
-                            && m.IsGenericMethodDefinition
-                            && m.GetGenericArguments().Length == 2
-                            && m.GetParameters().Length == 2)
-                    .MakeGenericMethod(typeof(T), type)
-                    .Invoke(null, new object[] { source, lambda.Compile() });
+            MethodInfo orderingMethod = typeof(Enumerable)
+                .GetMethods()
+                .SingleOrDefault(m =>
+                {
+                    var parameters = m.GetParameters();
+                    return m.Name == method.ToString()
+                        && m.IsGenericMethodDefinition
+                        && m.GetGenericArguments().Length == 2
+                        && parameters.Length == 2
+                        && parameters[0].ParameterType.GetGenericTypeDefinition()
+                            .IsAssignableFromGenericType(source.GetType().GetGenericTypeDefinition())
+                        && parameters[1].ParameterType.GetGenericTypeDefinition()
+                            .IsAssignableFromGenericType(delegateType.GetGenericTypeDefinition());
+                })?                
+                .MakeGenericMethod(typeof(T), type);
+
+            if (orderingMethod == null)
+            {
+                throw new InvalidOperationException($"Ordering method \"{method}\" not found.");
+            }
+
+            object result = orderingMethod.Invoke(null, new object[] { source, lambda.Compile() });
             return (IOrderedEnumerable<T>)result;
         }
 
