@@ -8,13 +8,12 @@ namespace Structr.Abstractions.Extensions
     public static class TypeExtensions
     {
         /// <summary>
-        /// Returns a value indicating whether property with a specified name 
-        ///     occurs within this type.
+        /// Gets a value indicating whether property with a specified name occurs directly within this type.
         /// </summary>
-        /// <param name="type">Type where the property required.</param>
+        /// <param name="type">Type to check.</param>
         /// <param name="propertyName">Name of required property.</param>
         /// <returns>
-        /// True if type has property with specified name, otherwise, false. 
+        /// <see langword="true"/> if type has property with specified name, otherwise <see langword="false"/>. 
         /// </returns>
         public static bool HasOwnProperty(this Type type, string propertyName)
         {
@@ -26,18 +25,27 @@ namespace Structr.Abstractions.Extensions
                 .Any(p => p.Name.Equals(propertyName));
         }
 
+        /// <summary>
+        /// Gets a value indicating whether property with a specified name occurs within this type or it's nested types.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <param name="propertyName">Name of required property.</param>
+        /// <returns>
+        /// <see langword="true"/> if type has property with specified name, otherwise <see langword="false"/>. 
+        /// </returns>
         public static bool HasNestedProperty(this Type type, string propertyName)
         {
             return GetPropertyInfo(type, propertyName) != null;
         }
 
         /// <summary>
-        /// Returns a value indicating whether source type is nullable enumeration.
+        /// Gets a value indicating whether source type is nullable enumeration.
         /// </summary>
         /// <param name="type">Type to checking.</param>
         /// <returns>
-        /// True if type is nullable enumeration, otherwise, false. 
+        /// <see langword="true"/> if type is nullable enumeration, otherwise <see langword="false"/>. 
         /// </returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static bool IsNullableEnum(this Type type)
         {
             Ensure.NotNull(type, nameof(type));
@@ -47,14 +55,14 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Return property info by property name of specified type. 
-        ///     Include navigation properties e.g. ("Object.Info.DisplayName")
+        /// Returns <see cref="PropertyInfo"/> by full property name. Example: "Object.SomeNestedObject.DisplayName".
         /// </summary>
-        /// <param name="type">Type to get property info;</param>
-        /// <param name="propertyName">Name of required property.</param>
+        /// <param name="type">Type to get property info.</param>
+        /// <param name="propertyName">Full name of required property with dots if needed.</param>
         /// <returns>
-        /// PropertyInfo object.
+        /// <see cref="PropertyInfo"/> object.
         /// </returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static PropertyInfo GetPropertyInfo(this Type type, string propertyName)
         {
             Ensure.NotNull(type, nameof(type));
@@ -64,7 +72,7 @@ namespace Structr.Abstractions.Extensions
             string firstPartBeforeDot;
             string nextParts = "";
 
-            if (!propertyHasDot)
+            if (propertyHasDot == false)
             {
                 firstPartBeforeDot = propertyName.ToLower();
             }
@@ -75,11 +83,19 @@ namespace Structr.Abstractions.Extensions
             }
 
             foreach (var property in type.GetProperties())
+            {
                 if (property.Name.ToLower() == firstPartBeforeDot)
-                    if (!propertyHasDot)
+                {
+                    if (propertyHasDot == false)
+                    {
                         return property;
+                    }
                     else
+                    {
                         return GetPropertyInfo(property.PropertyType, nextParts);
+                    }
+                }
+            }
 
             return null;
         }
@@ -91,6 +107,7 @@ namespace Structr.Abstractions.Extensions
         /// <returns>
         /// Object with default value.
         /// </returns>
+        /// <remarks>Could be replaced with <see langword="default"/> keyword</remarks>
         public static object GetDefaultValue(this Type type)
         {
             Ensure.NotNull(type, nameof(type));
@@ -104,6 +121,14 @@ namespace Structr.Abstractions.Extensions
             return expression.Compile()();
         }
 
+        /// <summary>
+        /// Determines whether an instance of a specified type can be assigned to an instance of the current type
+        /// taking into account generic nature of specified type.
+        /// </summary>
+        /// <param name="genericType"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static bool IsAssignableFromGenericType(this Type genericType, Type type)
         {
             Ensure.NotNull(genericType, nameof(genericType));
@@ -114,14 +139,21 @@ namespace Structr.Abstractions.Extensions
             foreach (var interfaceType in interfaceTypes)
             {
                 if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == genericType)
+                {
                     return true;
+                }
             }
 
             if (type.IsGenericType && type.GetGenericTypeDefinition() == genericType)
+            {
                 return true;
+            }
 
             Type baseType = type.BaseType;
-            if (baseType == null) return false;
+            if (baseType == null)
+            {
+                return false;
+            }
 
             return IsAssignableFromGenericType(genericType, baseType);
         }
