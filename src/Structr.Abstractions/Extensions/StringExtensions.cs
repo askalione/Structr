@@ -28,7 +28,7 @@ namespace Structr.Abstractions.Extensions
         /// <see langword="true"/> if the provided value occurs within this string or if value is 
         /// the empty, otherwise, <see langword="false"/>.
         /// </returns>
-        [Obsolete("Similar method added in .net standard 2.1")]
+        /// <remarks>Similar method added in .net standard 2.1</remarks>
         public static bool Contains(this string @string, string value, StringComparison comparison)
         {
             if (string.IsNullOrEmpty(@string))
@@ -111,27 +111,16 @@ namespace Structr.Abstractions.Extensions
         /// <param name="newValue">The string to replace all occurrences of oldValue.</param>
         /// <param name="comparisonType">Comparison flag.</param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [Obsolete("Similar method added in .net standard 2.1")]
+        /// <remarks>Similar method added in .net standard 2.1</remarks>
         public static string Replace(this string @string, string oldValue, string newValue, StringComparison comparisonType)
         {
-            if (@string == null)
-            {
-                throw new ArgumentNullException(nameof(@string));
-            }
+            Ensure.NotNull(@string, nameof(@string));
             if (@string.Length == 0)
             {
                 return @string;
             }
-            if (oldValue == null)
-            {
-                throw new ArgumentNullException(nameof(oldValue));
-            }
-            if (oldValue.Length == 0)
-            {
-                throw new ArgumentException("String cannot be of zero length.");
-            }
+            Ensure.NotEmpty(oldValue, nameof(oldValue));
 
             StringBuilder resultStringBuilder = new StringBuilder(@string.Length);
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Structr.Tests.Abstractions.TestsInfrastructure {
+namespace Structr.Tests.Abstractions.TestsUtils {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Structr.Tests.Abstractions.TestsInfrastructure {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Structr.Tests.Abstractions.TestsInfrastructure.TestResources", typeof(TestResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Structr.Tests.Abstractions.TestsUtils.TestResources", typeof(TestResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

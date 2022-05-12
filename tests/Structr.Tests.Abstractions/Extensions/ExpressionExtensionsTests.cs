@@ -5,10 +5,6 @@ using System.Linq;
 using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
-using System.IO;
-using Structr.Tests.Abstractions.TestsInfrastructure;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
 

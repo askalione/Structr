@@ -30,32 +30,29 @@ namespace Structr.Tests.Abstractions.Extensions
             result.Should().Be(expected);
         }
 
-        //[Theory]
-        //[InlineData("qwerty", null, true)]
-        //[InlineData(null, "qwerty", false)]
-        //public void Contains_when_one_of_parameters_is_null(string str, string value, bool expected)
-        //{
-        //    // Act
-        //    var result = str.Contains(value, StringComparison.CurrentCulture);
+        [Theory]
+        [InlineData("qwerty", null, true)]
+        [InlineData(null, "qwerty", false)]
+        public void Contains_when_one_of_parameters_is_null(string str, string value, bool expected)
+        {
+            // Act
+            var result = StringExtensions.Contains(str, value, StringComparison.CurrentCulture);
 
-        //    // Assert
-        //    result.Should().Be(expected);
-        //}
+            // Assert
+            result.Should().Be(expected);
+        }
 
-        //[Theory]
-        //[InlineData("wert", StringComparison.Ordinal, false)]
-        //[InlineData("wert", StringComparison.OrdinalIgnoreCase, true)]
-        //public void Contains(string value, StringComparison comparison, bool expected)
-        //{
-        //    // Arrange
-        //    var str = "QwErTy";
+        [Theory]
+        [InlineData("QwErTy", "wert", StringComparison.Ordinal, false)]
+        [InlineData("QwErTy", "wert", StringComparison.OrdinalIgnoreCase, true)]
+        public void Contains(string str, string value, StringComparison comparison, bool expected)
+        {
+            // Act
+            var result = StringExtensions.Contains(str, value, comparison);
 
-        //    // Act
-        //    var result = str.Contains(value, comparison);
-
-        //    // Assert
-        //    result.Should().Be(expected);
-        //}
+            // Assert
+            result.Should().Be(expected);
+        }
 
         [Theory]
         [InlineData("123,45", typeof(float), 123.45F)]
@@ -69,6 +66,31 @@ namespace Structr.Tests.Abstractions.Extensions
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("QwErTyQwErTy", "WeR", "123", StringComparison.Ordinal, "QwErTyQwErTy")]
+        [InlineData("QwErTyQwErTy", "WeR", "123", StringComparison.OrdinalIgnoreCase, "Q123TyQ123Ty")]
+        [InlineData("", "WeR", "123", StringComparison.OrdinalIgnoreCase, "")]
+        public void Replace(string @string, string oldValue, string newValue, StringComparison comparisonType, string expected)
+        {
+            // Act
+            var result = @string.Replace(oldValue, newValue, comparisonType);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("qwerty", "")]
+        [InlineData(null, "wer")]
+        public void Throws_when_replacing_if_source_is_null_or_oldValue_is_null_or_empty(string @string, string oldValue)
+        {
+            // Act
+            Action act = () => StringExtensions.Replace(@string, oldValue, "123", StringComparison.CurrentCulture);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]

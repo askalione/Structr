@@ -6,7 +6,7 @@ using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
 using System.IO;
-using Structr.Tests.Abstractions.TestsInfrastructure;
+using Structr.Tests.Abstractions.TestsUtils;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Structr.Tests.Abstractions.TestsInfrastructure
+namespace Structr.Tests.Abstractions.TestsUtils
 {
     public class FileSystemTestFixture : IDisposable
     {
