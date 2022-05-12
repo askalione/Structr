@@ -1,11 +1,6 @@
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
-using System.IO;
 using Structr.Tests.Abstractions.TestsUtils;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -28,7 +23,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_description()
+        public void GetDescription()
         {
             // Act
             var result = FooBarBaz.Foo.GetDescription();
@@ -38,7 +33,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_description_without_attribute()
+        public void GetDescription_without_attribute()
         {
             // Act
             var result = FooBarBaz.Bar.GetDescription();
@@ -48,7 +43,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_displayName()
+        public void GetDisplayName()
         {
             // Act
             var result = FooBarBaz.Bar.GetDisplayName();
@@ -58,7 +53,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_displayName_without_attribute()
+        public void GetDisplayName_without_attribute()
         {
             // Act
             var result = FooBarBaz.Foo.GetDisplayName();
@@ -68,7 +63,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_displayName_from_resource()
+        public void GetDisplayName_from_resource()
         {
             // Act
             var result = FooBarBaz.Baz.GetDisplayName();

@@ -1,7 +1,5 @@
 using FluentAssertions;
 using System;
-using System.Linq;
-using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
 
@@ -40,7 +38,7 @@ namespace Structr.Tests.Abstractions.Extensions
         [Theory]
         [InlineData(null, "BarProperty")]
         [InlineData(typeof(Foo), "")]
-        public void Throws_when_searches_property_for_null_type_or_propertyName_is_empty(Type type, string propertyName)
+        public void HasOwnProperty_throws_for_null_type_or_if_propertyName_is_empty(Type type, string propertyName)
         {
             // Act
             Action act = () => type.HasOwnProperty(propertyName);

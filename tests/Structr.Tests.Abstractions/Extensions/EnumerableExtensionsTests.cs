@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Structr.Abstractions.Extensions;
 using Structr.Abstractions;
@@ -20,7 +17,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Should_order_by_several_properties()
+        public void OrderBy()
         {
             // Arrange
             var list = new List<FooBar>

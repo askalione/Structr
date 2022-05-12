@@ -1,8 +1,5 @@
 using FluentAssertions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
 using System.IO;
@@ -27,7 +24,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Should_get_parent_directory()
+        public void GetParent()
         {
             // Arrange
             CreateDirectoriesCascade(_path, "1", "2", "3", "4");
@@ -41,7 +38,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Throw_when_level_less_than_1()
+        public void GetParent_throws_when_level_less_than_1()
         {
             // Arrange
             CreateDirectoriesCascade(_path, "1", "2", "3", "4");

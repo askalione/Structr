@@ -1,11 +1,7 @@
 using FluentAssertions;
-using System;
-using System.Linq;
-using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
 using System.Globalization;
-using System.Collections.Generic;
 
 namespace Structr.Tests.Abstractions.Extensions
 {
@@ -13,7 +9,7 @@ namespace Structr.Tests.Abstractions.Extensions
     {
         [Theory]
         [ClassData(typeof(CheckingConvertionTheoryData))]
-        public void Converts_to_human_readable_file_size(long value, string expected)
+        public void ToFileSizeString(long value, string expected)
         {
             // Act
             var result = value.ToFileSizeString();

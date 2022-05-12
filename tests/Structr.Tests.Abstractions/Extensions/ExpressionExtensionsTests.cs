@@ -1,8 +1,5 @@
 using FluentAssertions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
 using System.Linq.Expressions;
@@ -29,7 +26,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_property_name()
+        public void GetPropertyName()
         {
             // Arrange
             Expression<Func<Foo, Bar>> propertyExpression = x => x.BarProperty;
@@ -42,7 +39,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_nested_property_name()
+        public void GetPropertyName_for_nested_property()
         {
             // Arrange
             Expression<Func<Foo, int>> propertyExpression = x => x.BarProperty.BarId;
@@ -55,7 +52,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Throws_when_getting_name_for_non_property()
+        public void GetPropertyName_throws_when_getting_name_for_non_property()
         {
             // Arrange
             Expression<Func<Foo, int>> propertyExpression = x => x.BarField;
@@ -68,7 +65,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_member_by_lambda_expression()
+        public void GetMember_by_lambda_expression()
         {
             // Arrange
             Expression<Func<Foo, Bar>> propertyExpression = x => x.BarProperty;
@@ -81,7 +78,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_member_by_expression()
+        public void GetMember_by_expression()
         {
             // Arrange
             Expression<Func<Foo, Bar>> propertyExpression = x => x.BarProperty;
@@ -94,7 +91,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Make_non_generic_Func_from_generic_one()
+        public void MakeNonGeneric()
         {
             // Arrange
             Func<Foo, Bar> func = x => x.BarProperty;
@@ -112,7 +109,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Make_non_generic_Func_with_bool_return_from_generic_one()
+        public void MakeNonGeneric_for_Func_with_bool_result()
         {
             // Arrange
             Func<Foo, bool> func = x => x.Flag;

@@ -1,10 +1,7 @@
 using FluentAssertions;
 using System;
-using System.Linq;
-using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
-using System.Collections.Generic;
 
 namespace Structr.Tests.Abstractions.Extensions
 {
@@ -34,7 +31,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Sets_property_of_simple_type()
+        public void SetProperty_for_simple_type()
         {
             // Arrange
             var foo = new Foo();
@@ -47,7 +44,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Sets_property_of_custom_type()
+        public void SetProperty_for_custom_type()
         {
             // Arrange
             var foo = new Foo { BarProperty = new Bar() };
@@ -60,7 +57,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Sets_nested_property()
+        public void SetProperty_nested_property()
         {
             // Arrange
             var foo = new Foo { BarProperty = new Bar() };
@@ -73,7 +70,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Dumps_object()
+        public void Dump()
         {
             // Arrange
             var foo = new Foo

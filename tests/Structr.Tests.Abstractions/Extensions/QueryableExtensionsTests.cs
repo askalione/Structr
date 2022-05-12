@@ -1,17 +1,56 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Structr.Abstractions.Extensions;
 using Structr.Abstractions;
 using FluentAssertions;
+using System;
 
 namespace Structr.Tests.Abstractions.Extensions
 {
     public class QueryableExtensionsTests
     {
+        [Fact]
+        public void PageBy()
+        {
+            // Arrange
+            var queryable = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.AsQueryable();
+
+            // Act
+            var result = queryable.PageBy(2, 5);
+
+            // Assert
+            result.Should().BeEquivalentTo(new int[] { 2, 3, 4, 5, 6 }.AsQueryable(), opt => opt.WithStrictOrdering());
+        }
+
+        [Fact]
+        public void PageBy_throws_when_query_is_null()
+        {
+            // Arrange
+            IQueryable<int> queryable = null;
+
+            // Act
+            Action act = () => queryable.PageBy(2, 5);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Theory]
+        [InlineData(1, 0)]
+        [InlineData(-1, 1)]
+        public void PageBy_throws_whith_skip_lt_0_or_take_lt_1(int skip, int take)
+        {
+            // Arrange
+            var queryable = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.AsQueryable();
+
+            // Act
+            Action act = () => queryable.PageBy(skip, take);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
         private class FooBar
         {
             public int Foo { get; set; }
@@ -20,7 +59,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Should_order_by_several_properties()
+        public void OrderBy()
         {
             // Arrange
             var list = new List<FooBar>

@@ -1,8 +1,6 @@
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
 
@@ -11,7 +9,7 @@ namespace Structr.Tests.Abstractions.Extensions
     public class DictionaryExtensionsTests
     {
         [Fact]
-        public void Range_should_be_overriden()
+        public void AddRangeOverride()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -44,7 +42,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Only_new_items_should_be_added()
+        public void AddRangeNewOnly()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -77,7 +75,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void All_range_should_be_added()
+        public void AddRange()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -110,7 +108,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Throws_when_adding_existing_items()
+        public void AddRange_throws_when_adding_existing_items()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -134,8 +132,8 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Theory]
-        [ClassData(typeof(CheckingKeysData))]
-        public void Checking_keys_works(int[] keysToBeChecked, bool expectedResult)
+        [ClassData(typeof(CheckingKeysTheoryData))]
+        public void ContainsKeys(int[] keysToBeChecked, bool expectedResult)
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -152,9 +150,9 @@ namespace Structr.Tests.Abstractions.Extensions
             // Assert
             result.Should().Be(expectedResult);
         }
-        private class CheckingKeysData : TheoryData<int[], bool>
+        private class CheckingKeysTheoryData : TheoryData<int[], bool>
         {
-            public CheckingKeysData()
+            public CheckingKeysTheoryData()
             {
                 Add(new int[] { 1, 2, 3, 4 }, true);
                 Add(new int[] { 4, 5 }, true);

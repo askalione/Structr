@@ -27,7 +27,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_property_value()
+        public void GetMemberValue_for_property()
         {
             // Arrange
             var foo = new Foo { BarProperty = 1, BarField = "2" };
@@ -40,7 +40,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_field_value()
+        public void GetMemberValue_for_field()
         {
             // Arrange
             var foo = new Foo { BarProperty = 1, BarField = "2" };
@@ -53,7 +53,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Throws_when_getting_non_field_and_non_property_value()
+        public void GetMemberValue_Throws_when_getting_non_field_and_non_property_value()
         {
             // Arrange
             var foo = new Foo { BarProperty = 1, BarField = "2" };
@@ -66,7 +66,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_property_type()
+        public void GetMemberType_for_property()
         {
             // Act
             var result = typeof(Foo).GetMember("BarProperty").Single().GetMemberType();
@@ -76,7 +76,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_field_type()
+        public void GetMemberType_for_field()
         {
             // Act
             var result = typeof(Foo).GetMember("BarField").Single().GetMemberType();
@@ -86,7 +86,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_method_type()
+        public void GetMemberType_for_method()
         {
             // Act
             var result = typeof(Foo).GetMember("BarMethod").Single().GetMemberType();
@@ -96,7 +96,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Gets_event_type()
+        public void GetMemberType_for_type()
         {
             // Act
             var result = typeof(Foo).GetMember("BarEvent").Single().GetMemberType();
@@ -106,7 +106,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Throws_when_getting_non_field_property_event_method_type()
+        public void GetMemberType_throws_when_getting_non_field_property_event_method_type()
         {
             // Act
             Action act = () => typeof(Foo).GetMember("BarClass").Single().GetMemberType();

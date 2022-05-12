@@ -9,85 +9,7 @@ namespace Structr.Tests.Collections
     public class PagedListTests
     {
         [Fact]
-        public void Source_collection_is_required()
-        {
-            // Arrange
-            List<int>? sourceCollection = null;
-
-            // Act
-            Action act = () => new PagedList<int>(sourceCollection, 1, 1, 1);
-
-            // Assert
-            act.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void Throws_when_totalItems_less_than_0()
-        {
-            // Arrange
-            var sourceCollection = new List<int> { 1, 2, 3 };
-
-            // Act
-            Action act = () => new PagedList<int>(sourceCollection, -1, 1, 1);
-
-            // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Total number of elements in superset must be greater or equal 0*totalItems*");
-        }
-
-        [Fact]
-        public void Throws_when_totalItems_less_than_source_collection_count()
-        {
-            // Arrange
-            var sourceCollection = new List<int> { 1, 2, 3 };
-
-            // Act
-            Action act = () => new PagedList<int>(sourceCollection, 1, 1, 3);
-
-            // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Total number of elements in superset must be greater or equal collection items count*totalItems*");
-        }
-
-        [Fact]
-        public void Throws_when_pageNumber_less_than_1()
-        {
-            // Arrange
-            var sourceCollection = new List<int> { 1, 2, 3 };
-
-            // Act
-            Action act = () => new PagedList<int>(sourceCollection, 10, 0, 3);
-
-            // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Page number must be greater or equal 1*pageNumber*");
-        }
-
-        [Fact]
-        public void Throws_when_pageSize_less_than_0()
-        {
-            // Arrange
-            var sourceCollection = new List<int> { 1, 2, 3 };
-
-            // Act
-            Action act = () => new PagedList<int>(sourceCollection, 10, 1, -1);
-
-            // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Page size must be greater or equal 0*pageSize*");
-        }
-
-        [Fact]
-        public void Throws_when_pageSize_less_than_source_collection_count()
-        {
-            // Arrange
-            var sourceCollection = new List<int> { 1, 2, 3 };
-
-            // Act
-            Action act = () => new PagedList<int>(sourceCollection, 10, 1, 1);
-
-            // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Page size must be greater or equal collection items count*pageSize*");
-        }
-
-        [Fact]
-        public void Should_be_created_successfuly()
+        public void Creation_successful()
         {
             // Arrange
             var totalItems = 10;
@@ -115,7 +37,85 @@ namespace Structr.Tests.Collections
         }
 
         [Fact]
-        public void Empty_list_should_be_created_successfuly()
+        public void Creation_throws_for_null_sourceCollection()
+        {
+            // Arrange
+            List<int>? sourceCollection = null;
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 1, 1, 1);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Creation_throws_when_totalItems_less_than_0()
+        {
+            // Arrange
+            var sourceCollection = new List<int> { 1, 2, 3 };
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, -1, 1, 1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Total number of elements in superset must be greater or equal 0*totalItems*");
+        }
+
+        [Fact]
+        public void Creation_throws_when_totalItems_less_than_source_collection_count()
+        {
+            // Arrange
+            var sourceCollection = new List<int> { 1, 2, 3 };
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 1, 1, 3);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Total number of elements in superset must be greater or equal collection items count*totalItems*");
+        }
+
+        [Fact]
+        public void Creation_throws_when_pageNumber_less_than_1()
+        {
+            // Arrange
+            var sourceCollection = new List<int> { 1, 2, 3 };
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 10, 0, 3);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Page number must be greater or equal 1*pageNumber*");
+        }
+
+        [Fact]
+        public void Creation_throws_when_pageSize_less_than_0()
+        {
+            // Arrange
+            var sourceCollection = new List<int> { 1, 2, 3 };
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 10, 1, -1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Page size must be greater or equal 0*pageSize*");
+        }
+
+        [Fact]
+        public void Creation_throws_when_pageSize_less_than_source_collection_count()
+        {
+            // Arrange
+            var sourceCollection = new List<int> { 1, 2, 3 };
+
+            // Act
+            Action act = () => new PagedList<int>(sourceCollection, 10, 1, 1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Page size must be greater or equal collection items count*pageSize*");
+        }
+
+        [Fact]
+        public void Empty()
         {
             // Act
             var result = PagedList.Empty<int>();

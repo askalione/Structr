@@ -1,7 +1,6 @@
 using FluentAssertions;
 using System;
 using System.Linq;
-using System.Text;
 using Xunit;
 using Structr.Abstractions.Extensions;
 
@@ -21,22 +20,10 @@ namespace Structr.Tests.Abstractions.Extensions
         [InlineData("", "default")]
         [InlineData("      ", "default")]
         [InlineData("someValue", "someValue")]
-        public void Returns_default_value_when_null_or_empty(string value, string expected)
+        public void DefaultIfEmpty(string value, string expected)
         {
             // Act
             var result = value.DefaultIfEmpty(expected);
-
-            // Assert
-            result.Should().Be(expected);
-        }
-
-        [Theory]
-        [InlineData("qwerty", null, true)]
-        [InlineData(null, "qwerty", false)]
-        public void Contains_when_one_of_parameters_is_null(string str, string value, bool expected)
-        {
-            // Act
-            var result = StringExtensions.Contains(str, value, StringComparison.CurrentCulture);
 
             // Assert
             result.Should().Be(expected);
@@ -55,14 +42,12 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Theory]
-        [InlineData("123,45", typeof(float), 123.45F)]
-        [InlineData("Foo", typeof(FooBarBaz), FooBarBaz.Foo)]
-        [InlineData("Bar", typeof(FooBarBaz?), FooBarBaz.Bar)]
-        [InlineData("", typeof(int?), null)]
-        public void Cast(string value, Type type, object expected)
+        [InlineData("qwerty", null, true)]
+        [InlineData(null, "qwerty", false)]
+        public void Contains_when_one_of_parameters_is_null(string str, string value, bool expected)
         {
             // Act
-            var result = value.Cast(type, true);
+            var result = StringExtensions.Contains(str, value, StringComparison.CurrentCulture);
 
             // Assert
             result.Should().Be(expected);
@@ -84,13 +69,27 @@ namespace Structr.Tests.Abstractions.Extensions
         [Theory]
         [InlineData("qwerty", "")]
         [InlineData(null, "wer")]
-        public void Throws_when_replacing_if_source_is_null_or_oldValue_is_null_or_empty(string @string, string oldValue)
+        public void Replace_throws_when_source_is_null_or_oldValue_is_null_or_empty(string @string, string oldValue)
         {
             // Act
             Action act = () => StringExtensions.Replace(@string, oldValue, "123", StringComparison.CurrentCulture);
 
             // Assert
             act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Theory]
+        [InlineData("123,45", typeof(float), 123.45F)]
+        [InlineData("Foo", typeof(FooBarBaz), FooBarBaz.Foo)]
+        [InlineData("Bar", typeof(FooBarBaz?), FooBarBaz.Bar)]
+        [InlineData("", typeof(int?), null)]
+        public void Cast(string value, Type type, object expected)
+        {
+            // Act
+            var result = value.Cast(type, true);
+
+            // Assert
+            result.Should().Be(expected);
         }
 
         [Fact]
@@ -104,7 +103,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Throws_if_asked_when_cast_fails()
+        public void Cast_throws_if_asked_when_cast_fails()
         {
             // Arrange
             var value = "123.45";
@@ -119,7 +118,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Failed_cast_doesnt_throw_if_not_asked_and_returns_null()
+        public void Cast_doesnt_throw_if_not_asked_and_returns_null()
         {
             // Arrange
             var value = "123.45";
@@ -133,7 +132,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Throws_when_casting_empty_string_to_non_nullable()
+        public void Cast_throws_if_empty_string_to_non_nullable()
         {
             // Arrange
             var value = "";
@@ -148,7 +147,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Formats_to_hyphen_case()
+        public void ToHyphenCase()
         {
             // Act
             var result = "ToHyphenCase".ToHyphenCase();
@@ -158,7 +157,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }     
 
         [Fact]
-        public void Formats_to_camel_case()
+        public void ToCamelCase()
         {
             // Act
             var result = "ToCamelCase".ToCamelCase();
