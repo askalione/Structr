@@ -12,7 +12,7 @@ namespace Structr.Tests.Abstractions.Extensions
     public class LongExtensionsTests
     {
         [Theory]
-        [ClassData(typeof(CheckingConvertionData))]
+        [ClassData(typeof(CheckingConvertionTheoryData))]
         public void Converts_to_human_readable_file_size(long value, string expected)
         {
             // Act
@@ -21,9 +21,10 @@ namespace Structr.Tests.Abstractions.Extensions
             // Assert
             result.Should().Be(expected);
         }
-        private class CheckingConvertionData : TheoryData<long, string>
+
+        private class CheckingConvertionTheoryData : TheoryData<long, string>
         {
-            public CheckingConvertionData()
+            public CheckingConvertionTheoryData()
             {
                 var separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 

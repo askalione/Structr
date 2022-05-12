@@ -59,7 +59,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Getting_name_for_non_property_throws()
+        public void Throws_when_getting_name_for_non_property()
         {
             // Arrange
             Expression<Func<Foo, int>> propertyExpression = x => x.BarField;

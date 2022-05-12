@@ -53,7 +53,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Can_get_only_field_and_property_values()
+        public void Throws_when_getting_non_field_and_non_property_value()
         {
             // Arrange
             var foo = new Foo { BarProperty = 1, BarField = "2" };
@@ -106,7 +106,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Can_get_only_field_property_method_and_event_types()
+        public void Throws_when_getting_non_field_property_event_method_type()
         {
             // Act
             Action act = () => typeof(Foo).GetMember("BarClass").Single().GetMemberType();

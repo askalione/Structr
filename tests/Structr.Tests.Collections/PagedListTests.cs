@@ -22,7 +22,7 @@ namespace Structr.Tests.Collections
         }
 
         [Fact]
-        public void Total_number_of_elements_should_be_non_negative()
+        public void Throws_when_totalItems_less_than_0()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };
@@ -35,7 +35,7 @@ namespace Structr.Tests.Collections
         }
 
         [Fact]
-        public void Total_number_of_items_should_be_greater_or_equal_source_collection_count()
+        public void Throws_when_totalItems_less_than_source_collection_count()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };
@@ -48,7 +48,7 @@ namespace Structr.Tests.Collections
         }
 
         [Fact]
-        public void Page_number_must_be_greater_or_equal_1()
+        public void Throws_when_pageNumber_less_than_1()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };
@@ -61,7 +61,7 @@ namespace Structr.Tests.Collections
         }
 
         [Fact]
-        public void Page_size_should_be_non_negative()
+        public void Throws_when_pageSize_less_than_0()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };
@@ -74,7 +74,7 @@ namespace Structr.Tests.Collections
         }
 
         [Fact]
-        public void Page_size_should_be_greater_or_equal_source_collection_count()
+        public void Throws_when_pageSize_less_than_source_collection_count()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };

@@ -110,7 +110,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Fact]
-        public void Adding_existing_items_throws()
+        public void Throws_when_adding_existing_items()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>

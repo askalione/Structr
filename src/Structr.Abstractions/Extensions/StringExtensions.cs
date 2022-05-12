@@ -28,6 +28,7 @@ namespace Structr.Abstractions.Extensions
         /// <see langword="true"/> if the provided value occurs within this string or if value is 
         /// the empty, otherwise, <see langword="false"/>.
         /// </returns>
+        [Obsolete("Similar method added in .net standard 2.1")]
         public static bool Contains(this string @string, string value, StringComparison comparison)
         {
             if (string.IsNullOrEmpty(@string))
@@ -60,8 +61,7 @@ namespace Structr.Abstractions.Extensions
                 {
                     return @string;
                 }
-
-                if (string.IsNullOrWhiteSpace(@string))
+                if (string.IsNullOrWhiteSpace(@string) && Nullable.GetUnderlyingType(type) != null)
                 {
                     return null;
                 }
@@ -80,7 +80,7 @@ namespace Structr.Abstractions.Extensions
             {
                 if (throwIfInvalidCast)
                 {
-                    throw new InvalidCastException($"Error with convert string \"{@string}\" to type \"{type.Name}\"", ex);
+                    throw new InvalidCastException($"Error with converting string \"{@string}\" to type \"{type.Name}\"", ex);
                 }
 
                 return null;
@@ -113,6 +113,7 @@ namespace Structr.Abstractions.Extensions
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
+        [Obsolete("Similar method added in .net standard 2.1")]
         public static string Replace(this string @string, string oldValue, string newValue, StringComparison comparisonType)
         {
             if (@string == null)
