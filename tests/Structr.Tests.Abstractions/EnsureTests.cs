@@ -2,174 +2,275 @@ using Structr.Abstractions;
 using System;
 using System.Collections.Generic;
 using Xunit;
+using FluentAssertions;
 
 namespace Structr.Tests.Abstractions
 {
     public class EnsureTests
     {
-        [Fact]
-        public void NotNull_NullValue_ThrowArgumentNullException()
+        [Theory]
+        [InlineData(null, false)]
+        [InlineData("123456", true)]
+        public void NotNull(object myValue, bool passes)
         {
-            object value = null;
-            string name = nameof(value);
-            var actual = new ArgumentNullException(name);
+            // Act
+            Action act = () => Ensure.NotNull(myValue, nameof(myValue));
 
-            var expected = Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(value, name));
-
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentNullException>()
+                    .WithMessage("*myValue*");
+            }
         }
 
-        [Fact]
-        public void NotEmpty_EmptyString_ThrowArgumentNullException()
+        [Theory]
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("123456", true)]
+        public void NotEmpty(string myValue, bool passes)
         {
-            string value = "";
-            string name = nameof(value);
-            var actual = new ArgumentNullException(name);
+            // Act
+            Action act = () => Ensure.NotEmpty(myValue, nameof(myValue));
 
-            var expected = Assert.Throws<ArgumentNullException>(() => Ensure.NotEmpty(value, name));
-
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentNullException>()
+                    .WithMessage("*myValue*");
+            }
         }
 
-        [Fact]
-        public void NotEmpty_EmptyIEnumerable_ThrowArgumentNullException()
+        [Theory]
+        [ClassData(typeof(NotEmptyTheoryData))]
+        public void NotEmpty_for_collection(IEnumerable<int> myValue, bool passes)
         {
-            IEnumerable<string> value = new List<string>();
-            string name = nameof(value);
-            var actual = new ArgumentNullException(name);
+            // Act
+            Action act = () => Ensure.NotEmpty(myValue, nameof(myValue));
 
-            var expected = Assert.Throws<ArgumentNullException>(() => Ensure.NotEmpty(value, name));
-
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentNullException>()
+                    .WithMessage("*myValue*");
+            }
+        }
+        private class NotEmptyTheoryData : TheoryData<IEnumerable<int>, bool>
+        {
+            public NotEmptyTheoryData()
+            {
+                Add(null, false);
+                Add(new int[] { }, false);
+                Add(new int[] { 1, 2, 3 }, true);
+            }
         }
 
-        [Fact]
-        public void InRange_OutOfRangeStringLength_ThrowArgumentOutOfRangeException()
+        [Theory]
+        [InlineData("123", false)]
+        [InlineData("123456", true)]
+        [InlineData("123456789", false)]
+        public void InRange_for_String(string myValue, bool passes)
         {
-            string value = "Creacode";
-            string name = nameof(value);
-            var minLength = 3;
-            var maxLength = 7;
-            var actual = new ArgumentOutOfRangeException(name, value,
-                $"String length is out of range. The length must be between {minLength} and {maxLength}.");
+            // Act
+            Action act = () => Ensure.InRange(myValue, 4, 8, nameof(myValue));
 
-            var expected = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.InRange(value, minLength, maxLength, name));
-
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage("String length is out of range. The length must be between 4 and 8.*myValue*");
+            }
         }
 
-        [Fact]
-        public void InRange_OutOfRangeDate_ThrowArgumentOutOfRangeException()
+        [Theory]
+        [InlineData("1980-01-01", false)]
+        [InlineData("2000-05-30", true)]
+        [InlineData("2023-05-09", false)]
+        public void InRange_for_DateTime(string value, bool passes)
         {
-            DateTime value = DateTime.Now;
-            string name = nameof(value);
-            var minValue = value.AddDays(-10);
-            var maxValue = value.AddDays(-2);
-            var actual = new ArgumentOutOfRangeException(name, value,
-                $"Value is out of range. Value must be between {minValue} and {maxValue}.");
+            // Arrange
+            var myValue = DateTime.Parse(value);
+            var minValue = DateTime.Parse("1990-01-01");
+            var maxValue = DateTime.Parse("2022-12-31");
 
-            var expected = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.InRange(value, minValue, maxValue, name));
+            // Act
+            Action act = () => Ensure.InRange(myValue, minValue, maxValue, nameof(myValue));
 
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage($"Value is out of range. Value must be between {minValue} and {maxValue}.*myValue*");
+            }
         }
 
-        [Fact]
-        public void InRange_OutOfRangeInt_ThrowArgumentOutOfRangeException()
+        [Theory]
+        [InlineData(3, false)]
+        [InlineData(5, true)]
+        [InlineData(9, false)]
+        public void InRange(IComparable myValue, bool passes)
         {
-            int value = 100;
-            string name = nameof(value);
-            var minValue = value - value;
-            var maxValue = value - value / 2;
-            var actual = new ArgumentOutOfRangeException(name, value,
-                $"Value is out of range. Value must be between {minValue} and {maxValue}.");
+            // Act
+            Action act = () => Ensure.InRange(myValue, 4, 8, nameof(myValue));
 
-            var expected = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.InRange(value, minValue, maxValue, name));
-
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage("Value is out of range. Value must be between 4 and 8.*myValue*");
+            }
         }
 
-        [Fact]
-        public void GreaterThan_OutOfRangeStringLength_ThrowArgumentOutOfRangeException()
+        [Theory]
+        [InlineData("123", false)]
+        [InlineData("123456", true)]
+        public void GreaterThan_for_String(string myValue, bool passes)
         {
-            string value = "Creacode";
-            string name = nameof(value);
-            var minLength = value.Length + 1;
-            var actual = new ArgumentOutOfRangeException(name, value,
-                $"String length is out of range. The length must be greater than {minLength}.");
+            // Act
+            Action act = () => Ensure.GreaterThan(myValue, 4, nameof(myValue));
 
-            var expected = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.GreaterThan(value, minLength, name));
-
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage("String length is out of range. The length must be greater than 4.*myValue*");
+            }
         }
 
-        [Fact]
-        public void GreaterThan_OutOfRangeDate_ThrowArgumentOutOfRangeException()
+        [Theory]
+        [InlineData("1980-01-01", false)]
+        [InlineData("2000-05-30", true)]
+        public void GreaterThan_for_DateTime(string value, bool passes)
         {
-            DateTime value = DateTime.Now;
-            string name = nameof(value);
-            var minValue = value.AddDays(1);
-            var actual = new ArgumentOutOfRangeException(name, value,
-                $"Value is out of range. Value must be greater than {minValue}.");
+            // Arrange
+            var myValue = DateTime.Parse(value);
+            var minValue = DateTime.Parse("1990-01-01");
 
-            var expected = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.GreaterThan(value, minValue, name));
+            // Act
+            Action act = () => Ensure.GreaterThan(myValue, minValue, nameof(myValue));
 
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage($"Value is out of range. Value must be greater than {minValue}.*myValue*");
+            }
         }
 
-        [Fact]
-        public void GreaterThan_OutOfRangeDecimal_ThrowArgumentOutOfRangeException()
+        [Theory]
+        [InlineData(3, false)]
+        [InlineData(5, true)]
+        public void GreaterThan(IComparable myValue, bool passes)
         {
-            decimal value = 100;
-            string name = nameof(value);
-            var minValue = value + 50;
-            var actual = new ArgumentOutOfRangeException(name, value,
-                $"Value is out of range. Value must be greater than {minValue}.");
+            // Act
+            Action act = () => Ensure.GreaterThan(myValue, 4, nameof(myValue));
 
-            var expected = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.GreaterThan(value, minValue, name));
-
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage("Value is out of range. Value must be greater than 4.*myValue*");
+            }
         }
 
-        [Fact]
-        public void LessThan_OutOfRangeStringLength_ThrowArgumentOutOfRangeException()
+        [Theory]
+        [InlineData("123456", true)]
+        [InlineData("123456789", false)]
+        public void LessThan_for_String(string myValue, bool passes)
         {
-            string value = "Creacode";
-            string name = nameof(value);
-            var maxLength = value.Length - 1;
-            var actual = new ArgumentOutOfRangeException(name, value,
-                $"String length is out of range. The length must be less than {maxLength}.");
+            // Act
+            Action act = () => Ensure.LessThan(myValue, 8, nameof(myValue));
 
-            var expected = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.LessThan(value, maxLength, name));
-
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage("String length is out of range. The length must be less than 8.*myValue*");
+            }
         }
 
-        [Fact]
-        public void LessThan_OutOfRangeDate_ThrowArgumentOutOfRangeException()
+        [Theory]
+        [InlineData("2000-05-30", true)]
+        [InlineData("2023-05-09", false)]
+        public void LessThan_for_DateTime(string value, bool passes)
         {
-            DateTime value = DateTime.Now;
-            string name = nameof(value);
-            var maxValue = value.AddDays(-1);
-            var actual = new ArgumentOutOfRangeException(name, value,
-                 $"Value is out of range. Value must be less than {maxValue}.");
+            // Arrange
+            var myValue = DateTime.Parse(value);
+            var maxValue = DateTime.Parse("2022-12-31");
 
-            var expected = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.LessThan(value, maxValue, name));
+            // Act
+            Action act = () => Ensure.LessThan(myValue, maxValue, nameof(myValue));
 
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage($"Value is out of range. Value must be less than {maxValue}.*myValue*");
+            }
         }
 
-        [Fact]
-        public void LessThan_OutOfRangeDouble_ThrowArgumentOutOfRangeException()
+        [Theory]
+        [InlineData(5, true)]
+        [InlineData(9, false)]
+        public void LessThan(IComparable myValue, bool passes)
         {
-            double value = 100.1;
-            string name = nameof(value);
-            var maxValue = value - value / 2;
-            var actual = new ArgumentOutOfRangeException(name, value,
-                 $"Value is out of range. Value must be less than {maxValue}.");
+            // Act
+            Action act = () => Ensure.LessThan(myValue, 8, nameof(myValue));
 
-            var expected = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.LessThan(value, maxValue, name));
-
-            Assert.Equal(actual.Message, expected.Message);
+            // Assert
+            if (passes)
+            {
+                act.Should().NotThrow();
+            }
+            else
+            {
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage("Value is out of range. Value must be less than 8.*myValue*");
+            }
         }
     }
 }
