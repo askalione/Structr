@@ -1,18 +1,17 @@
 using FluentAssertions;
-using Microsoft.Extensions.Caching.Memory;
-using Structr.Navigation;
 using Structr.Navigation.Internal;
 using Structr.Navigation.Providers;
+using System;
 using System.IO;
 using System.Reflection;
 using Xunit;
 
-namespace Structr.Tests.Navigation
+namespace Structr.Tests.Navigation.Providers
 {
-    public class NavigationBuilderTests
+    public class JsonNavigationProviderTests
     {
         [Fact]
-        public void Correct_navigation_after_build()
+        public void Correct_navigation_after_load_from_json_file()
         {
             // Arrange
 
@@ -20,14 +19,10 @@ namespace Structr.Tests.Navigation
                 new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).Parent.Parent.Parent.FullName,
                 "Data/menu.json");
             var provider = new JsonNavigationProvider<InternalNavigationItem>(path);
-            var options = new NavigationOptions<InternalNavigationItem>();
-            var navigationCache = new NavigationCache(new MemoryCache(new MemoryCacheOptions { SizeLimit = 1024 }));
-
-            var builder = new NavigationBuilder<InternalNavigationItem>(provider, options, navigationCache);
 
             // Act
 
-            var result = builder.BuildNavigation();
+            var result = provider.CreateNavigation();
 
             // Assert
 
@@ -86,6 +81,32 @@ namespace Structr.Tests.Navigation
                         thirdParent.Children.Should().BeEmpty();
                     }
                 );
+        }
+
+        [Fact]
+        public void ArgumentNullException_if_file_path_is_null()
+        {
+            // Arrange
+
+            // Act
+            Action act = () => new JsonNavigationProvider<InternalNavigationItem>(null); ;
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'path')");
+        }
+
+        [Fact]
+        public void FileNotFoundException_if_file_not_exist()
+        {
+            // Arrange
+            var provider = new JsonNavigationProvider<InternalNavigationItem>("menu.json");
+
+            // Act
+            Action act = () => provider.CreateNavigation();
+
+            // Assert
+            act.Should().Throw<FileNotFoundException>();
         }
     }
 }
