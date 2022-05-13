@@ -9,7 +9,7 @@ namespace Structr.Collections
     /// Collection based class, suitable for pagination tasks. It supplies all
     /// needed properties such as page size, number, first and last page attribute, etc.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of items in list.</typeparam>
     public class PagedList<T> : IPagedList<T>
     {
         public int TotalItems { get; }
@@ -22,11 +22,17 @@ namespace Structr.Collections
         public bool IsLastPage { get; }
         public int FirstItemOnPage { get; }
         public int LastItemOnPage { get; }
+
         public T this[int index] => _collection[index];
+
         public int Count => _collection.Count;
 
         private readonly List<T> _collection;
 
+        /// <summary>
+        /// Initializes a new instance of the Structr.Collections.PagedList`1 class that
+        /// contains no elements.
+        /// </summary>
         public PagedList() : this(Enumerable.Empty<T>(), 0, 1, 0)
         { }
 
@@ -98,8 +104,16 @@ namespace Structr.Collections
         }
     }
 
+    /// <summary>
+    /// Static class providing basic fuctionality for typed PageLists creation.
+    /// </summary>
     public static class PagedList
     {
+        /// <summary>
+        /// Creates an empty paged list.
+        /// </summary>
+        /// <typeparam name="T">Type of items in list.</typeparam>
+        /// <returns></returns>
         public static IPagedList<T> Empty<T>()
             => new PagedList<T>();
     }
