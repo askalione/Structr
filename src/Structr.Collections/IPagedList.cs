@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace Structr.Collections
 {
+    /// <summary>
+    /// Collection based type, suitable for pagination tasks. It supplies all
+    /// needed properties such as page size, number, first and last page attribute, etc.
+    /// </summary>
+    /// <typeparam name="T">Type of items in list.</typeparam>
     public interface IPagedList : IEnumerable
     {
         /// <summary>

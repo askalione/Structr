@@ -21,8 +21,8 @@ namespace Structr.Tests.Abstractions.Extensions
             };
             var newDictionary = new Dictionary<int, string>
             {
-                { 1, "One_overriden" },
-                { 3, "Three_overriden" },
+                { 1, "One_overridden" },
+                { 3, "Three_overridden" },
                 { 5, "Five_new" }
             };
 
@@ -32,9 +32,9 @@ namespace Structr.Tests.Abstractions.Extensions
             // Assert
             var expectedDictionary = new Dictionary<int, string>
             {
-                { 1, "One_overriden" },
+                { 1, "One_overridden" },
                 { 2, "Two" },
-                { 3, "Three_overriden" },
+                { 3, "Three_overridden" },
                 { 4, "Four" },
                 { 5, "Five_new" }
             };

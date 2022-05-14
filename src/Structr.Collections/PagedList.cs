@@ -6,7 +6,7 @@ using System.Linq;
 namespace Structr.Collections
 {
     /// <summary>
-    /// Collection based class, suitable for pagination tasks. It supplies all
+    /// Collection based type, suitable for pagination tasks. It supplies all
     /// needed properties such as page size, number, first and last page attribute, etc.
     /// </summary>
     /// <typeparam name="T">Type of items in list.</typeparam>
@@ -37,7 +37,7 @@ namespace Structr.Collections
         { }
 
         /// <summary>
-        /// Initializes a new instance of the Structr.Collections.PagedList`1 class that
+        /// Initializes a new instance of the <see cref="PagedList{T}"/> class that
         /// contains elements copied from the specified collection. It's intended to contain
         /// currently displaying elements from corresponding superset.
         /// </summary>
