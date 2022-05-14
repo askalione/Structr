@@ -41,7 +41,8 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Adds new values to source dictionary. Throws if one or more keys in new list already exist in source dictionary.
+        /// Adds new values to source dictionary.
+        /// Throws if one or more keys in new list already exist in source dictionary.
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
         /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>

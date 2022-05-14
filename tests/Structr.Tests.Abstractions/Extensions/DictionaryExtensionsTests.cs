@@ -154,7 +154,7 @@ namespace Structr.Tests.Abstractions.Extensions
         {
             public CheckingKeysTheoryData()
             {
-                Add(new int[] { 1, 2, 3, 4 }, true);
+                Add(new int[] { 1, 2, 3 }, true);
                 Add(new int[] { 4, 5 }, true);
                 Add(new int[] { 6, 7 }, false);
             }

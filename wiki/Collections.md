@@ -1,11 +1,11 @@
 # Structr.Collections
 
 Structr.Collections package is intended to help organize search results collections into pagination-frendly arrays, which provide all needed data to display page control buttons in UI.
-Instance of package main class - **PageList** - contains data about page number, size, first and last pages of whole selection, etc.
+Instance of package main class - **`PageList`** - contains data about page number, size, first and last pages of whole selection, etc.
 
 ## Installation
 
-Security package is available on [NuGet](https://www.nuget.org/packages/Structr.Collections/). 
+Collections package is available on [NuGet](https://www.nuget.org/packages/Structr.Collections/). 
 
 ```
 dotnet add package Structr.Collections
@@ -49,3 +49,23 @@ Based on such ```result``` you can successfuly create user interface or provide 
 | Method name | Return type | Description |
 | --- | --- | --- |
 | Empty | `IPagedList<T>` | Creates an empty paged list. |
+
+# Extensions for Automapper
+
+Automapper-related extensions for working with different types of collections are distributed via separate package available on [NuGet](https://www.nuget.org/packages/Structr.Collections.Extensions.Automapper/). 
+
+## Installation
+```
+dotnet add package Structr.Collections.Extensions.Automapper
+```
+## Usage
+Provided extensions allow to perform one-string mappings between collecitons without a redundant code.
+
+```csharp
+var list = new List<Foo>
+{
+     new Foo { Id = 1, Name = "Bar"},
+     new Foo { Id = 2, Name = "Baz"}
+};
+var mappedCollection = mapper.MapList<FooDto>(list);
+```
