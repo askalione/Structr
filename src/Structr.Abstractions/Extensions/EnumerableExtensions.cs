@@ -124,7 +124,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Gets random element from provided collection.
+        /// Gets a random element from provided collection.
         /// </summary>
         /// <typeparam name="T">The type of the elements of source collection.</typeparam>
         /// <param name="source">A sequence of values to pick from.</param>
@@ -134,11 +134,11 @@ namespace Structr.Abstractions.Extensions
         {
             Ensure.NotNull(source, nameof(source));
 
-            return source.PickRandom(1).Single();
+            return source.PickRandom(1).SingleOrDefault();
         }
 
         /// <summary>
-        /// Gets random number of first elements from provided collection.
+        /// Randomly gets <paramref name="count"/> items from <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="T">The type of the elements of source collection.</typeparam>
         /// <param name="source">A sequence of values to pick from.</param>
@@ -152,7 +152,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Shuffle source collection changing it's elements positions at random.
+        /// Shuffles source collection changing it's elements positions at random.
         /// </summary>
         /// <typeparam name="T">The type of the elements of source collection.</typeparam>
         /// <param name="source">A sequence of values to shuffle.</param>

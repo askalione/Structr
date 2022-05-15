@@ -50,5 +50,65 @@ namespace Structr.Tests.Abstractions.Extensions
             };
             result.Should().BeEquivalentTo(expected, opt => opt.WithStrictOrdering());
         }
+
+        [Fact]
+        public void ForEach()
+        {
+            // Arrange
+            var list = new List<FooBar>
+            {
+                new FooBar { Foo = 1 },
+                new FooBar { Foo = 2 },
+                new FooBar { Foo = 3 },
+                new FooBar { Foo = 4 }
+            };
+
+            // Act
+            list.ForEach(x => x.Foo = x.Foo + 5);
+
+            // Assert
+            var expected = new List<FooBar>
+            {
+                new FooBar { Foo = 6 },
+                new FooBar { Foo = 7 },
+                new FooBar { Foo = 8 },
+                new FooBar { Foo = 9 }
+            };
+            list.Should().BeEquivalentTo(expected, opt => opt.WithStrictOrdering());
+        }
+
+        [Fact]
+        public void ForEachOrBreak()
+        {
+            // Arrange
+            var list = new List<FooBar>
+            {
+                new FooBar { Foo = 1 },
+                new FooBar { Foo = 2 },
+                new FooBar { Foo = 3 },
+                new FooBar { Foo = 4 }
+            };
+
+            // Act
+            list.ForEachOrBreak(x =>
+            {
+                if (x.Foo >= 3)
+                {
+                    return true;
+                }
+                x.Foo = x.Foo + 5;
+                return false;
+            });
+
+            // Assert
+            var expected = new List<FooBar>
+            {
+                new FooBar { Foo = 6 },
+                new FooBar { Foo = 7 },
+                new FooBar { Foo = 3 },
+                new FooBar { Foo = 4 }
+            };
+            list.Should().BeEquivalentTo(expected, opt => opt.WithStrictOrdering());
+        }
     }
 }

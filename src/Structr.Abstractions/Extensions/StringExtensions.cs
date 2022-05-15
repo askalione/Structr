@@ -19,11 +19,11 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Returns a value indicating whether a specified substring occurs within this string.
+        /// Returns a value indicating whether a specified string occurs within this string, using the specified comparison rules.
         /// </summary>
         /// <param name="string">Target string value.</param>
         /// <param name="value">Required substring value.</param>
-        /// <param name="comparison">Comparison flag.</param>
+        /// <param name="comparison">Comparison rule.</param>
         /// <returns>
         /// <see langword="true"/> if the provided value occurs within this string or if value is 
         /// the empty, otherwise, <see langword="false"/>.
@@ -44,7 +44,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Cast string to another type.
+        /// Casts string to specified type or throws if cast is impossible and <paramref name="throwIfInvalidCast"/> set to <see langword="true"/>.
         /// </summary>
         /// <param name="string">Source string value.</param>
         /// <param name="type">Type to convert to.</param>
@@ -104,7 +104,7 @@ namespace Structr.Abstractions.Extensions
 
         /// <summary>
         /// Returns a new string in which all occurrences of a specified string in the current 
-        /// instance are replaced with another specified string with using comparison.
+        /// instance are replaced with another specified string using provided comparison rule.
         /// </summary>
         /// <param name="string">Target string value.</param>
         /// <param name="oldValue">The string to be replaced.</param>

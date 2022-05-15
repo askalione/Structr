@@ -85,8 +85,7 @@ private enum FooBarBaz
     [Display(Name = "displayNameForEnumBaz", ResourceType = typeof(SomeResources))]
     Baz
 }
-```
-```csharp
+
 string d1 = FooBarBaz.Foo.GetDisplayName(); // Foo, cos no display name was provided
 string d2 = FooBarBaz.Bar.GetDisplayName(); // BarBarBar
 string d3 = FooBarBaz.Baz.GetDisplayName(); // Value will be taken from SomeResources file

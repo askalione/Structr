@@ -6,7 +6,8 @@ namespace Structr.Abstractions.Extensions
     public static class ObjectExtensions
     {
         /// <summary>
-        /// Sets property of source instance to specified value. When property with provided name doesn't exist then nothing happends.
+        /// Sets property of source instance to specified value.
+        /// When property with provided name doesn't exist then nothing happends.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="instance"></param>
@@ -48,7 +49,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Dumps all object's properties into string.
+        /// Dumps all object's properties into string for specified count of levels depth.
         /// </summary>
         /// <param name="instance">Object to dump.</param>
         /// <param name="depth">Scaning depth. 1 - means object itself. 2 - object's properties. 3 - properties of nested objects, etc.</param>

@@ -10,7 +10,7 @@ namespace Structr.Abstractions.Extensions
     public static class QueryableExtensions
     {
         /// <summary>
-        /// Applies pagination to query.
+        /// Applies pagination to <see cref="IQueryable"/> instance skipping and taking specified number of elements.
         /// </summary>
         /// <typeparam name="T">Type of queryable objects.</typeparam>
         /// <param name="query">Query.</param>

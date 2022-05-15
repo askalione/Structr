@@ -9,7 +9,7 @@ namespace Structr.Abstractions.Extensions
     public static class ExpressionExtensions
     {
         /// <summary>
-        /// Gets property name by expression.
+        /// Gets property name by expression. Can be used for nested properties.
         /// </summary>
         /// <typeparam name="TObject">Type of object.</typeparam>
         /// <typeparam name="TProperty">Type of property.</typeparam>
@@ -143,7 +143,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="TObject">Type of object.</typeparam>
         /// <typeparam name="TProperty">Type of property.</typeparam>
@@ -159,7 +159,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="TObject">Type of object.</typeparam>
         /// <param name="func">Function.</param>
@@ -174,7 +174,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makess non generic function from generic.
         /// </summary>
         /// <typeparam name="T1">Type of object1.</typeparam>
         /// <typeparam name="T2">Type of object2.</typeparam>
@@ -190,7 +190,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T1">Type of object1.</typeparam>
         /// <typeparam name="T2">Type of object2.</typeparam>
@@ -207,7 +207,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="func">Function.</param>
@@ -222,7 +222,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="func">Function.</param>
@@ -237,7 +237,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="func">Function.</param>
@@ -267,7 +267,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="func">Function.</param>
@@ -282,7 +282,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic action from generic.
+        /// Makes non generic action from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="action">Action.</param>

@@ -8,7 +8,7 @@ namespace Structr.Abstractions.Extensions
     public static class TypeExtensions
     {
         /// <summary>
-        /// Gets a value indicating whether property with a specified name occurs directly within this type.
+        /// Gets a value indicating whether public non-static property with a specified name occurs directly within this type.
         /// </summary>
         /// <param name="type">Type to check.</param>
         /// <param name="propertyName">Name of required property.</param>
@@ -26,7 +26,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Gets a value indicating whether property with a specified name occurs within this type or it's nested types.
+        /// Gets a value indicating whether public non-static property with a specified name occurs within this type or it's "nested" types.
         /// </summary>
         /// <param name="type">Type to check.</param>
         /// <param name="propertyName">Name of required property.</param>
@@ -55,7 +55,8 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Returns <see cref="PropertyInfo"/> by full property name. Example: "Object.SomeNestedObject.DisplayName".
+        /// Returns <see cref="PropertyInfo"/> by full property name or <see langword="null"/> if no property
+        /// was found. (for example "Object.SomeNestedObject.DisplayName").
         /// </summary>
         /// <param name="type">Type to get property info.</param>
         /// <param name="propertyName">Full name of required property with dots if needed.</param>
@@ -122,8 +123,8 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Determines whether an instance of a specified type can be assigned to an instance of the current type
-        /// taking into account generic nature of specified type.
+        /// Determines whether an instance of a specified type can be assigned to an instance
+        /// of the current type taking into account generic nature of specified type.
         /// </summary>
         /// <param name="genericType"></param>
         /// <param name="type"></param>

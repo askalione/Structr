@@ -81,13 +81,13 @@ namespace Structr.Tests.Abstractions.Extensions
         public void GetMember_by_expression()
         {
             // Arrange
-            Expression<Func<Foo, Bar>> propertyExpression = x => x.BarProperty;
+            Expression<Func<Foo, int>> propertyExpression = x => x.BarProperty.BarId;
 
             // Act
             var result = propertyExpression.GetMember();
 
             // Assert
-            result.Should().BeAssignableTo<MemberInfo>().Subject.Name.Should().Be("BarProperty");
+            result.Should().BeAssignableTo<MemberInfo>().Subject.Name.Should().Be("BarId");
         }
 
         [Fact]
