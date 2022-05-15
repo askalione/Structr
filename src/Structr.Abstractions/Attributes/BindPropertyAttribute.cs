@@ -3,7 +3,7 @@ using System;
 namespace Structr.Abstractions.Attributes
 {
     /// <summary>
-    /// Provides possibility of attaching custom data to enumeration elements
+    /// Provides possibility of attaching custom data to enumeration elements.
     /// using <see cref="Helpers.BindHelper.Bind{T, TEnum}(Action{T, TEnum})"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = false)]

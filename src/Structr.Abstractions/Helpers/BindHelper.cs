@@ -6,6 +6,10 @@ using System.Reflection;
 
 namespace Structr.Abstractions.Helpers
 {
+    /// <summary>
+    /// Provides functionality for generating instaces of objects on base of some Enum, while
+    /// binding data containing in enum attributes to coresponding properties of specified objects.
+    /// </summary>
     public static class BindHelper
     {
         /// <summary>
