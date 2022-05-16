@@ -2,6 +2,10 @@ using System;
 
 namespace Structr.Abstractions
 {
+    /// <summary>
+    /// `Check` static class with its methods provides functionality for determining if
+    /// some varible's value meets specified conditions.
+    /// </summary>
     public static class Check
     {
         /// <summary>

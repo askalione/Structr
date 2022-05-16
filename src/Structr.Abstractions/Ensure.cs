@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace Structr.Abstractions
 {
+    /// <summary>
+    /// `Ensure` static class with its methods provides functionality for determining if varible's value
+    /// meets specified conditions and throw exception if it's not.
+    /// </summary>
     public static class Ensure
     {
         /// <summary>

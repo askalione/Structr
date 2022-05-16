@@ -113,7 +113,7 @@ namespace Structr.Abstractions
             => _separator + string.Join(_separator.ToString(), nodes) + _separator;
 
         /// <summary>
-        /// Creates <see cref="HierarchyId"/> instance from it's string representation.
+        /// Creates <see cref="HierarchyId"/> instance from its string representation.
         /// </summary>
         /// <param name="value"></param>
         /// <returns>Instance of <see cref="HierarchyId"/></returns>
