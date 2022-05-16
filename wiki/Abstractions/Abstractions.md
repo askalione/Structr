@@ -93,7 +93,7 @@ string d3 = FooBarBaz.Baz.GetDisplayName(); // Value will be taken from SomeReso
 Converts ``long`` varible to human readable file size in kilobytes, megabytes etc.
 
 ```csharp
-12.ToFileSizeString(); // gives 12.0 bytes
-2200.ToFileSizeString(); // gives 2.1 KB
-3330000.ToFileSizeString(); // gives 3.2 MB
+12L.ToFileSizeString(); // ---> 12.0 bytes
+2200L.ToFileSizeString(); // ---> 2.1 KB
+3330000L.ToFileSizeString(); // ---> 3.2 MB
 ```
