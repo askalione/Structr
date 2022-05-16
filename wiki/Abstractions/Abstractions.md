@@ -27,20 +27,20 @@ dotnet add package Structr.Abstractions
 * [TreeNode](#)
 * Extensions
     * [DictionaryExtensions](/Extensions/DictionaryExtensions.md)
-    * [DirectoryInfoExtensions](#)
-    * [EnumerableExtensions](#)
-    * [EnumExtensions](#)
-    * [ExpressionExtensions](#)
-    * [LongExtensions](#)
-    * [MemberInfoExtensions](#)
-    * [ObjectExtensions](#)
-    * [QueryableExtensions](#)
-    * [StringExtensions](#)
-    * [TypeExtensions](#)
-    * [ServiceCollectionExtensions](#)
+    * [DirectoryInfoExtensions](/Extensions/DirectoryInfoExtensions.md)
+    * [EnumerableExtensions](/Extensions/EnumerableExtensions.md)
+    * [EnumExtensions](/Extensions/EnumExtensions.md)
+    * [ExpressionExtensions](/Extensions/ExpressionExtensions.md)
+    * [LongExtensions](/Extensions/LongExtensions.md)
+    * [MemberInfoExtensions](/Extensions/MemberInfoExtensions.md)
+    * [ObjectExtensions](/Extensions/ObjectExtensions.md)
+    * [QueryableExtensions](/Extensions/QueryableExtensions.md)
+    * [StringExtensions](/Extensions/StringExtensions.md)
+    * [TypeExtensions](/Extensions/TypeExtensions.md)
+    * [ServiceCollectionExtensions](/Extensions/ServiceCollectionExtensions.md)
 * Helpers
-    * [AsyncHelper](#)
-    * [BindHelper](#)
+    * [AsyncHelper](/Helpers/AsyncHelper.md)
+    * [BindHelper](/Helpers/BindHelper.md)
 
 ## Samples for some of methods
 
