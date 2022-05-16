@@ -1,10 +1,10 @@
 # AsyncHelper
 
-`AsyncHelper` is a static class that Provides tools to run asynchronious methods in non-async methods.
+`AsyncHelper` is a static class that provides tools to run asynchronious methods in non-async methods.
 
 ## RunSync
 
-Synchroniously executes provided async method and returns it's result.
+Synchroniously executes provided async method and returns its result.
 
 ```csharp
 private async Task<int> GetUserNameById(int id)
@@ -17,7 +17,7 @@ private async Task<int> GetUserNameById(int id)
 var result = AsyncHelper.RunSync(() => GetUserNameById(10)); // will return name of user with id = 10
 ```
 
-and it's void-returning version:
+and its void-returning version:
 
 ```csharp
 private async Task<int> EditUser(int id, string name)

@@ -1,7 +1,7 @@
 # Structr.Collections
 
 Structr.Collections package is intended to help organize search results collections into pagination-frendly arrays, which provide all needed data to display page control buttons in UI.
-Instance of package main class - **`PageList`** - contains data about page number, size, first and last pages of whole selection, etc.
+Instance of package main class - `PageList` - contains data about page number, size, first and last pages of whole selection, etc.
 
 ## Installation
 

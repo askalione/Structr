@@ -1,5 +1,5 @@
 # Ensure
-`Ensure` static class with its methods provides functionality for determining if varible's value meets specified conditions and throw exception if it's not.
+`Ensure` static class with its methods provides functionality for determining if variable's value meets specified conditions and throw exception if it's not.
 
 ## NotNull
 Throws `ArgumentNullException` when value of specified varible is null:
@@ -25,7 +25,7 @@ Ensure.NotNull(myValue, nameof(myValue)); // --> does nothing
 
 ## Other methods
 
-There are also other similar methods to check variables which are listed below:
+Other methods to check variables are listed below:
 
 * InRange
 * GreaterThan

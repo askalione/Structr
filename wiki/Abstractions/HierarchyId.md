@@ -17,7 +17,7 @@ All methods are described below:
 | GetAncestor | `HierarchyId` | Gets ancestor of current node n-levels higher than itself. |
 | GetDescendant | `HierarchyId` | Gets hierarchical id for direct descendant of current node with regular id specified. |
 | GetLevel | int | Gets level in hierarchy for current node. |
-| Move | - | Moves current node from it's current ancestor to new one. |
+| Move | - | Moves current node from its current ancestor to new one. |
 | ToString | `string` | Creates string representation of current HierarchyId. |
 | Parse | `HierarchyId` | Creates `HierarchyId` instance from its string representation. |
 

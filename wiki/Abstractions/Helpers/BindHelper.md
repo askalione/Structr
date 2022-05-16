@@ -1,10 +1,10 @@
 # BindHelper
 
-`BindHelper` provides functionality for generating instaces of objects on base of some Enum, while binding data containing in enum attributes to coresponding properties of specified objects.
+`BindHelper` provides functionality for generating objects on base of some Enum, while binding data contained in enum attributes to coresponding properties of specified objects.
 
 ## Usage
 
-One of common usecases of this helper is a creating permissions objects based on corresponding enumeration.
+One of common usecases of this helper is a permission-objects creating objects based on corresponding enumeration.
 
 Let's say we've got some enumeration containing permission items: 
 
@@ -46,7 +46,7 @@ var result = BindHelper.Bind<Permission, PermissionId>((obj, enum) =>
 });
 ```
 
-This returns the list of `Permission`s objects equivalent to:
+This returns the list of `Permission`-objects equivalent to:
 
 ```csharp
 {

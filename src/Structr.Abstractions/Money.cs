@@ -5,8 +5,8 @@ using System.Collections.Generic;
 namespace Structr.Abstractions
 {
     /// <summary>
-    /// Could be used as base class for concreete application money class.
-    /// Provides all necessary tools for working with money-like values.
+    /// Could be used as base class for concrete application money class.
+    /// Provides all necessary tools for working with money-like variables.
     /// </summary>
     /// <typeparam name="TValue">Base simple type to be used for counting money.</typeparam>
     public class Money<TValue> : IEquatable<Money<TValue>>, IComparable, IComparable<Money<TValue>>

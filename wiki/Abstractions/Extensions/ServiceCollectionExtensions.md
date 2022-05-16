@@ -20,22 +20,18 @@ Tickets could have different types, so they will have different processing rules
 private enum TicketType
 {
     ClientTicket,
-    EmployeeTicket,
-    AdminTicket,
-    BotTicket
+    EmployeeTicket
 }
 ```
-Then any method working with tickets should get exemplar of some lifecycle manager service to do it's type-specific job - `ITicketLifecycleManager`. Let it be some `ClientTicketLifecycleManager`. Here AddFactory method comes to our aid:
+Then any method working with tickets should get exemplar of some lifecycle manager service to do its type-specific job - `ITicketLifecycleManager`. Let it be some `ClientTicketLifecycleManager`. Here AddFactory method comes to our aid:
 ```csharp
 serviceCollection
     .AddFactory<TicketType, ITicketLifecycleManager>(new Dictionary<TicketType, Type> {
         { TicketType.ClientTicket, typeof(ClientTicketLifecycleManager) },
-        { TicketType.EmployeeTicket, typeof(EmployeeTicketLifecycleManager) },
-        { TicketType.AdminTicket, typeof(AdminTicketLifecycleManager) },
-        { TicketType.BotTicket, typeof(BotTicketLifecycleManager) }
+        { TicketType.EmployeeTicket, typeof(EmployeeTicketLifecycleManager) }
     })
 ```
-This adds factory of lifecycle managers as service to inject into target methods:
+This adds factory of lifecycle managers as a service to inject into target methods:
 
 ```csharp
 public class TicketCloseCommandHandler : ICommand<TicketCloseCommand>
@@ -62,7 +58,7 @@ public class TicketCloseCommandHandler : ICommand<TicketCloseCommand>
 }
 
 ```
-Done! We've managed closing ticket using it's own lifecycle service implementation, despite we didn't know it's type at start.
+Done! We've managed closing ticket using its own lifecycle service implementation, despite we didn't know its type at start.
 
 ## AddTimestampProvider
 

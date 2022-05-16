@@ -50,13 +50,12 @@ There are count of more special sorting methods which are not listed here but co
 
 ## Shuffle
 
-Shuffles source collection changing it's elements positions at random.
+Shuffles source collection changing its elements positions at random.
 
 ```csharp
 var list = new int[] {1, 2, 3};
 var result = list.Shuffle();
 ```
-There are count of more special sorting methods which are not listed here but could be found via IntelliSense.
 
 ## ForEach
 

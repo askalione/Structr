@@ -9,7 +9,7 @@ private class Foo
     public string BarField;
 }
 var foo = new Foo { BarProperty = 1, BarField = "2" };
-var result = typeof(Foo).GetMember("BarField").Single().GetMemberValue(foo); // 2
+var result = typeof(Foo).GetMember("BarField").Single().GetMemberValue(foo); // ---> "2"
 ```
 
 ## GetMemberType
@@ -17,5 +17,5 @@ var result = typeof(Foo).GetMember("BarField").Single().GetMemberValue(foo); // 
 Gets type of object member.
 
 ```csharp
-var result = typeof(Foo).GetMember("BarProperty").Single().GetMemberType(); // int
+var result = typeof(Foo).GetMember("BarProperty").Single().GetMemberType(); // ---> int
 ```

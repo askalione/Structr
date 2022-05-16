@@ -4,7 +4,7 @@ Structr.Abstractions package contains number of classes and extension methods to
 
 Big part of package consists of extensions for most popular types allowing to avoid redundant code in widespread cases.
 
-For example You need to add elements to dictionary while overriding values for already existing keys, then you choice is [AddRangeOverride](/Extensions/Dictionary.md) dictionary extension. Or some text should be formated to hyphen-case style. Then [ToHyphenCase](#) string extension supplies your needs. Maybe your collection needs some tricky ordering by several fields and directions - advanced [OrderBy](#) supplies everything needed. Checking input varibles is most common case and many of us are bored by typing another if-null-then-throw statments. [Ensure.NotNull](#) (InRange, GreaterThan, etc.) does all this job in one line.
+For example You need to add elements to dictionary while overriding values for already existing keys, then you choice is [AddRangeOverride](/Extensions/Dictionary.md) dictionary extension. Or some text should be formated to hyphen-case style. Then [ToHyphenCase](/Extensions/StringExtensions.md) string extension supplies your needs. Maybe your collection needs some tricky ordering by several fields and directions - advanced [OrderBy](/Extensions/EnumerableExtensions.md) supplies everything needed. Checking input varibles is most common case and many of us are bored by typing another if-null-then-throw statments. [Ensure.NotNull](/Ensure.md) (InRange, GreaterThan, etc.) does all this job in one line.
 
 This isn't all. There are extensions for more than ten types, tools for working with async methods, enums, sequential guids, tree-like structures, money types and more. List of all possibilities located below as do some samples.
 
@@ -18,13 +18,11 @@ dotnet add package Structr.Abstractions
 
 ## Contents
 
-* [Check](#)
-* [Ensure](#)
-* [Providers](#)
-* [Money](#)
-* [SequentialGuid](#)
-* [HierarchyId](#)
-* [TreeNode](#)
+* [Check](/Check.md)
+* [Ensure](/Ensure.md)
+* [Money](/Money.md)
+* SequentialGuid
+* [HierarchyId](/HierarchyId.md)
 * Extensions
     * [DictionaryExtensions](/Extensions/DictionaryExtensions.md)
     * [DirectoryInfoExtensions](/Extensions/DirectoryInfoExtensions.md)
