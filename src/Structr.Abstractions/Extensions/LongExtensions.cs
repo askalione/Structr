@@ -8,7 +8,7 @@ namespace Structr.Abstractions.Extensions
         /// Creates a human readable file size string from <see cref="long"/> value.
         /// </summary>
         /// <param name="value"></param>
-        /// <returns>String with human readable file size info</returns>
+        /// <returns>String with human readable file size info.</returns>
         public static string ToFileSizeString(this long value)
         {
             string[] sizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" }; // "ZB", "YB" is unreachable for "long" type
