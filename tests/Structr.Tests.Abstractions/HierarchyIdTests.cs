@@ -9,7 +9,7 @@ namespace Structr.Tests.Abstractions
     public class HierarchyIdTests
     {
         [Fact]
-        public void Creation_successful()
+        public void Ctor()
         {
             // Act
             var result = new HierarchyId(new int[] { 1, 2, 3 });
@@ -19,7 +19,7 @@ namespace Structr.Tests.Abstractions
         }
 
         [Fact]
-        public void Creation_throws_without_ids_collection()
+        public void Ctor_throws_without_ids_collection()
         {
             // Act
             Action act = () => new HierarchyId(null);

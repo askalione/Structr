@@ -21,7 +21,7 @@ namespace Structr.Tests.Abstractions
         }
 
         [Fact]
-        public void Creation_successful()
+        public void Ctor()
         {
             // Act
             var result = new MyMoney(10, Currency.ABC);
