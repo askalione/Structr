@@ -14,7 +14,7 @@ dotnet add package Structr.Navigation
 
 1. Create your navigation item class, for example, `MenuItem`:
 
-```
+```csharp
 public class MenuItem : NavigationItem<MenuItem>
 {
 	public string Action { get; set; }
@@ -26,7 +26,7 @@ public class MenuItem : NavigationItem<MenuItem>
 
 2. Create JSON file with your navigation menu, for example, `menu.json`:
 
-```
+```json
 [
   {
     "Id": "Parent_1",
@@ -88,7 +88,7 @@ public class MenuItem : NavigationItem<MenuItem>
 
 3. Add Navigation to `IServiceCollection` in `Program.cs`:
 
-```
+```csharp
 services.AddNavigation()
     .AddJson<MenuItem>("menu.json");
 ```
@@ -97,7 +97,7 @@ services.AddNavigation()
 
 `_MenuItem.cshtml`:
 
-```
+```html+razor
 @model MenuItem
 
 <li data-icon="@Model.Icon" data-id="@Model.Id">
@@ -116,7 +116,7 @@ services.AddNavigation()
 
 `_Menu.cshtml`:
 
-```
+```html+razor
 @using Structr.Navigation
 @model INavigation<MenuItem>
 
@@ -133,7 +133,7 @@ services.AddNavigation()
 
 5. Use `_Menu.cshtml` partial in `_Layout.cshtml` or `_Header.cshtml`:
 
-```
+```html+razor
 @using Structr.Navigation
 @inject INavigation<MenuItem> menu
 
@@ -146,7 +146,7 @@ services.AddNavigation()
 
 1. Create your navigation item class, for example, `MenuItem`:
 
-```
+```csharp
 public class MenuItem : NavigationItem<MenuItem>
 {
 	public string Action { get; set; }
@@ -158,7 +158,7 @@ public class MenuItem : NavigationItem<MenuItem>
 
 2. Create XML file with your navigation menu, for example, `menu.xml`:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <menu>
     <item id="Parent_1" title="Parent 1" Action="Parent_1_Action" Controller="Parent_1_Controller" icon="icon-1">
@@ -176,7 +176,7 @@ public class MenuItem : NavigationItem<MenuItem>
 
 3. Add Navigation to `IServiceCollection` in `Program.cs`:
 
-```
+```csharp
 services.AddNavigation()
     .AddXml<MenuItem>("menu.xml");
 ```
@@ -185,7 +185,7 @@ services.AddNavigation()
 
 `_MenuItem.cshtml`:
 
-```
+```html+razor
 @model MenuItem
 
 <li data-icon="@Model.Icon" data-id="@Model.Id">
@@ -204,7 +204,7 @@ services.AddNavigation()
 
 `_Menu.cshtml`:
 
-```
+```html+razor
 @using Structr.Navigation
 @model INavigation<MenuItem>
 
@@ -221,7 +221,7 @@ services.AddNavigation()
 
 5. Use `_Menu.cshtml` partial in `_Layout.cshtml` or `_Header.cshtml`:
 
-```
+```html+razor
 @using Structr.Navigation
 @inject INavigation<MenuItem> menu
 
@@ -234,7 +234,7 @@ services.AddNavigation()
 
 1. Create your breadcrumb class, for example, `Breadcrumb`:
 
-```
+```csharp
 public class Breadcrumb : NavigationItem<Breadcrumb>
 {
     public string Action { get; set; }
@@ -247,21 +247,21 @@ public class Breadcrumb : NavigationItem<Breadcrumb>
 
 3. Add Navigation to `IServiceCollection` in `Program.cs`:
 
-```
+```csharp
 services.AddNavigation()
     .AddJson<Breadcrumb>("breadcrumbs.json");
 ```
 
 or
 
-```
+```csharp
 services.AddNavigation()
     .AddXml<Breadcrumb>("breadcrumbs.xml");
 ```
 
 4. Use `IBreadcrumbNavigation<Breadcrumb>` in View, for example, create `_Breadcrumbs.cshtml`:
 
-```
+```html+razor
 @using Structr.Navigation
 @model IBreadcrumbNavigation<Breadcrumb>
 
@@ -287,7 +287,7 @@ services.AddNavigation()
 
 5. Use `_Breadcrumbs.cshtml` partial in `_Layout.cshtml`:
 
-```
+```html+razor
 @using Structr.Navigation
 @inject IBreadcrumbNavigation<Breadcrumb> breadcrumbs
 
