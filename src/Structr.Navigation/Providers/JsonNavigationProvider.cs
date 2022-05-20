@@ -7,6 +7,7 @@ using System.IO;
 
 namespace Structr.Navigation.Providers
 {
+    /// <inheritdoc cref="INavigationProvider{TNavigationItem}"/>
     public class JsonNavigationProvider<TNavigationItem> : INavigationProvider<TNavigationItem>
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
@@ -16,6 +17,11 @@ namespace Structr.Navigation.Providers
             ContractResolver = new PrivateSetterContractResolver()
         };
 
+        /// <summary>
+        /// Initializes an instance of <see cref="JsonNavigationProvider"/>.
+        /// </summary>
+        /// <param name="path">Absolute path to <strong>JSON</strong> file with navigation configuration.</param>
+        /// <exception cref="ArgumentNullException">if <paramref name="path"/> is <see langword="null"/>.</exception>
         public JsonNavigationProvider(string path)
         {
             if (string.IsNullOrWhiteSpace(path) == true)

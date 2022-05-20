@@ -7,11 +7,17 @@ using System.Xml.Linq;
 
 namespace Structr.Navigation.Providers
 {
+    /// <inheritdoc cref="INavigationProvider{TNavigationItem}"/>
     public class XmlNavigationProvider<TNavigationItem> : INavigationProvider<TNavigationItem>
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
         private readonly string _path;
 
+        /// <summary>
+        /// Initializes an instance of <see cref="JsonNavigationProvider"/>.
+        /// </summary>
+        /// <param name="path">Absolute path to <strong>XML</strong> file with navigation configuration.</param>
+        /// <exception cref="ArgumentNullException">if <paramref name="path"/> is <see langword="null"/>.</exception>
         public XmlNavigationProvider(string path)
         {
             if (string.IsNullOrWhiteSpace(path) == true)

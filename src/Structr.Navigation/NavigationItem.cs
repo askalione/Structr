@@ -4,39 +4,97 @@ using System.Linq;
 
 namespace Structr.Navigation
 {
+    /// <summary>
+    /// Represents a type for a navigation item (element, node).
+    /// </summary>
+    /// <typeparam name="TNavigationItem">The class <see cref="NavigationItem{TNavigationItem}"/> implementation.</typeparam>
     public abstract class NavigationItem<TNavigationItem> : IEquatable<TNavigationItem>
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
         private TNavigationItem _this => (TNavigationItem)this;
 
+        /// <summary>
+        /// Navigation item identifier.
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Navigation item title.
+        /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// Name of resources file.
+        /// </summary>
         public string ResourceName { get; set; }
 
         private readonly List<TNavigationItem> _children = new List<TNavigationItem>();
+
+        /// <summary>
+        /// Child navigation elements.
+        /// </summary>
         public IEnumerable<TNavigationItem> Children => _children;
 
         private readonly List<TNavigationItem> _ancestors = new List<TNavigationItem>();
+
+        /// <summary>
+        /// All parent navigation items.
+        /// </summary>
         public IEnumerable<TNavigationItem> Ancestors => _ancestors;
 
         private readonly List<TNavigationItem> _descendants = new List<TNavigationItem>();
+
+        /// <summary>
+        /// All child navigation items.
+        /// </summary>
         public IEnumerable<TNavigationItem> Descendants => _descendants;
 
         private TNavigationItem _parent = null;
+
+        /// <summary>
+        /// Parent navigation item.
+        /// </summary>
         public TNavigationItem Parent => _parent;
 
         private bool _isActive = false;
+
+        /// <summary>
+        /// Status of navigation item.
+        /// </summary>
         public bool IsActive => _isActive;
 
+        /// <summary>
+        /// Returns <see langword="true"/> if the navigation item has a child, otherwise returns <see langword="false"/>.
+        /// </summary>
         public bool HasChildren => _children.Any();
+
+        /// <summary>
+        /// Returns <see langword="true"/> if the navigation item has a active child, otherwise returns <see langword="false"/>.
+        /// </summary>
         public bool HasActiveChild => _children.Any(x => x.IsActive);
+
+        /// <summary>
+        /// Returns <see langword="true"/> if the navigation item has a active descendant, otherwise returns <see langword="false"/>.
+        /// </summary>
         public bool HasActiveDescendant => _descendants.Any(x => x.IsActive);
+
+        /// <summary>
+        /// Returns <see langword="true"/> if the navigation item has a active ancestor, otherwise returns <see langword="false"/>.
+        /// </summary>
         public bool HasActiveAncestor => _ancestors.Any(x => x.IsActive);
 
+        /// <summary>
+        /// Initializes an instance of <see cref="NavigationItem{TNavigationItem}"/>
+        /// </summary>
         public NavigationItem() { }
 
         #region Relation
 
+        /// <summary>
+        /// Add the child to the children list.
+        /// </summary>
+        /// <param name="child">Child navigation item.</param>
+        /// <exception cref="ArgumentNullException">if <paramref name="child"/> is <see langword="null"/>.</exception>
         public void AddChild(TNavigationItem child)
         {
             if (child == null)
@@ -50,6 +108,11 @@ namespace Structr.Navigation
             ConfigureRelation(_this, child, true);
         }
 
+        /// <summary>
+        /// Remove the child from the children list.
+        /// </summary>
+        /// <param name="child">Child navigation item.</param>
+        /// <exception cref="ArgumentNullException">if <paramref name="child"/> is <see langword="null"/>.</exception>
         public void RemoveChild(TNavigationItem child)
         {
             if (child == null)
