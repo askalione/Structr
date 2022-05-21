@@ -1,10 +1,9 @@
 using Structr.Operations;
-using Structr.Samples.IO;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Structr.Samples.Operations.Commands.Foo
+namespace Structr.Tests.Operations.TestUtils.Cqrs.Commands.Foo
 {
     public class FooCommandHandler : AsyncOperationHandler<FooCommand>
     {
@@ -22,7 +21,7 @@ namespace Structr.Samples.Operations.Commands.Foo
 
         protected override Task HandleAsync(FooCommand operation, CancellationToken cancellationToken)
         {
-            return _writer.WriteLineAsync($"Handle FooCommand. Name is `{operation.Name}`");
+            return _writer.WriteAsync($"Handle FooCommand. Name is `{operation.Name}`");
         }
     }
 }

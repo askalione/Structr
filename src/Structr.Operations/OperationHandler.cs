@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Structr.Operations
 {
     /// <summary>
-    /// Class to be used as base for all operation handlers.
+    /// Class to be used as base for all synchronous operation handlers.
     /// </summary>
     /// <typeparam name="TOperation">The type of operation being handled.</typeparam>
     /// <typeparam name="TResult">The type of result from the handler.</typeparam>
@@ -20,7 +20,7 @@ namespace Structr.Operations
     }
 
     /// <summary>
-    /// Class to be used as base for all operation handlers in case if no result is implied. 
+    /// Class to be used as base for all synchronous operation handlers in case if no result is implied. 
     /// </summary>
     /// <typeparam name="TOperation">The type of operation being handled.</typeparam>
     public abstract class OperationHandler<TOperation> : IOperationHandler<TOperation>
