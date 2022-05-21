@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Structr.Operations
 {
+    /// <summary>
+    /// Default implementation of operation executor.
+    /// </summary>
     public class OperationExecutor : IOperationExecutor
     {
         private readonly IServiceProvider _serviceProvider;

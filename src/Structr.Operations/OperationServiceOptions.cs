@@ -3,6 +3,9 @@ using System;
 
 namespace Structr.Operations
 {
+    /// <summary>
+    /// Allows to configure operation executor service.
+    /// </summary>
     public class OperationServiceOptions
     {
         public Type ExecutorType { get; set; }
