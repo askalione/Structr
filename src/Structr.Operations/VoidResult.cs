@@ -22,13 +22,13 @@ namespace Structr.Operations
 
         public bool Equals(VoidResult other) => true;
 
+        public override bool Equals(object obj) => obj is VoidResult;
+
         public int CompareTo(VoidResult other) => 0;
 
-        public int CompareTo(object obj) => 0;
+        public int CompareTo(object obj) => obj is VoidResult ? 0 : throw new InvalidOperationException();
 
         public override int GetHashCode() => 0;
-
-        public override bool Equals(object obj) => obj is VoidResult;
 
         public static bool operator ==(VoidResult left, VoidResult right) => true;
 
