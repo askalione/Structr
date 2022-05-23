@@ -32,10 +32,13 @@ namespace Structr.AspNetCore.Validation
                         ErrorMessage = "equal to",
                         IsValid = (value, dependentValue) => {
                             if (value == null && dependentValue == null)
+                            {
                                 return true;
+                            }
                             else if (value == null && dependentValue != null)
+                            {
                                 return false;
-
+                            }
                             return value.Equals(dependentValue);
                         }
                     }
@@ -46,11 +49,14 @@ namespace Structr.AspNetCore.Validation
                         ErrorMessage = "not equal to",
                         IsValid = (value, dependentValue) => {
                             if (value == null && dependentValue != null)
+                            {
                                 return true;
+                            }
                             else if (value == null && dependentValue == null)
+                            {
                                 return false;
-
-                            return !value.Equals(dependentValue);
+                            }
+                            return value.Equals(dependentValue) == false;
                         }
                     }
                 },
@@ -60,8 +66,9 @@ namespace Structr.AspNetCore.Validation
                         ErrorMessage = "greater than",
                         IsValid = (value, dependentValue) => {
                             if (value == null || dependentValue == null)
+                            {
                                 return false;
-
+                            }
                             return Comparer<object>.Default.Compare(value, dependentValue) >= 1;
                         }
                     }
@@ -72,8 +79,9 @@ namespace Structr.AspNetCore.Validation
                         ErrorMessage = "less than",
                         IsValid = (value, dependentValue) => {
                             if (value == null || dependentValue == null)
+                            {
                                 return false;
-
+                            }
                             return Comparer<object>.Default.Compare(value, dependentValue) <= -1;
                         }
                     }
@@ -84,11 +92,13 @@ namespace Structr.AspNetCore.Validation
                         ErrorMessage = "greater than or equal to",
                         IsValid = (value, dependentValue) => {
                             if (value == null && dependentValue == null)
+                            {
                                 return true;
-
+                            }
                             if (value == null || dependentValue == null)
+                            {
                                 return false;
-
+                            }
                             return Get(Operator.EqualTo).IsValid(value, dependentValue) || Comparer<object>.Default.Compare(value, dependentValue) >= 1;
                         }
                     }
@@ -99,11 +109,13 @@ namespace Structr.AspNetCore.Validation
                         ErrorMessage = "less than or equal to",
                         IsValid = (value, dependentValue) => {
                             if (value == null && dependentValue == null)
+                            {
                                 return true;
-
+                            }
                             if (value == null || dependentValue == null)
+                            {
                                 return false;
-
+                            }
                             return Get(Operator.EqualTo).IsValid(value, dependentValue) || Comparer<object>.Default.Compare(value, dependentValue) <= -1;
                         }
                     }
@@ -122,7 +134,7 @@ namespace Structr.AspNetCore.Validation
                     {
                         ErrorMessage = "not a match to",
                         IsValid = (value, dependentValue) => {
-                            return !Regex.Match((value ?? "").ToString(), dependentValue.ToString()).Success;
+                            return Regex.Match((value ?? "").ToString(), dependentValue.ToString()).Success == false;
                         }
                     }
                 },
@@ -133,8 +145,9 @@ namespace Structr.AspNetCore.Validation
                         IsValid = (value, dependentValue) => {
                             var eqOperMtd = Get(Operator.EqualTo);
                             if(dependentValue is object[] valueList)
+                            {
                                 return valueList.Any(val => eqOperMtd.IsValid(value, val));
-
+                            }
                             return eqOperMtd.IsValid(value, dependentValue);
                         }
                     }
@@ -146,9 +159,10 @@ namespace Structr.AspNetCore.Validation
                         IsValid = (value, dependentValue) => {
                             var eqOperMtd = Get(Operator.EqualTo);
                             if(dependentValue is object[] valueList)
-                                return valueList.All(val => !eqOperMtd.IsValid(value, val));
-
-                            return !eqOperMtd.IsValid(value, dependentValue);
+                            {
+                                return valueList.All(val => eqOperMtd.IsValid(value, val) == false);
+                            }
+                            return eqOperMtd.IsValid(value, dependentValue) == false;
                         }
                     }
                 }
