@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Structr.Collections
 {
+    /// <summary>
+    /// Extension methods for <see cref="IEnumerable{T}"/>.
+    /// </summary>
     public static class EnumerableExtensions
     {
         /// <summary>

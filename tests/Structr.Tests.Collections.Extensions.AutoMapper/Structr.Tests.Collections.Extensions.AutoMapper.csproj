@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Structr.Collections.Extensions.AutoMapper\Structr.Collections.Extensions.AutoMapper.csproj" />
+    <ProjectReference Include="..\..\src\Structr.Collections.Extensions.AutoMapper\Structr.Collections.Extensions.AutoMapper.csproj" />
   </ItemGroup>
 
 </Project>

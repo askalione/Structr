@@ -9,7 +9,7 @@ namespace Structr.Tests.Collections
     public class PagedListTests
     {
         [Fact]
-        public void Creation_successful()
+        public void Ctor()
         {
             // Arrange
             var totalItems = 10;
@@ -37,78 +37,78 @@ namespace Structr.Tests.Collections
         }
 
         [Fact]
-        public void Creation_throws_for_null_sourceCollection()
+        public void Ctor_throws_when_collection_is_null()
         {
             // Arrange
             List<int>? sourceCollection = null;
 
             // Act
-            Action act = () => new PagedList<int>(sourceCollection, 1, 1, 1);
+            Action act = () => new PagedList<int>(sourceCollection, totalItems: 1, pageNumber: 1, pageSize: 1);
 
             // Assert
             act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
-        public void Creation_throws_when_totalItems_less_than_0()
+        public void Ctor_throws_when_totalItems_less_than_0()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };
 
             // Act
-            Action act = () => new PagedList<int>(sourceCollection, -1, 1, 1);
+            Action act = () => new PagedList<int>(sourceCollection, totalItems: -1, pageNumber: 1, pageSize: 1);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Total number of elements in superset must be greater or equal 0*totalItems*");
         }
 
         [Fact]
-        public void Creation_throws_when_totalItems_less_than_source_collection_count()
+        public void Ctor_throws_when_totalItems_less_than_source_collection_count()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };
 
             // Act
-            Action act = () => new PagedList<int>(sourceCollection, 1, 1, 3);
+            Action act = () => new PagedList<int>(sourceCollection, totalItems: 1, pageNumber: 1, pageSize: 3);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Total number of elements in superset must be greater or equal collection items count*totalItems*");
         }
 
         [Fact]
-        public void Creation_throws_when_pageNumber_less_than_1()
+        public void Ctor_throws_when_pageNumber_less_than_1()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };
 
             // Act
-            Action act = () => new PagedList<int>(sourceCollection, 10, 0, 3);
+            Action act = () => new PagedList<int>(sourceCollection, totalItems: 10, pageNumber: 0, pageSize: 3);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Page number must be greater or equal 1*pageNumber*");
         }
 
         [Fact]
-        public void Creation_throws_when_pageSize_less_than_0()
+        public void Ctor_throws_when_pageSize_less_than_0()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };
 
             // Act
-            Action act = () => new PagedList<int>(sourceCollection, 10, 1, -1);
+            Action act = () => new PagedList<int>(sourceCollection, totalItems: 10, pageNumber: 1, pageSize: -1);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Page size must be greater or equal 0*pageSize*");
         }
 
         [Fact]
-        public void Creation_throws_when_pageSize_less_than_source_collection_count()
+        public void Ctor_throws_when_pageSize_less_than_source_collection_count()
         {
             // Arrange
             var sourceCollection = new List<int> { 1, 2, 3 };
 
             // Act
-            Action act = () => new PagedList<int>(sourceCollection, 10, 1, 1);
+            Action act = () => new PagedList<int>(sourceCollection, totalItems: 10, pageNumber: 1, pageSize: 1);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>().WithMessage("Page size must be greater or equal collection items count*pageSize*");

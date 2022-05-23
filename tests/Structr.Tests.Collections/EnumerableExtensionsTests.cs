@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Structr.Collections;
-using System;
 using System.Collections.Generic;
 using Xunit;
 
