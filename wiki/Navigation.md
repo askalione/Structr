@@ -1,6 +1,6 @@
-# Structr.Navigation
+# Navigation
 
-Structr.Navigation package is designed to implement a navigation menu (nav bar) or/and breadcrumbs in your ASP.NET application.
+**Structr.Navigation** package is intended to help organize navigation menu (nav bar) or/and breadcrumbs in ASP.NET Core application.
 
 ## Installation
 
@@ -10,9 +10,9 @@ Navigation package is available on [NuGet](https://www.nuget.org/packages/Struct
 dotnet add package Structr.Navigation
 ```
 
-## Usage example in ASP.NET MVC project with JSON navigation configuration file
+## Setup
 
-1. Create your navigation item class, for example, `MenuItem`:
+Create menu or breadcrumb navigation item.
 
 ```csharp
 public class MenuItem : NavigationItem<MenuItem>
@@ -24,7 +24,36 @@ public class MenuItem : NavigationItem<MenuItem>
 }
 ```
 
-2. Create JSON file with your navigation menu, for example, `menu.json`:
+Navigation services uses different providers to get source navigation data. For example: JSON, XML file, Database, or something else.
+
+You can create custom navigation provider:
+
+```csharp
+public class CustomNavigationProvider<TNavigationItem> : INavigationProvider<TNavigationItem>
+    where TNavigationItem : NavigationItem<TNavigationItem>, new()
+{
+    public IEnumerable<TNavigationItem> CreateNavigation() 
+    {
+        /* Do some logic here */
+    }
+}
+```
+
+And then setup navigation services:
+
+```csharp
+services.AddNavigation()
+    .AddProvider(new CustomNavigationProvider<MenuItem>());
+```
+
+Or you can use one of default implemented navigation provider from list:
+
+* [JSON](#json-provider)
+* [XML](#xml-provider)
+
+### JSON provider
+
+Create JSON file with hierarchical navigation:
 
 ```json
 [
@@ -40,23 +69,7 @@ public class MenuItem : NavigationItem<MenuItem>
         "Title": "Child 1 1",
         "Icon": "icon-1-1",
         "Action": "Child_1_1_Action",
-        "Controller": "Child_1_1_Controller",
-        "Children": [
-          {
-            "Id": "Child_1_1_1",
-            "Title": "Child 1 1 1",
-            "Icon": "icon-1-1-1",
-            "Action": "Child_1_1_1_Action",
-            "Controller": "Child_1_1_1_Controller"
-          }
-        ]
-      },
-      {
-        "Id": "Child_1_2",
-        "Title": "Child 1 2",
-        "Icon": "icon-1-2",
-        "Action": "Child_1_2_Action",
-        "Controller": "Child_1_2_Controller"
+        "Controller": "Child_1_1_Controller"
       }
     ]
   },
@@ -65,16 +78,7 @@ public class MenuItem : NavigationItem<MenuItem>
     "Title": "Parent 2",
     "Icon": "icon-2",
     "Action": "Parent_2_Action",
-    "Controller": "Parent_2_Controller",
-    "Children": [
-      {
-        "Id": "Child_2_1",
-        "Title": "Child 2 1",
-        "Icon": "icon-2-1",
-        "Action": "Child_2_1_Action",
-        "Controller": "Child_2_1_Controller"
-      }
-    ]
+    "Controller": "Parent_2_Controller"
   },
   {
     "Id": "Parent_3",
@@ -86,65 +90,87 @@ public class MenuItem : NavigationItem<MenuItem>
 ]
 ```
 
-3. Add Navigation to `IServiceCollection` in `Program.cs`:
+Setup JSON navigation provider:
 
 ```csharp
 services.AddNavigation()
-    .AddJson<MenuItem>("menu.json");
+    .AddJson<MenuItem>("path_to_json_file");
 ```
 
-4. Use `INavigation<MenuItem>` in View, for example, create `_MenuItem.cshtml` and `_Menu.cshtml`.
+### XML provider
 
-`_MenuItem.cshtml`:
+Create XML file with hierarchical navigation: 
 
-```html+razor
-@model MenuItem
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<menu>
+    <item id="Parent_1" title="Parent 1" Action="Parent_1_Action" Controller="Parent_1_Controller" icon="icon-1">
+        <item id="Child_1_1" title="Child 1 1" Action="Child_1_1_Action" Controller="Child_1_1_Controller" icon="icon-1-1"/>
+    </item>
+    <item id="Parent_2" title="Parent 2" Action="Parent_2_Action" Controller="Parent_2_Controller" icon="icon-2"/>
+    <item id="Parent_3" title="Parent 3" Action="Parent_3_Action" Controller="Parent_3_Controller" icon="icon-3"/>
+</menu>
+```
 
-<li data-icon="@Model.Icon" data-id="@Model.Id">
-    <a href="@Url.Action(Model.Action, Model.Controller, new { area = Model.Area })" class="@(Model.IsActive ? "active" : "")">@Model.Title</a>
-    @if (Model.HasChildren)
+Setup XML navigation provider:
+
+```csharp
+services.AddNavigation()
+    .AddXml<MenuItem>("path_to_xml_file");
+```
+
+### Options
+
+When you setup navigation provider you can configure navigation options represents by `NavigationOptions<TNavigationItem>`.
+
+`NavigationOptions<TNavigationItem>` properties:
+
+| Property name | Property type | Description |
+| --- | --- | --- |
+| ResourceType | `Type` | Determines a type of resources file whether uses for localization, `null` by default. | 
+| ItemFilter | `Func<TNavigationItem, bool>` | Determines a filter function for navigation items, `item => true` by default. | 
+| ItemActivator | `Func<TNavigationItem, bool>` | Determines an activation function for navigation items, `item => false` by default. | 
+| EnableCaching | `bool` | Determines whether navigation items should be cached, `true` by default. | 
+
+Example configure navigation services:
+
+```csharp
+services.AddNavigation()
+    .AddJson<MenuItem>("path_to_json_file", (serviceProvider, options) =>
     {
-        <ul>
-            @foreach (var menuItem in Model.Children)
-            {
-                <partial name="_MenuItem" model="menuItem" />
-            }
-        </ul>
-    }
-</li>
+        options.ResourceType = typeof(MenuResource); // Also navigation item should have configured `ResourceName` property.
+        options.ItemFilter =
+            item => serviceProvider.GetService<IMenuFilter>().Filter(item);
+        options.ItemActivator =
+            item => serviceProvider.GetService<IMenuActivator>().Activate(item);
+    });
 ```
 
-`_Menu.cshtml`:
+## Usage
 
-```html+razor
-@using Structr.Navigation
-@model INavigation<MenuItem>
+Navigation services uses to organize [menu](#menu) or [breadcrumbs](#breadcrumbs).
+Both of navigation elements shoud be inheritted from `NavigationItem<T>` that represents basic navigation item.
 
-<div class="navigation">
-    <h4 class="navigation-title">Menu:</h4>
-    <ul class="navigation-content">
-        @foreach (var menuItem in Model)
-        {
-            <partial name="_MenuItem" model="menuItem" />
-        }
-    </ul>
-</div>
-```
+`NavigationItem<T>` properties:
 
-5. Use `_Menu.cshtml` partial in `_Layout.cshtml` or `_Header.cshtml`:
+| Property name | Property type | Description |
+| --- | --- | --- |
+| Id | `string` | Navigation item identifier. | 
+| Title | `string` | Navigation item title. | 
+| ResourceName | `string` | The key of navigation item into resource file if defined. | 
+| Children | `IEnumerable<TNavigationItem>` | Child navigation elements. | Returns <see langword="true"/> if the navigation item has an active descendant, otherwise returns <see langword="false"/>.
+| Ancestors | `IEnumerable<TNavigationItem>` | Returns all parent navigation items. | 
+| Descendants | `IEnumerable<TNavigationItem>` | Returns all child navigation items. | 
+| Parent | `TNavigationItem` | Returns closest parent navigation item. | 
+| IsActive | `bool` | Status of navigation item. Only one navigation item can be active at the same time. | 
+| HasChildren | `bool` | Returns `true` if the navigation item has a child, otherwise returns `false`. | 
+| HasActiveChild | `bool` | Returns `true` if the navigation item has an active child, otherwise returns `false`. | 
+| HasActiveDescendant | `bool` | Returns `true` if the navigation item has an active descendant, otherwise returns `false`. | 
+| HasActiveAncestor | `bool` | Returns `true` if the navigation item has an active ancestor, otherwise returns `false`. | 
 
-```html+razor
-@using Structr.Navigation
-@inject INavigation<MenuItem> menu
+### Menu
 
-...
-
-<partial name="_Menu" model="menu" />
-```
-
-## Usage example in ASP.NET MVC project with XML navigation configuration file
-
-1. Create your navigation item class, for example, `MenuItem`:
+Example of common menu item:
 
 ```csharp
 public class MenuItem : NavigationItem<MenuItem>
@@ -156,32 +182,9 @@ public class MenuItem : NavigationItem<MenuItem>
 }
 ```
 
-2. Create XML file with your navigation menu, for example, `menu.xml`:
+`INavigation<MenuItem>` is the main service to get navigation. `INavigation<MenuItem>` created once per request within the scope.
 
-```xml
-<?xml version="1.0" encoding="utf-8" ?>
-<menu>
-    <item id="Parent_1" title="Parent 1" Action="Parent_1_Action" Controller="Parent_1_Controller" icon="icon-1">
-        <item id="Child_1_1" title="Child 1 1" Action="Child_1_1_Action" Controller="Child_1_1_Controller" icon="icon-1-1">
-            <item id="Child_1_1_1" title="Child 1 1 1" Action="Child_1_1_1_Action" Controller="Child_1_1_1_Controller" icon="icon-1-1-1"/>
-        </item>
-        <item id="Child_1_2" title="Child 1 2" Action="Child_1_2_Action" Controller="Child_1_2_Controller" icon="icon-1-2"/>
-    </item>
-    <item id="Parent_2" title="Parent 2" Action="Parent_2_Action" Controller="Parent_2_Controller" icon="icon-2">
-        <item id="Child_2_1" title="Child 2 1" Action="Child_2_1_Action" Controller="Child_2_1_Controller" icon="icon-2-1"/>
-    </item>
-    <item id="Parent_3" title="Parent 3" Action="Parent_3_Action" Controller="Parent_3_Controller" icon="icon-3"/>
-</menu>
-```
-
-3. Add Navigation to `IServiceCollection` in `Program.cs`:
-
-```csharp
-services.AddNavigation()
-    .AddXml<MenuItem>("menu.xml");
-```
-
-4. Use `INavigation<MenuItem>` in View, for example, create `_MenuItem.cshtml` and `_Menu.cshtml`.
+For example, create `_MenuItem.cshtml` and `_Menu.cshtml` views.
 
 `_MenuItem.cshtml`:
 
@@ -219,20 +222,20 @@ services.AddNavigation()
 </div>
 ```
 
-5. Use `_Menu.cshtml` partial in `_Layout.cshtml` or `_Header.cshtml`:
+Then you can inject `INavigation<MenuItem>`into `_Layout.cshtml` and use `_Menu.cshtml` partial view to rendering menu.
+
+`_Layout.cshtml`:
 
 ```html+razor
 @using Structr.Navigation
 @inject INavigation<MenuItem> menu
 
-...
-
 <partial name="_Menu" model="menu" />
 ```
 
-## Breadcrumbs usage example in ASP.NET MVC project
+### Breadcrumbs
 
-1. Create your breadcrumb class, for example, `Breadcrumb`:
+Example of common breadcrumb item:
 
 ```csharp
 public class Breadcrumb : NavigationItem<Breadcrumb>
@@ -243,23 +246,9 @@ public class Breadcrumb : NavigationItem<Breadcrumb>
 }
 ```
 
-2. Create JSON or XML file with your breadcrumbs, for example, `breadcrumbs.json` or `breadcrumbs.xml` similarly `menu.json` or `menu.xml`.
+`IBreadcrumbNavigation<Breadcrumb>` is the main service to get navigation. `IBreadcrumbNavigation<Breadcrumb>` created once per request within the scope.
 
-3. Add Navigation to `IServiceCollection` in `Program.cs`:
-
-```csharp
-services.AddNavigation()
-    .AddJson<Breadcrumb>("breadcrumbs.json");
-```
-
-or
-
-```csharp
-services.AddNavigation()
-    .AddXml<Breadcrumb>("breadcrumbs.xml");
-```
-
-4. Use `IBreadcrumbNavigation<Breadcrumb>` in View, for example, create `_Breadcrumbs.cshtml`:
+For example, create `_Breadcrumbs.cshtml` view:
 
 ```html+razor
 @using Structr.Navigation
@@ -285,13 +274,13 @@ services.AddNavigation()
 </div>
 ```
 
-5. Use `_Breadcrumbs.cshtml` partial in `_Layout.cshtml`:
+Then you can inject `IBreadcrumbNavigation<Breadcrumb>` into `_Layout.cshtml` and use `_Breadcrumbs.cshtml` partial view to rendering breadcrumbs.
+
+`_Layout.cshtml`:
 
 ```html+razor
 @using Structr.Navigation
 @inject IBreadcrumbNavigation<Breadcrumb> breadcrumbs
-
-...
 
 <partial name="_Breadcrumbs" model="breadcrumbs" />
 ```

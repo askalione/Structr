@@ -10,7 +10,7 @@ namespace Structr.Navigation
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
         /// <summary>
-        /// Determines a type of resources file.
+        /// Determines a type of resources file whether uses for localization.
         /// </summary>
         public Type ResourceType { get; set; }
 
