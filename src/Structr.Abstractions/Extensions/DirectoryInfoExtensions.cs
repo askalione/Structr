@@ -3,6 +3,9 @@ using System.IO;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="DirectoryInfo"/>.
+    /// </summary>
     public static class DirectoryInfoExtensions
     {
         /// <summary>

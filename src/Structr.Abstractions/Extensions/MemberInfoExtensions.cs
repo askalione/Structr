@@ -3,6 +3,9 @@ using System.Reflection;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="MemberInfo"/>.
+    /// </summary>
     public static class MemberInfoExtensions
     {
         /// <summary>

@@ -1,10 +1,10 @@
+using FluentAssertions;
+using Structr.Abstractions;
+using Structr.Abstractions.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Structr.Abstractions.Extensions;
-using Structr.Abstractions;
-using FluentAssertions;
-using System;
 
 namespace Structr.Tests.Abstractions.Extensions
 {

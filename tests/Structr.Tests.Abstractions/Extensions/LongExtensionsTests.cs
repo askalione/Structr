@@ -1,7 +1,7 @@
 using FluentAssertions;
-using Xunit;
 using Structr.Abstractions.Extensions;
 using System.Globalization;
+using Xunit;
 
 namespace Structr.Tests.Abstractions.Extensions
 {

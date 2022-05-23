@@ -3,7 +3,7 @@ using System;
 namespace Structr.Abstractions
 {
     /// <summary>
-    /// Provides tools for generation sequential GUID.
+    /// Provides tools for server side generation sequential GUID.
     /// </summary>
     public static class SequentialGuid
     {

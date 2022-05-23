@@ -1,9 +1,9 @@
 using FluentAssertions;
-using System;
-using Xunit;
 using Structr.Abstractions.Extensions;
-using System.IO;
 using Structr.Tests.Abstractions.TestsUtils;
+using System;
+using System.IO;
+using Xunit;
 
 namespace Structr.Tests.Abstractions.Extensions
 {

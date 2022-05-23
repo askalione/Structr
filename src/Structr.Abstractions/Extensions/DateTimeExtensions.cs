@@ -3,6 +3,9 @@ using System.Threading;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="DateTime"/>.
+    /// </summary>
     public static class DateTimeExtensions
     {
         private const string _defaultDateString = "";

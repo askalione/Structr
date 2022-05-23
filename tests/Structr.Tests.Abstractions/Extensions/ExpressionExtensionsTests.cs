@@ -1,9 +1,9 @@
 using FluentAssertions;
-using System;
-using Xunit;
 using Structr.Abstractions.Extensions;
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using Xunit;
 
 namespace Structr.Tests.Abstractions.Extensions
 {

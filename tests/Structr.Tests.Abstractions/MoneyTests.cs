@@ -1,9 +1,8 @@
+using FluentAssertions;
 using Structr.Abstractions;
 using System;
-using System.Collections.Generic;
-using Xunit;
-using FluentAssertions;
 using System.Globalization;
+using Xunit;
 
 namespace Structr.Tests.Abstractions
 {
@@ -195,6 +194,6 @@ namespace Structr.Tests.Abstractions
             // Assert
             var separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
             result.ToString().Should().Be($"15{separator}00");
-        }        
+        }
     }
 }

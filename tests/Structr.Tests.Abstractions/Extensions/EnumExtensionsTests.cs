@@ -1,9 +1,9 @@
 using FluentAssertions;
-using Xunit;
 using Structr.Abstractions.Extensions;
 using Structr.Tests.Abstractions.TestUtils;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Xunit;
 
 namespace Structr.Tests.Abstractions.Extensions
 {

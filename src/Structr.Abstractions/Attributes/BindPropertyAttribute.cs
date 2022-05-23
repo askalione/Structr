@@ -9,7 +9,14 @@ namespace Structr.Abstractions.Attributes
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = false)]
     public sealed class BindPropertyAttribute : Attribute
     {
+        /// <summary>
+        /// Name of property to search while populating new-created instance.
+        /// </summary>
         public string PropertyName { get; }
+
+        /// <summary>
+        /// Value to insert.
+        /// </summary>
         public object PropertyValue { get; }
 
         /// <summary>

@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="Enumerable"/>.
+    /// </summary>
     public static class EnumerableExtensions
     {
         /// <summary>
@@ -111,7 +114,7 @@ namespace Structr.Abstractions.Extensions
                             .IsAssignableFromGenericType(source.GetType().GetGenericTypeDefinition())
                         && parameters[1].ParameterType.GetGenericTypeDefinition()
                             .IsAssignableFromGenericType(delegateType.GetGenericTypeDefinition());
-                })?                
+                })?
                 .MakeGenericMethod(typeof(T), type);
 
             if (orderingMethod == null)

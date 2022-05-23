@@ -1,7 +1,7 @@
 using FluentAssertions;
-using Xunit;
 using Structr.Abstractions.Helpers;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Structr.Tests.Abstractions.Helpers
 {

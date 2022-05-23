@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="Expression"/>.
+    /// </summary>
     public static class ExpressionExtensions
     {
         /// <summary>

@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="string"/>.
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>

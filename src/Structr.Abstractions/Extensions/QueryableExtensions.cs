@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="IQueryable{T}"/>.
+    /// </summary>
     public static class QueryableExtensions
     {
         /// <summary>

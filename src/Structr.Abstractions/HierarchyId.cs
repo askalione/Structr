@@ -16,8 +16,8 @@ namespace Structr.Abstractions
         /// <summary>
         /// Initializes a new instance of the <see cref="HierarchyId"> class that holds data about provided nodes ids.
         /// </summary>
-        /// <param name="nodes">Hierarchy nodes ids</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="nodes">Hierarchy nodes ids.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="nodes"/> is <see langword="null"/>.</exception>
         public HierarchyId(IEnumerable<int> nodes)
         {
             Ensure.NotNull(nodes, nameof(nodes));
@@ -26,26 +26,25 @@ namespace Structr.Abstractions
         }
 
         /// <summary>
-        /// Gets last node in current branch of hierarchy
+        /// Gets last node in current branch of hierarchy.
         /// </summary>
-        /// <returns>Last node id</returns>
+        /// <returns>Last node id.</returns>
         public int GetNode()
             => _nodes.Last();
 
         /// <summary>
         /// Determines whether current node is descendant of specified node.
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns><see langword="true"/> if current node is descendant of specified node, overwise <see langword="false"/></returns>
+        /// <param name="node">Parent node.</param>
+        /// <returns><see langword="true"/> if current node is descendant of specified node, overwise <see langword="false"/>.</returns>
         public bool IsDescendantOf(int node)
             => GetAncestors(1).Contains(node);
 
         /// <summary>
         /// Gets ancestor of current node <paramref name="n"/> levels higher than itself.
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns>Hierarchical id for ancestor</returns>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <param name="n">Number of levels to go up in the hierarchy.</param>
+        /// <returns>Hierarchical id for ancestor.</returns>
         public HierarchyId GetAncestor(int n)
         {
             Ensure.GreaterThan(n, 0, nameof(n));
@@ -59,8 +58,8 @@ namespace Structr.Abstractions
         /// <summary>
         /// Gets hierarchical id for direct descendant of current node with regular id provided in <paramref name="node"/>.
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns>Hierarchical id for direct descendant</returns>
+        /// <param name="node">Current node.</param>
+        /// <returns>Hierarchical id for direct descendant.</returns>
         public HierarchyId GetDescendant(int node)
         {
             var nodes = _nodes.ToList();
@@ -71,7 +70,7 @@ namespace Structr.Abstractions
         /// <summary>
         /// Gets level in hierarchy for current node.
         /// </summary>
-        /// <returns>Current node level</returns>
+        /// <returns>Current node level.</returns>
         public int GetLevel()
             => _nodes.Count;
 
@@ -80,7 +79,6 @@ namespace Structr.Abstractions
         /// </summary>
         /// <param name="sourceAncestor">Source ancestor to move from.</param>
         /// <param name="destAncestor">Destination ancestor to move to.</param>
-        /// <exception cref="InvalidOperationException"></exception>
         public void Move(HierarchyId sourceAncestor, HierarchyId destAncestor)
         {
             Ensure.NotNull(sourceAncestor, nameof(sourceAncestor));
@@ -115,9 +113,8 @@ namespace Structr.Abstractions
         /// <summary>
         /// Creates <see cref="HierarchyId"/> instance from its string representation.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns>Instance of <see cref="HierarchyId"/></returns>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <param name="value">String representation of <see cref="HierarchyId"/>.</param>
+        /// <returns>Instance of <see cref="HierarchyId"/>.</returns>
         public static HierarchyId Parse(string value)
         {
             Ensure.NotNull(value, nameof(value));

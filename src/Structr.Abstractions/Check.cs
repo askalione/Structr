@@ -3,8 +3,7 @@ using System;
 namespace Structr.Abstractions
 {
     /// <summary>
-    /// `Check` static class with its methods provides functionality for determining if
-    /// some varible's value meets specified conditions.
+    /// Provides functionality for determining if some variable's value meets specified conditions.
     /// </summary>
     public static class Check
     {
@@ -63,8 +62,7 @@ namespace Structr.Abstractions
         /// </summary>
         /// <param name="value">String to be checked.</param>
         /// <param name="threshold">Upper length threshold.</param>
-        /// <returns><see langword="true"/> if string length is less than threshold, overwise <see langword="false"/></returns>
-
+        /// <returns><see langword="true"/> if string length is less than threshold, overwise <see langword="false"/>.</returns>
         public static bool IsLessThan(string value, int threshold)
         {
             int length = value?.Length ?? 0;
@@ -76,7 +74,7 @@ namespace Structr.Abstractions
         /// </summary>
         /// <param name="value">DateTime to be checked.</param>
         /// <param name="maxValue">Upper threshold.</param>
-        /// <returns><see langword="true"/> if value is less than threshold, overwise <see langword="false"/></returns>
+        /// <returns><see langword="true"/> if value is less than threshold, overwise <see langword="false"/>.</returns>
         public static bool IsLessThan(DateTime value, DateTime maxValue)
         {
             var utcValue = value.ToUniversalTime();

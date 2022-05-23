@@ -1,8 +1,8 @@
 using FluentAssertions;
+using Structr.Abstractions.Extensions;
 using System;
 using System.Linq;
 using Xunit;
-using Structr.Abstractions.Extensions;
 
 namespace Structr.Tests.Abstractions.Extensions
 {

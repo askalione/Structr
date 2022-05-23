@@ -1,8 +1,8 @@
 using FluentAssertions;
+using Structr.Abstractions.Extensions;
 using System;
 using System.Linq;
 using Xunit;
-using Structr.Abstractions.Extensions;
 
 namespace Structr.Tests.Abstractions.Extensions
 {
@@ -154,7 +154,7 @@ namespace Structr.Tests.Abstractions.Extensions
 
             // Assert
             result.Should().Be("to-hyphen-case");
-        }     
+        }
 
         [Fact]
         public void ToCamelCase()
@@ -164,6 +164,6 @@ namespace Structr.Tests.Abstractions.Extensions
 
             // Assert
             result.Should().Be("toCamelCase");
-        }        
+        }
     }
 }

@@ -6,6 +6,9 @@ using System.Resources;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="Enum"/>.
+    /// </summary>
     public static class EnumExtensions
     {
         /// <summary>

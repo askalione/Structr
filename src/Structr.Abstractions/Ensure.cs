@@ -5,8 +5,7 @@ using System.Linq;
 namespace Structr.Abstractions
 {
     /// <summary>
-    /// `Ensure` static class with its methods provides functionality for determining if varible's value
-    /// meets specified conditions and throw exception if it's not.
+    /// Provides functionality for determining if varible's value meets specified conditions and throw exception if it's not.
     /// </summary>
     public static class Ensure
     {
@@ -15,7 +14,6 @@ namespace Structr.Abstractions
         /// </summary>
         /// <param name="value">Value of varible to be checked.</param>
         /// <param name="name">Name of varible to be checked.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public static void NotNull(object value, string name)
         {
             if (value == null)
@@ -29,7 +27,6 @@ namespace Structr.Abstractions
         /// </summary>
         /// <param name="value">Value of varible to be checked.</param>
         /// <param name="name">Name of varible to be checked.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public static void NotEmpty(string value, string name)
         {
             if (string.IsNullOrEmpty(value))
@@ -43,7 +40,6 @@ namespace Structr.Abstractions
         /// </summary>
         /// <param name="value">Value of varible to be checked.</param>
         /// <param name="name">Name of varible to be checked.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public static void NotEmpty<T>(IEnumerable<T> value, string name)
         {
             if (value == null || value.Any() == false)

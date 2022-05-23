@@ -1,8 +1,8 @@
 using FluentAssertions;
-using Xunit;
 using Structr.Abstractions.Extensions;
 using System;
 using System.Threading;
+using Xunit;
 
 namespace Structr.Tests.Abstractions.Extensions
 {

@@ -1,9 +1,9 @@
 using FluentAssertions;
-using Xunit;
-using Structr.Abstractions.Helpers;
 using Structr.Abstractions.Attributes;
+using Structr.Abstractions.Helpers;
 using System;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Structr.Tests.Abstractions.Helpers
 {

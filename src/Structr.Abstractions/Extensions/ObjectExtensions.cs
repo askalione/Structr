@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="object"/>.
+    /// </summary>
     public static class ObjectExtensions
     {
         /// <summary>

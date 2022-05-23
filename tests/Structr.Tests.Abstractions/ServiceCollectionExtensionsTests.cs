@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Xunit;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Abstractions.Providers;
+using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace Structr.Tests.Abstractions
 {

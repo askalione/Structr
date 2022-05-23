@@ -2,6 +2,9 @@ using System;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="long"/>.
+    /// </summary>
     public static class LongExtensions
     {
         /// <summary>

@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="Dictionary{TKey, TValue}"/>.
+    /// </summary>
     public static class DictionaryExtensions
     {
         /// <summary>
@@ -32,7 +34,8 @@ namespace Structr.Abstractions.Extensions
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(dictionary, nameof(dictionary));
 
-            dictionary.ForEach(x => {
+            dictionary.ForEach(x =>
+            {
                 if (source.ContainsKey(x.Key) == false)
                 {
                     source.Add(x.Key, x.Value);

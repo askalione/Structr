@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="Type"/>.
+    /// </summary>
     public static class TypeExtensions
     {
         /// <summary>
