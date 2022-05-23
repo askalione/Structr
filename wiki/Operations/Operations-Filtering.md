@@ -1,9 +1,9 @@
 # Filtering
 
-Structr.Operations allows you to introduce some filtering in operation processing pipeline. This could be helpful if some verification or logging is needed.
+**Structr.Operations** allows you to introduce some filtering in operation processing pipeline. This could be helpful if some verification or logging is needed.
 Filtering setup is rather simple, just register your filter as a service and everything is done.
 
-Filter implies implementing `IOperationFilter<in TOperation, TResult>` interface and registering corresponding service in DI container:
+Filter implies implementing `IOperationFilter<TOperation, TResult>` interface and registering corresponding service in DI container:
 
 ```csharp
 services.AddTransient(typeof(IOperationFilter<,>), typeof(CommandValidationFilter<,>));
@@ -27,7 +27,10 @@ Filter gets operation-object itself, cancellation token and supplied with delega
 public class CommandValidationFilter<TCommand, TResult> : IOperationFilter<TCommand, TResult> where TCommand : ICommand<TResult>
 {
     private readonly IValidationProvider _validationProvider;
-    public CommandValidationFilter(IValidationProvider validationProvider) => _validationProvider = validationProvider;
+
+    public CommandValidationFilter(IValidationProvider validationProvider) 
+        => _validationProvider = validationProvider;
+
     public async Task<TResult> FilterAsync(TCommand command, CancellationToken cancellationToken, OperationHandlerDelegate<TResult> next)
     {
         if (_validationProvider.IsValid(command, cancellationToken))
@@ -41,6 +44,8 @@ public class CommandValidationFilter<TCommand, TResult> : IOperationFilter<TComm
     }
 }
 ```
+
+With filtering pipeline u could implement you custom post- and pre- processors for any operations you need.
 
 ## Special filters
 
@@ -60,14 +65,18 @@ public interface ICommand : ICommand<VoidResult>, IOperation
 Using them you can create filters separately for queries and separately for commands:
 
 ```csharp
+// This one only for commands.
+public class CommandValidationFilter<TCommand, TResult> : IOperationFilter<TCommand, TResult> 
+    where TCommand : ICommand<TResult>
+{}
 
-// this one only for commands
-public class CommandValidationFilter<TCommand, TResult> : IOperationFilter<TCommand, TResult> where TCommand : ICommand<TResult>
+// This is for queries.
+public class QueryLoggingFilter<TQuery, TResult> : IOperationFilter<TQuery, TResult> 
+    where TQuery : IQuery<TResult>
+{}
 
-// this is for queries
-public class QueryLoggingFilter<TQuery, TResult> : IOperationFilter<TQuery, TResult> where TQuery : IQuery<TResult>
-
-// and this one would work for both operations types:
-public class UniversalFilter<TOperation, TResult> : IOperationFilter<TOperation, TResult> where TOperation : IOperation<TResult>
-
+// And this one would work for both operations types.
+public class UniversalFilter<TOperation, TResult> : IOperationFilter<TOperation, TResult> 
+    where TOperation : IOperation<TResult>
+{}
 ```

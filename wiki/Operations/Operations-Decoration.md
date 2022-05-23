@@ -1,9 +1,9 @@
-# Applying decorators to operations
+# Decoration
 
-Using abilities of Microsoft's (and not only theirs) DI-container you could decorate your operations handlers with additional logic which will be applied in processing pipeline. This really almost the same functionality as with **Filters** but in some cases it could have it's own place. In example below we will add some decorators to queries our [queries and commands](/Operations-Filtering.md#special-filters).
+Using abilities of Microsoft's (and not only theirs) DI-container you could decorate your operations handlers with additional logic which will be applied in processing pipeline. This really almost the same functionality as with [Filters](/Operations-Filtering.md) but in some cases it could have it's own place. In example below we will add some decorators to process our [queries and commands](/Operations-Filtering.md#special-filters).
 
 ```csharp
-// Define interface for all decorators
+// Define interface for all decorators.
 public interface ICommandDecorator<TCommand, TResult> where TCommand : ICommand<TResult>
 {
     Task<TResult> DecorateAsync(TCommand command, IOperationHandler<TCommand, TResult> handler, CancellationToken cancellationToken);
@@ -29,6 +29,7 @@ public class OperationDecorator<TOperation, TResult> : IOperationHandler<TOperat
 {
     private readonly IOperationHandler<TOperation, TResult> _handler;
     private readonly IServiceProvider _serviceProvider;
+
     public OperationDecorator(IOperationHandler<TOperation, TResult> handler,
         IServiceProvider serviceProvider)
     {
@@ -43,6 +44,7 @@ public class OperationDecorator<TOperation, TResult> : IOperationHandler<TOperat
         _handler = handler;
         _serviceProvider = serviceProvider;
     }
+
     public Task<TResult> HandleAsync(TOperation operation, CancellationToken cancellationToken)
     {
         if (operation is ICommand<TResult>)
@@ -62,7 +64,7 @@ public class OperationDecorator<TOperation, TResult> : IOperationHandler<TOperat
     }
 }
 
-// Create your own specific command decorator that have some business-logic payload
+// Create your own specific command decorator that have some business-logic payload.
 public class CommandDecorator<TCommand, TResult> : BaseOperationDecorator<TCommand, TResult>, ICommandDecorator<TCommand, TResult> where TCommand : ICommand<TResult>
 {
     private readonly IStringWriter _writer;
