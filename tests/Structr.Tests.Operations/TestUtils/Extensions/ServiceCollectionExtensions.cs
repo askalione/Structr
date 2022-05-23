@@ -6,7 +6,7 @@ namespace Structr.Tests.Operations.TestUtils.Extensions
 {
     internal static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddWriterMock(this IServiceCollection services, IStringWriter spyWriterToInject)
+        public static IServiceCollection AddMockWriter(this IServiceCollection services, IStringWriter spyWriterToInject)
         {
             services.TryAdd(new ServiceDescriptor(typeof(IStringWriter), spyWriterToInject));
             return services;

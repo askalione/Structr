@@ -1,12 +1,12 @@
-using Xunit;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Operations;
-using Structr.Tests.Operations.TestUtils.Extensions;
 using Structr.Tests.Operations.TestUtils;
-using System.Threading.Tasks;
-using System.Threading;
+using Structr.Tests.Operations.TestUtils.Extensions;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Structr.Tests.Operations
 {
@@ -87,9 +87,9 @@ namespace Structr.Tests.Operations
         public async Task Command()
         {
             // Arrange
-            var writer = WriterMock.New;
+            var writer = MockWriter.NewMockWriter();
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWriterMock(writer);
+            serviceCollection.AddMockWriter(writer);
             var servicesProvider = serviceCollection
                 .AddOperations(this.GetType().Assembly)
                 .BuildServiceProvider();
@@ -108,9 +108,9 @@ namespace Structr.Tests.Operations
         public async Task AsyncCommand()
         {
             // Arrange
-            var writer = WriterMock.New;
+            var writer = MockWriter.NewMockWriter();
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWriterMock(writer);
+            serviceCollection.AddMockWriter(writer);
             var servicesProvider = serviceCollection
                 .AddOperations(this.GetType().Assembly)
                 .BuildServiceProvider();
@@ -129,9 +129,9 @@ namespace Structr.Tests.Operations
         public async Task Query()
         {
             // Arrange
-            var writer = WriterMock.New;
+            var writer = MockWriter.NewMockWriter();
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWriterMock(writer);
+            serviceCollection.AddMockWriter(writer);
             var servicesProvider = serviceCollection
                 .AddOperations(this.GetType().Assembly)
                 .BuildServiceProvider();
@@ -149,9 +149,9 @@ namespace Structr.Tests.Operations
         public async Task AsyncQuery()
         {
             // Arrange
-            var writer = WriterMock.New;
+            var writer = MockWriter.NewMockWriter();
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWriterMock(writer);
+            serviceCollection.AddMockWriter(writer);
             var servicesProvider = serviceCollection
                 .AddOperations(this.GetType().Assembly)
                 .BuildServiceProvider();

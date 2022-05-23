@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Structr.Tests.Operations.TestUtils
 {
-    public class WriterMock : IStringWriter
+    public class MockWriter : IStringWriter
     {
         public List<string?> Buffer { get; private set; } = new();
         public int CallCount { get; private set; } = 0;
@@ -20,6 +20,7 @@ namespace Structr.Tests.Operations.TestUtils
             await Task.Run(() => Buffer.Add(message));
         }
 
-        public static WriterMock New => new WriterMock();
+        public static MockWriter NewMockWriter()
+            => new MockWriter();
     }
 }

@@ -11,19 +11,19 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// Adds operations handling service.
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <param name="assembliesToScan">List of assemblies to search operation handlers.</param>
-        /// <returns></returns>
+        /// <returns>The <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddOperations(this IServiceCollection services, params Assembly[] assembliesToScan)
             => AddOperations(services, null, assembliesToScan);
 
         /// <summary>
         /// Adds operations handling service with provided configuration.
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configureOptions">Options to be used by operations handling service.</param>
         /// <param name="assembliesToScan">List of assemblies to search operation handlers.</param>
-        /// <returns></returns>
+        /// <returns>The <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddOperations(this IServiceCollection services,
             Action<OperationServiceOptions> configureOptions,
             params Assembly[] assembliesToScan)

@@ -1,12 +1,11 @@
-using Xunit;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Operations;
-using Structr.Tests.Operations.TestUtils.Extensions;
 using Structr.Tests.Operations.TestUtils;
-using System.Threading.Tasks;
-using Structr.Tests.Operations.TestUtils.Cqrs;
+using Structr.Tests.Operations.TestUtils.Extensions;
 using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Structr.Tests.Operations
 {
@@ -86,9 +85,9 @@ namespace Structr.Tests.Operations
         public async Task Multiple_filters_should_be_applied_in_registration_order()
         {
             // Arrange
-            var writer = WriterMock.New;
+            var writer = MockWriter.NewMockWriter();
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWriterMock(writer);
+            serviceCollection.AddMockWriter(writer);
             serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(UniversalFilter<,>));
             serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(QueryFilter<,>));
             var servicesProvider = serviceCollection
@@ -109,9 +108,9 @@ namespace Structr.Tests.Operations
         public async Task Filter_works_after_handler()
         {
             // Arrange
-            var writer = WriterMock.New;
+            var writer = MockWriter.NewMockWriter();
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWriterMock(writer);
+            serviceCollection.AddMockWriter(writer);
             serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(AfterFilter<,>));
             var servicesProvider = serviceCollection
                 .AddOperations(this.GetType().Assembly)
@@ -131,9 +130,9 @@ namespace Structr.Tests.Operations
         public async Task Special_filter_should_work_only_for_intended_operation()
         {
             // Arrange
-            var writer = WriterMock.New;
+            var writer = MockWriter.NewMockWriter();
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWriterMock(writer);
+            serviceCollection.AddMockWriter(writer);
             serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(UniversalFilter<,>));
             serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(QueryFilter<,>));
             var servicesProvider = serviceCollection

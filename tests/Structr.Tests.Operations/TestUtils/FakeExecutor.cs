@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 namespace Structr.Tests.Operations.TestUtils.Cqrs
 {
     public class FakeExecutor : IOperationExecutor
-    {        
+    {
         public async Task<TResult?> ExecuteAsync<TResult>(IOperation<TResult> operation, CancellationToken cancellationToken = default)
         {
-            return await new Task<TResult?>(() => default(TResult));
+            return await new Task<TResult?>(() => default);
         }
     }
 }

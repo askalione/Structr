@@ -15,7 +15,7 @@ namespace Structr.Operations
         /// Handles an operation.
         /// </summary>
         /// <param name="operation">The operation to be handled.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
         /// <returns>Result generated from operation handling.</returns>
         Task<TResult> HandleAsync(TOperation operation, CancellationToken cancellationToken);
     }

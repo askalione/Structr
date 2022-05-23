@@ -1,8 +1,8 @@
-using Xunit;
 using FluentAssertions;
 using Structr.Operations;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Structr.Tests.Operations
 {

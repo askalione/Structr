@@ -1,10 +1,10 @@
-using Xunit;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Operations;
-using Structr.Tests.Operations.TestUtils.Extensions;
 using Structr.Tests.Operations.TestUtils;
 using Structr.Tests.Operations.TestUtils.Cqrs;
+using Structr.Tests.Operations.TestUtils.Extensions;
+using Xunit;
 
 namespace Structr.Tests.Operations
 {
@@ -37,7 +37,7 @@ namespace Structr.Tests.Operations
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWriterMock(WriterMock.New);
+            serviceCollection.AddMockWriter(MockWriter.NewMockWriter());
 
             // Act
             var servicesProvider = serviceCollection
@@ -61,7 +61,8 @@ namespace Structr.Tests.Operations
 
             // Act
             var servicesProvider = serviceCollection
-                .AddOperations(x => {
+                .AddOperations(x =>
+                {
                     x.ExecutorType = typeof(FakeExecutor);
                 }, this.GetType().Assembly)
                 .BuildServiceProvider();
