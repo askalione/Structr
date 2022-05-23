@@ -3,17 +3,22 @@ using System.Reflection;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="MemberInfo"/>.
+    /// </summary>
     public static class MemberInfoExtensions
     {
         /// <summary>
-        /// Get value of object member.
+        /// Gets value of object member.
         /// </summary>
         /// <param name="memberInfo">MemberInfo.</param>
         /// <param name="instance">Object to get value.</param>
         /// <returns>
         /// Value of object memeber as object.
         /// </returns>
-        public static object GetValue(this MemberInfo memberInfo, object instance)
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        public static object GetMemberValue(this MemberInfo memberInfo, object instance)
         {
             Ensure.NotNull(memberInfo, nameof(memberInfo));
             Ensure.NotNull(instance, nameof(instance));
@@ -30,13 +35,15 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Get type of object member.
+        /// Gets type of object member.
         /// </summary>
         /// <param name="memberInfo">MemberInfo.</param>
         /// <returns>
         /// Type of object member.
         /// </returns>
-        public static Type GetType(this MemberInfo memberInfo)
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        public static Type GetMemberType(this MemberInfo memberInfo)
         {
             Ensure.NotNull(memberInfo, nameof(memberInfo));
 
@@ -46,6 +53,10 @@ namespace Structr.Abstractions.Extensions
                     return ((FieldInfo)memberInfo).FieldType;
                 case MemberTypes.Property:
                     return ((PropertyInfo)memberInfo).PropertyType;
+                case MemberTypes.Event:
+                    return ((EventInfo)memberInfo).EventHandlerType;
+                case MemberTypes.Method:
+                    return ((MethodInfo)memberInfo).ReturnType;
                 default:
                     throw new NotSupportedException("Not supported member type");
             }
