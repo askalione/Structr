@@ -5,7 +5,7 @@ using System.Linq;
 namespace Structr.Navigation
 {
     /// <summary>
-    /// Represents a type for a navigation item (element, node).
+    /// Base navigation item.
     /// </summary>
     /// <typeparam name="TNavigationItem">The class <see cref="NavigationItem{TNavigationItem}"/> implementation.</typeparam>
     public abstract class NavigationItem<TNavigationItem> : IEquatable<TNavigationItem>
@@ -24,7 +24,7 @@ namespace Structr.Navigation
         public string Title { get; set; }
 
         /// <summary>
-        /// The key of navigation item into resource file if defined.
+        /// The key of navigation item into resource file (if defined).
         /// </summary>
         public string ResourceName { get; set; }
 
@@ -106,10 +106,10 @@ namespace Structr.Navigation
         #region Relation
 
         /// <summary>
-        /// Add the child to the children list.
+        /// Adds the child to the children list.
         /// </summary>
         /// <param name="child">Child navigation item.</param>
-        /// <exception cref="ArgumentNullException">if <paramref name="child"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="child"/> is <see langword="null"/>.</exception>
         public void AddChild(TNavigationItem child)
         {
             if (child == null)
@@ -124,10 +124,10 @@ namespace Structr.Navigation
         }
 
         /// <summary>
-        /// Remove the child from the children list.
+        /// Removes the child from the children list.
         /// </summary>
         /// <param name="child">Child navigation item.</param>
-        /// <exception cref="ArgumentNullException">if <paramref name="child"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="child"/> is <see langword="null"/>.</exception>
         public void RemoveChild(TNavigationItem child)
         {
             if (child == null)

@@ -25,9 +25,9 @@ namespace Structr.Navigation
         /// <param name="provider">The <see cref="INavigationProvider{TNavigationItem}"/>.</param>
         /// <param name="options">The <see cref="NavigationOptions{TNavigationItem}"/>.</param>
         /// <param name="cache">The <see cref="INavigationCache"/>.</param>
-        /// <exception cref="ArgumentNullException">if <paramref name="provider"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">if <paramref name="options"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">if <paramref name="cache"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="provider"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="cache"/> is <see langword="null"/>.</exception>
         public NavigationBuilder(INavigationProvider<TNavigationItem> provider,
             NavigationOptions<TNavigationItem> options,
             INavigationCache cache)

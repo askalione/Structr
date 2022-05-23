@@ -5,16 +5,16 @@ using System;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// Extension methods for configuring Navigation services.
+    /// <see cref="ServiceCollection"/> extension methods for configuring Navigation services.
     /// </summary>
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Add basic Navigation services.
+        /// Adds basic Navigation services.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <returns>The <see cref="NavigationServiceBuilder"/>.</returns>
-        /// <exception cref="ArgumentNullException">if <paramref name="services"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="services"/> is <see langword="null"/>.</exception>
         public static NavigationServiceBuilder AddNavigation(this IServiceCollection services)
         {
             if (services == null)

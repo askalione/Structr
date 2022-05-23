@@ -17,7 +17,7 @@ namespace Structr.Navigation
         /// Initializes an instance of <see cref="BreadcrumbNavigation{TNavigationItem}"/>.
         /// </summary>
         /// <param name="builder">The <see cref="INavigationBuilder{TNavigationItem}"/>.</param>
-        /// <exception cref="ArgumentNullException">if <paramref name="builder"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="builder"/> is <see langword="null"/>.</exception>
         public BreadcrumbNavigation(INavigationBuilder<TNavigationItem> builder)
         {
             if (builder == null)

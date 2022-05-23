@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Structr.Navigation
 {
     /// <summary>
-    /// Represents a type that implements a navigation cache.
+    /// Provides functionality for implements a navigation cache.
     /// </summary>
     public interface INavigationCache
     {

@@ -7,7 +7,10 @@ using System.Xml.Linq;
 
 namespace Structr.Navigation.Providers
 {
-    /// <inheritdoc cref="INavigationProvider{TNavigationItem}"/>
+    /// <summary>
+    /// Provides functionality for creation list of navigation items <see cref="IEnumerable<TNavigationItem>"/> from XML file.
+    /// </summary>
+    /// <typeparam name="TNavigationItem"></typeparam>
     public class XmlNavigationProvider<TNavigationItem> : INavigationProvider<TNavigationItem>
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
@@ -16,8 +19,8 @@ namespace Structr.Navigation.Providers
         /// <summary>
         /// Initializes an instance of <see cref="JsonNavigationProvider"/>.
         /// </summary>
-        /// <param name="path">Absolute path to <strong>XML</strong> file with navigation configuration.</param>
-        /// <exception cref="ArgumentNullException">if <paramref name="path"/> is <see langword="null"/>.</exception>
+        /// <param name="path">Absolute path to XML file with navigation configuration.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/>.</exception>
         public XmlNavigationProvider(string path)
         {
             if (string.IsNullOrWhiteSpace(path) == true)

@@ -3,7 +3,7 @@ using System;
 namespace Structr.Navigation
 {
     /// <summary>
-    /// Options for class <see cref="NavigationItem{TNavigationItem}"/> implementation.
+    /// Defines a set of options used for configure services.
     /// </summary>
     /// <typeparam name="TNavigationItem">The class <see cref="NavigationItem{TNavigationItem}"/> implementation.</typeparam>
     public class NavigationOptions<TNavigationItem>

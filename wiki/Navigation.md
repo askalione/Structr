@@ -157,7 +157,7 @@ Both of navigation elements shoud be inheritted from `NavigationItem<T>` that re
 | --- | --- | --- |
 | Id | `string` | Navigation item identifier. | 
 | Title | `string` | Navigation item title. | 
-| ResourceName | `string` | The key of navigation item into resource file if defined. | 
+| ResourceName | `string` | The key of navigation item into resource file (if defined). | 
 | Children | `IEnumerable<TNavigationItem>` | Child navigation elements. | Returns <see langword="true"/> if the navigation item has an active descendant, otherwise returns <see langword="false"/>.
 | Ancestors | `IEnumerable<TNavigationItem>` | Returns all parent navigation items. | 
 | Descendants | `IEnumerable<TNavigationItem>` | Returns all child navigation items. | 

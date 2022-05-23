@@ -53,7 +53,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TNavigationItem">An implementation of the abstract class <see cref="NavigationItem{TNavigationItem}"/>.</typeparam>
         /// <param name="builder">The <see cref="NavigationServiceBuilder"/>.</param>
-        /// <param name="path">Absolute path to <strong>JSON</strong> file with navigation configuration.</param>
+        /// <param name="path">Absolute path to JSON file with navigation configuration.</param>
         /// <param name="configure">The <see cref="NavigationOptions{TNavigationItem}"/>.</param>
         /// <returns>The <see cref="NavigationServiceBuilder"/>.</returns>
         public static NavigationServiceBuilder AddJson<TNavigationItem>(this NavigationServiceBuilder builder,
@@ -67,7 +67,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TNavigationItem">An implementation of the abstract class <see cref="NavigationItem{TNavigationItem}"/>.</typeparam>
         /// <param name="builder">The <see cref="NavigationServiceBuilder"/>.</param>
-        /// <param name="path">Absolute path to <strong>JSON</strong> file with navigation configuration.</param>
+        /// <param name="path">Absolute path to JSON file with navigation configuration.</param>
         /// <param name="configure">The <see cref="NavigationOptions{TNavigationItem}"/>.</param>
         /// <returns>The <see cref="NavigationServiceBuilder"/>.</returns>
         public static NavigationServiceBuilder AddJson<TNavigationItem>(this NavigationServiceBuilder builder,
@@ -81,7 +81,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TNavigationItem">An implementation of the abstract class <see cref="NavigationItem{TNavigationItem}"/>.</typeparam>
         /// <param name="builder">The <see cref="NavigationServiceBuilder"/>.</param>
-        /// <param name="path">Absolute path to <strong>XML</strong> file with navigation configuration.</param>
+        /// <param name="path">Absolute path to XML file with navigation configuration.</param>
         /// <param name="configure">The <see cref="NavigationOptions{TNavigationItem}"/>.</param>
         /// <returns>The <see cref="NavigationServiceBuilder"/>.</returns>
         public static NavigationServiceBuilder AddXml<TNavigationItem>(this NavigationServiceBuilder builder,
@@ -95,7 +95,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TNavigationItem">An implementation of the abstract class <see cref="NavigationItem{TNavigationItem}"/>.</typeparam>
         /// <param name="builder">The <see cref="NavigationServiceBuilder"/>.</param>
-        /// <param name="path">Absolute path to <strong>XML</strong> file with navigation configuration.</param>
+        /// <param name="path">Absolute path to XML file with navigation configuration.</param>
         /// <param name="configure">The <see cref="NavigationOptions{TNavigationItem}"/>.</param>
         /// <returns>The <see cref="NavigationServiceBuilder"/>.</returns>
         public static NavigationServiceBuilder AddXml<TNavigationItem>(this NavigationServiceBuilder builder,

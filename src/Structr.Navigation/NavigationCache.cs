@@ -15,7 +15,7 @@ namespace Structr.Navigation
         /// Initializes an instance of <see cref="NavigationCache"/>.
         /// </summary>
         /// <param name="cache">The <see cref="IMemoryCache"/>.</param>
-        /// <exception cref="ArgumentNullException">if <paramref name="cache"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="cache"/> is <see langword="null"/>.</exception>
         public NavigationCache(IMemoryCache cache)
         {
             if (cache == null)

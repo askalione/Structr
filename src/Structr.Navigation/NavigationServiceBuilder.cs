@@ -17,7 +17,7 @@ namespace Structr.Navigation
         /// Initializes a new <see cref="NavigationServiceBuilder"/> instance.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
-        /// <exception cref="ArgumentNullException">if <paramref name="services"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="services"/> is <see langword="null"/>.</exception>
         public NavigationServiceBuilder(IServiceCollection services)
         {
             if (services == null)
