@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Structr.AspNetCore.Validation
@@ -19,7 +19,9 @@ namespace Structr.AspNetCore.Validation
         public override bool IsValid(object value, object dependentValue, object container)
         {
             if (Metadata.IsValid(dependentValue, DependentValue))
+            {
                 return OperatorMetadata.Get(Operator.RegExMatch).IsValid(value, Pattern);
+            }
 
             return true;
         }
@@ -35,7 +37,9 @@ namespace Structr.AspNetCore.Validation
         public override string FormatErrorMessage(string name)
         {
             if (string.IsNullOrEmpty(ErrorMessageResourceName) && string.IsNullOrEmpty(ErrorMessage))
+            {
                 ErrorMessage = DefaultErrorMessage;
+            }
 
             return string.Format(ErrorMessageString, name, DependentProperty, DependentValue, Pattern);
         }

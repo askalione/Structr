@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Structr.AspNetCore.Validation
@@ -23,8 +23,9 @@ namespace Structr.AspNetCore.Validation
         public override string FormatErrorMessage(string name)
         {
             if (string.IsNullOrEmpty(ErrorMessageResourceName) && string.IsNullOrEmpty(ErrorMessage))
+            {
                 ErrorMessage = DefaultErrorMessage;
-
+            }
             return string.Format(ErrorMessageString, name, DependentProperty, DependentValue);
         }
 
@@ -45,8 +46,9 @@ namespace Structr.AspNetCore.Validation
         public override bool IsValid(object value, object dependentValue, object container)
         {
             if (Metadata.IsValid(dependentValue, DependentValue))
+            {
                 return value != null && !string.IsNullOrEmpty(value.ToString().Trim());
-
+            }
             return true;
         }
 

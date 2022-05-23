@@ -1,4 +1,4 @@
-﻿
+
 namespace Structr.AspNetCore.Validation
 {
     public class RequiredIfEmptyAttribute : ContingentValidationAttribute
@@ -9,8 +9,9 @@ namespace Structr.AspNetCore.Validation
         public override bool IsValid(object value, object dependentValue, object container)
         {
             if (string.IsNullOrEmpty((dependentValue ?? string.Empty).ToString().Trim()))
+            {
                 return value != null && !string.IsNullOrEmpty(value.ToString().Trim());
-
+            }
             return true;
         }
 

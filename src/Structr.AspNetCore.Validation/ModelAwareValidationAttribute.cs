@@ -11,7 +11,9 @@ namespace Structr.AspNetCore.Validation
         public override string FormatErrorMessage(string name)
         {
             if (string.IsNullOrEmpty(ErrorMessageResourceName) && string.IsNullOrEmpty(ErrorMessage))
+            {
                 ErrorMessage = DefaultErrorMessage;
+            }
 
             return base.FormatErrorMessage(name);
         }
