@@ -1,6 +1,8 @@
+# Object extensions
+
 ## SetProperty
 
-Sets property of source instance to specified value. When property with provided name doesn't exist then nothing happends.
+Sets property of source instance to specified value. When property with provided name doesn't exist then nothing happens.
 
 ```csharp
 var foo = new Foo { BarProperty = new Bar() };

@@ -1,4 +1,5 @@
 # HierarchyId
+
 `HierarchyId` class provides tools for operating with identificators of objects combined into hierarchical structure. The idea of hierarchical id becomes helpful when working of objects combined into hierarchical structures. It could be organization departments for example.
 
 Instance of `HierarchyId` represents hierarchical identificator for node and contain ids of all ancestors for current node. For example it could be: "/10/38/94/", which means that current node has `id=94`, its parent id is `38` and grandparent id is `10`.

@@ -1,3 +1,5 @@
+# Type extensions
+
 ## HasOwnProperty
 
 Gets a value indicating whether public non-static property with a specified name occurs directly within this type.

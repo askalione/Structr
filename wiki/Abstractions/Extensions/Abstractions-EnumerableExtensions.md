@@ -1,3 +1,5 @@
+# Enumerable extensions
+
 ## OrderBy
 
 Sorts the elements of a sequence in order and by properties provided via dictionary. Could help in some difficult cases, when you need, for example, sort by name in ascending order and by age in descending. Number of fields is, of course, could be more than two.
@@ -42,10 +44,11 @@ var result = list.PickRandom(); // 1 or 2 or 3
 ```
 
 or randomly gets ``count`` items from ``source``:
-```csharp
 
+```csharp
 var result = list.PickRandom(2); // 1,2 or 1,3 or 2,3
 ```
+
 There are count of more special sorting methods which are not listed here but could be found via IntelliSense.
 
 ## Shuffle

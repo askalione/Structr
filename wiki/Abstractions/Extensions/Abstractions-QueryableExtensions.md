@@ -1,6 +1,8 @@
+# Queryable extensions
+
 ## PageBy
 
-Applies pagination to IQueryable instance skipping and taking specified number of elements. Could be efectively used with ORM while constructing query via Linq.
+Applies pagination to IQueryable instance skipping and taking specified number of elements. Could be effectively used with ORM while constructing query via Linq.
 
 ```csharp
 var queryable = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.AsQueryable();

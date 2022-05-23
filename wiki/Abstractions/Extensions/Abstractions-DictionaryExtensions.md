@@ -1,4 +1,7 @@
+# Dictionary extensions
+
 ## AddRangeOverride
+
 Adds new values to source dictionary, overriding values for existing keys.
 
 ```csharp
@@ -11,8 +14,8 @@ var dictionary = new Dictionary<int, string>
 };
 var newDictionary = new Dictionary<int, string>
 {
-    { 1, "One_overriden" },
-    { 3, "Three_overriden" },
+    { 1, "One_overridden" },
+    { 3, "Three_overridden" },
     { 5, "Five_new" }
 };
 dictionary.AddRangeOverride(newDictionary);
@@ -26,6 +29,7 @@ dictionary.AddRangeOverride(newDictionary);
 ```
 
 ## AddRangeNewOnly
+
 Adds new values to source dictionary, leaving existing keys values untouched.
 
 ```csharp
@@ -38,8 +42,8 @@ var dictionary = new Dictionary<int, string>
 };
 var newDictionary = new Dictionary<int, string>
 {
-    { 1, "One_dont_override" },
-    { 3, "Three_dont_override" },
+    { 1, "One_don`t_override" },
+    { 3, "Three_don`t_override" },
     { 5, "Five_new" }
 };
 dictionary.AddRangeNewOnly(newDictionary);
@@ -53,6 +57,7 @@ dictionary.AddRangeNewOnly(newDictionary);
 ```
 
 ## AddRange
+
 Adds new values to source dictionary. Throws if one or more keys in new list already exist in source dictionary.
 
 ```csharp
@@ -80,6 +85,7 @@ dictionary.AddRange(newDictionary);
 ```
 
 ## ContainsKeys
+
 Checks if **at least one** key from provided list exists in source dictionary.
 
 ```csharp

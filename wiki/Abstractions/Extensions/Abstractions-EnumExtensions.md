@@ -1,6 +1,8 @@
+# Enum extensions
+
 ## GetDescription
 
-Gets value of the first ``DescriptionAttribute`` for the enum element.
+Gets value of the first `DescriptionAttribute` for the enum element.
 
 ```csharp
 private enum FooBarBaz

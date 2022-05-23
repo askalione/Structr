@@ -1,8 +1,10 @@
 # Ensure
+
 `Ensure` static class with its methods provides functionality for determining if variable's value meets specified conditions and throw exception if it's not.
 
 ## NotNull
-Throws `ArgumentNullException` when value of specified varible is null:
+
+Throws `ArgumentNullException` when value of specified variable is null:
 
 ```csharp
 object myValue = null;
@@ -12,7 +14,8 @@ Ensure.NotNull(myValue, nameof(myValue)); // --> does nothing
 ```
 
 ## NotEmpty
-Throws ArgumentNullException when value of specified string varible is null or empty:
+
+Throws ArgumentNullException when value of specified string variable is null or empty:
 
 ```csharp
 string? myValue = null;

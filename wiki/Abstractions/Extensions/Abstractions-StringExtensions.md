@@ -1,10 +1,12 @@
+# String extensions
+
 ## DefaultIfEmpty
 
 Return default value if current string is empty, equals null or equals white space, otherwise current string.
 
 ```csharp
-var result = "      ".DefaultIfEmpty("defaultVaule"); // defaultVaule
-var result = "someValue".DefaultIfEmpty("defaultVaule"); // someValue
+var result = "      ".DefaultIfEmpty("defaultValue"); // defaultValue
+var result = "someValue".DefaultIfEmpty("defaultValue"); // someValue
 ```
 
 ## Cast
@@ -44,7 +46,7 @@ var result = "ToCamelCase".ToCamelCase() // toCamelCase
 ## Contains
 
 Returns a value indicating whether a specified string occurs within this string, using the specified comparison rules.
-Method could be usefull to projects prior to .net standard 2.1. Similar method added to `string` in .net standard 2.1.
+Method could be useful to projects prior to .net standard 2.1. Similar method added to `string` in .net standard 2.1.
 
 ```csharp
 var result = "QwErTy".Contains("wert", StringComparison.Ordinal) // false
@@ -54,7 +56,7 @@ var result = "QwErTy".Contains("wert", StringComparison.OrdinalIgnoreCase) // tr
 ## Replace
 
 Returns a new string in which all occurrences of a specified string in the current instance are replaced with another specified string using provided comparison rule.
-Method could be usefull to projects prior to .net standard 2.1. Similar method added to `string` in .net standard 2.1.
+Method could be useful to projects prior to .net standard 2.1. Similar method added to `string` in .net standard 2.1.
 
 ```csharp
 var result = "QwErTyQwErTy".Replace("WeR", "123", StringComparison.Ordinal) // QwErTyQwErTy

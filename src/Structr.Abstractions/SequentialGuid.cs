@@ -2,6 +2,9 @@ using System;
 
 namespace Structr.Abstractions
 {
+    /// <summary>
+    /// Provides tools for generation sequential GUID.
+    /// </summary>
     public static class SequentialGuid
     {
         /// <summary>

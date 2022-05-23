@@ -1,7 +1,9 @@
+# DateTime extensions
+
 ## ToShortDateString
 
 Converts the value of the current `DateTime?` object to its equivalent short date string representation.
-If value is null then returns specified `defaultValue`
+If value is null then returns specified `defaultValue`.
 
 ```csharp
 DateTime? dateTime = null;
@@ -11,7 +13,7 @@ dateTime = new DateTime(2008, 09, 25, 11, 35, 52);
 result = dateTime.ToShortDateString("------"); // "09/25/2008"
 ```
 
-Same works for long DateTime representation - `ToLongDateString`
+Same works for long DateTime representation - `ToLongDateString()`
 
 ## ToString
 

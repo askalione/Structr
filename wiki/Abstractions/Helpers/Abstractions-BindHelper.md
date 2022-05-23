@@ -1,10 +1,10 @@
 # BindHelper
 
-`BindHelper` provides functionality for generating objects on base of some Enum, while binding data contained in enum attributes to coresponding properties of specified objects.
+`BindHelper` provides functionality for generating objects on base of some Enum, while binding data contained in enum attributes to corresponding properties of specified objects.
 
 ## Usage
 
-One of common usecases of this helper is a permission-objects creating objects based on corresponding enumeration.
+One of common use cases of this helper is a permission-objects creating objects based on corresponding enumeration.
 
 Let's say we've got some enumeration containing permission items: 
 
@@ -13,16 +13,17 @@ public enum PermissionId
 {
     [BindProperty("Name", "User details")]
     [BindProperty("Description", "Permission to view user details")]
-    UserDetails,
+    UserDetails = 1,
     [BindProperty("Name", "Create new user")]
     [BindProperty("Description", "Permission to create new user")]
-    UserCreate,
+    UserCreate = 2,
     [BindProperty("Name", "Edit user")]
     [BindProperty("Description", "Permission to edit user")]
-    UserEdit,
+    UserEdit = 3,
     /* etc. */
 }
 ```
+
 It's relatively simple to manage application users permissions in such way, but what to do if some asks to change name or description of permission?
 
 Here comes permission-describing class which instances should be stored in DB. This will provide you with possibility to change their names and descriptions without touching source code:
@@ -36,13 +37,15 @@ public class Permission
     public string Description { get; private set; };
 }
 ```
+
 Last question is how to populate such instances during first DB-seeding or when we have updated application and changed some permission?
-Here `BindHelper` comes to our aid - with it we can do such job in one statment:
+Here `BindHelper` comes to our aid - with it we can do such job in one statement:
 
 ```csharp
-var result = BindHelper.Bind<Permission, PermissionId>((obj, enum) =>
+var result = BindHelper.Bind<Permission, PermissionId>((obj, @enum) =>
 {
-    obj.Value = enum.ToString();
+    obj.Id = (int)@enum;
+    obj.Value = @enum.ToString();
 });
 ```
 
@@ -52,12 +55,14 @@ This returns the list of `Permission`-objects equivalent to:
 {
     new Permisson
     { 
+        Id = 1,
         Value = "UserDetails",
         Name = "User details",
         Description = "Permission to view user details"
     },
     new Permisson
     { 
+        Id = 2,
         Value = "UserCreate",
         Name = "Create new user",
         Description = "Permission to create new user"
