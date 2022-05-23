@@ -46,16 +46,14 @@ namespace Structr.Tests.Operations
             }
         }
 
-
-
-        public class OmniFilter<TOperation, TResult> : IOperationFilter<TOperation, TResult>
+        public class UniversalFilter<TOperation, TResult> : IOperationFilter<TOperation, TResult>
             where TOperation : IOperation<TResult>
         {
             private readonly IStringWriter _writer;
-            public OmniFilter(IStringWriter writer) => _writer = writer;
+            public UniversalFilter(IStringWriter writer) => _writer = writer;
             public async Task<TResult> FilterAsync(TOperation operation, CancellationToken cancellationToken, OperationHandlerDelegate<TResult> next)
             {
-                await _writer.WriteAsync("OmniFilter");
+                await _writer.WriteAsync("UniversalFilter");
                 return await next();
             }
         }
@@ -71,6 +69,19 @@ namespace Structr.Tests.Operations
             }
         }
 
+        public class AfterFilter<TOperation, TResult> : IOperationFilter<TOperation, TResult>
+            where TOperation : IOperation<TResult>
+        {
+            private readonly IStringWriter _writer;
+            public AfterFilter(IStringWriter writer) => _writer = writer;
+            public async Task<TResult> FilterAsync(TOperation operation, CancellationToken cancellationToken, OperationHandlerDelegate<TResult> next)
+            {
+                var result = await next();
+                await _writer.WriteAsync("AfterFilter");
+                return result;
+            }
+        }
+
         [Fact]
         public async Task Multiple_filters_should_be_applied_in_registration_order()
         {
@@ -78,7 +89,7 @@ namespace Structr.Tests.Operations
             var writer = WriterMock.New;
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddWriterMock(writer);
-            serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(OmniFilter<,>));
+            serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(UniversalFilter<,>));
             serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(QueryFilter<,>));
             var servicesProvider = serviceCollection
                 .AddOperations(this.GetType().Assembly)
@@ -90,7 +101,29 @@ namespace Structr.Tests.Operations
             await executor.ExecuteAsync(operation);
 
             // Assert
-            writer.Buffer.Should().BeEquivalentTo(new[] { "OmniFilter", "QueryFilter", "BarQuery 7" },
+            writer.Buffer.Should().BeEquivalentTo(new[] { "UniversalFilter", "QueryFilter", "BarQuery 7" },
+                opt => opt.WithStrictOrdering());
+        }
+
+        [Fact]
+        public async Task Filter_works_after_handler()
+        {
+            // Arrange
+            var writer = WriterMock.New;
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddWriterMock(writer);
+            serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(AfterFilter<,>));
+            var servicesProvider = serviceCollection
+                .AddOperations(this.GetType().Assembly)
+                .BuildServiceProvider();
+            var executor = servicesProvider.GetRequiredService<IOperationExecutor>();
+            BarQuery operation = new BarQuery { Number1 = 3, Number2 = 4 };
+
+            // Act
+            await executor.ExecuteAsync(operation);
+
+            // Assert
+            writer.Buffer.Should().BeEquivalentTo(new[] { "BarQuery 7", "AfterFilter" },
                 opt => opt.WithStrictOrdering());
         }
 
@@ -101,7 +134,7 @@ namespace Structr.Tests.Operations
             var writer = WriterMock.New;
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddWriterMock(writer);
-            serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(OmniFilter<,>));
+            serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(UniversalFilter<,>));
             serviceCollection.AddTransient(typeof(IOperationFilter<,>), typeof(QueryFilter<,>));
             var servicesProvider = serviceCollection
                 .AddOperations(this.GetType().Assembly)
@@ -113,7 +146,7 @@ namespace Structr.Tests.Operations
             await executor.ExecuteAsync(operation);
 
             // Assert
-            writer.Buffer.Should().BeEquivalentTo(new[] { "OmniFilter", "SomeName" },
+            writer.Buffer.Should().BeEquivalentTo(new[] { "UniversalFilter", "SomeName" },
                 opt => opt.WithStrictOrdering());
         }
     }
