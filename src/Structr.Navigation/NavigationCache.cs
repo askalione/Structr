@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Structr.Navigation
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="INavigationCache"/>
     public class NavigationCache : INavigationCache
     {
         private static readonly Type _key = typeof(NavigationCache);

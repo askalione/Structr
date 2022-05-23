@@ -28,6 +28,9 @@ namespace Structr.Navigation
         /// </summary>
         public string ResourceName { get; set; }
 
+        /// <summary>
+        /// Child navigation elements.
+        /// </summary>
         private readonly List<TNavigationItem> _children = new List<TNavigationItem>();
 
         /// <summary>
@@ -35,6 +38,9 @@ namespace Structr.Navigation
         /// </summary>
         public IEnumerable<TNavigationItem> Children => _children;
 
+        /// <summary>
+        /// All parent navigation items.
+        /// </summary>
         private readonly List<TNavigationItem> _ancestors = new List<TNavigationItem>();
 
         /// <summary>
@@ -42,6 +48,9 @@ namespace Structr.Navigation
         /// </summary>
         public IEnumerable<TNavigationItem> Ancestors => _ancestors;
 
+        /// <summary>
+        /// All child navigation items.
+        /// </summary>
         private readonly List<TNavigationItem> _descendants = new List<TNavigationItem>();
 
         /// <summary>
@@ -49,6 +58,9 @@ namespace Structr.Navigation
         /// </summary>
         public IEnumerable<TNavigationItem> Descendants => _descendants;
 
+        /// <summary>
+        /// Parent navigation item.
+        /// </summary>
         private TNavigationItem _parent = null;
 
         /// <summary>
@@ -56,6 +68,9 @@ namespace Structr.Navigation
         /// </summary>
         public TNavigationItem Parent => _parent;
 
+        /// <summary>
+        /// Status of navigation item.
+        /// </summary>
         private bool _isActive = false;
 
         /// <summary>
@@ -69,17 +84,17 @@ namespace Structr.Navigation
         public bool HasChildren => _children.Any();
 
         /// <summary>
-        /// Returns <see langword="true"/> if the navigation item has a active child, otherwise returns <see langword="false"/>.
+        /// Returns <see langword="true"/> if the navigation item has an active child, otherwise returns <see langword="false"/>.
         /// </summary>
         public bool HasActiveChild => _children.Any(x => x.IsActive);
 
         /// <summary>
-        /// Returns <see langword="true"/> if the navigation item has a active descendant, otherwise returns <see langword="false"/>.
+        /// Returns <see langword="true"/> if the navigation item has an active descendant, otherwise returns <see langword="false"/>.
         /// </summary>
         public bool HasActiveDescendant => _descendants.Any(x => x.IsActive);
 
         /// <summary>
-        /// Returns <see langword="true"/> if the navigation item has a active ancestor, otherwise returns <see langword="false"/>.
+        /// Returns <see langword="true"/> if the navigation item has an active ancestor, otherwise returns <see langword="false"/>.
         /// </summary>
         public bool HasActiveAncestor => _ancestors.Any(x => x.IsActive);
 
