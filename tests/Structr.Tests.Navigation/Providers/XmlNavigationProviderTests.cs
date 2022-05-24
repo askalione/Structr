@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Structr.Navigation.Internal;
 using Structr.Navigation.Providers;
 using Structr.Tests.Navigation.TestUtils;
 using System;
@@ -24,7 +23,7 @@ namespace Structr.Tests.Navigation.Providers
         public void CreateNavigation()
         {
             // Arrange
-            var path = TestDataDirectoryPath.Combine("menu.xml");
+            var path = TestDataPath.Combine("menu.xml");
             var provider = new XmlNavigationProvider<CustomNavigationItem>(path);
 
             // Act

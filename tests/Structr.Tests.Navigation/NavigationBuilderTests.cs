@@ -13,7 +13,7 @@ namespace Structr.Tests.Navigation
         public void BuildNavigation()
         {
             // Arrange
-            var path = TestDataDirectoryPath.Combine("menu.json");
+            var path = TestDataPath.Combine("menu.json");
             var provider = new JsonNavigationProvider<CustomNavigationItem>(path);
             var options = new NavigationOptions<CustomNavigationItem>();
             var navigationCache = new NavigationCache(new MemoryCache(new MemoryCacheOptions { SizeLimit = 1024 }));

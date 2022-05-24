@@ -24,7 +24,7 @@ namespace Structr.Navigation
         public string Title { get; set; }
 
         /// <summary>
-        /// The key of navigation item into resource file (if defined).
+        /// The key of navigation item in resource file.
         /// </summary>
         public string ResourceName { get; set; }
 

@@ -11,7 +11,7 @@ namespace Structr.Tests.Navigation
         public void AddNavigation_json()
         {
             // Arrange
-            var path = TestDataDirectoryPath.Combine("menu.json");
+            var path = TestDataPath.Combine("menu.json");
             var navigationBuilder = new ServiceCollection()
                 .AddNavigation();
 
@@ -29,7 +29,7 @@ namespace Structr.Tests.Navigation
         public void AddNavigation_xml()
         {
             // Arrange
-            var path = TestDataDirectoryPath.Combine("menu.xml");
+            var path = TestDataPath.Combine("menu.xml");
             var navigationBuilder = new ServiceCollection()
                 .AddNavigation();
 

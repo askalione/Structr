@@ -14,7 +14,7 @@ namespace Structr.Tests.Navigation
         public void Ctor_single_active_item()
         {
             // Arrange
-            var path = TestDataDirectoryPath.Combine("menu.json");
+            var path = TestDataPath.Combine("menu.json");
             var provider = new JsonNavigationProvider<CustomNavigationItem>(path);
             var options = new NavigationOptions<CustomNavigationItem>
             {
