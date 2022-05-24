@@ -6,17 +6,22 @@ using System.Threading.Tasks;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="Expression"/>.
+    /// </summary>
     public static class ExpressionExtensions
     {
         /// <summary>
-        /// Get property name by expression.
+        /// Gets property name by expression. Can be used for nested properties.
         /// </summary>
-        /// <typeparam name="TObject">Object Type.</typeparam>
-        /// <typeparam name="TProperty">Property type.</typeparam>
-        /// <param name="propertyExpression">Lambda-expression for property.</param>
+        /// <typeparam name="TObject">Type of object.</typeparam>
+        /// <typeparam name="TProperty">Type of property.</typeparam>
+        /// <param name="propertyExpression">Lambda expression for property.</param>
         /// <returns>
         /// Property name.
         /// </returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public static string GetPropertyName<TObject, TProperty>(this Expression<Func<TObject, TProperty>> propertyExpression)
         {
             Ensure.NotNull(propertyExpression, nameof(propertyExpression));
@@ -41,36 +46,43 @@ namespace Structr.Abstractions.Extensions
                 var propInfo = tempMemberExpression.Expression.GetType().GetProperty("Member");
                 var propValue = propInfo.GetValue(tempMemberExpression.Expression, null) as PropertyInfo;
                 if (propValue != null)
+                {
                     memberName = propValue.Name + "." + memberName;
+                }
                 tempMemberExpression = tempMemberExpression.Expression as MemberExpression;
             }
 
             if (memberName.IndexOf('.') > -1)
+            {
                 memberName += memberExpression.Member.Name;
+            }
             if (string.IsNullOrWhiteSpace(memberName))
+            {
                 memberName = memberExpression.Member.Name;
+            }
 
             PropertyInfo propertyInfo = typeof(TObject).GetPropertyInfo(memberName);
-
             if (propertyInfo == null)
+            {
                 throw new ArgumentException("Expression is not a property", propertyExpression.ToString());
+            }
 
             return memberName;
         }
 
         /// <summary>
-        /// Get MemberInfo by lambda expression.
+        /// Gets <see cref="MemberInfo"/> for property provided via lambda expression.
         /// </summary>
-        /// <param name="expression">LambdaExpression.</param>
+        /// <param name="expression">Lambda expression for property.</param>
         /// <returns>
-        /// MemberInfo.
+        /// Instance of <see cref="MemberInfo"/> type describing provided property.
         /// </returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static MemberInfo GetMember(this LambdaExpression expression)
         {
             Ensure.NotNull(expression, nameof(expression));
 
             var memberExp = RemoveUnary(expression.Body) as MemberExpression;
-
             if (memberExp == null)
             {
                 return null;
@@ -80,20 +92,20 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Get MemberInfo by expression.
+        /// Gets <see cref="MemberInfo"/> for property provided via expression.
         /// </summary>
-        /// <typeparam name="T">Generic type of object.</typeparam>
-        /// <typeparam name="TProperty">Generic type of property.</typeparam>
+        /// <typeparam name="TObject">Type of object.</typeparam>
+        /// <typeparam name="TProperty">Type of property.</typeparam>
         /// <param name="expression">Expression.</param>
         /// <returns>
-        /// MemberInfo.
+        /// Instance of <see cref="MemberInfo"/> type describing provided property.
         /// </returns>
-        public static MemberInfo GetMember<T, TProperty>(this Expression<Func<T, TProperty>> expression)
+        /// <exception cref="ArgumentNullException"></exception>
+        public static MemberInfo GetMember<TObject, TProperty>(this Expression<Func<TObject, TProperty>> expression)
         {
             Ensure.NotNull(expression, nameof(expression));
 
             var memberExp = RemoveUnary(expression.Body) as MemberExpression;
-
             if (memberExp == null)
             {
                 return null;
@@ -134,38 +146,38 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function for property from generic.
+        /// Makes non generic function from generic.
         /// </summary>
-        /// <typeparam name="T">Type of object.</typeparam>
+        /// <typeparam name="TObject">Type of object.</typeparam>
         /// <typeparam name="TProperty">Type of property.</typeparam>
-        /// <param name="func">Function for property.</param>
+        /// <param name="func"></param>
         /// <returns>
-        /// Non generic function for property.
+        /// Non generic function.
         /// </returns>
-        public static Func<object, object> MakeNonGeneric<T, TProperty>(this Func<T, TProperty> func)
+        public static Func<object, object> MakeNonGeneric<TObject, TProperty>(this Func<TObject, TProperty> func)
         {
             Ensure.NotNull(func, nameof(func));
 
-            return x => func((T)x);
+            return x => func((TObject)x);
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
-        /// <typeparam name="T">Type of object.</typeparam>
+        /// <typeparam name="TObject">Type of object.</typeparam>
         /// <param name="func">Function.</param>
         /// <returns>
         /// Non generic function.
         /// </returns>
-        public static Func<object, bool> MakeNonGeneric<T>(this Func<T, bool> func)
+        public static Func<object, bool> MakeNonGeneric<TObject>(this Func<TObject, bool> func)
         {
             Ensure.NotNull(func, nameof(func));
 
-            return x => func((T)x);
+            return x => func((TObject)x);
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makess non generic function from generic.
         /// </summary>
         /// <typeparam name="T1">Type of object1.</typeparam>
         /// <typeparam name="T2">Type of object2.</typeparam>
@@ -181,7 +193,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T1">Type of object1.</typeparam>
         /// <typeparam name="T2">Type of object2.</typeparam>
@@ -198,7 +210,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="func">Function.</param>
@@ -213,7 +225,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="func">Function.</param>
@@ -228,7 +240,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="func">Function.</param>
@@ -258,7 +270,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic function from generic.
+        /// Makes non generic function from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="func">Function.</param>
@@ -273,7 +285,7 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Make non generic action from generic.
+        /// Makes non generic action from generic.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="action">Action.</param>

@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 
 namespace Structr.Abstractions.Helpers
@@ -5,16 +6,17 @@ namespace Structr.Abstractions.Helpers
     public static class HashHelper
     {
         /// <summary>
-        /// Return new hashed string.
+        /// Returns new hashed string.
         /// </summary>
         /// <param name="value">Target string value.</param>
         /// <returns>
-        /// Return new instance of string.
+        /// Hashed string.
         /// </returns>
+        [Obsolete]
         public static string HashString(string value)
         {
             string hash = value;
-            if (!string.IsNullOrWhiteSpace(hash))
+            if (string.IsNullOrWhiteSpace(hash) == false)
             {
                 hash = hash.ToLower().Trim();
                 hash = hash.Replace("&quot;", " ");

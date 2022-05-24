@@ -13,7 +13,9 @@ namespace Structr.Samples.Operations.Commands.Bar
         public BarCommandHandler(IStringWriter writer)
         {
             if (writer == null)
+            {
                 throw new ArgumentNullException(nameof(writer));
+            }
 
             _writer = writer;
         }
