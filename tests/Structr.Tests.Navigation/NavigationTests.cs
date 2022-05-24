@@ -1,7 +1,6 @@
 using FluentAssertions;
 using Microsoft.Extensions.Caching.Memory;
 using Structr.Navigation;
-using Structr.Navigation.Internal;
 using Structr.Navigation.Providers;
 using Structr.Tests.Navigation.TestUtils;
 using Structr.Tests.Navigation.TestUtils.Extensions;
@@ -16,8 +15,8 @@ namespace Structr.Tests.Navigation
         {
             // Arrange
             var path = TestDataDirectoryPath.Combine("menu.json");
-            var provider = new JsonNavigationProvider<InternalNavigationItem>(path);
-            var options = new NavigationOptions<InternalNavigationItem>
+            var provider = new JsonNavigationProvider<CustomNavigationItem>(path);
+            var options = new NavigationOptions<CustomNavigationItem>
             {
                 ItemActivator = item =>
                 {
@@ -25,10 +24,10 @@ namespace Structr.Tests.Navigation
                 }
             };
             var navigationCache = new NavigationCache(new MemoryCache(new MemoryCacheOptions { SizeLimit = 1024 }));
-            var builder = new NavigationBuilder<InternalNavigationItem>(provider, options, navigationCache);
+            var builder = new NavigationBuilder<CustomNavigationItem>(provider, options, navigationCache);
 
             // Act
-            var navigation = new Navigation<InternalNavigationItem>(builder);
+            var navigation = new Navigation<CustomNavigationItem>(builder);
 
             // Assert
             navigation.Active.Should().NotBeNull();

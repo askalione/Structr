@@ -11,14 +11,13 @@ namespace Structr.Tests.Navigation.Providers
     public class XmlNavigationProviderTests
     {
         [Fact]
-        public void Ctor_throws_ArgumentNullException_if_path_is_null()
+        public void Ctor_throws_if_path_is_null()
         {
             // Act
-            Action act = () => new XmlNavigationProvider<InternalNavigationItem>(null); ;
+            Action act = () => new XmlNavigationProvider<CustomNavigationItem>(null); ;
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
-                .WithMessage("Value cannot be null. (Parameter 'path')");
+            act.Should().ThrowExactly<ArgumentNullException>();
         }
 
         [Fact]
@@ -26,7 +25,7 @@ namespace Structr.Tests.Navigation.Providers
         {
             // Arrange
             var path = TestDataDirectoryPath.Combine("menu.xml");
-            var provider = new XmlNavigationProvider<InternalNavigationItem>(path);
+            var provider = new XmlNavigationProvider<CustomNavigationItem>(path);
 
             // Act
             var result = provider.CreateNavigation();
@@ -37,10 +36,10 @@ namespace Structr.Tests.Navigation.Providers
         }
 
         [Fact]
-        public void CreateNavigation_throws_FileNotFoundException_if_file_not_exist()
+        public void CreateNavigation_throws_if_file_not_exist()
         {
             // Arrange
-            var provider = new XmlNavigationProvider<InternalNavigationItem>("menu.xml");
+            var provider = new XmlNavigationProvider<CustomNavigationItem>("menu.xml");
 
             // Act
             Action act = () => provider.CreateNavigation();
