@@ -10,7 +10,7 @@ namespace Structr.Navigation.Providers
     /// <summary>
     /// Provides functionality for creation list of navigation items <see cref="IEnumerable<TNavigationItem>"/> from XML file.
     /// </summary>
-    /// <typeparam name="TNavigationItem"></typeparam>
+    /// <typeparam name="TNavigationItem">An implementation of the abstract class <see cref="NavigationItem{TNavigationItem}"/>.</typeparam>
     public class XmlNavigationProvider<TNavigationItem> : INavigationProvider<TNavigationItem>
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {

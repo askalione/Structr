@@ -1,6 +1,6 @@
 # Navigation
 
-**Structr.Navigation** package is intended to help organize navigation menu (nav bar) or/and breadcrumbs in ASP.NET Core application.
+**Structr.Navigation** package is intended to help organize navigation menu (nav bar) or/and breadcrumbs in web-application.
 
 ## Installation
 
@@ -148,8 +148,8 @@ services.AddNavigation()
 
 ## Usage
 
-Navigation services uses to organize [menu](#menu) or [breadcrumbs](#breadcrumbs).
-Both of navigation elements shoud be inheritted from `NavigationItem<T>` that represents basic navigation item.
+Navigation services uses to organize [menu](/Navigation-Menu.md) or [breadcrumbs](/Navigation-Breadcrumbs.md).
+Both of navigation elements should be inherited from `NavigationItem<T>` that represents basic navigation item.
 
 `NavigationItem<T>` properties:
 
@@ -157,8 +157,8 @@ Both of navigation elements shoud be inheritted from `NavigationItem<T>` that re
 | --- | --- | --- |
 | Id | `string` | Navigation item identifier. | 
 | Title | `string` | Navigation item title. | 
-| ResourceName | `string` | The key of navigation item into resource file (if defined). | 
-| Children | `IEnumerable<TNavigationItem>` | Child navigation elements. | Returns <see langword="true"/> if the navigation item has an active descendant, otherwise returns <see langword="false"/>.
+| ResourceName | `string` | The key of navigation item in resource file. | 
+| Children | `IEnumerable<TNavigationItem>` | Child navigation elements. | Returns `true` if the navigation item has an active descendant, otherwise returns `false`.
 | Ancestors | `IEnumerable<TNavigationItem>` | Returns all parent navigation items. | 
 | Descendants | `IEnumerable<TNavigationItem>` | Returns all child navigation items. | 
 | Parent | `TNavigationItem` | Returns closest parent navigation item. | 
@@ -167,120 +167,3 @@ Both of navigation elements shoud be inheritted from `NavigationItem<T>` that re
 | HasActiveChild | `bool` | Returns `true` if the navigation item has an active child, otherwise returns `false`. | 
 | HasActiveDescendant | `bool` | Returns `true` if the navigation item has an active descendant, otherwise returns `false`. | 
 | HasActiveAncestor | `bool` | Returns `true` if the navigation item has an active ancestor, otherwise returns `false`. | 
-
-### Menu
-
-Example of common menu item:
-
-```csharp
-public class MenuItem : NavigationItem<MenuItem>
-{
-	public string Action { get; set; }
-	public string Controller { get; set; }
-	public string Area { get; set; }
-	public string Icon { get; set; }
-}
-```
-
-`INavigation<MenuItem>` is the main service to get navigation. `INavigation<MenuItem>` created once per request within the scope.
-
-For example, create `_MenuItem.cshtml` and `_Menu.cshtml` views.
-
-`_MenuItem.cshtml`:
-
-```html+razor
-@model MenuItem
-
-<li data-icon="@Model.Icon" data-id="@Model.Id">
-    <a href="@Url.Action(Model.Action, Model.Controller, new { area = Model.Area })" class="@(Model.IsActive ? "active" : "")">@Model.Title</a>
-    @if (Model.HasChildren)
-    {
-        <ul>
-            @foreach (var menuItem in Model.Children)
-            {
-                <partial name="_MenuItem" model="menuItem" />
-            }
-        </ul>
-    }
-</li>
-```
-
-`_Menu.cshtml`:
-
-```html+razor
-@using Structr.Navigation
-@model INavigation<MenuItem>
-
-<div class="navigation">
-    <h4 class="navigation-title">Menu:</h4>
-    <ul class="navigation-content">
-        @foreach (var menuItem in Model)
-        {
-            <partial name="_MenuItem" model="menuItem" />
-        }
-    </ul>
-</div>
-```
-
-Then you can inject `INavigation<MenuItem>`into `_Layout.cshtml` and use `_Menu.cshtml` partial view to rendering menu.
-
-`_Layout.cshtml`:
-
-```html+razor
-@using Structr.Navigation
-@inject INavigation<MenuItem> menu
-
-<partial name="_Menu" model="menu" />
-```
-
-### Breadcrumbs
-
-Example of common breadcrumb item:
-
-```csharp
-public class Breadcrumb : NavigationItem<Breadcrumb>
-{
-    public string Action { get; set; }
-    public string Controller { get; set; }
-    public string Area { get; set; }
-}
-```
-
-`IBreadcrumbNavigation<Breadcrumb>` is the main service to get navigation. `IBreadcrumbNavigation<Breadcrumb>` created once per request within the scope.
-
-For example, create `_Breadcrumbs.cshtml` view:
-
-```html+razor
-@using Structr.Navigation
-@model IBreadcrumbNavigation<Breadcrumb>
-
-<div class="navigation breadcrumbs">
-    <h4 class="navigation-title">Breadcrumbs:</h4>
-    <ul class="navigation-content">
-        @foreach (var breadcrumb in Model)
-        {
-            <li>
-                @if (breadcrumb.IsActive)
-                {
-                    @breadcrumb.Title
-                }
-                else
-                {
-                    <a href="@Url.Action(breadcrumb.Action, breadcrumb.Controller, new { area = breadcrumb.Area })">@breadcrumb.Title</a>
-                }
-            </li>
-        }
-    </ul>
-</div>
-```
-
-Then you can inject `IBreadcrumbNavigation<Breadcrumb>` into `_Layout.cshtml` and use `_Breadcrumbs.cshtml` partial view to rendering breadcrumbs.
-
-`_Layout.cshtml`:
-
-```html+razor
-@using Structr.Navigation
-@inject IBreadcrumbNavigation<Breadcrumb> breadcrumbs
-
-<partial name="_Breadcrumbs" model="breadcrumbs" />
-```

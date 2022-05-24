@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Structr.Navigation.Internal;
 using Structr.Tests.Navigation.TestUtils;
 using Structr.Tests.Navigation.TestUtils.Extensions;
 using Xunit;
@@ -9,20 +8,39 @@ namespace Structr.Tests.Navigation
     public class ServiceCollectionExtensionsTests
     {
         [Fact]
-        public void AddNavigation()
+        public void AddNavigation_json()
         {
             // Arrange
-            var path = TestDataDirectoryPath.Combine("menu.json");
+            var path = TestDataPath.Combine("menu.json");
+            var navigationBuilder = new ServiceCollection()
+                .AddNavigation();
 
             // Act
-            var serviceProvider = new ServiceCollection()
-                .AddNavigation()
-                    .AddJson<InternalNavigationItem>(path)
+            var serviceProvider = navigationBuilder
+                .AddJson<CustomNavigationItem>(path)
                 .Services
                 .BuildServiceProvider();
 
             // Assert
-            serviceProvider.ShouldContainsNavigationServices<InternalNavigationItem>();
+            serviceProvider.ShouldContainsNavigationServices<CustomNavigationItem>();
+        }
+
+        [Fact]
+        public void AddNavigation_xml()
+        {
+            // Arrange
+            var path = TestDataPath.Combine("menu.xml");
+            var navigationBuilder = new ServiceCollection()
+                .AddNavigation();
+
+            // Act
+            var serviceProvider = navigationBuilder
+                .AddXml<CustomNavigationItem>(path)
+                .Services
+                .BuildServiceProvider();
+
+            // Assert
+            serviceProvider.ShouldContainsNavigationServices<CustomNavigationItem>();
         }
     }
 }
