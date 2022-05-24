@@ -4,10 +4,16 @@ using System;
 
 namespace Structr.Configuration.Json
 {
-    class JsonSettingsEncryptionConverter : JsonConverter
+    /// <inheritdoc cref="JsonConverter"/>
+    internal class JsonSettingsEncryptionConverter : JsonConverter
     {
         private readonly string _passphrase;
 
+        /// <summary>
+        /// Initializes an instance of <see cref="JsonSettingsEncryptionConverter"/>.
+        /// </summary>
+        /// <param name="passphrase">Encryption password.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="passphrase"/> is <see langword="null"/>.</exception>
         public JsonSettingsEncryptionConverter(string passphrase)
         {
             if (string.IsNullOrEmpty(passphrase))

@@ -4,6 +4,7 @@ using System.Reflection;
 
 namespace Structr.Configuration.Json
 {
+    /// <inheritdoc cref="DefaultContractResolver"/>
     public class JsonSettingsContractResolver : DefaultContractResolver
     {
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)

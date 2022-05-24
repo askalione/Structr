@@ -3,10 +3,17 @@ using System;
 
 namespace Structr.Configuration
 {
+    /// <inheritdoc cref="IConfigurator{TSettings}"/>
     public class Configurator<TSettings> : IConfigurator<TSettings> where TSettings : class, new()
     {
         private readonly ConfigurationOptions<TSettings> _options;
 
+        /// <summary>
+        /// Initializes an instance of <see cref="Configurator{TSettings}"/>.
+        /// </summary>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="serviceProvider"/> is <see langword="null"/>.</exception>
+        /// <exception cref="InvalidOperationException">If <paramref name="serviceProvider"/> does not contain <see cref="ConfigurationOptions{TSettings}"/> service.</exception>
         public Configurator(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null)
