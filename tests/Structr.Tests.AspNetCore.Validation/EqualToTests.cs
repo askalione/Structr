@@ -1,126 +1,126 @@
+#nullable disable
+
 using Xunit;
 using FluentAssertions;
 using Structr.AspNetCore.Validation;
-using Structr.Tests.AspNetCore.Validation.TestUtils;
 using Structr.Tests.AspNetCore.Validation.TestData;
+using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace Structr.Tests.AspNetCore.Validation
 {
     public class EqualToTests
     {
-        private class Basic_Model
+        private class TestModel
         {
-            [EqualTo("Value2")]
-            public int Value1 { get; set; }
-            public int Value2 { get; set; }
-        }
-        [Fact]
-        public void Is_valid()
-        {
-            // Arrange
-            var model = new Basic_Model { Value1 = 1, Value2 = 1 };
-
-            // Act
-            var isValid = TestValidator.TryValidateObject(model, out _);
-
-            // Assert
-            isValid.Should().BeTrue();
-        }
-        [Fact]
-        public void Gives_standard_message()
-        {
-            // Arrange
-            var model = new Basic_Model { Value1 = 1, Value2 = 2 };
-
-            // Act
-            var isValid = TestValidator.TryValidateObject(model, out var results);
-
-            // Assert
-            isValid.Should().BeFalse();
-            results.Should().Contain(x => x.ErrorMessage == "Value1 must be equal to Value2.");
-        }
-
-        private class Gives_display_name_in_message_Model
-        {
-            [EqualTo("Value2", DependentPropertyDisplayName = "Value 2 display name")]
-            public int Value1 { get; set; }
-            public int Value2 { get; set; }
-        }
-        [Fact]
-        public void Gives_display_name_in_message()
-        {
-            // Arrange
-            var model = new Gives_display_name_in_message_Model { Value1 = 1, Value2 = 2 };
-
-            // Act
-            var isValid = TestValidator.TryValidateObject(model, out var results);
-
-            // Assert
-            isValid.Should().BeFalse();
-            results.Should().Contain(x => x.ErrorMessage == "Value1 must be equal to Value 2 display name.");
-        }
-
-        private class Gives_custom_message_Model
-        {
-            [EqualTo("Value2", ErrorMessage = "Custom error message.")]
-            public int Value1 { get; set; }
-            public int Value2 { get; set; }
-        }
-        [Fact]
-        public void Gives_custom_message()
-        {
-            // Arrange
-            var model = new Gives_custom_message_Model { Value1 = 1, Value2 = 2 };
-
-            // Act
-            var isValid = TestValidator.TryValidateObject(model, out var results);
-
-            // Assert
-            isValid.Should().BeFalse();
-            results.Should().Contain(x => x.ErrorMessage == "Custom error message.");
-        }
-
-        private class Gives_message_from_resource_Model
-        {
-            [EqualTo("Value2", ErrorMessageResourceName = "ErrorMessageFromResource", ErrorMessageResourceType = typeof(ErrorMessages))]
-            public int Value1 { get; set; }
-            public int Value2 { get; set; }
-        }
-        [Fact]
-        public void Gives_message_from_resource()
-        {
-            // Arrange
-            var model = new Gives_message_from_resource_Model { Value1 = 1, Value2 = 2 };
-
-            // Act
-            var isValid = TestValidator.TryValidateObject(model, out var results);
-
-            // Assert
-            isValid.Should().BeFalse();
-            results.Should().Contain(x => x.ErrorMessage == ErrorMessages.ErrorMessageFromResource);
-        }
-
-        private class Pass_null_Model
-        {
-            [EqualTo("Value2", PassOnNull = true)]
             public int? Value1 { get; set; }
             public int? Value2 { get; set; }
         }
+
+        [Fact]
+        public void Is_valid()
+        {
+            // Act
+            var result = TestValidation(1, 1);
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public void Gives_standard_message()
+        {
+            // Act
+            var result = TestValidation(1, 2);
+
+            // Assert
+            result.ErrorMessage.Should().Be("Value1 must be equal to Value2.");
+        }
+
+        [Fact]
+        public void Gives_display_name_in_message()
+        {
+            // Act
+            var result = TestValidation(1, 2, dependentPropertyDisplayName: "Value 2 display name");
+
+            // Assert
+            result.ErrorMessage.Should().Be("Value1 must be equal to Value 2 display name.");
+        }
+
+        [Fact]
+        public void Gives_custom_message()
+        {
+            // Act
+            var result = TestValidation(1, 2, errorMessage: "Custom error message.");
+
+            // Assert
+            result.ErrorMessage.Should().Be("Custom error message.");
+        }
+
+        [Fact]
+        public void Gives_message_from_resource_Model()
+        {
+            // Act
+            var result = TestValidation(1, 2, errorMessageResourceName: "ErrorMessageFromResource", errorMessageResourceType: typeof(ErrorMessages));
+
+            // Assert
+            result.ErrorMessage.Should().Be(ErrorMessages.ErrorMessageFromResource);
+        }
+
         [Theory]
         [InlineData(1, 2, false)]
         [InlineData(1, null, true)]
         [InlineData(null, 2, true)]
         [InlineData(null, null, true)]
-        public void Pass_null(int? value1, int? value2, bool expected)
+        public void Pass_null(int? value1, int? value2, bool isValid)
         {
-            // Arrange
-            var model = new Pass_null_Model { Value1 = value1, Value2 = value2 };
-
             // Act
-            var isValid = TestValidator.TryValidateObject(model, out _);
+            var result = TestValidation(value1, value2, passNull: true);
 
             // Assert
-            isValid.Should().Be(expected);
+            if (isValid)
+            {
+                result.Should().BeNull();
+            }
+            else
+            {
+                result.Should().NotBeNull();
+            }
+        }
+
+        private ValidationResult TestValidation(int? value1,
+            int? value2,
+            string dependentPropertyDisplayName = null,
+            string errorMessage = null,
+            string errorMessageResourceName = null,
+            Type errorMessageResourceType = null,
+            bool? passNull = null)
+        {
+            var model = new TestModel { Value1 = value1, Value2 = value2 };
+
+            var attribute = new EqualToAttribute(nameof(TestModel.Value2));
+
+            if (dependentPropertyDisplayName != null)
+            {
+                attribute.DependentPropertyDisplayName = dependentPropertyDisplayName;
+            }
+            if (errorMessage != null)
+            {
+                attribute.ErrorMessage = errorMessage;
+            }
+            if (errorMessageResourceName != null)
+            {
+                attribute.ErrorMessageResourceName = errorMessageResourceName;
+                attribute.ErrorMessageResourceType = errorMessageResourceType;
+            }
+            if (passNull != null)
+            {
+                attribute.PassOnNull = (bool)passNull;
+            }
+
+            var validationContext = new ValidationContext(model) { MemberName = nameof(TestModel.Value1) };
+
+            return attribute.GetValidationResult(model.Value1, validationContext);
         }
     }
 }
