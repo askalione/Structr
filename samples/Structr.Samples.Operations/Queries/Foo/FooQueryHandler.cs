@@ -13,7 +13,9 @@ namespace Structr.Samples.Operations.Queries.Foo
         public FooQueryHandler(IStringWriter writer)
         {
             if (writer == null)
+            {
                 throw new ArgumentNullException(nameof(writer));
+            }
 
             _writer = writer;
         }

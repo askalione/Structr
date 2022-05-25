@@ -5,6 +5,9 @@ using System.IO;
 
 namespace Structr.Configuration.Providers
 {
+    /// <summary>
+    /// Provides functionality for access to a file with settings <see cref="TSettings"/>.
+    /// </summary>
     public abstract class FileSettingsProvider<TSettings> : SettingsProvider<TSettings> where TSettings : class, new()
     {
         protected readonly string Path;
@@ -12,6 +15,13 @@ namespace Structr.Configuration.Providers
 
         protected JsonSerializer JsonSerializer { get; }
 
+        /// <summary>
+        /// Initializes a new <see cref="FileSettingsProvider{TSettings}"/> instance.
+        /// </summary>
+        /// <param name="options">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <param name="path">The path to file with settings.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
         public FileSettingsProvider(SettingsProviderOptions options, string path) : base(options)
         {
             if (string.IsNullOrEmpty(path))

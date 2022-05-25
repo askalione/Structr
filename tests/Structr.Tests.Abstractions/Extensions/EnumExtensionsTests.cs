@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Structr.Abstractions.Extensions;
-using Structr.Tests.Abstractions.TestUtils;
+using Structr.Tests.Abstractions.TestData;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Xunit;

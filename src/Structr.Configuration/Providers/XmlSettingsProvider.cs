@@ -4,8 +4,18 @@ using System.Xml.Linq;
 
 namespace Structr.Configuration.Providers
 {
+    /// <summary>
+    /// Provides functionality for access to a XML file with settings <see cref="TSettings"/>.
+    /// </summary>
     public class XmlSettingsProvider<TSettings> : FileSettingsProvider<TSettings> where TSettings : class, new()
     {
+        /// <summary>
+        /// Initializes a new <see cref="XmlSettingsProvider{TSettings}"/> instance.
+        /// </summary>
+        /// <param name="options">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <param name="path">The path to XML file with settings.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
         public XmlSettingsProvider(SettingsProviderOptions options, string path)
             : base(options, path)
         {

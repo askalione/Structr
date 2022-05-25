@@ -7,6 +7,7 @@ using System.Reflection;
 
 namespace Structr.Navigation.Internal
 {
+    /// <inheritdoc/>
     internal class PrivateSetterContractResolver : DefaultContractResolver
     {
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)

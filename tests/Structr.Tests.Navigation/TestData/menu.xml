@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<menu>
+    <item id="Parent_1" title="Parent 1">
+        <item id="Child_1_1" title="Child 1 1">
+            <item id="Child_1_1_1" title="Child 1 1 1"/>
+        </item>
+        <item id="Child_1_2" title="Child 1 2"/>
+    </item>
+    <item id="Parent_2" title="Parent 2">
+        <item id="Child_2_1" title="Child 2 1"/>
+    </item>
+    <item id="Parent_3" title="Parent 3"/>
+</menu>

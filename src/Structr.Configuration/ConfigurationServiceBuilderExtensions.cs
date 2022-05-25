@@ -5,13 +5,31 @@ using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// Extension methods for configuring Configuration services.
+    /// </summary>
     public static class ConfigurationServiceBuilderExtensions
     {
+        /// <summary>
+        /// Adds <see cref="SettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="TSettings">Settings class.</typeparam>
+        /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
+        /// <param name="provider">The <see cref="SettingsProvider{TSettings}"/>.</param>
+        /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddProvider<TSettings>(this ConfigurationServiceBuilder builder,
             SettingsProvider<TSettings> provider)
             where TSettings : class, new()
             => AddProvider(builder, _ => provider);
 
+        /// <summary>
+        /// Adds <see cref="SettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="TSettings">Settings class.</typeparam>
+        /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
+        /// <param name="providerFactory">Delegate that takes service provider <see cref="IServiceProvider"/> and returns a settings provider <see cref="SettingsProvider{TNavigationItem}"/>.</param>
+        /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="providerFactory"/> is <see langword="null"/>.</exception>
         public static ConfigurationServiceBuilder AddProvider<TSettings>(this ConfigurationServiceBuilder builder,
             Func<IServiceProvider, SettingsProvider<TSettings>> providerFactory)
             where TSettings : class, new()
@@ -31,12 +49,28 @@ namespace Microsoft.Extensions.DependencyInjection
             return builder;
         }
 
+        /// <summary>
+        /// Adds <see cref="JsonSettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="TSettings">Settings class.</typeparam>
+        /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
+        /// <param name="path">Absolute path to JSON file with settings.</param>
+        /// <param name="configure">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddJson<TSettings>(this ConfigurationServiceBuilder builder,
             string path,
             Action<SettingsProviderOptions> configure = null)
             where TSettings : class, new()
             => AddJson<TSettings>(builder, path, (_, options) => configure?.Invoke(options));
 
+        /// <summary>
+        /// Adds <see cref="JsonSettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="TSettings">Settings class.</typeparam>
+        /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
+        /// <param name="path">Absolute path to JSON file with settings.</param>
+        /// <param name="configure">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddJson<TSettings>(this ConfigurationServiceBuilder builder,
             string path,
             Action<IServiceProvider, SettingsProviderOptions> configure)
@@ -49,12 +83,28 @@ namespace Microsoft.Extensions.DependencyInjection
                 return provider;
             });
 
+        /// <summary>
+        /// Adds <see cref="XmlSettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="TSettings">Settings class.</typeparam>
+        /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
+        /// <param name="path">Absolute path to XML file with settings.</param>
+        /// <param name="configure">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddXml<TSettings>(this ConfigurationServiceBuilder builder,
             string path,
             Action<SettingsProviderOptions> configure = null)
             where TSettings : class, new()
             => AddXml<TSettings>(builder, path, (_, options) => configure?.Invoke(options));
 
+        /// <summary>
+        /// Adds <see cref="XmlSettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="TSettings">Settings class.</typeparam>
+        /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
+        /// <param name="path">Absolute path to XML file with settings.</param>
+        /// <param name="configure">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddXml<TSettings>(this ConfigurationServiceBuilder builder,
             string path,
             Action<IServiceProvider, SettingsProviderOptions> configure)
