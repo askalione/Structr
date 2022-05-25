@@ -5,18 +5,38 @@ using Xunit;
 
 namespace Structr.Tests.Configuration
 {
-    public class ServiceCollectionExtensionsTests
+    [Collection("TestSettings")]
+    public class ServiceCollectionExtensionsTests : IClassFixture<TestSettingsFixture>
     {
         [Fact]
-        public void AddNavigation()
+        public void AddConfiguration_json()
         {
             // Arrange
             var path = TestDataPath.Combine("settings.json");
+            var configurationBuilder = new ServiceCollection()
+                .AddConfiguration();
 
             // Act
-            var serviceProvider = new ServiceCollection()
-                .AddConfiguration()
-                    .AddJson<TestSettings>(path)
+            var serviceProvider = configurationBuilder
+                .AddJson<TestSettings>(path)
+                .Services
+                .BuildServiceProvider();
+
+            // Assert
+            serviceProvider.ShouldContainsConfigurationServices<TestSettings>();
+        }
+
+        [Fact]
+        public void AddConfiguration_xml()
+        {
+            // Arrange
+            var path = TestDataPath.Combine("settings.xml");
+            var configurationBuilder = new ServiceCollection()
+                .AddConfiguration();
+
+            // Act
+            var serviceProvider = configurationBuilder
+                .AddXml<TestSettings>(path)
                 .Services
                 .BuildServiceProvider();
 

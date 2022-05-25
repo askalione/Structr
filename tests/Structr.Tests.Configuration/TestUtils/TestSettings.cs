@@ -1,7 +1,7 @@
 namespace Structr.Tests.Configuration.TestUtils
 {
-    internal class TestSettings
+    public class TestSettings
     {
-        public string FilePath { get; set; } = default!;
+        public string FilePath { get; set; } = "D:\\readme.txt";
     }
 }

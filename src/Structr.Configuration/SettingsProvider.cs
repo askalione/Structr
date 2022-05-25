@@ -42,7 +42,9 @@ namespace Structr.Configuration
         public void SetSettings(TSettings settings)
         {
             if (settings == null)
+            {
                 throw new ArgumentNullException(nameof(settings));
+            }
 
             UpdateSettings(settings);
         }
