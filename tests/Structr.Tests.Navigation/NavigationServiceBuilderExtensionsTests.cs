@@ -9,7 +9,7 @@ namespace Structr.Tests.Navigation
     public class NavigationServiceBuilderExtensionsTests
     {
         [Fact]
-        public void AddProvider_Json()
+        public void AddProvider_json()
         {
             // Arrange
             var path = TestDataPath.Combine("menu.json");
@@ -28,7 +28,7 @@ namespace Structr.Tests.Navigation
         }
 
         [Fact]
-        public void AddProvider_Xml()
+        public void AddProvider_xml()
         {
             // Arrange
             var path = TestDataPath.Combine("menu.xml");
