@@ -18,10 +18,7 @@ namespace Structr.AspNetCore.Validation
             _metadata = OperatorMetadata.Get(Operator);
         }
 
-        public override string ClientTypeName
-        {
-            get { return "Is"; }
-        }
+        public override string ClientTypeName => "Is";
 
         protected override IEnumerable<KeyValuePair<string, object>> GetClientValidationParameters()
         {
@@ -43,9 +40,6 @@ namespace Structr.AspNetCore.Validation
             return _metadata.IsValid(value, dependentValue);
         }
 
-        public override string DefaultErrorMessage
-        {
-            get { return "{0} must be " + _metadata.ErrorMessage + " {1}."; }
-        }
+        public override string DefaultErrorMessage => "{0} must be " + _metadata.ErrorMessage + " {1}.";
     }
 }

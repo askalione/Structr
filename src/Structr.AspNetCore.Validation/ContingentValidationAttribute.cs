@@ -25,10 +25,7 @@ namespace Structr.AspNetCore.Validation
             return string.Format(ErrorMessageString, name, DependentPropertyDisplayName ?? DependentProperty);
         }
 
-        public override string DefaultErrorMessage
-        {
-            get { return "{0} is invalid due to {1}."; }
-        }
+        public override string DefaultErrorMessage => "{0} is invalid due to {1}.";
 
         public override bool IsValid(object value, object container)
         {
@@ -36,7 +33,6 @@ namespace Structr.AspNetCore.Validation
         }
 
         public abstract bool IsValid(object value, object dependentValue, object container);
-
 
         protected override IEnumerable<KeyValuePair<string, object>> GetClientValidationParameters()
         {

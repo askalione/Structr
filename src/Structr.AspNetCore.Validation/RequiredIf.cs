@@ -29,10 +29,7 @@ namespace Structr.AspNetCore.Validation
             return string.Format(ErrorMessageString, name, DependentProperty, DependentValue);
         }
 
-        public override string ClientTypeName
-        {
-            get { return "RequiredIf"; }
-        }
+        public override string ClientTypeName => "RequiredIf";
 
         protected override IEnumerable<KeyValuePair<string, object>> GetClientValidationParameters()
         {
@@ -47,14 +44,11 @@ namespace Structr.AspNetCore.Validation
         {
             if (Metadata.IsValid(dependentValue, DependentValue))
             {
-                return value != null && !string.IsNullOrEmpty(value.ToString().Trim());
+                return value != null && string.IsNullOrEmpty(value.ToString().Trim()) == false;
             }
             return true;
         }
 
-        public override string DefaultErrorMessage
-        {
-            get { return "{0} is required due to {1} being " + Metadata.ErrorMessage + " {2}"; }
-        }
+        public override string DefaultErrorMessage => "{0} is required due to {1} being " + Metadata.ErrorMessage + " {2}";
     }
 }

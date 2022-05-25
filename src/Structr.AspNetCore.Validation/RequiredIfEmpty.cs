@@ -10,14 +10,11 @@ namespace Structr.AspNetCore.Validation
         {
             if (string.IsNullOrEmpty((dependentValue ?? string.Empty).ToString().Trim()))
             {
-                return value != null && !string.IsNullOrEmpty(value.ToString().Trim());
+                return value != null && string.IsNullOrEmpty(value.ToString().Trim()) == false;
             }
             return true;
         }
 
-        public override string DefaultErrorMessage
-        {
-            get { return "{0} is required due to {1} being empty."; }
-        }
+        public override string DefaultErrorMessage => "{0} is required due to {1} being empty.";
     }
 }

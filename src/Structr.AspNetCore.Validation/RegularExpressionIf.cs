@@ -44,9 +44,7 @@ namespace Structr.AspNetCore.Validation
             return string.Format(ErrorMessageString, name, DependentProperty, DependentValue, Pattern);
         }
 
-        public override string DefaultErrorMessage
-        {
-            get { return "{0} must be in the format of {3} due to {1} being " + Metadata.ErrorMessage + " {2}"; }
-        }
+        public override string DefaultErrorMessage =>
+            "{0} must be in the format of {3} due to {1} being " + Metadata.ErrorMessage + " {2}";
     }
 }

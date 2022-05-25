@@ -18,23 +18,14 @@ namespace Structr.AspNetCore.Validation
             return base.FormatErrorMessage(name);
         }
 
-        public virtual string DefaultErrorMessage
-        {
-            get { return "{0} is invalid."; }
-        }
+        public virtual string DefaultErrorMessage => "{0} is invalid.";
 
         public abstract bool IsValid(object value, object container);
 
-        public virtual string ClientTypeName
-        {
-            get { return this.GetType().Name.Replace("Attribute", ""); }
-        }
+        public virtual string ClientTypeName => this.GetType().Name.Replace("Attribute", "");
 
-        public Dictionary<string, object> ClientValidationParameters
-        {
-            get { return GetClientValidationParameters().ToDictionary(kv => kv.Key.ToLower(), kv => kv.Value); }
-        }
-
+        public Dictionary<string, object> ClientValidationParameters =>
+            GetClientValidationParameters().ToDictionary(kv => kv.Key.ToLower(), kv => kv.Value);
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
