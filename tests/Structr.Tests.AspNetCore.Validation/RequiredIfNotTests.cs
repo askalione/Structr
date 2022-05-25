@@ -6,20 +6,21 @@ using Structr.Tests.AspNetCore.Validation.TestData;
 using System.ComponentModel.DataAnnotations;
 using System;
 using Structr.Tests.AspNetCore.Validation.TestUtils;
+using Structr.AspNetCore.Validation;
 
 namespace Structr.Tests.AspNetCore.Validation
 {
     public class RequiredIfNotTests
     {
         [Theory]
-        [InlineData(null, 1, 2, false)]
-        [InlineData(null, 1, 1, true)]
-        [InlineData("a", 1, 2, true)]
-        [InlineData("a", 1, 1, true)]
-        public void RequiredIfNot(object value1, object value2, object notValue2, bool isValid)
+        [InlineData(null, 2, false)]
+        [InlineData(null, 1, true)]
+        [InlineData("a", 2, true)]
+        [InlineData("a", 1, true)]
+        public void RequiredIfNot(object value1, object value2, bool isValid)
         {
             // Act
-            var result = Test(value1, value2, notValue2);
+            var result = Test(value1, value2, 1);
 
             // Assert
             (result == null).Should().Be(isValid);
@@ -39,10 +40,10 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_display_name_in_message()
         {
             // Act
-            var result = Test(null, 1, 2, dependentPropertyDisplayName: "Value 2 display name");
+            var result = Test(null, 1, 2, dependentPropertyDisplayName: "Value_2_display_name");
 
             // Assert
-            result.ErrorMessage.Should().Be("Value1 is required due to Value2 being not equal to 2.");
+            result.ErrorMessage.Should().Be("Value1 is required due to Value_2_display_name being not equal to 2.");
         }
 
         [Fact]
@@ -67,13 +68,13 @@ namespace Structr.Tests.AspNetCore.Validation
 
         private ValidationResult Test(object value1,
             object value2,
-            object notValue2,
+            object standardValue2,
             string dependentPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
-            Type errorMessageResourceType = null) => TestValidation.TestRequiredIfNot(value1,
+            Type errorMessageResourceType = null) => TestValidation.TestRequiredIf<RequiredIfNotAttribute>(value1,
                 value2,
-                notValue2,
+                standardValue2,
                 dependentPropertyDisplayName,
                 errorMessage,
                 errorMessageResourceName,

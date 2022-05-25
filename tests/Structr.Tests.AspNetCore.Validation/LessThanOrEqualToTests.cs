@@ -38,10 +38,10 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_display_name_in_message()
         {
             // Act
-            var result = Test(2, 1, dependentPropertyDisplayName: "Value 2 display name");
+            var result = Test(2, 1, dependentPropertyDisplayName: "Value_2_display_name");
 
             // Assert
-            result.ErrorMessage.Should().Be("Value1 must be less than or equal to Value 2 display name.");
+            result.ErrorMessage.Should().Be("Value1 must be less than or equal to Value_2_display_name.");
         }
 
         [Fact]

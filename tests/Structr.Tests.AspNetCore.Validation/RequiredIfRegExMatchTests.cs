@@ -10,18 +10,17 @@ using Structr.AspNetCore.Validation;
 
 namespace Structr.Tests.AspNetCore.Validation
 {
-    public class RequiredIfFalseTests
+    public class RequiredIfRegExMatchTests
     {
         [Theory]
-        [InlineData(1, false, true)]
-        [InlineData(1, true, true)]
-        [InlineData(null, false, false)]
-        [InlineData(null, true, true)]
-        [InlineData(null, null, true)]
-        public void RequiredIf(object value1, object value2, bool isValid)
+        [InlineData(null, "Abc", true)]
+        [InlineData(null, "Bb0", false)]
+        [InlineData("a", "Abc", true)]
+        [InlineData("a", "Bb0", true)]
+        public void RequiredIfRegExMatch(object value1, object value2, bool isValid)
         {
             // Act
-            var result = Test(value1, value2);
+            var result = Test(value1, value2, "[A-Z][a-z]\\d");
 
             // Assert
             (result == null).Should().Be(isValid);
@@ -31,27 +30,27 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_standard_message()
         {
             // Act
-            var result = Test(null, false);
+            var result = Test(null, "Bb0", "[A-Z][a-z]\\d");
 
             // Assert
-            result.ErrorMessage.Should().Be("Value1 is required due to Value2 being equal to False.");
+            result.ErrorMessage.Should().Be("Value1 is required due to Value2 being a match to [A-Z][a-z]\\d.");
         }
 
         [Fact]
         public void Gives_display_name_in_message()
         {
             // Act
-            var result = Test(null, false, dependentPropertyDisplayName: "Value_2_display_name");
+            var result = Test(null, "Bb0", "[A-Z][a-z]\\d", dependentPropertyDisplayName: "Value_2_display_name");
 
             // Assert
-            result.ErrorMessage.Should().Be("Value1 is required due to Value_2_display_name being equal to False.");
+            result.ErrorMessage.Should().Be("Value1 is required due to Value_2_display_name being a match to [A-Z][a-z]\\d.");
         }
 
         [Fact]
         public void Gives_custom_message()
         {
             // Act
-            var result = Test(null, false, errorMessage: "Custom error message.");
+            var result = Test(null, "Bb0", "[A-Z][a-z]\\d", errorMessage: "Custom error message.");
 
             // Assert
             result.ErrorMessage.Should().Be("Custom error message.");
@@ -61,7 +60,7 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_message_from_resource_Model()
         {
             // Act
-            var result = Test(null, false, errorMessageResourceName: "ErrorMessageFromResource", errorMessageResourceType: typeof(ErrorMessages));
+            var result = Test(null, "Bb0", "[A-Z][a-z]\\d", errorMessageResourceName: "ErrorMessageFromResource", errorMessageResourceType: typeof(ErrorMessages));
 
             // Assert
             result.ErrorMessage.Should().Be(ErrorMessages.ErrorMessageFromResource);
@@ -69,11 +68,13 @@ namespace Structr.Tests.AspNetCore.Validation
 
         private ValidationResult Test(object value1,
             object value2,
+            object pattern,
             string dependentPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
-            Type errorMessageResourceType = null) => TestValidation.TestRequiredIf<RequiredIfFalseAttribute>(value1,
+            Type errorMessageResourceType = null) => TestValidation.TestRequiredIf<RequiredIfRegExMatchAttribute>(value1,
                 value2,
+                pattern,
                 dependentPropertyDisplayName,
                 errorMessage,
                 errorMessageResourceName,

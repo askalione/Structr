@@ -36,10 +36,10 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_display_name_in_message()
         {
             // Act
-            var result = Test(1, 1, dependentPropertyDisplayName: "Value 2 display name");
+            var result = Test(1, 1, dependentPropertyDisplayName: "Value_2_display_name");
 
             // Assert
-            result.ErrorMessage.Should().Be("Value1 must be greater than Value 2 display name.");
+            result.ErrorMessage.Should().Be("Value1 must be greater than Value_2_display_name.");
         }
 
         [Fact]

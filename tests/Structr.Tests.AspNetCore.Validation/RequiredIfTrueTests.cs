@@ -41,10 +41,10 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_display_name_in_message()
         {
             // Act
-            var result = Test(null, true, dependentPropertyDisplayName: "Value 2 display name");
+            var result = Test(null, true, dependentPropertyDisplayName: "Value_2_display_name");
 
             // Assert
-            result.ErrorMessage.Should().Be("Value1 is required due to Value2 being equal to True.");
+            result.ErrorMessage.Should().Be("Value1 is required due to Value_2_display_name being equal to True.");
         }
 
         [Fact]

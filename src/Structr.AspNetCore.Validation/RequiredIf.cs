@@ -26,7 +26,7 @@ namespace Structr.AspNetCore.Validation
             {
                 ErrorMessage = DefaultErrorMessage;
             }
-            return string.Format(ErrorMessageString, name, DependentProperty, DependentValue);
+            return string.Format(ErrorMessageString, name, DependentPropertyDisplayName ?? DependentProperty, DependentValue);
         }
 
         public override string ClientTypeName => "RequiredIf";

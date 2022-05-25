@@ -42,10 +42,10 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_display_name_in_message()
         {
             // Act
-            var result = Test(null, 1, dependentPropertyDisplayName: "Value 2 display name");
+            var result = Test(null, 1, dependentPropertyDisplayName: "Value_2_display_name");
 
             // Assert
-            result.ErrorMessage.Should().Be("Value1 is required due to Value 2 display name not being empty.");
+            result.ErrorMessage.Should().Be("Value1 is required due to Value_2_display_name not being empty.");
         }
 
         [Fact]
