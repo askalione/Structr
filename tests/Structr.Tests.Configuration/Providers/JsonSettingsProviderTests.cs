@@ -58,10 +58,10 @@ namespace Structr.Tests.Configuration.Providers
             // Arrange
             var options = new SettingsProviderOptions();
             var path = TestDataPath.Combine("settings.json");
-            var serringsProvider = new JsonSettingsProvider<TestSettings>(options, path);
+            var settingsProvider = new JsonSettingsProvider<TestSettings>(options, path);
 
             // Act
-            var settings = serringsProvider.GetSettings();
+            var settings = settingsProvider.GetSettings();
 
             // Assert
             settings.ShouldBeEquivalentToDefaultSettings();
@@ -73,13 +73,13 @@ namespace Structr.Tests.Configuration.Providers
             // Arrange            
             var options = new SettingsProviderOptions();
             var path = TestDataPath.Combine("settings.json");
-            var serringsProvider = new JsonSettingsProvider<TestSettings>(options, path);
+            var settingsProvider = new JsonSettingsProvider<TestSettings>(options, path);
 
             // Act
-            serringsProvider.SetSettings(new TestSettings { FilePath = "X:\\readme.txt" });
+            settingsProvider.SetSettings(new TestSettings { FilePath = "X:\\readme.txt" });
 
             // Assert
-            var settings = serringsProvider.GetSettings();
+            var settings = settingsProvider.GetSettings();
             settings.FilePath.Should().Be("X:\\readme.txt");
         }
 
@@ -89,10 +89,10 @@ namespace Structr.Tests.Configuration.Providers
             // Arrange
             var options = new SettingsProviderOptions();
             var path = TestDataPath.Combine("settings.json");
-            var serringsProvider = new JsonSettingsProvider<TestSettings>(options, path);
+            var settingsProvider = new JsonSettingsProvider<TestSettings>(options, path);
 
             // Act
-            Action act = () => serringsProvider.SetSettings(null);
+            Action act = () => settingsProvider.SetSettings(null);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
