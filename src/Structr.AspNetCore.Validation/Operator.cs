@@ -2,7 +2,7 @@
 namespace Structr.AspNetCore.Validation
 {
     /// <summary>
-    /// Types of checking to be applied.
+    /// Types of checking operators to be applied.
     /// </summary>
     public enum Operator
     {

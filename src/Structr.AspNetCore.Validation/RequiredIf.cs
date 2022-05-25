@@ -49,6 +49,6 @@ namespace Structr.AspNetCore.Validation
             return true;
         }
 
-        public override string DefaultErrorMessage => "{0} is required due to {1} being " + Metadata.ErrorMessage + " {2}";
+        public override string DefaultErrorMessage => "{0} is required due to {1} being " + Metadata.ErrorMessage + " {2}.";
     }
 }

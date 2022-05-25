@@ -12,7 +12,6 @@ namespace Structr.AspNetCore.Validation
             {
                 return value != null && string.IsNullOrEmpty(value.ToString().Trim()) == false;
             }
-
             return true;
         }
 
