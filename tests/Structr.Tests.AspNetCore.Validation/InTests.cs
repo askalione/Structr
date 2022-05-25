@@ -10,16 +10,31 @@ using Structr.Tests.AspNetCore.Validation.TestUtils;
 
 namespace Structr.Tests.AspNetCore.Validation
 {
-    public class EqualToTests
+    public class InTests
     {
-        [Fact]
-        public void Is_valid()
+        private class InData : TheoryData<object, object, bool>
+        {
+            public InData()
+            {
+                Add(1, 1, true);
+                Add(1, 2, false);
+                Add(1, new int[] { 1, 2, 3 }, true);
+                Add(1, new object[] { DateTime.Now, 1, "2" }, true);
+                Add(1, new object[] { DateTime.Now, "1", "2" }, false);
+                Add('1', "123", true);
+                Add("123", '1', false);
+                Add("123", "012345", false);
+            }
+        }
+        [Theory]
+        [ClassData(typeof(InData))]
+        public void In(object value1, object value2, bool isValid)
         {
             // Act
-            var result = Test(1, 1);
+            var result = Test(value1, value2);
 
             // Assert
-            result.Should().BeNull();
+            (result == null).Should().Be(isValid);
         }
 
         [Fact]
@@ -29,7 +44,7 @@ namespace Structr.Tests.AspNetCore.Validation
             var result = Test(1, 2);
 
             // Assert
-            result.ErrorMessage.Should().Be("Value1 must be equal to Value2.");
+            result.ErrorMessage.Should().Be("Value1 must be in Value2.");
         }
 
         [Fact]
@@ -39,7 +54,7 @@ namespace Structr.Tests.AspNetCore.Validation
             var result = Test(1, 2, dependentPropertyDisplayName: "Value 2 display name");
 
             // Assert
-            result.ErrorMessage.Should().Be("Value1 must be equal to Value 2 display name.");
+            result.ErrorMessage.Should().Be("Value1 must be in Value 2 display name.");
         }
 
         [Fact]
@@ -62,11 +77,18 @@ namespace Structr.Tests.AspNetCore.Validation
             result.ErrorMessage.Should().Be(ErrorMessages.ErrorMessageFromResource);
         }
 
+        private class PassNullData : TheoryData<object, object, bool>
+        {
+            public PassNullData()
+            {
+                Add(1, new int[] { 5, 6 }, false);
+                Add(null, new int[] { 5, 6 }, true);
+                Add(1, null, true);
+                Add(null, null, true);
+            }
+        }
         [Theory]
-        [InlineData(1, 2, false)]
-        [InlineData(1, null, true)]
-        [InlineData(null, 2, true)]
-        [InlineData(null, null, true)]
+        [ClassData(typeof(PassNullData))]
         public void Pass_null(object value1, object value2, bool isValid)
         {
             // Act
@@ -82,7 +104,7 @@ namespace Structr.Tests.AspNetCore.Validation
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null,
-            bool? passNull = null) => TestValidation.TestIs<EqualToAttribute>(value1,
+            bool? passNull = null) => TestValidation.TestIs<InAttribute>(value1,
                 value2,
                 dependentPropertyDisplayName,
                 errorMessage,

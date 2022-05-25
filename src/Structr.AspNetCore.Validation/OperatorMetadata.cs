@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -144,9 +145,16 @@ namespace Structr.AspNetCore.Validation
                         ErrorMessage = "in",
                         IsValid = (value, dependentValue) => {
                             var eqOperMtd = Get(Operator.EqualTo);
-                            if(dependentValue is object[] valueList)
+                            if(dependentValue is IEnumerable valueList)
                             {
-                                return valueList.Any(val => eqOperMtd.IsValid(value, val));
+                                foreach (var val in valueList)
+                                {
+                                    if (eqOperMtd.IsValid(value, val))
+                                    {
+                                        return true;
+                                    }
+                                }
+                                return false;
                             }
                             return eqOperMtd.IsValid(value, dependentValue);
                         }
@@ -158,9 +166,16 @@ namespace Structr.AspNetCore.Validation
                         ErrorMessage = "not in",
                         IsValid = (value, dependentValue) => {
                             var eqOperMtd = Get(Operator.EqualTo);
-                            if(dependentValue is object[] valueList)
+                            if(dependentValue is IEnumerable valueList)
                             {
-                                return valueList.All(val => eqOperMtd.IsValid(value, val) == false);
+                                foreach (var val in valueList)
+                                {
+                                    if (eqOperMtd.IsValid(value, val))
+                                    {
+                                        return false;
+                                    }
+                                }
+                                return true;
                             }
                             return eqOperMtd.IsValid(value, dependentValue) == false;
                         }
