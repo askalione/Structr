@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Structr.Navigation
 {
-    /// <inheritdoc cref="IBreadcrumbNavigation{TNavigationItem}"/>
+    /// <inheritdoc cref="INavigation{TNavigationItem}"/>
     public class Navigation<TNavigationItem> : INavigation<TNavigationItem>
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {

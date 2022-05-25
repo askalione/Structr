@@ -10,10 +10,10 @@ namespace Structr.Tests.Navigation.Providers
     public class XmlNavigationProviderTests
     {
         [Fact]
-        public void Ctor_throws_if_path_is_null()
+        public void Ctor_throws_when_path_is_null()
         {
             // Act
-            Action act = () => new XmlNavigationProvider<CustomNavigationItem>(null); ;
+            Action act = () => new XmlNavigationProvider<CustomNavigationItem>(null);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
