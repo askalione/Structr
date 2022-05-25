@@ -19,7 +19,7 @@ namespace Structr.Configuration
         public object DefaultValue { get; set; }
 
         /// <summary>
-        /// Password to encrypt a settings member value.
+        /// Passphrase thats used to encrypt and decrypt the protected a settings member value.
         /// </summary>
         public string EncryptionPassphrase { get; set; }
     }

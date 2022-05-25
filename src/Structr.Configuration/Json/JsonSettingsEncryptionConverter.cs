@@ -4,7 +4,9 @@ using System;
 
 namespace Structr.Configuration.Json
 {
-    /// <inheritdoc cref="JsonConverter"/>
+    /// <summary>
+    /// The <see cref="JsonConverter"/> with string encryption support.
+    /// </summary>
     internal class JsonSettingsEncryptionConverter : JsonConverter
     {
         private readonly string _passphrase;
@@ -12,7 +14,7 @@ namespace Structr.Configuration.Json
         /// <summary>
         /// Initializes an instance of <see cref="JsonSettingsEncryptionConverter"/>.
         /// </summary>
-        /// <param name="passphrase">Encryption password.</param>
+        /// <param name="passphrase">Encryption passphrase.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="passphrase"/> is <see langword="null"/>.</exception>
         public JsonSettingsEncryptionConverter(string passphrase)
         {

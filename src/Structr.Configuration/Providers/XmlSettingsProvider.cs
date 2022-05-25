@@ -7,7 +7,6 @@ namespace Structr.Configuration.Providers
     /// <summary>
     /// Provides functionality for access to a XML file with settings <see cref="TSettings"/>.
     /// </summary>
-    /// <inheritdoc cref="FileSettingsProvider{TSettings}"/>
     public class XmlSettingsProvider<TSettings> : FileSettingsProvider<TSettings> where TSettings : class, new()
     {
         /// <summary>

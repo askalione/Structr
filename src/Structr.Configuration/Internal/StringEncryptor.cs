@@ -6,16 +6,16 @@ using System.Text;
 namespace Structr.Configuration.Internal
 {
     /// <summary>
-    /// Class for encrypting and decrypting text.
+    /// Class for encryption and decryption string with AES algorithm.
     /// </summary>
     internal static class StringEncryptor
     {
         /// <summary>
-        /// Encrypt text using the specified password.
+        /// Encrypt string using the specified passphrase.
         /// </summary>
-        /// <param name="input">Text to be encrypted.</param>
-        /// <param name="passphrase">Encryption password.</param>
-        /// <returns>Encrypted text.</returns>
+        /// <param name="input">String to be encrypted.</param>
+        /// <param name="passphrase">Encryption passphrase.</param>
+        /// <returns>Encrypted string.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="input"/> is <see langword="null"/> or empty.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="passphrase"/> is <see langword="null"/> or empty.</exception>
         public static string Encrypt(string input, string passphrase)

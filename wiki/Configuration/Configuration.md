@@ -1,6 +1,6 @@
 # Configuration
 
-**Structr.Configuration** package is intended to help organize settings in application.
+**Structr.Configuration** package is intended to simplify work with application settings via mapping to classes to provide strongly typed access to groups of related settings. 
 
 ## Installation
 
@@ -15,11 +15,10 @@ dotnet add package Structr.Configuration
 Create settings class.
 
 ```csharp
-public class MySettings
+public class SmtpEmailSettings
 {
-    public string RootDirectory { get; set; }
-    
-    /* Other settings */
+    public string Host { get; set; }
+    public int Port { get; set; }
 }
 ```
 
@@ -31,11 +30,9 @@ You can create custom configuration provider:
 public class CustomConfigurationProvider<TSettings> : SettingsProvider<TSettings>
     where TSettings : class, new()
 {
-    public CustomConfigurationProvider(SettingsProviderOptions options, string path)
-        : base(options, path)
-    {
-        /* Do some logic here */
-    }
+    public CustomConfigurationProvider(SettingsProviderOptions options) 
+        : base(options) 
+    {}
     
     protected override TSettings LoadSettings()
     {
@@ -46,6 +43,11 @@ public class CustomConfigurationProvider<TSettings> : SettingsProvider<TSettings
     {
         /* Do some logic here */
     }
+
+    protected override bool IsSettingsModified()
+    {
+        /* Do some logic here */
+    }
 }
 ```
 
@@ -53,7 +55,7 @@ And then setup configuration services:
 
 ```csharp
 services.AddConfiguration()
-    .AddProvider(new CustomConfigurationProvider<MySettings>());
+    .AddProvider(new CustomConfigurationProvider<SmtpEmailSettings>());
 ```
 
 Or you can use one of default implemented configuration provider from list:
@@ -67,8 +69,8 @@ Create JSON file with settings:
 
 ```json
 {
-  "RootDirectory": "C:\\RootDirectory\\",
-  /* Other settings */
+  "Host": "smtp.example.com",
+  "Port": 25
 }
 ```
 
@@ -76,7 +78,7 @@ Setup JSON configuration provider:
 
 ```csharp
 services.AddConfiguration()
-    .AddJson<MySettings>("path_to_json_file");
+    .AddJson<SmtpEmailSettings>("path_to_json_file");
 ```
 
 ### XML provider
@@ -85,75 +87,43 @@ Create XML file with settings:
 
 ```xml
 <?xml version="1.0" encoding="utf-16"?>
-<MySettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <RootDirectory>C:\RootDirectory\</RootDirectory>
-  /* Other settings */
-</MySettings>
+<SmtpEmailSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Host>smtp.example.com</Host>
+  <Port>25</Port>
+</SmtpEmailSettings>
 ```
 
 Setup XML configuration provider:
 
 ```csharp
 services.AddConfiguration()
-    .AddXml<MySettings>("path_to_xml_file");
+    .AddXml<SmtpEmailSettings>("path_to_xml_file");
 ```
 
 ### Options
 
-When you setup configuration provider you can configure settings options represents by `SettingsProviderOptions`.
+When you setup configuration provider you can configure provider options represents by `SettingsProviderOptions`.
 
 `SettingsProviderOptions` properties:
 
 | Property name | Property type | Description |
 | --- | --- | --- |
-| Cache | `bool` | Determines whether settings should be cached. |
+| Cache | `bool` | Determines whether settings should be cached, `true` by default. |
 
-Example configure configuration services:
+Example configure services:
 
 ```csharp
 services.AddConfiguration()
-    .AddJson<MySettings>("path_to_json_file", (serviceProvider, options) =>
+    .AddJson<SmtpEmailSettings>("path_to_json_file", (serviceProvider, options) =>
     {
         options.Cache = true;
     });
 ```
 
+If `Cache` options was setting up to `true` then settings provider return cached settings while `IsSettingsModified()` returns `false`, otherwise every settings request invoke `LoadSettings()` method. 
+
 ## Usage
 
-You can get Configuration in class constructor, for example, in Controller:
+Structr.Configuration provides separate services for the [get](/Configuration-Read-settings.md) and [set](/Configuration-Write-settings.md) settings.
 
-```csharp
-using Structr.Configuration;
-
-public class MyController : Controller
-{
-    private readonly MySettings _settings;
-
-    public MyController(IConfiguration<MySettings> configuration)
-    {
-        _settings = configuration.Settings;
-    }
-    
-    /* Actions */
-}
-```
-
-Or elsewhere in the application using the `IServiceProvider`:
-
-```csharp
-var configuration = serviceProvider.GetRequiredService<IConfiguration<MySettings>>();
-var settings = configuration.Settings;
-```
-
-If you want change settings in run-time, you can use `SetSettings()` method of `SettingsProvider` class, for example:
-
-```csharp
-settingsProvider.SetSettings(new MySettings { RootDirectory = "D:\\RootDirectory\\" });
-```
-
-Or you can use `Configure()` method of `Configurator` class, for example:
-
-```csharp
-var configurator = serviceProvider.GetRequiredService<IConfigurator<MySettings>>();
-configurator.Configure(settings => settings.RootDirectory = "D:\\RootDirectory\\");
-```
+Also you can [customize](/Configuration-Customization.md) the settings members with special attribute.

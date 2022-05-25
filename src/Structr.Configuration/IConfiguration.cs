@@ -7,7 +7,7 @@ namespace Structr.Configuration
     public interface IConfiguration<out TSettings> where TSettings : class, new()
     {
         /// <summary>
-        /// Returns a settings.
+        /// Returns a settings <see cref="TSettings"/>.
         /// </summary>
         TSettings Settings { get; }
     }

@@ -1,7 +1,7 @@
 namespace Structr.Configuration
 {
     /// <summary>
-    /// Options for a settings provider <see cref="SettingsProvider{TSettings}"/>.
+    /// Options for a <see cref="SettingsProvider{TSettings}"/>.
     /// </summary>
     public class SettingsProviderOptions
     {

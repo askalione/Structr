@@ -7,7 +7,6 @@ namespace Structr.Configuration.Providers
     /// <summary>
     /// Provides functionality for access to a JSON file with settings <see cref="TSettings"/>.
     /// </summary>
-    /// <inheritdoc cref="JsonSettingsProvider{TSettings}"/>
     public class JsonSettingsProvider<TSettings> : FileSettingsProvider<TSettings> where TSettings : class, new()
     {
         /// <summary>

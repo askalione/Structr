@@ -8,7 +8,6 @@ namespace Structr.Configuration.Providers
     /// <summary>
     /// Provides functionality for access to a file with settings <see cref="TSettings"/>.
     /// </summary>
-    /// <inheritdoc cref="SettingsProvider{TSettings}"/>
     public abstract class FileSettingsProvider<TSettings> : SettingsProvider<TSettings> where TSettings : class, new()
     {
         protected readonly string Path;
