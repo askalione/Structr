@@ -3,6 +3,6 @@ namespace Structr.AspNetCore.Validation
 {
     public class LessThanOrEqualToAttribute : IsAttribute
     {
-        public LessThanOrEqualToAttribute(string dependentProperty) : base(Operator.LessThanOrEqualTo, dependentProperty) { }
+        public LessThanOrEqualToAttribute(string relatedProperty) : base(Operator.LessThanOrEqualTo, relatedProperty) { }
     }
 }

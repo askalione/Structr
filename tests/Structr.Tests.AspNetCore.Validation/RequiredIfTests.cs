@@ -40,7 +40,7 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_display_name_in_message()
         {
             // Act
-            var result = Test(null, 1, 1, dependentPropertyDisplayName: "Value_2_display_name");
+            var result = Test(null, 1, 1, relatedPropertyDisplayName: "Value_2_display_name");
 
             // Assert
             result.ErrorMessage.Should().Be("Value1 is required due to Value_2_display_name being equal to 1.");
@@ -69,13 +69,13 @@ namespace Structr.Tests.AspNetCore.Validation
         private ValidationResult Test(object value1,
             object value2,
             object standardValue2,
-            string dependentPropertyDisplayName = null,
+            string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null) => TestValidation.TestRequiredIf<RequiredIfAttribute>(value1,
                 value2,
                 standardValue2,
-                dependentPropertyDisplayName,
+                relatedPropertyDisplayName,
                 errorMessage,
                 errorMessageResourceName,
                 errorMessageResourceType);

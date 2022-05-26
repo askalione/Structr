@@ -51,7 +51,7 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_display_name_in_message()
         {
             // Act
-            var result = Test(1, 2, dependentPropertyDisplayName: "Value_2_display_name");
+            var result = Test(1, 2, relatedPropertyDisplayName: "Value_2_display_name");
 
             // Assert
             result.ErrorMessage.Should().Be("Value1 must be in Value_2_display_name.");
@@ -100,13 +100,13 @@ namespace Structr.Tests.AspNetCore.Validation
 
         private ValidationResult Test(object value1,
             object value2,
-            string dependentPropertyDisplayName = null,
+            string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null,
             bool? passNull = null) => TestValidation.TestIs<InAttribute>(value1,
                 value2,
-                dependentPropertyDisplayName,
+                relatedPropertyDisplayName,
                 errorMessage,
                 errorMessageResourceName,
                 errorMessageResourceType,

@@ -20,7 +20,7 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
         public static ValidationResult TestIs<TAttribute>(object value1,
             object value2,
-            string dependentPropertyDisplayName = null,
+            string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null,
@@ -31,9 +31,9 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
             var attribute = Activator.CreateInstance(typeof(TAttribute), nameof(TestModel.Value2)) as TAttribute;
 
-            if (dependentPropertyDisplayName != null)
+            if (relatedPropertyDisplayName != null)
             {
-                attribute.DependentPropertyDisplayName = dependentPropertyDisplayName;
+                attribute.DependentPropertyDisplayName = relatedPropertyDisplayName;
             }
             if (errorMessage != null)
             {
@@ -56,7 +56,7 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
         public static ValidationResult TestRequiredIfEmpty(object value1,
             object value2,
-            string dependentPropertyDisplayName = null,
+            string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null)
@@ -65,9 +65,9 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
             var attribute = new RequiredIfEmptyAttribute(nameof(TestModel.Value2));
 
-            if (dependentPropertyDisplayName != null)
+            if (relatedPropertyDisplayName != null)
             {
-                attribute.DependentPropertyDisplayName = dependentPropertyDisplayName;
+                attribute.DependentPropertyDisplayName = relatedPropertyDisplayName;
             }
             if (errorMessage != null)
             {
@@ -86,7 +86,7 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
         public static ValidationResult TestRequiredIfNotEmpty(object value1,
             object value2,
-            string dependentPropertyDisplayName = null,
+            string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null)
@@ -95,9 +95,9 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
             var attribute = new RequiredIfNotEmptyAttribute(nameof(TestModel.Value2));
 
-            if (dependentPropertyDisplayName != null)
+            if (relatedPropertyDisplayName != null)
             {
-                attribute.DependentPropertyDisplayName = dependentPropertyDisplayName;
+                attribute.DependentPropertyDisplayName = relatedPropertyDisplayName;
             }
             if (errorMessage != null)
             {
@@ -116,7 +116,7 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
         public static ValidationResult TestRequiredIf<TAttribute>(object value1,
             object value2,
-            string dependentPropertyDisplayName = null,
+            string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null)
@@ -126,9 +126,9 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
             var attribute = Activator.CreateInstance(typeof(TAttribute), nameof(TestModel.Value2)) as TAttribute;
 
-            if (dependentPropertyDisplayName != null)
+            if (relatedPropertyDisplayName != null)
             {
-                attribute.DependentPropertyDisplayName = dependentPropertyDisplayName;
+                attribute.DependentPropertyDisplayName = relatedPropertyDisplayName;
             }
             if (errorMessage != null)
             {
@@ -148,7 +148,7 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
         public static ValidationResult TestRequiredIf<TAttribute>(object value1,
             object value2,
             object standardValue2,
-            string dependentPropertyDisplayName = null,
+            string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null)
@@ -158,9 +158,9 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
             var attribute = Activator.CreateInstance(typeof(TAttribute), nameof(TestModel.Value2), standardValue2) as TAttribute;
 
-            if (dependentPropertyDisplayName != null)
+            if (relatedPropertyDisplayName != null)
             {
-                attribute.DependentPropertyDisplayName = dependentPropertyDisplayName;
+                attribute.DependentPropertyDisplayName = relatedPropertyDisplayName;
             }
             if (errorMessage != null)
             {
@@ -180,7 +180,7 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
         public static ValidationResult TestRequiredIfRegEx<TAttribute>(object value1,
             object value2,
             string pattern,
-            string dependentPropertyDisplayName = null,
+            string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null)
@@ -190,9 +190,41 @@ namespace Structr.Tests.AspNetCore.Validation.TestUtils
 
             var attribute = Activator.CreateInstance(typeof(TAttribute), nameof(TestModel.Value2), pattern) as TAttribute;
 
-            if (dependentPropertyDisplayName != null)
+            if (relatedPropertyDisplayName != null)
             {
-                attribute.DependentPropertyDisplayName = dependentPropertyDisplayName;
+                attribute.DependentPropertyDisplayName = relatedPropertyDisplayName;
+            }
+            if (errorMessage != null)
+            {
+                attribute.ErrorMessage = errorMessage;
+            }
+            if (errorMessageResourceName != null)
+            {
+                attribute.ErrorMessageResourceName = errorMessageResourceName;
+                attribute.ErrorMessageResourceType = errorMessageResourceType;
+            }
+
+            var validationContext = new ValidationContext(model) { MemberName = nameof(TestModel.Value1) };
+
+            return attribute.GetValidationResult(model.Value1, validationContext);
+        }
+
+        public static ValidationResult TestRegularExpressionIf(object value1,
+            object value2,
+            object standardValue2,
+            string pattern,
+            string relatedPropertyDisplayName = null,
+            string errorMessage = null,
+            string errorMessageResourceName = null,
+            Type errorMessageResourceType = null)
+        {
+            var model = new TestModel { Value1 = value1, Value2 = value2 };
+
+            var attribute = new RegularExpressionIfAttribute(pattern, nameof(TestModel.Value2), standardValue2);
+
+            if (relatedPropertyDisplayName != null)
+            {
+                attribute.DependentPropertyDisplayName = relatedPropertyDisplayName;
             }
             if (errorMessage != null)
             {

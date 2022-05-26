@@ -3,12 +3,12 @@ namespace Structr.AspNetCore.Validation
 {
     public class RequiredIfEmptyAttribute : ContingentValidationAttribute
     {
-        public RequiredIfEmptyAttribute(string dependentProperty)
-            : base(dependentProperty) { }
+        public RequiredIfEmptyAttribute(string relatedProperty)
+            : base(relatedProperty) { }
 
-        public override bool IsValid(object value, object dependentValue, object container)
+        public override bool IsValid(object value, object relatedValue, object container)
         {
-            if (string.IsNullOrEmpty((dependentValue ?? string.Empty).ToString().Trim()))
+            if (string.IsNullOrEmpty((relatedValue ?? string.Empty).ToString().Trim()))
             {
                 return value != null && string.IsNullOrEmpty(value.ToString().Trim()) == false;
             }

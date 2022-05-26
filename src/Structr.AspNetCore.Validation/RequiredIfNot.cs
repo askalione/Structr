@@ -3,6 +3,6 @@ namespace Structr.AspNetCore.Validation
 {
     public class RequiredIfNotAttribute : RequiredIfAttribute
     {
-        public RequiredIfNotAttribute(string dependentProperty, object dependentValue) : base(dependentProperty, Operator.NotEqualTo, dependentValue) { }
+        public RequiredIfNotAttribute(string relatedProperty, object relatedValue) : base(relatedProperty, Operator.NotEqualTo, relatedValue) { }
     }
 }

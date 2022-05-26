@@ -10,8 +10,8 @@ namespace Structr.AspNetCore.Validation
 
         private OperatorMetadata _metadata;
 
-        public IsAttribute(Operator @operator, string dependentProperty)
-            : base(dependentProperty)
+        public IsAttribute(Operator @operator, string relatedProperty)
+            : base(relatedProperty)
         {
             Operator = @operator;
             PassOnNull = false;
@@ -30,14 +30,14 @@ namespace Structr.AspNetCore.Validation
                        });
         }
 
-        public override bool IsValid(object value, object dependentValue, object container)
+        public override bool IsValid(object value, object relatedValue, object container)
         {
-            if (PassOnNull && (value == null || dependentValue == null) && (value != null || dependentValue != null))
+            if (PassOnNull && (value == null || relatedValue == null) && (value != null || relatedValue != null))
             {
                 return true;
             }
 
-            return _metadata.IsValid(value, dependentValue);
+            return _metadata.IsValid(value, relatedValue);
         }
 
         public override string DefaultErrorMessage => "{0} must be " + _metadata.ErrorMessage + " {1}.";

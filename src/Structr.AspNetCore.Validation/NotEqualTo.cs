@@ -3,6 +3,6 @@ namespace Structr.AspNetCore.Validation
 {
     public class NotEqualToAttribute : IsAttribute
     {
-        public NotEqualToAttribute(string dependentProperty) : base(Operator.NotEqualTo, dependentProperty) { }
+        public NotEqualToAttribute(string relatedProperty) : base(Operator.NotEqualTo, relatedProperty) { }
     }
 }

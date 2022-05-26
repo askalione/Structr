@@ -40,7 +40,7 @@ namespace Structr.Tests.AspNetCore.Validation
         public void Gives_display_name_in_message()
         {
             // Act
-            var result = Test(null, "Bb0", "[A-Z][a-z]\\d", dependentPropertyDisplayName: "Value_2_display_name");
+            var result = Test(null, "Bb0", "[A-Z][a-z]\\d", relatedPropertyDisplayName: "Value_2_display_name");
 
             // Assert
             result.ErrorMessage.Should().Be("Value1 is required due to Value_2_display_name being a match to [A-Z][a-z]\\d.");
@@ -69,13 +69,13 @@ namespace Structr.Tests.AspNetCore.Validation
         private ValidationResult Test(object value1,
             object value2,
             object pattern,
-            string dependentPropertyDisplayName = null,
+            string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null) => TestValidation.TestRequiredIf<RequiredIfRegExMatchAttribute>(value1,
                 value2,
                 pattern,
-                dependentPropertyDisplayName,
+                relatedPropertyDisplayName,
                 errorMessage,
                 errorMessageResourceName,
                 errorMessageResourceType);

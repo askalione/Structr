@@ -18,12 +18,12 @@ namespace Structr.AspNetCore.Validation.Internal
             if (Attribute is ContingentValidationAttribute)
             {
                 var attribute = Attribute as ContingentValidationAttribute;
-                var otherPropertyInfo = context.ModelMetadata.ContainerType.GetProperty(attribute.DependentProperty);
+                var otherPropertyInfo = context.ModelMetadata.ContainerType.GetProperty(attribute.RelatedProperty);
 
                 var displayName = GetMetaDataDisplayName(otherPropertyInfo);
                 if (displayName != null)
                 {
-                    attribute.DependentPropertyDisplayName = displayName;
+                    attribute.RelatedPropertyDisplayName = displayName;
                 }
             }
 
