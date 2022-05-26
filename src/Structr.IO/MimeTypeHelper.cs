@@ -728,9 +728,6 @@ namespace Structr.IO
             return result;
         }
 
-        /// <inheritdoc cref="GetExtension(string, bool)"/>
-        public static string GetExtension(string mimeType) => GetExtension(mimeType, true);
-
         /// <summary>
         /// Returns file extension by MIME type.
         /// </summary>
@@ -739,7 +736,7 @@ namespace Structr.IO
         /// <exception cref="ArgumentNullException">If <paramref name="mimeType"/> is <see langword="null"/> or empty.</exception>
         /// <exception cref="ArgumentException">If <paramref name="mimeType"/> starts with '.'.</exception>
         /// <exception cref="InvalidOperationException">If <paramref name="mimeType"/> not found and <paramref name="throwIfNotFound"/> is <see langword="true"/>.</exception>
-        public static string GetExtension(string mimeType, bool throwIfNotFound)
+        public static string GetExtension(string mimeType, bool throwIfNotFound = true)
         {
             if (string.IsNullOrWhiteSpace(mimeType))
             {
@@ -765,9 +762,6 @@ namespace Structr.IO
             }
         }
 
-        /// <inheritdoc cref="GetExtensions(string, bool)"/>
-        public static IEnumerable<string> GetExtensions(string mimeType) => GetExtensions(mimeType, true);
-
         /// <summary>
         /// Returns file extensions by MIME type.
         /// </summary>
@@ -776,7 +770,7 @@ namespace Structr.IO
         /// <exception cref="ArgumentNullException">If <paramref name="mimeType"/> is <see langword="null"/> or empty.</exception>
         /// <exception cref="ArgumentException">If <paramref name="mimeType"/> starts with '.'.</exception>
         /// <exception cref="InvalidOperationException">If <paramref name="mimeType"/> not found and <paramref name="throwIfNotFound"/> is <see langword="true"/>.</exception>
-        public static IEnumerable<string> GetExtensions(string mimeType, bool throwIfNotFound)
+        public static IEnumerable<string> GetExtensions(string mimeType, bool throwIfNotFound = true)
         {
             if (string.IsNullOrWhiteSpace(mimeType))
             {
