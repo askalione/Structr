@@ -47,7 +47,7 @@ namespace Structr.IO
             => Format(path, Enum.GetValues(typeof(ContentDirectory)).Cast<ContentDirectory>().ToArray());
 
         /// <summary>
-        /// Replace content directory templats from path to content directory absolute paths.
+        /// Replace content directory templates from path to content directory absolute paths.
         /// </summary>
         /// <param name="path">The path with content directory templates.</param>
         /// <param name="directories">The list of <see cref="ContentDirectory"/>.</param>
