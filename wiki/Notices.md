@@ -25,12 +25,12 @@ public class ConfirmationNotice : INotice
 Create a notice handler class that inherits from `INoticeHandler` with generic parameter `ConfirmationNotice`, for example, with email notification:
 
 ```csharp
-public class EmailConfirmationNoticeHandler :  : INoticeHandler<ConfirmationNotice>
+public class EmailConfirmationNoticeHandler : INoticeHandler<ConfirmationNotice>
 {
     private readonly IDbContext _dbContext;
     private readonly IEmailSender _emailSender;
 
-    public EmailFooEventHandler(IDbContext dbContext, IEmailSender emailSender)
+    public EmailConfirmationNoticeHandler(IDbContext dbContext, IEmailSender emailSender)
     {
         /* Arguments null validation */
         _dbContext = dbContext;
@@ -39,7 +39,7 @@ public class EmailConfirmationNoticeHandler :  : INoticeHandler<ConfirmationNoti
 
     public Task HandleAsync(ConfirmationNotice notice, CancellationToken cancellationToken)
     {
-        User user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id = notice.UserId);
+        User user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == notice.UserId, cancellationToken);
     
         _emailSender.Send(user.Email, notice.Message);
     }
@@ -66,7 +66,7 @@ After setup you can use `INoticePublisher` in your application that allows you t
             _publisher = publisher;
         }
 
-        public async Task ConfirmAsync(int id)
+        public async Task ConfirmAsync(int id, CancellationToken cancellationToken)
         {
             /* Confirm contract with Id == id */
             
@@ -76,7 +76,7 @@ After setup you can use `INoticePublisher` in your application that allows you t
                 Message = $"Contract with number '{contract.Number}' confirmed."
             };
             
-            await _publisher.PublishAsync(confirmationNotice);
+            await _publisher.PublishAsync(confirmationNotice, cancellationToken);
         }
     }
 ```
