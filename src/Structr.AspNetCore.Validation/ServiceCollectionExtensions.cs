@@ -6,6 +6,10 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Registers <see cref="IValidationAttributeAdapterProvider"/> service thus providing validation
+        /// capabilities to AspNetCore applications.
+        /// </summary>
         public static IServiceCollection AddAspNetCoreValidation(this IServiceCollection services)
         {
             if (services == null)
