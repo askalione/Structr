@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -64,7 +65,7 @@ namespace Structr.AspNetCore.Validation
         {
             if (Metadata.IsValid(relatedPropertyValue, RelatedPropertyExpectedValue))
             {
-                return value != null && string.IsNullOrEmpty(value.ToString().Trim()) == false;
+                return PropertyIsEmpty(value) == false;
             }
             return true;
         }

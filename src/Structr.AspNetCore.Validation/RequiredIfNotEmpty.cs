@@ -1,18 +1,23 @@
 
 namespace Structr.AspNetCore.Validation
 {
-    /// <inheritdoc cref="RequiredIfAttribute"/>
+    /// <summary>
+    /// Marks property as required when value of related property is NOT empty.
+    /// </summary>
     public class RequiredIfNotEmptyAttribute : ContingentValidationAttribute
     {
-        /// <inheritdoc cref="RequiredIfAttribute.RequiredIfAttribute"/>
+        /// <summary>
+        /// Marks property as required when value of related property is NOT empty.
+        /// </summary>
+        /// <param name="relatedProperty">Related property which value should met specified conditions.</param>
         public RequiredIfNotEmptyAttribute(string relatedProperty)
             : base(relatedProperty) { }
 
         public override bool IsValid(object value, object relatedPropertyValue, object container)
         {
-            if (string.IsNullOrEmpty((relatedPropertyValue ?? string.Empty).ToString().Trim()) == false)
+            if (PropertyIsEmpty(relatedPropertyValue) == false)
             {
-                return value != null && string.IsNullOrEmpty(value.ToString().Trim()) == false;
+                return PropertyIsEmpty(value) == false;
             }
             return true;
         }

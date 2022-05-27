@@ -19,6 +19,8 @@ namespace Structr.Tests.AspNetCore.Validation
         [InlineData(null, null, true)]
         [InlineData("", null, true)]
         [InlineData(null, "", true)]
+        [InlineData(null, new int[] { }, true)]
+        [InlineData(null, new int[] { 5, 6, 7 }, false)]
         public void RequiredIfNotEmpty(object propertyValue, object relatedPropertyValue, bool isValid)
         {
             // Act
@@ -26,6 +28,23 @@ namespace Structr.Tests.AspNetCore.Validation
 
             // Assert
             (result == null).Should().Be(isValid);
+        }
+
+        [Theory]
+        [InlineData(null, true)]
+        [InlineData(1, false)]
+        [InlineData("a", false)]
+        [InlineData("", true)]
+        [InlineData("   ", true)]
+        [InlineData(new int[] { }, true)]
+        [InlineData(new int[] { 5, 6, 7 }, false)]
+        public void Could_identify_required_as_empty(object propertyValue, bool requiredIsEmpty)
+        {
+            // Act
+            var result = Test(propertyValue, "abc");
+
+            // Assert
+            (result != null).Should().Be(requiredIsEmpty);
         }
 
         [Fact]

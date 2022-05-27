@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -72,6 +73,23 @@ namespace Structr.AspNetCore.Validation
             }
 
             return value;
+        }
+
+        protected static bool PropertyIsEmpty(object propertyValue)
+        {
+            if (propertyValue == null)
+            {
+                return true;
+            }
+            if (string.IsNullOrEmpty(propertyValue.ToString().Trim()))
+            {
+                return true;
+            }
+            if (propertyValue is IEnumerable valueList)
+            {
+                return valueList.OfType<object>().Any() == false;
+            }
+            return false;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Structr.AspNetCore.Validation
         public string Pattern { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegularExpressionIfAttribute"/> class.
+        /// Specifies that a data field value must match the specified regular expression when provided property has specified value.
         /// </summary>
         /// <param name="pattern">The regular expression that is used to validate the data field value.</param>
         /// <param name="relatedProperty">Related property name.</param>
