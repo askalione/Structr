@@ -6,9 +6,19 @@ using System.Text.RegularExpressions;
 
 namespace Structr.AspNetCore.Validation
 {
+    /// <summary>
+    /// Contains execution logic for comparision <see cref="Operator"/>s.
+    /// </summary>
     public class OperatorMetadata
     {
+        /// <summary>
+        /// Gets or sets part of error message corresponding to comparison operator.
+        /// </summary>
         public string ErrorMessage { get; set; }
+
+        /// <summary>
+        /// Gets or sets validation method containing specific comparison logic.
+        /// </summary>
         public Func<object, object, bool> IsValid { get; set; }
 
         static OperatorMetadata()
@@ -18,6 +28,11 @@ namespace Structr.AspNetCore.Validation
 
         private static Dictionary<Operator, OperatorMetadata> _operatorMetadata;
 
+        /// <summary>
+        /// Gets metadata for specified <see cref="Operator"/>.
+        /// </summary>
+        /// <param name="operator"></param>
+        /// <returns>Instance of <see cref="OperatorMetadata"/>.</returns>
         public static OperatorMetadata Get(Operator @operator)
         {
             return _operatorMetadata[@operator];

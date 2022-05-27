@@ -59,7 +59,7 @@ namespace Structr.AspNetCore.Validation
         }
 
         /// <summary>
-        /// Returns empty list of validation parameters in form of dictionary.
+        /// Returns a list of validation parameters in form of dictionary.
         /// </summary>
         protected virtual IEnumerable<KeyValuePair<string, object>> GetClientValidationParameters()
         {

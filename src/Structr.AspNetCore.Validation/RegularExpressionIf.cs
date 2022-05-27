@@ -4,8 +4,7 @@ using System.Linq;
 namespace Structr.AspNetCore.Validation
 {
     /// <summary>
-    /// Specifies that a data field value in ASP.NET Dynamic Data must match the specified regular
-    /// expression when provided property has specified value.
+    /// Specifies that a data field value must match the specified regular expression when provided property has specified value.
     /// </summary>
     public class RegularExpressionIfAttribute : RequiredIfAttribute
     {

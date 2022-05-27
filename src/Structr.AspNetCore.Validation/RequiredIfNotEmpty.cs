@@ -1,8 +1,10 @@
 
 namespace Structr.AspNetCore.Validation
 {
+    /// <inheritdoc cref="RequiredIfAttribute"/>
     public class RequiredIfNotEmptyAttribute : ContingentValidationAttribute
     {
+        /// <inheritdoc cref="RequiredIfAttribute.RequiredIfAttribute"/>
         public RequiredIfNotEmptyAttribute(string relatedProperty)
             : base(relatedProperty) { }
 

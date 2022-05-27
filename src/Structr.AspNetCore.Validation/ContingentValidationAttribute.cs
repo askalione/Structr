@@ -53,9 +53,6 @@ namespace Structr.AspNetCore.Validation
         /// <returns><see langword="true"/> if validation is successful; otherwise, <see langword="false"/>.</returns>
         public abstract bool IsValid(object value, object relatedPropertyValue, object container);
 
-        /// <summary>
-        /// Returns the list of validation parameters in form of dictionary which contains related property name.
-        /// </summary>
         protected override IEnumerable<KeyValuePair<string, object>> GetClientValidationParameters()
         {
             return base.GetClientValidationParameters()
