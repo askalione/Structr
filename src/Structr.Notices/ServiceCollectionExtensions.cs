@@ -6,11 +6,23 @@ using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// <see cref="ServiceCollection"/> extension methods for configuring Notice services.
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <inheritdoc cref="AddNotices(IServiceCollection, Action{NoticeServiceOptions}, Assembly[])"/>
         public static IServiceCollection AddNotices(this IServiceCollection services, params Assembly[] assembliesToScan)
             => AddNotices(services, null, assembliesToScan);
 
+        /// <summary>
+        /// Adds basic Navigation services.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/>.</param>
+        /// <param name="configureOptions">The <see cref="NoticeServiceOptions"/> to be used by notices handling service.</param>
+        /// <param name="assembliesToScan">Assembly to search <see cref="INoticeHandler{TNotice}"/>.</param>
+        /// <returns>The <see cref="IServiceCollection"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="services"/> is <see langword="null"/>.</exception>
         public static IServiceCollection AddNotices(this IServiceCollection services,
             Action<NoticeServiceOptions> configureOptions,
             params Assembly[] assembliesToScan)
