@@ -28,10 +28,10 @@ namespace Structr.Tests.AspNetCore.Validation
         }
         [Theory]
         [ClassData(typeof(InData))]
-        public void In(object value1, object value2, bool isValid)
+        public void In(object propertyValue, object relatedPropertyValue, bool isValid)
         {
             // Act
-            var result = Test(value1, value2);
+            var result = Test(propertyValue, relatedPropertyValue);
 
             // Assert
             (result == null).Should().Be(isValid);
@@ -89,23 +89,23 @@ namespace Structr.Tests.AspNetCore.Validation
         }
         [Theory]
         [ClassData(typeof(PassNullData))]
-        public void Pass_null(object value1, object value2, bool isValid)
+        public void Pass_null(object propertyValue, object relatedPropertyValue, bool isValid)
         {
             // Act
-            var result = Test(value1, value2, passNull: true);
+            var result = Test(propertyValue, relatedPropertyValue, passNull: true);
 
             // Assert
             (result == null).Should().Be(isValid);
         }
 
-        private ValidationResult Test(object value1,
-            object value2,
+        private ValidationResult Test(object propertyValue,
+            object relatedPropertyValue,
             string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null,
-            bool? passNull = null) => TestValidation.TestIs<InAttribute>(value1,
-                value2,
+            bool? passNull = null) => TestValidation.TestIs<InAttribute>(propertyValue,
+                relatedPropertyValue,
                 relatedPropertyDisplayName,
                 errorMessage,
                 errorMessageResourceName,

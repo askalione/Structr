@@ -31,16 +31,16 @@ namespace Structr.AspNetCore.Validation
                     Operator.EqualTo, new OperatorMetadata()
                     {
                         ErrorMessage = "equal to",
-                        IsValid = (value, relatedValue) => {
-                            if (value == null && relatedValue == null)
+                        IsValid = (value, relatedPropertyValue) => {
+                            if (value == null && relatedPropertyValue == null)
                             {
                                 return true;
                             }
-                            else if (value == null && relatedValue != null)
+                            else if (value == null && relatedPropertyValue != null)
                             {
                                 return false;
                             }
-                            return value.Equals(relatedValue);
+                            return value.Equals(relatedPropertyValue);
                         }
                     }
                 },
@@ -48,16 +48,16 @@ namespace Structr.AspNetCore.Validation
                     Operator.NotEqualTo, new OperatorMetadata()
                     {
                         ErrorMessage = "not equal to",
-                        IsValid = (value, relatedValue) => {
-                            if (value == null && relatedValue != null)
+                        IsValid = (value, relatedPropertyValue) => {
+                            if (value == null && relatedPropertyValue != null)
                             {
                                 return true;
                             }
-                            else if (value == null && relatedValue == null)
+                            else if (value == null && relatedPropertyValue == null)
                             {
                                 return false;
                             }
-                            return value.Equals(relatedValue) == false;
+                            return value.Equals(relatedPropertyValue) == false;
                         }
                     }
                 },
@@ -65,12 +65,12 @@ namespace Structr.AspNetCore.Validation
                     Operator.GreaterThan, new OperatorMetadata()
                     {
                         ErrorMessage = "greater than",
-                        IsValid = (value, relatedValue) => {
-                            if (value == null || relatedValue == null)
+                        IsValid = (value, relatedPropertyValue) => {
+                            if (value == null || relatedPropertyValue == null)
                             {
                                 return false;
                             }
-                            return Comparer<object>.Default.Compare(value, relatedValue) >= 1;
+                            return Comparer<object>.Default.Compare(value, relatedPropertyValue) >= 1;
                         }
                     }
                 },
@@ -78,12 +78,12 @@ namespace Structr.AspNetCore.Validation
                     Operator.LessThan, new OperatorMetadata()
                     {
                         ErrorMessage = "less than",
-                        IsValid = (value, relatedValue) => {
-                            if (value == null || relatedValue == null)
+                        IsValid = (value, relatedPropertyValue) => {
+                            if (value == null || relatedPropertyValue == null)
                             {
                                 return false;
                             }
-                            return Comparer<object>.Default.Compare(value, relatedValue) <= -1;
+                            return Comparer<object>.Default.Compare(value, relatedPropertyValue) <= -1;
                         }
                     }
                 },
@@ -91,16 +91,16 @@ namespace Structr.AspNetCore.Validation
                     Operator.GreaterThanOrEqualTo, new OperatorMetadata()
                     {
                         ErrorMessage = "greater than or equal to",
-                        IsValid = (value, relatedValue) => {
-                            if (value == null && relatedValue == null)
+                        IsValid = (value, relatedPropertyValue) => {
+                            if (value == null && relatedPropertyValue == null)
                             {
                                 return true;
                             }
-                            if (value == null || relatedValue == null)
+                            if (value == null || relatedPropertyValue == null)
                             {
                                 return false;
                             }
-                            return Get(Operator.EqualTo).IsValid(value, relatedValue) || Comparer<object>.Default.Compare(value, relatedValue) >= 1;
+                            return Get(Operator.EqualTo).IsValid(value, relatedPropertyValue) || Comparer<object>.Default.Compare(value, relatedPropertyValue) >= 1;
                         }
                     }
                 },
@@ -108,16 +108,16 @@ namespace Structr.AspNetCore.Validation
                     Operator.LessThanOrEqualTo, new OperatorMetadata()
                     {
                         ErrorMessage = "less than or equal to",
-                        IsValid = (value, relatedValue) => {
-                            if (value == null && relatedValue == null)
+                        IsValid = (value, relatedPropertyValue) => {
+                            if (value == null && relatedPropertyValue == null)
                             {
                                 return true;
                             }
-                            if (value == null || relatedValue == null)
+                            if (value == null || relatedPropertyValue == null)
                             {
                                 return false;
                             }
-                            return Get(Operator.EqualTo).IsValid(value, relatedValue) || Comparer<object>.Default.Compare(value, relatedValue) <= -1;
+                            return Get(Operator.EqualTo).IsValid(value, relatedPropertyValue) || Comparer<object>.Default.Compare(value, relatedPropertyValue) <= -1;
                         }
                     }
                 },
@@ -125,8 +125,8 @@ namespace Structr.AspNetCore.Validation
                     Operator.RegExMatch, new OperatorMetadata()
                     {
                         ErrorMessage = "a match to",
-                        IsValid = (value, relatedValue) => {
-                            return Regex.Match((value ?? "").ToString(), relatedValue.ToString()).Success;
+                        IsValid = (value, relatedPropertyValue) => {
+                            return Regex.Match((value ?? "").ToString(), relatedPropertyValue.ToString()).Success;
                         }
                     }
                 },
@@ -134,8 +134,8 @@ namespace Structr.AspNetCore.Validation
                     Operator.NotRegExMatch, new OperatorMetadata()
                     {
                         ErrorMessage = "not a match to",
-                        IsValid = (value, relatedValue) => {
-                            return Regex.Match((value ?? "").ToString(), relatedValue.ToString()).Success == false;
+                        IsValid = (value, relatedPropertyValue) => {
+                            return Regex.Match((value ?? "").ToString(), relatedPropertyValue.ToString()).Success == false;
                         }
                     }
                 },
@@ -143,9 +143,9 @@ namespace Structr.AspNetCore.Validation
                     Operator.In, new OperatorMetadata()
                     {
                         ErrorMessage = "in",
-                        IsValid = (value, relatedValue) => {
+                        IsValid = (value, relatedPropertyValue) => {
                             var eqOperMtd = Get(Operator.EqualTo);
-                            if(relatedValue is IEnumerable valueList)
+                            if(relatedPropertyValue is IEnumerable valueList)
                             {
                                 foreach (var val in valueList)
                                 {
@@ -156,7 +156,7 @@ namespace Structr.AspNetCore.Validation
                                 }
                                 return false;
                             }
-                            return eqOperMtd.IsValid(value, relatedValue);
+                            return eqOperMtd.IsValid(value, relatedPropertyValue);
                         }
                     }
                 },
@@ -164,9 +164,9 @@ namespace Structr.AspNetCore.Validation
                     Operator.NotIn, new OperatorMetadata()
                     {
                         ErrorMessage = "not in",
-                        IsValid = (value, relatedValue) => {
+                        IsValid = (value, relatedPropertyValue) => {
                             var eqOperMtd = Get(Operator.EqualTo);
-                            if(relatedValue is IEnumerable valueList)
+                            if(relatedPropertyValue is IEnumerable valueList)
                             {
                                 foreach (var val in valueList)
                                 {
@@ -177,7 +177,7 @@ namespace Structr.AspNetCore.Validation
                                 }
                                 return true;
                             }
-                            return eqOperMtd.IsValid(value, relatedValue) == false;
+                            return eqOperMtd.IsValid(value, relatedPropertyValue) == false;
                         }
                     }
                 }

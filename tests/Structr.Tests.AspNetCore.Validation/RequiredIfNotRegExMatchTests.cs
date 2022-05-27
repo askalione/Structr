@@ -17,10 +17,10 @@ namespace Structr.Tests.AspNetCore.Validation
         [InlineData(null, "Bb0", true)]
         [InlineData("a", "Abc", true)]
         [InlineData("a", "Bb0", true)]
-        public void RequiredIfNotRegExMatch(object value1, object value2, bool isValid)
+        public void RequiredIfNotRegExMatch(object propertyValue, object relatedPropertyValue, bool isValid)
         {
             // Act
-            var result = Test(value1, value2, "[A-Z][a-z]\\d");
+            var result = Test(propertyValue, relatedPropertyValue, "[A-Z][a-z]\\d");
 
             // Assert
             (result == null).Should().Be(isValid);
@@ -66,14 +66,14 @@ namespace Structr.Tests.AspNetCore.Validation
             result.ErrorMessage.Should().Be(ErrorMessages.ErrorMessageFromResource);
         }
 
-        private ValidationResult Test(object value1,
-            object value2,
+        private ValidationResult Test(object propertyValue,
+            object relatedPropertyValue,
             object pattern,
             string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
-            Type errorMessageResourceType = null) => TestValidation.TestRequiredIf<RequiredIfNotRegExMatchAttribute>(value1,
-                value2,
+            Type errorMessageResourceType = null) => TestValidation.TestRequiredIf<RequiredIfNotRegExMatchAttribute>(propertyValue,
+                relatedPropertyValue,
                 pattern,
                 relatedPropertyDisplayName,
                 errorMessage,

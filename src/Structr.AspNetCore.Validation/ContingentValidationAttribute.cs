@@ -4,10 +4,22 @@ using System.Linq;
 
 namespace Structr.AspNetCore.Validation
 {
+    /// <summary>
+    /// Serves as the base class for <see cref="Structr"/>.<see cref="AspNetCore"/> validation attributes.
+    /// Contains basic conventions and functionality to work with property with which value the value of
+    /// validating property will be compared.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public abstract class ContingentValidationAttribute : ModelAwareValidationAttribute
     {
+        /// <summary>
+        /// Gets the related property with which value the value of validating property will be compared.
+        /// </summary>
         public string RelatedProperty { get; private set; }
+
+        /// <summary>
+        /// Gets display name of the related property with which value the value of validating property will be compared.
+        /// </summary>
         public string RelatedPropertyDisplayName { get; set; }
 
         public ContingentValidationAttribute(string relatedProperty)
@@ -32,8 +44,18 @@ namespace Structr.AspNetCore.Validation
             return IsValid(value, GetRelatedPropertyValue(container), container);
         }
 
-        public abstract bool IsValid(object value, object relatedValue, object container);
+        /// <summary>
+        /// Validates the specified value with respect to the current validation attribute.
+        /// </summary>
+        /// <param name="value">Value of property to validate.</param>
+        /// <param name="relatedPropertyValue">Value of related property to compare with.</param>
+        /// <param name="container">Object containing this property.</param>
+        /// <returns><see langword="true"/> if validation is successful; otherwise, <see langword="false"/>.</returns>
+        public abstract bool IsValid(object value, object relatedPropertyValue, object container);
 
+        /// <summary>
+        /// Returns the list of validation parameters in form of dictionary which contains related property name.
+        /// </summary>
         protected override IEnumerable<KeyValuePair<string, object>> GetClientValidationParameters()
         {
             return base.GetClientValidationParameters()

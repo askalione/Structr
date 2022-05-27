@@ -67,23 +67,23 @@ namespace Structr.Tests.AspNetCore.Validation
         [InlineData(1, null, true)]
         [InlineData(null, 2, true)]
         [InlineData(null, null, false)]
-        public void Pass_null(object value1, object value2, bool isValid)
+        public void Pass_null(object propertyValue, object relatedPropertyValue, bool isValid)
         {
             // Act
-            var result = Test(value1, value2, passNull: true);
+            var result = Test(propertyValue, relatedPropertyValue, passNull: true);
 
             // Assert
             (result == null).Should().Be(isValid);
         }
 
-        private ValidationResult Test(object value1,
-            object value2,
+        private ValidationResult Test(object propertyValue,
+            object relatedPropertyValue,
             string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
             Type errorMessageResourceType = null,
-            bool? passNull = null) => TestValidation.TestIs<NotEqualToAttribute>(value1,
-                value2,
+            bool? passNull = null) => TestValidation.TestIs<NotEqualToAttribute>(propertyValue,
+                relatedPropertyValue,
                 relatedPropertyDisplayName,
                 errorMessage,
                 errorMessageResourceName,

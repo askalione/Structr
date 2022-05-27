@@ -6,9 +6,9 @@ namespace Structr.AspNetCore.Validation
         public RequiredIfNotEmptyAttribute(string relatedProperty)
             : base(relatedProperty) { }
 
-        public override bool IsValid(object value, object relatedValue, object container)
+        public override bool IsValid(object value, object relatedPropertyValue, object container)
         {
-            if (string.IsNullOrEmpty((relatedValue ?? string.Empty).ToString().Trim()) == false)
+            if (string.IsNullOrEmpty((relatedPropertyValue ?? string.Empty).ToString().Trim()) == false)
             {
                 return value != null && string.IsNullOrEmpty(value.ToString().Trim()) == false;
             }

@@ -18,10 +18,10 @@ namespace Structr.Tests.AspNetCore.Validation
         [InlineData(null, false, false)]
         [InlineData(null, true, true)]
         [InlineData(null, null, true)]
-        public void RequiredIf(object value1, object value2, bool isValid)
+        public void RequiredIf(object propertyValue, object relatedPropertyValue, bool isValid)
         {
             // Act
-            var result = Test(value1, value2);
+            var result = Test(propertyValue, relatedPropertyValue);
 
             // Assert
             (result == null).Should().Be(isValid);
@@ -67,13 +67,13 @@ namespace Structr.Tests.AspNetCore.Validation
             result.ErrorMessage.Should().Be(ErrorMessages.ErrorMessageFromResource);
         }
 
-        private ValidationResult Test(object value1,
-            object value2,
+        private ValidationResult Test(object propertyValue,
+            object relatedPropertyValue,
             string relatedPropertyDisplayName = null,
             string errorMessage = null,
             string errorMessageResourceName = null,
-            Type errorMessageResourceType = null) => TestValidation.TestRequiredIf<RequiredIfFalseAttribute>(value1,
-                value2,
+            Type errorMessageResourceType = null) => TestValidation.TestRequiredIf<RequiredIfFalseAttribute>(propertyValue,
+                relatedPropertyValue,
                 relatedPropertyDisplayName,
                 errorMessage,
                 errorMessageResourceName,

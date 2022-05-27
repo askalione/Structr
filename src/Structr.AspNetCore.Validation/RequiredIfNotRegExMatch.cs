@@ -3,6 +3,6 @@ namespace Structr.AspNetCore.Validation
 {
     public class RequiredIfNotRegExMatchAttribute : RequiredIfAttribute
     {
-        public RequiredIfNotRegExMatchAttribute(string relatedValue, string pattern) : base(relatedValue, Operator.NotRegExMatch, pattern) { }
+        public RequiredIfNotRegExMatchAttribute(string relatedProperty, string relatedPropertyPattern) : base(relatedProperty, Operator.NotRegExMatch, relatedPropertyPattern) { }
     }
 }

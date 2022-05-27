@@ -19,21 +19,28 @@ namespace Structr.AspNetCore.Validation
         /// Initializes a new instance of the <see cref="RegularExpressionIfAttribute"/> class.
         /// </summary>
         /// <param name="pattern">The regular expression that is used to validate the data field value.</param>
-        /// <param name="relatedProperty">Property</param>
-        /// <param name="operator"></param>
-        /// <param name="relatedValue"></param>
-        public RegularExpressionIfAttribute(string pattern, string relatedProperty, Operator @operator, object relatedValue)
-            : base(relatedProperty, @operator, relatedValue)
+        /// <param name="relatedProperty">Related property name.</param>
+        /// <param name="operator">Type of checking operator to apply.</param>
+        /// <param name="relatedPropertyExpectedValue">Expected value of related property.</param>
+        public RegularExpressionIfAttribute(string pattern, string relatedProperty, Operator @operator, object relatedPropertyExpectedValue)
+            : base(relatedProperty, @operator, relatedPropertyExpectedValue)
         {
             Pattern = pattern;
         }
 
-        public RegularExpressionIfAttribute(string pattern, string relatedProperty, object relatedValue)
-            : this(pattern, relatedProperty, Operator.EqualTo, relatedValue) { }
+        public RegularExpressionIfAttribute(string pattern, string relatedProperty, object relatedPropertyExpectedValue)
+            : this(pattern, relatedProperty, Operator.EqualTo, relatedPropertyExpectedValue) { }
 
-        public override bool IsValid(object value, object relatedValue, object container)
+        /// <summary>
+        /// When value of related property equals specified <paramref name="relatedPropertyValue"/> then checks whether the <paramref name="value"/> entered by the user matches the regular expression pattern.
+        /// </summary>
+        /// <param name="value">Value of current property.</param>
+        /// <param name="relatedPropertyValue">Current value of related property.</param>
+        /// <param name="container">Object containing both properties.</param>
+        /// <returns><see langword="true"/> if validation is successful; otherwise, <see langword="false"/>.</returns>
+        public override bool IsValid(object value, object relatedPropertyValue, object container)
         {
-            if (Metadata.IsValid(relatedValue, RelatedValue))
+            if (Metadata.IsValid(relatedPropertyValue, RelatedPropertyExpectedValue))
             {
                 return OperatorMetadata.Get(Operator.RegExMatch).IsValid(value, Pattern);
             }
@@ -56,7 +63,7 @@ namespace Structr.AspNetCore.Validation
                 ErrorMessage = DefaultErrorMessage;
             }
 
-            return string.Format(ErrorMessageString, name, RelatedPropertyDisplayName ?? RelatedProperty, RelatedValue, Pattern);
+            return string.Format(ErrorMessageString, name, RelatedPropertyDisplayName ?? RelatedProperty, RelatedPropertyExpectedValue, Pattern);
         }
 
         public override string DefaultErrorMessage =>

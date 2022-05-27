@@ -6,19 +6,19 @@ namespace Structr.AspNetCore.Validation
     public class RequiredIfAttribute : ContingentValidationAttribute
     {
         public Operator Operator { get; private set; }
-        public object RelatedValue { get; private set; }
+        public object RelatedPropertyExpectedValue { get; private set; }
         protected OperatorMetadata Metadata { get; private set; }
 
-        public RequiredIfAttribute(string relatedProperty, Operator @operator, object relatedValue)
+        public RequiredIfAttribute(string relatedProperty, Operator @operator, object relatedPropertyExpectedValue)
             : base(relatedProperty)
         {
             Operator = @operator;
-            RelatedValue = relatedValue;
+            RelatedPropertyExpectedValue = relatedPropertyExpectedValue;
             Metadata = OperatorMetadata.Get(Operator);
         }
 
-        public RequiredIfAttribute(string relatedProperty, object relatedValue)
-            : this(relatedProperty, Operator.EqualTo, relatedValue) { }
+        public RequiredIfAttribute(string relatedProperty, object relatedPropertyExpectedValue)
+            : this(relatedProperty, Operator.EqualTo, relatedPropertyExpectedValue) { }
 
         public override string FormatErrorMessage(string name)
         {
@@ -26,7 +26,7 @@ namespace Structr.AspNetCore.Validation
             {
                 ErrorMessage = DefaultErrorMessage;
             }
-            return string.Format(ErrorMessageString, name, RelatedPropertyDisplayName ?? RelatedProperty, RelatedValue);
+            return string.Format(ErrorMessageString, name, RelatedPropertyDisplayName ?? RelatedProperty, RelatedPropertyExpectedValue);
         }
 
         public override string ClientTypeName => "RequiredIf";
@@ -36,13 +36,13 @@ namespace Structr.AspNetCore.Validation
             return base.GetClientValidationParameters()
                 .Union(new[] {
                     new KeyValuePair<string, object>("Operator", Operator.ToString()),
-                    new KeyValuePair<string, object>("RelatedValue", RelatedValue)
+                    new KeyValuePair<string, object>("RelatedPropertyValue", RelatedPropertyExpectedValue)
                 });
         }
 
-        public override bool IsValid(object value, object relatedValue, object container)
+        public override bool IsValid(object value, object relatedPropertyValue, object container)
         {
-            if (Metadata.IsValid(relatedValue, RelatedValue))
+            if (Metadata.IsValid(relatedPropertyValue, RelatedPropertyExpectedValue))
             {
                 return value != null && string.IsNullOrEmpty(value.ToString().Trim()) == false;
             }
