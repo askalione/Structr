@@ -10,7 +10,9 @@ namespace Structr.Security
         public static string Hash(string input)
         {
             if (string.IsNullOrEmpty(input))
+            {
                 throw new ArgumentNullException(nameof(input));
+            }
 
             var src = Hash(input,
                 rng: RandomNumberGenerator.Create(),
@@ -25,13 +27,17 @@ namespace Structr.Security
         public static bool Verify(string hash, string input)
         {
             if (string.IsNullOrEmpty(input))
+            {
                 throw new ArgumentNullException(nameof(input));
+            }
 
             if (hash == null)
+            {
                 return false;
+            }
 
             var src = Convert.FromBase64String(hash);
-            return Verify(src, input, out int iterCount);
+            return Verify(src, input, out _);
         }
 
         private static bool Verify(byte[] hash, string input, out int iterCount)
