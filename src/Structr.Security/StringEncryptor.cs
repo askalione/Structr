@@ -5,8 +5,19 @@ using System.Text;
 
 namespace Structr.Security
 {
+    /// <summary>
+    /// Provides functionality for encrypting and decrypting strings using passphrase.
+    /// </summary>
     public static class StringEncryptor
     {
+        /// <summary>
+        /// Encrypts input string using specified passphrase.
+        /// </summary>
+        /// <param name="input">String to encrypt.</param>
+        /// <param name="passphrase">Passphrase to be used in encryption.</param>
+        /// <returns>Encrypted string.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="input"/> or <paramref name="passphrase"/> is null.</exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public static string Encrypt(string input, string passphrase)
         {
             if (string.IsNullOrEmpty(passphrase))
@@ -27,7 +38,7 @@ namespace Structr.Security
             {
                 if (aes == null)
                 {
-                    throw new ArgumentException("Parameter must not be null.", nameof(aes));
+                    throw new InvalidOperationException("Aes must not be null.");
                 }
 
                 aes.Key = aesKey;
@@ -51,6 +62,14 @@ namespace Structr.Security
             }
         }
 
+        /// <summary>
+        /// Decrypts input encrypted string using specified passphrase.
+        /// </summary>
+        /// <param name="input">String to decrypt.</param>
+        /// <param name="passphrase">Passphrase to be used in decryption.</param>
+        /// <returns>Decrypted string.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="input"/> or <paramref name="passphrase"/> is null.</exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public static string Decrypt(string input, string passphrase)
         {
             if (string.IsNullOrEmpty(passphrase))

@@ -3,8 +3,17 @@ using System.Text;
 
 namespace Structr.Security
 {
+    /// <summary>
+    /// Provides functionality for hashing input strings and verifying them. Uses MD5 hash algorithm.
+    /// </summary>
     public static class Md5Hasher
     {
+        /// <summary>
+        /// Hashes specified string using MD5 hash algorithm.
+        /// </summary>
+        /// <param name="input">String to be hashed.</param>
+        /// <returns>Hashed string.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="input"/> is null.</exception>
         public static string Hash(string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -27,6 +36,13 @@ namespace Structr.Security
             }
         }
 
+        /// <summary>
+        /// Verifies provided input string with specified hash, using MD5 hash algorithm.
+        /// </summary>
+        /// <param name="hash">Hash to verify provided string with.</param>
+        /// <param name="input">String be verified with string.</param>
+        /// <returns><see langword="true"/> if input string correspones specified hash, otherwise <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static bool Verify(string hash, string input)
         {
             if (string.IsNullOrEmpty(input))

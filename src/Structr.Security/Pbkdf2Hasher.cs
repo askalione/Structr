@@ -5,8 +5,17 @@ using System.Security.Cryptography;
 
 namespace Structr.Security
 {
+    /// <summary>
+    /// Provides functionality for hashing input strings and verifying them. Uses PBKDF2 algorithm.
+    /// </summary>
     public static class Pbkdf2Hasher
     {
+        /// <summary>
+        /// Hashes specified string using PBKDF2 hash algorithm.
+        /// </summary>
+        /// <param name="input">String to be hashed.</param>
+        /// <returns>Hashed string.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="input"/> is null.</exception>
         public static string Hash(string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -24,6 +33,13 @@ namespace Structr.Security
             return Convert.ToBase64String(src);
         }
 
+        /// <summary>
+        /// Verifies provided input string with specified hash, using PBKDF2 hash algorithm.
+        /// </summary>
+        /// <param name="hash">Hash to verify provided string with.</param>
+        /// <param name="input">String be verified with string.</param>
+        /// <returns><see langword="true"/> if input string correspones specified hash, otherwise <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static bool Verify(string hash, string input)
         {
             if (string.IsNullOrEmpty(input))
