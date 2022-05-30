@@ -19,7 +19,7 @@ namespace Structr.Notices
         public ServiceLifetime PublisherServiceLifetime { get; set; }
 
         /// <summary>
-        /// Initializes an instance of <see cref="NoticeServiceOptions"/> with default values.
+        /// Initializes a new instance of <see cref="NoticeServiceOptions"/> with default values.
         /// </summary>
         public NoticeServiceOptions()
         {

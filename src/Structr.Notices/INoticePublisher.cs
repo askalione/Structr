@@ -12,8 +12,8 @@ namespace Structr.Notices
         /// Publishes a notice.
         /// </summary>
         /// <param name="notice">The notice to be published.</param>
-        /// <param name="cancellationToken">he token to monitor for cancellation requests.</param>
-        /// <returns>A task that represents the publishing of notice.</returns>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that represents the publishing of the notice.</returns>
         Task PublishAsync(INotice notice, CancellationToken cancellationToken = default(CancellationToken));
     }
 }
