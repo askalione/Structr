@@ -3,8 +3,17 @@ using System.Collections.Generic;
 
 namespace Structr.Validation
 {
+    /// <summary>
+    /// Extensions methods for <see cref="IEnumerable{}"/>.
+    /// </summary>
     public static class EnumerableExtensions
     {
+        /// <summary>
+        /// Map a list of <see cref="ValidationFailure"/> to <see cref="ValidationResult"/>.
+        /// </summary>
+        /// <param name="failures">The list of <see cref="ValidationFailure"/>.</param>
+        /// <returns>The <see cref="ValidationResult"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="failures"/> is <see langword="null"/>.</exception>
         public static ValidationResult ToValidationResult(this IEnumerable<ValidationFailure> failures)
         {
             if (failures == null)

@@ -7,11 +7,17 @@ using System.Threading.Tasks;
 
 namespace Structr.Validation
 {
+    /// <inheritdoc cref="IValidationProvider"/>
     public class ValidationProvider : IValidationProvider
     {
         private readonly IServiceProvider _serviceProvider;
         private static readonly ConcurrentDictionary<Type, InternalValidator> _cache = new ConcurrentDictionary<Type, InternalValidator>();
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ValidationProvider"/>.
+        /// </summary>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="serviceProvider"/> is <see langword="null"/>.</exception>
         public ValidationProvider(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null)
