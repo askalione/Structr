@@ -1,7 +1,7 @@
 using Structr.Notices;
 using System;
 
-namespace Structr.Tests.Notices.TestUtils
+namespace Structr.Tests.Notices.TestUtils.Notices.Custom
 {
     internal class CustomNoticeHandler : NoticeHandler<CustomNotice>
     {

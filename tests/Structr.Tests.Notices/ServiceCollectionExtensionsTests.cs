@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Notices;
-using Structr.Tests.Notices.TestUtils;
+using Structr.Tests.Notices.TestUtils.Notices.Custom;
 using Xunit;
 
 namespace Structr.Tests.Notices
