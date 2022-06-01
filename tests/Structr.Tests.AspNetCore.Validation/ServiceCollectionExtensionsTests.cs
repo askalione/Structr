@@ -1,9 +1,9 @@
 #nullable disable
 
-using Xunit;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 
 namespace Structr.Tests.AspNetCore.Validation
 {

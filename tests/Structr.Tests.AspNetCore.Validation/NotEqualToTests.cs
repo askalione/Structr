@@ -1,12 +1,12 @@
 #nullable disable
 
-using Xunit;
 using FluentAssertions;
 using Structr.AspNetCore.Validation;
 using Structr.Tests.AspNetCore.Validation.TestData;
-using System.ComponentModel.DataAnnotations;
-using System;
 using Structr.Tests.AspNetCore.Validation.TestUtils;
+using System;
+using System.ComponentModel.DataAnnotations;
+using Xunit;
 
 namespace Structr.Tests.AspNetCore.Validation
 {

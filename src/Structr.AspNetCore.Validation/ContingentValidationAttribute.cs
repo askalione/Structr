@@ -6,7 +6,7 @@ using System.Linq;
 namespace Structr.AspNetCore.Validation
 {
     /// <summary>
-    /// Serves as the base class for <see cref="Structr"/>.<see cref="AspNetCore"/> validation attributes.
+    /// Serves as the base class for ASP.NET Core validation attributes.
     /// Contains basic conventions and functionality to work with property with which value the value of
     /// validating property will be compared.
     /// </summary>

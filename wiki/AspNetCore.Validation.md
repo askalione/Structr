@@ -1,27 +1,31 @@
-# Validation
+# AspNetCore.Validation
 
-**Structr.Validation** package contains number of attributes supplying a wide range of developer's basic needs in validating user-input data. Everything is done in classic manner by specifying validation attributes for properties to be validated. Every attribute generates it's own but fully customizable error message. More to say - validation attributes could be combined between each other when you need it. 
+**Structr.AspNetCore.Validation** package contains number of attributes supplying a wide range of developer's basic needs in validating user-input data in [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core) application. Everything is done in classic manner by specifying validation attributes for properties to be validated. Every attribute generates it's own but fully customizable error message. More to say - validation attributes could be combined between each other when you need it. 
+
+Inspiration for creating this package was found in validation package for ASP.NET MVC - [Foolproof](https://github.com/leniel/foolproof) and ASP.NET Core fork - [Foolproof.Core](https://github.com/rpgkaiser/FoolProof.Core).
 
 ## Installation
 
-Abstractions package is available on [NuGet](https://www.nuget.org/packages/Structr.Validation/). 
+AspNetCore.Validation package is available on [NuGet](https://www.nuget.org/packages/Structr.AspNetCore.Validation/). 
 
 ```
-dotnet add package Structr.Validation
+dotnet add package Structr.AspNetCore.Validation
 ```
 
-## Basic usage
+## Setup
 
-To use all abilities of this package you just need to register corresponding service in your application:
+Setup validation services in your ASP.NET Core application:
 
 ```csharp
-serviceCollection.AddAspNetCoreValidation();
+services.AddAspNetCoreValidation();
 ```
 
-Then just add verification attributes anywhere you need them. For example:
+## Usage
+
+Add validation attributes for your models. For example:
 
 ```csharp
-public class AddUserVm : IViewModel
+public class AddUserViewModel
 {
     public string FullName { get; set; }
     public bool IsEmployee { get; set; }
@@ -36,9 +40,26 @@ public class AddUserVm : IViewModel
 }
 ```
 
-All of attributes allow using of properties described below:
+And check `ModelState.IsValid` property in controller action:
 
-| Attribute name | Description |
+```csharp
+[HttpPost]
+public IActionResult AddUser(AddUserViewModel addUserViewModel)
+{
+    if (ModelState.IsValid == false)
+    {
+        return View(addUserViewModel);
+    }
+
+    /* Some logic here */
+
+    return RedirectToAction("Index");
+}
+```
+
+List of properties that are available in each validation attribute:
+
+| Property name | Description |
 | --- | --- |
 | `RelatedProperty` | Value of the related property with which the value of validating property will be compared.
 | `RelatedPropertyDisplayName` | Display name of the related property with which value the value of validating property will be compared. Will be used in error message if validation fails.
@@ -48,7 +69,7 @@ All of attributes allow using of properties described below:
 
 So all attributes allow to specify custom error messages and get them from resource files if needed.
 
-## Conditional validation attributes
+### Simple validation
 
 These attributes allow to specify related property which value will be used to check value of marked property.
 
@@ -66,7 +87,7 @@ These attributes allow to specify related property which value will be used to c
 
 In addition to properties available for all validation attributes, attributes of this type has `PassOnNull`. This property indicates that validation should be passed if value of property to be validated or value of related property equals `null`. In case of both values are `null` then the behavior of validation will depend on type of attribute. `GreaterThan`, `LessThan`, `NotIn` and `NotEqualTo` will fail validation. Others will succeed.
 
-## Conditional requirement attributes
+### Requirements
 
 These allow to make marked property requirement as conditional and based on related property value.
 
@@ -80,14 +101,14 @@ These allow to make marked property requirement as conditional and based on rela
 | `RequiredIfNotRegExMatch` | Marks property as required when related property DOESN'T match provided regular expression.
 | `RequiredIf` | The generalized version of attributes above.
 
-## Conditional checking with regular expression
+### Regular expressions
 
 The last one is `RegularExpressionIf` attribute which allows to check that a data field value must match the specified regular expression but only when related property has specified value.
 
 ```csharp
-public class SomeModel
+public class FooViewModel
 {
-    [RegularExpressionIf("[A-Z][a-z]\\d", "Bar", true)]
+    [RegularExpressionIf("[A-Z][a-z]\\d", nameof(Bar), true)]
     public string Foo { get; set; }
 
     public bool Bar { get; set; }
