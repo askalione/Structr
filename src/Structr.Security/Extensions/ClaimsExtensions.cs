@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace Structr.Security.Extensions
 {
-    public static class ClaimExtensions
+    public static class ClaimsExtensions
     {
         /// <summary>
         /// Adds a single claim to this claims identity.

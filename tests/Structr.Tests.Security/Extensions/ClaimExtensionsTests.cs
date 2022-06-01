@@ -1,14 +1,14 @@
-using Xunit;
 using FluentAssertions;
-using System;
-using System.Security.Claims;
 using Structr.Security.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Claims;
+using Xunit;
 
 namespace Structr.Tests.Security.Extensions
 {
-    public class ClaimsTests
+    public class ClaimExtensionsTests
     {
         [Fact]
         public void GetFirstValue()
@@ -87,7 +87,7 @@ namespace Structr.Tests.Security.Extensions
             var result = claims.FindAllValues<float>("TestClaimType");
 
             // Assert
-            result.Should().Contain(new [] { 1.5F, 2.7F });
+            result.Should().Contain(new[] { 1.5F, 2.7F });
         }
 
         [Fact]

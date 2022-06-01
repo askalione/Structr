@@ -1,7 +1,7 @@
-using Xunit;
 using FluentAssertions;
 using Structr.Security;
 using System;
+using Xunit;
 
 namespace Structr.Tests.Security
 {

@@ -12,7 +12,9 @@ dotnet add package Structr.Security
 
 ## Usage
 
-TODO
+* [Claims](#claims)
+* [Hashes](#hashes)
+* [Encryption](#encryption)
 
 ### Claims
 
@@ -57,59 +59,100 @@ float claimValue = claim.GetValue<float>(); // Returns 1.25F
 claimValue = claims.GetFirstValue<float>("Type1");  // Returns 1.25F
 
 // Or try getting claim value.
-if (claims.TryGetFirstValue("Type1", float value))
+if (claims.TryGetFirstValue("Type1", out float value))
 {
     claimValue = value;
 }
 ```
 
-----------------------------------------------------
-----------------------------------------------------
-----------------------------------------------------
+### Hashes
 
-## Claims extensions
+`Md5Hasher` and `Pbkdf2Hasher` classes provides functionality for hashing input strings and verifying them.
 
-These methods are mostly extensions for `ClaimsIdentity` and `ClaimsPrincipal` and could simplify working with adding, changing and removing claims from this objects.
+Hashers methods:
+
+| Method name | Return type | Description |
+| --- | --- | --- |
+| Hash | `string` | Hashes specified string using chosen hash algorithm. |
+| Verify | `bool` | Verifies provided input string with specified hash, using chosen hash algorithm. |
+
+Hash and verify password for example using PBKDF2 hash algorithm:
 
 ```csharp
-var claimsIdentity = new ClaimsIdentity();
+// Sign up new user or change user password.
+string email = "structr@structr.dev";
+string password = "qwerty";
+string passwordHash = Pbkdf2Hasher.Hash(password); // Create password hash.
+User user = new User(email, passwordHash);
+_dbContext.Users.Add(user);
 
-// Add claims fluently without Claim constructors.
-claimsIdentity.AddClaim("SomeClaimType", "value 1")
-    .AddClaim("SomeClaimType", "value 2")
-    .AddClaim("SomeAnotherClaimType", "3")
-    .AddClaim("AndAnotherClaimType", "4");
-
-// Replaces value for claim with type "SomeAnotherClaimType"
-claimsIdentity.SetClaim("SomeAnotherClaimType", "new Value");
-
-// Removes claims with type "SomeClaimType"
-claimsIdentity.RemoveClaims("SomeClaimType");
-
-/* And some extensions examples for ClaimsPrincipal: */
-var claimsPrincipal = new ClaimsPrincipal();
-
-// Adds claims with type "SomeClaimType" to principal.
-claimsPrincipal.SetClaims("SomeClaimType", new string[] { "1.25", "2,75" });
-
-// Getting claim value converted to specified type. 
-var result = claimsPrincipal.GetClaim<float>("SomeClaimType"); // Returns 1.25F
+// Sign in user with email and password.
+string email = "structr@structr.dev";
+string password = "qwerty";
+User user = _dbContext.Users.FirstOrDefault(x => x.Email == email);
+if (user != null) 
+{
+    bool isVerified = Pbkdf2Hasher.Verify(password, user.PasswordHash); // Verify input password with user password hash.
+    if (isVerified)
+    {
+        /* Some sign in logic */
+    }
+}
 ```
 
-## Hashers
-
-`Md5Hasher` and `Pbkdf2Hasher` provide functionality for hashing input strings and verifying them.
-
-| Method name | Description |
-| --- | --- |
-| Hash | Hashes specified string using MD5 or PBKDF2 hash algorithm.
-| Verify | Verifies provided input string with specified hash, using MD5 or PBKDF2 hash algorithm.
-
-## StringEncryptor
+### Encryption
 
 `StringEncryptor` class provides functionality for encrypting and decrypting strings using passphrase.
 
-| Method name | Description |
-| --- | --- |
-| Encrypt | Encrypts input string using specified passphrase.
-| Decrypt | Decrypts input encrypted string using specified passphrase.
+`StringEncryptor` methods:
+
+| Method name | Return type | Description |
+| --- | --- | --- |
+| Encrypt | `string` | Encrypts input string using specified passphrase. |
+| Decrypt | `string` | Decrypts input encrypted string using specified passphrase. |
+
+Encrypt and decrypt secure settings for example:
+
+```csharp
+string clientSecret = "4E46E591-987F-443A-96BA-38804D7E1617";
+string passphrase = "Structr";
+
+// Encrypt client secret with passphrase
+string encryptedClientSecret = StringEncryptor.Encrypt(clientSecret, passphrase);
+File.WriteAllText("secrets.config", encryptedClientSecret);
+
+encryptedClientSecret = File.ReadlAllText("secrets.config"); 
+// Decrypt client secret with passphrase
+clientSecret = StringEncryptor.Decrypt(encryptedClientSecret, passphrase);
+```
+
+`EncryptingJsonConverter` class will be useful when using [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/) package for JSON serialization:
+
+Define typed-class for settings:
+
+```csharp
+using Newtonsoft.Json;
+using Structr.Security.Json;
+
+public class ClientSettings
+{
+    public string ClientId { get; set; }
+
+    [JsonConverter(typeof(EncryptingJsonConverter))]
+    public string ClientSecret { get; set; }
+}
+```
+
+Then serialize settings to JSON:
+
+```csharp
+using Newtonsoft.Json;
+
+var user = new User 
+{ 
+    ClientId = "6779ef20e75817b79602",
+    ClientSecret = "4E46E591-987F-443A-96BA-38804D7E1617"
+};
+string encryptedJson = JsonConvert.SerializeObject(user, Formatting.Indented);
+File.WriteAllText("secrets.json", encryptedJson);
+```

@@ -1,8 +1,8 @@
-using Xunit;
 using FluentAssertions;
+using Structr.Security.Extensions;
 using System;
 using System.Security.Claims;
-using Structr.Security.Extensions;
+using Xunit;
 
 namespace Structr.Tests.Security.Extensions
 {
