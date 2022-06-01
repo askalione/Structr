@@ -36,7 +36,7 @@ namespace Structr.Domain
             }
 
             return compositeIdType.GetProperties()
-                .All(p => object.Equals(p.GetValue(compositeId, null), p.GetValue(otherCompositeId, null)));
+                .All(p => Equals(p.GetValue(compositeId, null), p.GetValue(otherCompositeId, null)));
         }
 
         protected override int GenerateHashCode()

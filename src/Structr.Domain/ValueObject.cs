@@ -16,7 +16,7 @@ namespace Structr.Domain
     {
         public virtual bool Equals(TValueObject other)
         {
-            if (other == null)
+            if ((object)other == null)
             {
                 return false;
             }
@@ -26,7 +26,7 @@ namespace Structr.Domain
                 return true;
             }
 
-            // compare all public properties
+            // Compare all public properties.
             PropertyInfo[] publicProperties = this.GetType().GetProperties();
 
             if (publicProperties != null && publicProperties.Any())
@@ -38,7 +38,7 @@ namespace Structr.Domain
 
                     if (left != null && typeof(TValueObject).IsAssignableFrom(left.GetType()))
                     {
-                        // check not self-references...
+                        // Check not self-references.
                         return ReferenceEquals(left, right);
                     }
                     else
@@ -53,6 +53,7 @@ namespace Structr.Domain
                 return true;
             }
         }
+
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -67,7 +68,7 @@ namespace Structr.Domain
 
             ValueObject<TValueObject> item = obj as ValueObject<TValueObject>;
 
-            if (item != null)
+            if ((object)item != null)
             {
                 return Equals((TValueObject)item);
             }
@@ -77,14 +78,15 @@ namespace Structr.Domain
             }
 
         }
+
         public override int GetHashCode()
         {
             int hashCode = 31;
             bool changeMultiplier = false;
             int index = 1;
 
-            // compare all public properties
-            PropertyInfo[] publicProperties = this.GetType().GetProperties();
+            // Compare all public properties.
+            PropertyInfo[] publicProperties = GetType().GetProperties();
 
             if (publicProperties != null && publicProperties.Any())
             {
@@ -100,7 +102,7 @@ namespace Structr.Domain
                     }
                     else
                     {
-                        // only for support { "a", null, null, "a" } <> { null, "a", "a", null }
+                        // Only for support { "a", null, null, "a" } <> { null, "a", "a", null }.
                         hashCode = hashCode ^ (index * 13);
                     }
                 }
@@ -111,9 +113,9 @@ namespace Structr.Domain
 
         public static bool operator ==(ValueObject<TValueObject> left, ValueObject<TValueObject> right)
         {
-            if (left == null && right == null)
+            if (Equals(left, null))
             {
-                return true;
+                return Equals(right, null);
             }
             else
             {

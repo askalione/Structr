@@ -1,59 +1,105 @@
-using System;
-using Xunit;
+using Structr.Tests.Domain.TestUtils.Users;
 
 namespace Structr.Tests.Domain
 {
     public class EntityTests
     {
-        //[Theory]
-        //[InlineData(10, 10)]
-        //[InlineData(100, 102)]        
-        //[InlineData("key-1", "key-1")]        
-        //[InlineData("key-1", "key-2")]
-        //[InlineData(EType.Cold, EType.Cold)]        
-        //[InlineData(EType.Cold, EType.Warm)]
-        [Fact]
-        public void Equals_KeyPairs_KeyPairsEquals()
+        [Theory]
+        [InlineData(0, true)]
+        [InlineData(1, false)]
+        public void IsTransient(int id, bool expected)
         {
-            var entity1 = new FooEntity(10);
-            var entity2 = new FooEntity(10);
-            Assert.True(entity1.Equals(entity2));
+            // Arrange
+            var user = new User(id, "Ivanov I.I.", new Address());
 
-            entity1 = new FooEntity(10);
-            entity2 = new FooEntity(11);
-            Assert.False(entity1.Equals(entity2));
+            // Act
+            bool result = user.IsTransient();
 
-            entity1 = new FooEntity("key-1");
-            entity2 = new FooEntity("key-1");
-            Assert.True(entity1.Equals(entity2));
+            // Assert
+            result.Should().Be(expected);
+        }
 
-            entity1 = new FooEntity("key-1");
-            entity2 = new FooEntity("key-2");
-            Assert.False(entity1.Equals(entity2));
+        [Theory]
+        [ClassData(typeof(EqualsTheoryData))]
+        public void EqualsTest(User user1, User user2, bool expected)
+        {
+            // Act
+            bool result = user1.Equals(user2);
 
-            entity1 = new FooEntity(new Guid("84765ea9-c41e-45e1-bd8b-04e9df1cb804"));
-            entity2 = new FooEntity(new Guid("84765ea9-c41e-45e1-bd8b-04e9df1cb804"));
-            Assert.True(entity1.Equals(entity2));
+            // Assert
+            result.Should().Be(expected);
+        }
 
-            entity1 = new FooEntity(new Guid("84765ea9-c41e-45e1-bd8b-04e9df1cb804"));
-            entity2 = new FooEntity(new Guid("e94b119c-5815-4aa8-b558-45f2685c58c8"));
-            Assert.False(entity1.Equals(entity2));
+        [Theory]
+        [ClassData(typeof(EqualsTheoryData))]
+        [InlineData(null, null, true)]
+        public void EqualSign(User user1, User user2, bool expected)
+        {
+            // Act
+            bool result = user1 == user2;
 
-            entity1 = new FooEntity(Type.Cold);
-            entity2 = new FooEntity(Type.Cold);
-            Assert.True(entity1.Equals(entity2));
+            // Assert
+            result.Should().Be(expected);
+        }
 
-            entity1 = new FooEntity(Type.Cold);
-            entity2 = new FooEntity(Type.Warm);
-            Assert.False(entity1.Equals(entity2));
+        [Theory]
+        [ClassData(typeof(EqualsTheoryData))]
+        [InlineData(null, null, true)]
+        public void NotEqualSign(User user1, User user2, bool expected)
+        {
+            // Act
+            bool result = user1 != user2;
 
-            entity1 = new FooEntity(new Id(1, 1));
-            entity2 = new FooEntity(new Id(1, 1));
-            Assert.True(entity1.Equals(entity2));
+            // Assert
+            result.Should().NotBe(expected);
+        }
 
-            entity1 = new FooEntity(new Id(1, 1));
-            entity2 = new FooEntity(new Id(2, 1));
-            Assert.False(entity1.Equals(entity2));
+        private class EqualsTheoryData : TheoryData<User, User, bool>
+        {
+            public EqualsTheoryData()
+            {
+                var user1 = new User(1, "Ivanov I.I.", new Address());
+                var user2 = new User(1, "Petrov I.I.", new Address());
+                var user3 = new User(3, "Ivanov I.I.", new Address());
+                var user4 = new User(0, "Ivanov I.I.", new Address());
+                var user5 = new User(0, "Ivanov I.I.", new Address());
+
+                Add(user1, user1, true);
+                Add(user1, user2, true);
+
+                Add(user1, user3, false);
+                Add(user1, null, false);
+                Add(user4, user5, false);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(GetHashCodeTheoryData))]
+        public void GetHashCodeTest(User user1, User user2, bool expected)
+        {
+            // Arrange
+            int hashCode1 = user1.GetHashCode();
+            int hashCode2 = user2.GetHashCode();
+
+            // Act
+            bool result = hashCode1 == hashCode2;
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        private class GetHashCodeTheoryData : TheoryData<User, User, bool>
+        {
+            public GetHashCodeTheoryData()
+            {
+                var user1 = new User(1, "Ivanov I.I.", new Address());
+                var user2 = new User(1, "Petrov I.I.", new Address());
+                var user3 = new User(3, "Ivanov I.I.", new Address());
+
+                Add(user1, user1, true);
+                Add(user1, user2, true);
+                Add(user1, user3, false);
+            }
         }
     }
 }
