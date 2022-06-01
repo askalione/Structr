@@ -201,7 +201,7 @@ namespace Structr.Tests.Security.Extensions
             claimsIdentity.AddClaim(new Claim("TestClaimType_2", "TestClaimValue_21"));
 
             // Act
-            var result = claimsIdentity.RemoveClaims("TestClaimType_1");
+            var result = claimsIdentity.RemoveAllClaims("TestClaimType_1");
 
             // Assert
             result.Claims.Should().SatisfyRespectively(
@@ -219,7 +219,7 @@ namespace Structr.Tests.Security.Extensions
             ClaimsIdentity claimsIdentity = null!;
 
             // Act
-            Action act = () => claimsIdentity.RemoveClaims("TestClaimType");
+            Action act = () => claimsIdentity.RemoveAllClaims("TestClaimType");
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage("*identity*");
@@ -232,7 +232,7 @@ namespace Structr.Tests.Security.Extensions
             var claimsIdentity = new ClaimsIdentity();
 
             // Act
-            Action act = () => claimsIdentity.RemoveClaims(null);
+            Action act = () => claimsIdentity.RemoveAllClaims(null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage("*type*");

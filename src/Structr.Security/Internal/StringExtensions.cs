@@ -4,7 +4,21 @@ namespace Structr.Security.Internal
 {
     internal static class StringExtensions
     {
-        public static object Cast(this string src, Type type)
+        public static bool TryCast<T>(this string src, out T value)
+        {
+            value = default(T);
+            try
+            {
+                value = (T)Cast(src, typeof(T));
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        internal static object Cast(this string src, Type type)
         {
             if (type == typeof(string))
             {
@@ -25,11 +39,6 @@ namespace Structr.Security.Internal
 
             var value = Convert.ChangeType(src, type);
             return value;
-        }
-
-        public static T Cast<T>(this string src)
-        {
-            return (T)Cast(src, typeof(T));
         }
     }
 }
