@@ -21,7 +21,7 @@ namespace Structr.Operations
         public OperationServiceOptions()
         {
             ExecutorType = typeof(OperationExecutor);
-            ExecutorServiceLifetime = ServiceLifetime.Scoped;
+            ExecutorServiceLifetime = ServiceLifetime.Transient;
         }
     }
 }

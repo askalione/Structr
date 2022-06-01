@@ -18,11 +18,13 @@ namespace Structr.AspNetCore.Validation.Internal
             if (Attribute is ContingentValidationAttribute)
             {
                 var attribute = Attribute as ContingentValidationAttribute;
-                var otherPropertyInfo = context.ModelMetadata.ContainerType.GetProperty(attribute.DependentProperty);
+                var otherPropertyInfo = context.ModelMetadata.ContainerType.GetProperty(attribute.RelatedProperty);
 
                 var displayName = GetMetaDataDisplayName(otherPropertyInfo);
                 if (displayName != null)
-                    attribute.DependentPropertyDisplayName = displayName;
+                {
+                    attribute.RelatedPropertyDisplayName = displayName;
+                }
             }
 
             var validName = Attribute.ClientTypeName.ToLowerInvariant();
@@ -32,6 +34,7 @@ namespace Structr.AspNetCore.Validation.Internal
 
             //Add validation params attributes
             foreach (var validationParam in Attribute.ClientValidationParameters)
+            {
                 MergeAttribute(
                     context.Attributes,
                     $"data-val-{validName}-{validationParam.Key.ToLowerInvariant()}",
@@ -39,6 +42,7 @@ namespace Structr.AspNetCore.Validation.Internal
                         ? JsonConvert.SerializeObject(validationParam.Value)
                         : validationParam.Value as string
                 );
+            }
         }
 
         public override string GetErrorMessage(ModelValidationContextBase validationContext)
@@ -52,7 +56,9 @@ namespace Structr.AspNetCore.Validation.Internal
             var atts = property.GetCustomAttributes(typeof(DisplayAttribute), true);
 
             if (atts.Length == 0)
+            {
                 return null;
+            }
 
             return (atts[0] as DisplayAttribute).GetName();
         }
@@ -63,14 +69,17 @@ namespace Structr.AspNetCore.Validation.Internal
                 typeof(ModelMetadataTypeAttribute), true);
 
             if (atts.Length == 0)
+            {
                 return GetAttributeDisplayName(property);
+            }
 
             var metaAttr = atts[0] as ModelMetadataTypeAttribute;
 
             var metaProperty = metaAttr.MetadataType.GetProperty(property.Name);
-
             if (metaProperty == null)
+            {
                 return null;
+            }
 
             return GetAttributeDisplayName(metaProperty);
         }

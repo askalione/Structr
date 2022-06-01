@@ -1,22 +1,27 @@
-﻿
+
 namespace Structr.AspNetCore.Validation
 {
+    /// <summary>
+    /// Marks property as required when value of related property is empty.
+    /// </summary>
     public class RequiredIfEmptyAttribute : ContingentValidationAttribute
     {
-        public RequiredIfEmptyAttribute(string dependentProperty)
-            : base(dependentProperty) { }
+        /// <summary>
+        /// Marks property as required when value of related property is empty.
+        /// </summary>
+        /// <param name="relatedProperty">Related property which value should met specified conditions.</param>
+        public RequiredIfEmptyAttribute(string relatedProperty)
+            : base(relatedProperty) { }
 
-        public override bool IsValid(object value, object dependentValue, object container)
+        public override bool IsValid(object value, object relatedPropertyValue, object container)
         {
-            if (string.IsNullOrEmpty((dependentValue ?? string.Empty).ToString().Trim()))
-                return value != null && !string.IsNullOrEmpty(value.ToString().Trim());
-
+            if (PropertyIsEmpty(relatedPropertyValue))
+            {
+                return PropertyIsEmpty(value) == false;
+            }
             return true;
         }
 
-        public override string DefaultErrorMessage
-        {
-            get { return "{0} is required due to {1} being empty."; }
-        }
+        public override string DefaultErrorMessage => "{0} is required due to {1} being empty.";
     }
 }
