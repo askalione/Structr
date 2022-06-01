@@ -23,7 +23,7 @@ namespace Structr.IO
 
         /// <summary>
         /// Generate new sequntial filename based on guid and time stamp segments
-        ///     using extension from exists file name.
+        /// using extension from exists file name.
         /// </summary>
         /// <param name="existsFileName">Name of exists file.</param>
         public static string NewFileName(string existsFileName)
@@ -31,7 +31,7 @@ namespace Structr.IO
 
         /// <summary>
         /// Generate new sequntial filename based on guid and time stamp segments
-        ///     with specified MIME type.
+        /// with specified MIME type.
         /// </summary>
         /// <param name="mimeType">MIME type.</param>
         public static string NewFileNameWithMimeType(string mimeType)
@@ -39,9 +39,9 @@ namespace Structr.IO
 
         /// <summary>
         /// Generate new sequntial filename based on guid and time stamp segments
-        ///     with specified extension.
+        /// with specified extension.
         /// </summary>
-        /// <param name="extension">File extension (starts with dot, e.g. ".exe")</param>
+        /// <param name="extension">File extension (starts with dot, e.g. ".pdf")</param>
         /// <exception cref="ArgumentNullException">If <paramref name="extension"/> is <see langword="null"/> or empty.</exception>
         public static string NewFileNameWithExtension(string extension)
         {

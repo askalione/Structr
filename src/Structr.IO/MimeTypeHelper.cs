@@ -5,7 +5,8 @@ using System.Linq;
 namespace Structr.IO
 {
     /// <summary>
-    /// Provides static methods for getting a file extension (starts with dot, e.g. ".exe") by a MIME type and vice versa.
+    /// Provides static methods for getting a file extension (starts with dot, e.g. ".pdf")
+    /// by a MIME type and vice versa.
     /// </summary>
     public static class MimeTypeHelper
     {
@@ -695,7 +696,7 @@ namespace Structr.IO
 
             };
 
-            var cache = mappings.ToList(); // need ToList() to avoid modifying while still enumerating
+            var cache = mappings.ToList(); // Need ToList() to avoid modifying while still enumerating.
 
             foreach (var mapping in cache)
             {
@@ -744,7 +745,7 @@ namespace Structr.IO
             }
             if (mimeType.StartsWith("."))
             {
-                throw new ArgumentException($"Requested mime type is not valid: {mimeType}");
+                throw new ArgumentException($"Requested mime type is not valid: \"{mimeType}\".");
             }
 
             if (_mappings.Value.TryGetValue(mimeType, out string extension))
@@ -754,7 +755,7 @@ namespace Structr.IO
 
             if (throwIfNotFound)
             {
-                throw new InvalidOperationException($"Requested mime type is not registered: {mimeType}");
+                throw new InvalidOperationException($"Requested mime type is not registered: \"{mimeType}\".");
             }
             else
             {
@@ -778,7 +779,7 @@ namespace Structr.IO
             }
             if (mimeType.StartsWith("."))
             {
-                throw new ArgumentException($"Requested mime type is not valid: {mimeType}");
+                throw new ArgumentException($"Requested mime type is not valid: \"{mimeType}\"");
             }
 
             List<string> extensions = _mappings.Value
@@ -788,7 +789,7 @@ namespace Structr.IO
 
             if (extensions.Any() == false && throwIfNotFound)
             {
-                throw new InvalidOperationException($"Requested mime type is not registered: {mimeType}");
+                throw new InvalidOperationException($"Requested mime type is not registered: \"{mimeType}\"");
             }
             return extensions;
         }

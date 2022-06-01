@@ -1,6 +1,6 @@
 # IO
 
-**Structr.IO** package is intended to help organize work with files.
+**Structr.IO** package contains number of helper classes which provide functionality to work with I/O infrastructure.
 
 ## Installation
 

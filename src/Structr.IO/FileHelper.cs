@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Structr.IO
 {
     /// <summary>
-    /// Provides static synchronous and asynchronous methods for the save, read and delete a single file.
+    /// Provides synchronous and asynchronous methods for the write, read and delete a single file.
     /// </summary>
     public static class FileHelper
     {
@@ -37,7 +37,7 @@ namespace Structr.IO
             {
                 if (createDirIfNotExists == false)
                 {
-                    throw new InvalidOperationException($"Directory {dir} was not found");
+                    throw new InvalidOperationException($"Directory \"{dir}\" was not found.");
                 }
                 Directory.CreateDirectory(dir);
             }
@@ -46,7 +46,7 @@ namespace Structr.IO
             {
                 if (overrideFileIfExists == false)
                 {
-                    throw new InvalidOperationException($"File {filePath} already exists");
+                    throw new InvalidOperationException($"File \"{filePath}\" already exists.");
                 }
                 filePath = GetFilePathWithUniqueFileName(filePath);
             }
@@ -90,7 +90,7 @@ namespace Structr.IO
             {
                 if (createDirIfNotExists == false)
                 {
-                    throw new InvalidOperationException($"Directory {dir} was not found");
+                    throw new InvalidOperationException($"Directory \"{dir}\" was not found.");
                 }
                 Directory.CreateDirectory(dir);
             }
@@ -99,7 +99,7 @@ namespace Structr.IO
             {
                 if (overrideFileIfExists == false)
                 {
-                    throw new InvalidOperationException($"File {filePath} already exists");
+                    throw new InvalidOperationException($"File \"{filePath}\" already exists.");
                 }
                 filePath = GetFilePathWithUniqueFileName(filePath);
             }
@@ -124,7 +124,7 @@ namespace Structr.IO
             {
                 if (throwIfNotExists)
                 {
-                    throw new InvalidOperationException($"File {path} not found");
+                    throw new InvalidOperationException($"File \"{path}\" not found.");
                 }
                 else
                 {
@@ -158,7 +158,7 @@ namespace Structr.IO
             {
                 if (throwIfNotExists)
                 {
-                    throw new InvalidOperationException($"File {path} not found");
+                    throw new InvalidOperationException($"File \"{path}\" not found.");
                 }
                 else
                 {
@@ -308,7 +308,8 @@ namespace Structr.IO
         }
 
         /// <summary>
-        /// Returns an absolute path with changing destination file name with unique postfix e.g. ("file_1.exe", "file_2.exe").
+        /// Returns an absolute path with changing destination file name with unique postfix
+        /// e.g. ("file_1.txt", "file_2.txt").
         /// </summary>
         /// <param name="path">The absolute file path.</param>
         public static string GetFilePathWithUniqueFileName(string path)

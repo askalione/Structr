@@ -1,7 +1,7 @@
 namespace Structr.IO
 {
     /// <summary>
-    /// Specifies base content directories.
+    /// Specifies deafult content directories.
     /// </summary>
     public enum ContentDirectory
     {
