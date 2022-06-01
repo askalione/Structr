@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// <see cref="ServiceCollection"/> extension methods for configuring Notice services.
+    /// <see cref="ServiceCollection"/> extension methods for configuring Notices services.
     /// </summary>
     public static class ServiceCollectionExtensions
     {
@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
             => AddNotices(services, null, assembliesToScan);
 
         /// <summary>
-        /// Adds basic Navigation services.
+        /// Adds basic Notices services.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configureOptions">The <see cref="NoticeServiceOptions"/> to be used by notices handling service.</param>

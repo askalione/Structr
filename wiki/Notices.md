@@ -1,6 +1,6 @@
 # Notices
 
-**Structr.Notices** package is intended to help organize notifications in application.
+**Structr.Notices** package is intended to help organize notification dispatching in application.
 
 ## Installation
 
@@ -12,93 +12,109 @@ dotnet add package Structr.Notices
 
 ## Setup
 
-Create a notice class that inherits from `INotice`, for example, `ConfirmationNotice`:
+Configure notice services:
 
 ```csharp
-public class ConfirmationNotice : INotice
+services.AddNotices(typeof(Program).Assembly);
+```
+`AddNotices()` extension method performs registration of notice publisher service `INoticePublisher` and notice handlers implementing `INoticeHandler` or inherited from `NoticeHandler` class.
+
+| Param name | Param type | Description |
+| --- | --- | --- |
+| assembliesToScan | `params Assembly[]` | List of assemblies to search notice handlers. |
+| configureOptions | `Action<NoticeServiceOptions>` | Options to be used by notices handling service. | 
+
+Additionally configure `INoticePublisher` service by specifying it's type and lifetime used `NoticeServiceOptions`.
+
+`NoticeServiceOptions` properties:
+
+| Property name | Property type | Description |
+| --- | --- | --- |
+| PublisherType | `Type` | Changes standard implementation of `INoticePublisher` to specified one. Default value is `typeof(NoticePublisher)`. | 
+| PublisherServiceLifetime | `ServiceLifetime` | Specifies the lifetime of an `INoticePublisher` service. Default value is `Scoped`. |
+
+## Usage
+
+The main difference from [Structr.Operations](https://www.nuget.org/packages/Structr.Operations/) package is that notice can handling by any of handlers while operation can handling only one handler.
+
+The basic usage is:
+
+Create a notice class that inherits from `INotice`:
+
+```csharp
+record UserSignedInNotice : INotice
 {
-    public int UserId { get; set; }
-    public string Message { get; set; }
+    public int UserId { get; init; }
+    public string IpAddress { get; init; }
 }
 ```
 
-Create a notice handler class that inherits from `INoticeHandler` with generic parameter `ConfirmationNotice`, for example, with email notification:
+Create a notice handlers class that inherits from `INoticeHandler` or `NoticeHandler`:
 
 ```csharp
-public class EmailConfirmationNoticeHandler : INoticeHandler<ConfirmationNotice>
+// Email handler for example.
+class EmailUserSignedInNoticeHandler : INoticeHandler<UserSignedInNotice>
 {
     private readonly IDbContext _dbContext;
     private readonly IEmailSender _emailSender;
 
-    public EmailConfirmationNoticeHandler(IDbContext dbContext, IEmailSender emailSender)
+    public EmailUserSignedInNoticeHandler(IDbContext dbContext, IEmailSender emailSender)
     {
-        /* Arguments null validation */
         _dbContext = dbContext;
         _emailSender = emailSender;
     }
 
-    public Task HandleAsync(ConfirmationNotice notice, CancellationToken cancellationToken)
+    public Task HandleAsync(UserSignedInNotice notice, CancellationToken cancellationToken)
     {
         User user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == notice.UserId, cancellationToken);
     
-        _emailSender.Send(user.Email, notice.Message);
+        await _emailSender.SendAsync(user.Email, $"Signed in successfully with IP-address: {notice.IpAddress}");
+    }
+}
+
+// SMS handler example.
+class SmsUserSignedInNoticeHandler : INoticeHandler<UserSignedInNotice>
+{
+    private readonly IDbContext _dbContext;
+    private readonly ISmsSender _emailSender;
+
+    public SmsUserSignedInNoticeHandler(IDbContext dbContext, ISmsSender smsSender)
+    {
+        _dbContext = dbContext;
+        _smsSender = smsSender;
+    }
+
+    public Task HandleAsync(UserSignedInNotice notice, CancellationToken cancellationToken)
+    {
+        User user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == notice.UserId, cancellationToken);
+    
+        await _smsSender.SendAsync(user.PhoneNumber, $"Signed in successfully with IP-address: {notice.IpAddress}");
     }
 }
 ```
 
-And then setup notice services:
+The last step is to inject `INoticePublisher` service and use it:
 
 ```csharp
-services.AddNotices(typeof(ConfirmationNotice).Assembly);
-```
+class UserService
+{
+    private readonly INoticePublisher _publisher;
 
-## Usage
+    public UserService(INoticePublisher publisher)
+        => _publisher = publisher;
 
-After setup you can use `INoticePublisher` in your application that allows you to send notifications asynchronously, for example:
-
-```csharp
-    public class ContractService
+    public async Task SignIn(string email, string password, string ipAddress)
     {
-        private readonly INoticePublisher _publisher;
-
-        public ContractService(INoticePublisher publisher)
+        User user = await FindUserAsync(email, password);
+        if (user != null)
         {
-            _publisher = publisher;
-        }
+            /* Some sign in logic here */
 
-        public async Task ConfirmAsync(int id, CancellationToken cancellationToken)
-        {
-            /* Confirm contract with Id == id */
-            
-            var confirmationNotice = new ConfirmationNotice
-            { 
-                UserId = contract.Customer.UserId,
-                Message = $"Contract with number '{contract.Number}' confirmed."
-            };
-            
-            await _publisher.PublishAsync(confirmationNotice, cancellationToken);
+            var notice = new UserSignedInNotice { UserId = user.Id, IpAddress = ipAddress };
+            await _publisher.PublishAsync(notice);
         }
     }
+}
 ```
 
-## Extensions
-
-You can implement your custom notice publisher `CustomNoticePublisher` that inherits from `INoticePublisher` and use it at setup, for example:
-
-```csharp
-services.AddNotices(options =>
-    {
-        options.PublisherType = typeof(CustomNoticePublisher);
-    },
-    typeof(ConfirmationNotice).Assembly);
-```
-
-You can override publisher service lifetime, for example:
-
-```csharp
-services.AddNotices(options =>
-    {
-        options.PublisherServiceLifetime = ServiceLifetime.Transient;
-    },
-    typeof(CustomNotice).Assembly)
-```
+Inherit from `NoticeHandler` class when you need synchronic-manner handler.
