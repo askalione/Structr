@@ -2,6 +2,10 @@ using System.Linq;
 
 namespace Structr.Domain
 {
+    /// <summary>
+    /// General class for an entity <see cref="TEntity"/> with composite identifier.
+    /// </summary>
+    /// <typeparam name="TEntity">Type of entity.</typeparam>
     public abstract class CompositeEntity<TEntity> : Entity<TEntity>
        where TEntity : CompositeEntity<TEntity>
     {

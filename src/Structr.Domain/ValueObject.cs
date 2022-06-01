@@ -4,6 +4,10 @@ using System.Reflection;
 
 namespace Structr.Domain
 {
+    /// <summary>
+    /// General class for a value object <see cref="TValueObject"/>.
+    /// </summary>
+    /// <typeparam name="TValueObject">Type of value object.</typeparam>
     /// <remarks>
     /// Taken from https://github.com/cesarcastrocuba/nlayerappv3/blob/master/Domain.Seedwork/ValueObject.cs
     /// </remarks>
@@ -12,57 +16,58 @@ namespace Structr.Domain
     {
         public virtual bool Equals(TValueObject other)
         {
-            if ((object)other == null)
+            if (other == null)
             {
                 return false;
             }
 
-            if (object.ReferenceEquals(this, other))
+            if (ReferenceEquals(this, other))
             {
                 return true;
             }
 
-            //compare all public properties
+            // compare all public properties
             PropertyInfo[] publicProperties = this.GetType().GetProperties();
 
-            if ((object)publicProperties != null
-                &&
-                publicProperties.Any())
+            if (publicProperties != null && publicProperties.Any())
             {
-                return publicProperties.All(p =>
+                bool result = publicProperties.All(p =>
                 {
                     var left = p.GetValue(this, null);
                     var right = p.GetValue(other, null);
 
                     if (left != null && typeof(TValueObject).IsAssignableFrom(left.GetType()))
                     {
-                        //check not self-references...
-                        return object.ReferenceEquals(left, right);
+                        // check not self-references...
+                        return ReferenceEquals(left, right);
                     }
                     else
                     {
-                        return object.Equals(left, right);
+                        return Equals(left, right);
                     }
                 });
+                return result;
             }
             else
+            {
                 return true;
+            }
         }
         public override bool Equals(object obj)
         {
-            if ((object)obj == null)
+            if (obj == null)
             {
                 return false;
             }
 
-            if (object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
 
             ValueObject<TValueObject> item = obj as ValueObject<TValueObject>;
 
-            if ((object)item != null)
+            if (item != null)
             {
                 return Equals((TValueObject)item);
             }
@@ -78,25 +83,25 @@ namespace Structr.Domain
             bool changeMultiplier = false;
             int index = 1;
 
-            //compare all public properties
+            // compare all public properties
             PropertyInfo[] publicProperties = this.GetType().GetProperties();
 
-            if ((object)publicProperties != null && publicProperties.Any())
+            if (publicProperties != null && publicProperties.Any())
             {
                 foreach (var item in publicProperties)
                 {
                     object value = item.GetValue(this, null);
 
-                    if ((object)value != null)
+                    if (value != null)
                     {
-
                         hashCode = hashCode * ((changeMultiplier) ? 59 : 114) + value.GetHashCode();
 
                         changeMultiplier = !changeMultiplier;
                     }
                     else
                     {
-                        hashCode = hashCode ^ (index * 13);//only for support {"a",null,null,"a"} <> {null,"a","a",null}
+                        // only for support { "a", null, null, "a" } <> { null, "a", "a", null }
+                        hashCode = hashCode ^ (index * 13);
                     }
                 }
             }
@@ -106,9 +111,9 @@ namespace Structr.Domain
 
         public static bool operator ==(ValueObject<TValueObject> left, ValueObject<TValueObject> right)
         {
-            if (object.Equals(left, null))
+            if (left == null && right == null)
             {
-                return (object.Equals(right, null)) ? true : false;
+                return true;
             }
             else
             {

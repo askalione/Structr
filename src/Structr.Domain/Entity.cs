@@ -2,6 +2,10 @@ using System;
 
 namespace Structr.Domain
 {
+    /// <summary>
+    /// General class for an entity <see cref="TEntity"/>.
+    /// </summary>
+    /// <typeparam name="TEntity">Type of entity.</typeparam>
     public abstract class Entity<TEntity> : IEquatable<TEntity>
         where TEntity : Entity<TEntity>
     {
@@ -16,6 +20,9 @@ namespace Structr.Domain
             }
         }
 
+        /// <summary>
+        /// Defines if the entity is transient.
+        /// </summary>
         public abstract bool IsTransient();
 
         public abstract bool Equals(TEntity other);
@@ -59,13 +66,24 @@ namespace Structr.Domain
         }
     }
 
+    /// <summary>
+    /// General class for an entity <see cref="TEntity"/> with identifier <see cref="TKey"/>.
+    /// </summary>
+    /// <typeparam name="TEntity">Type of entity.</typeparam>
+    /// <typeparam name="TKey">Type of entity identifier.</typeparam>
     public abstract class Entity<TEntity, TKey> : Entity<TEntity>
         where TEntity : Entity<TEntity, TKey>
     {
+        /// <summary>
+        /// The entity identifier.
+        /// </summary>
         public virtual TKey Id { get; protected set; }
 
         protected Entity() : base() { }
 
+        /// <summary>
+        /// Defines if the entity is transient.
+        /// </summary>
         public override bool IsTransient()
         {
             return Equals(Id, default(TKey));
