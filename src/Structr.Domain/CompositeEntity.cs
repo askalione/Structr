@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Structr.Domain
 {
@@ -20,15 +23,15 @@ namespace Structr.Domain
                 return false;
             }
 
-            var compositeId = GetCompositeId();
-            var otherCompositeId = other.GetCompositeId();
+            object compositeId = GetCompositeId();
+            object otherCompositeId = other.GetCompositeId();
 
             if (compositeId == null || otherCompositeId == null)
             {
                 return false;
             }
 
-            var compositeIdType = compositeId.GetType();
+            Type compositeIdType = compositeId.GetType();
 
             if (compositeIdType != otherCompositeId.GetType())
             {
@@ -41,7 +44,7 @@ namespace Structr.Domain
 
         protected override int GenerateHashCode()
         {
-            var compositeId = GetCompositeId();
+            object compositeId = GetCompositeId();
 
             if (compositeId == null)
             {
@@ -50,9 +53,9 @@ namespace Structr.Domain
 
             int hash = 37;
 
-            var compositeIdType = compositeId.GetType();
+            Type compositeIdType = compositeId.GetType();
 
-            foreach (var property in compositeIdType.GetProperties())
+            foreach (PropertyInfo property in compositeIdType.GetProperties())
             {
                 hash = hash * 23 + property.GetValue(compositeId, null)?.GetHashCode() ?? 0;
             }
@@ -65,12 +68,20 @@ namespace Structr.Domain
 
         public override string ToString()
         {
-            var compositeId = GetCompositeId();
-            var typeName = GetType().Name;
-            return compositeId == null
-                ? typeName
-                : typeName + " " + string.Join("", compositeId.GetType().GetProperties()
-                    .Select(p => $"[{p.Name}={p.GetValue(compositeId, null)}]"));
+            object compositeId = GetCompositeId();
+            string typeName = GetType().Name;
+
+            if (compositeId == null)
+            {
+                return typeName;
+            }
+            else
+            {
+                IEnumerable<string> ids = compositeId.GetType().GetProperties()
+                    .Select(p => $"[{p.Name}={p.GetValue(compositeId, null)}]");
+                string result = typeName + " " + string.Join("", ids);
+                return result;
+            }
         }
     }
 }

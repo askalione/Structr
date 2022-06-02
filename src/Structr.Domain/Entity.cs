@@ -16,7 +16,7 @@ namespace Structr.Domain
             if ((this as TEntity) == null)
             {
                 throw new InvalidOperationException(
-                    $"Entity '{GetType()}' specifies '{typeof(TEntity).Name}' as generic argument, it should be its own type");
+                    $"Entity \"{GetType()}\" specifies \"{typeof(TEntity).Name}\" as generic argument, it should be its own type");
             }
         }
 
@@ -91,7 +91,7 @@ namespace Structr.Domain
 
         public override bool Equals(TEntity other)
         {
-            if (other == null || !GetType().IsInstanceOfType(other))
+            if (other == null || GetType().IsInstanceOfType(other) == false)
             {
                 return false;
             }

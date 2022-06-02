@@ -27,14 +27,14 @@ namespace Structr.Domain
             }
 
             // Compare all public properties.
-            PropertyInfo[] publicProperties = this.GetType().GetProperties();
+            PropertyInfo[] publicProperties = GetType().GetProperties();
 
             if (publicProperties != null && publicProperties.Any())
             {
                 bool result = publicProperties.All(p =>
                 {
-                    var left = p.GetValue(this, null);
-                    var right = p.GetValue(other, null);
+                    object left = p.GetValue(this, null);
+                    object right = p.GetValue(other, null);
 
                     if (left != null && typeof(TValueObject).IsAssignableFrom(left.GetType()))
                     {
@@ -90,7 +90,7 @@ namespace Structr.Domain
 
             if (publicProperties != null && publicProperties.Any())
             {
-                foreach (var item in publicProperties)
+                foreach (PropertyInfo item in publicProperties)
                 {
                     object value = item.GetValue(this, null);
 
