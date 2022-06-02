@@ -8,7 +8,7 @@ namespace Structr.Domain
     public interface ISoftDeletable : IUndeletable
     {
         /// <summary>
-        /// Defines an entity deletion date.
+        /// An entity deletion date.
         /// </summary>
         DateTime? DateDeleted { get; }
     }

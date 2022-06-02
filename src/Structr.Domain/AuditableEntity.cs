@@ -3,7 +3,7 @@ using System;
 namespace Structr.Domain
 {
     /// <summary>
-    /// General class for an auditable entity <see cref="TEntity"/>.
+    /// Base class for an auditable entity <see cref="TEntity"/>. Provides DateCreated and DateModified auditable properties
     /// </summary>
     /// <typeparam name="TEntity">Type of entity.</typeparam>
     public abstract class AuditableEntity<TEntity> : Entity<TEntity>, ICreatable, IModifiable
@@ -16,7 +16,7 @@ namespace Structr.Domain
     }
 
     /// <summary>
-    /// General class for an auditable entity <see cref="TEntity"/> with identifier <see cref="TKey"/>.
+    /// Base class for an auditable entity <see cref="TEntity"/> with identifier. Provides <see cref="DateCreated"/> and <see cref="DateModified"/> auditable properties
     /// </summary>
     /// <typeparam name="TEntity">Type of entity.</typeparam>
     /// <typeparam name="TKey">Type of entity identifier.</typeparam>

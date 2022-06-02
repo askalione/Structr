@@ -3,8 +3,11 @@ using System;
 namespace Structr.Domain
 {
     /// <summary>
-    /// General class for an entity <see cref="TEntity"/>.
+    /// Base class for an entity <see cref="TEntity"/>.
     /// </summary>
+    /// <remarks>
+    /// Provides <see cref="IsTransient"/> and <see cref="Equals(TEntity)"/> methods.
+    /// </remarks>
     /// <typeparam name="TEntity">Type of entity.</typeparam>
     public abstract class Entity<TEntity> : IEquatable<TEntity>
         where TEntity : Entity<TEntity>
@@ -21,7 +24,7 @@ namespace Structr.Domain
         }
 
         /// <summary>
-        /// Defines if the entity is transient.
+        /// Returns <see langword="true"/> if the entity is transient, otherwise <see langword="false"/>.
         /// </summary>
         public abstract bool IsTransient();
 
@@ -67,8 +70,11 @@ namespace Structr.Domain
     }
 
     /// <summary>
-    /// General class for an entity <see cref="TEntity"/> with identifier <see cref="TKey"/>.
+    /// Base class for an entity <see cref="TEntity"/> with identifier <see cref="TKey"/>.
     /// </summary>
+    /// <remarks>
+    /// Provides <see cref="Id"/> property, <see cref="IsTransient"/> and <see cref="Equals(TEntity)"/> methods.
+    /// </remarks>
     /// <typeparam name="TEntity">Type of entity.</typeparam>
     /// <typeparam name="TKey">Type of entity identifier.</typeparam>
     public abstract class Entity<TEntity, TKey> : Entity<TEntity>
@@ -82,7 +88,7 @@ namespace Structr.Domain
         protected Entity() : base() { }
 
         /// <summary>
-        /// Defines if the entity is transient.
+        /// Returns <see langword="true"/> if <see cref="Id"/> has deafult value, otherwise <see langword="false"/>.
         /// </summary>
         public override bool IsTransient()
         {

@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Structr.Domain
 {
     /// <summary>
-    /// General class for a value object <see cref="TValueObject"/>.
+    /// Base class for a value object <see cref="TValueObject"/>.
     /// </summary>
     /// <typeparam name="TValueObject">Type of value object.</typeparam>
     /// <remarks>

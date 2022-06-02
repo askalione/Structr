@@ -8,7 +8,7 @@ namespace Structr.Domain
     public interface IModifiable : IAuditable
     {
         /// <summary>
-        /// Defines an entity modification date.
+        /// An entity modification date.
         /// </summary>
         DateTime DateModified { get; }
     }

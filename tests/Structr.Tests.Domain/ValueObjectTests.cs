@@ -54,9 +54,9 @@ namespace Structr.Tests.Domain
         {
             public EqualsTheoryData()
             {
-                var address1 = new Address { Town = "Moscow", Street = "Prospekt Mira", House = "111" };
-                var address2 = new Address { Town = "Moscow", Street = "Prospekt Mira", House = "111" };
-                var address3 = new Address { Town = "Moscow", Street = "Prospekt Mira", House = "38" };
+                var address1 = new Address { City = "Moscow", Street = "Prospekt Mira", House = "111" };
+                var address2 = new Address { City = "Moscow", Street = "Prospekt Mira", House = "111" };
+                var address3 = new Address { City = "Moscow", Street = "Prospekt Mira", House = "38" };
 
                 Add(address1, address1, true);
                 Add(address1, address2, true);
@@ -85,9 +85,9 @@ namespace Structr.Tests.Domain
         {
             public GetHashCodeTheoryData()
             {
-                var address1 = new Address { Town = "Moscow", Street = "Prospekt Mira", House = "111" };
-                var address2 = new Address { Town = "Moscow", Street = "Prospekt Mira", House = "111" };
-                var address3 = new Address { Town = "Moscow", Street = "Prospekt Mira", House = "38" };
+                var address1 = new Address { City = "Moscow", Street = "Prospekt Mira", House = "111" };
+                var address2 = new Address { City = "Moscow", Street = "Prospekt Mira", House = "111" };
+                var address3 = new Address { City = "Moscow", Street = "Prospekt Mira", House = "38" };
 
                 Add(address1, address1, true);
                 Add(address1, address2, true);

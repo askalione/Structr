@@ -8,7 +8,7 @@ namespace Structr.Domain
     public interface ICreatable : IAuditable
     {
         /// <summary>
-        /// Defines an entity creation date.
+        /// An entity creation date.
         /// </summary>
         DateTime DateCreated { get; }
     }
