@@ -14,8 +14,7 @@ By default, if the file exists, the `FileHelper` creates a new file with a uniqu
 
 ```csharp
 string existingFilePath = "D:\\readme.txt";
-string newFilePath = FileHelper.SaveFile(existingFilePath, bytes);
-// newFilePath == "D:\\readme_1.txt"
+string newFilePath = FileHelper.SaveFile(existingFilePath, bytes); // Returns "D:\\readme_1.txt".
 ```
 
 All parameters:
@@ -39,8 +38,7 @@ By default, if the file exists, the `FileHelper` creates a new file with a uniqu
 
 ```csharp
 string existingFilePath = "D:\\readme.txt";
-string newFilePath = await FileHelper.SaveFileAsync(existingFilePath, bytes);
-// newFilePath == "D:\\readme_1.txt"
+string newFilePath = await FileHelper.SaveFileAsync(existingFilePath, bytes); // Returns "D:\\readme_1.txt".
 ```
 
 All parameters:
@@ -71,7 +69,6 @@ All parameters:
 You can also synchronously reads a file from a stream to a byte array.
 
 ```csharp
-Stream stream;
 byte[] bytes = FileHelper.ReadFile(stream);
 ```
 
@@ -93,15 +90,14 @@ byte[] bytes = await FileHelper.ReadFileAsync(filePath);
 All parameters:
 
 | Param name | Param type | Description |
-| --- | --- | --- | --- |
-| path | `string` | - | The absolute file path to read to. |
+| --- | --- | --- |
+| path | `string` | The absolute file path to read to. |
 | throwIfNotExists | `bool` | The flag indicates to throw exception if file not exists. Default value is `true`. |
 | cancellationToken | `CancellationToken` | The token to monitor for cancellation requests. Default value is `None`. |
 
 You can also asynchronously reads a file from a stream to a byte array.
 
 ```csharp
-Stream stream;
 byte[] bytes = await FileHelper.ReadFileAsync(stream);
 ```
 
@@ -133,8 +129,7 @@ Returns an absolute path with changing destination file name with unique postfix
 
 ```csharp
 string existingFilePath = "D:\\readme.txt";
-string newFilePath = FileHelper.GetFilePathWithUniqueFileName(existingFilePath);
-// newFilePath == "D:\\readme_1.txt"
+string newFilePath = FileHelper.GetFilePathWithUniqueFileName(existingFilePath); // Returns "D:\\readme_1.txt".
 ```
 
 All parameters:

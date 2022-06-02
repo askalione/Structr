@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace Structr.IO
 {
     /// <summary>
-    /// Provides static methods for combine and format <see cref="ContentDirectory"/> paths.
+    /// Provides methods for combine and format <see cref="ContentDirectory"/> paths.
     /// </summary>
     public static class PathHelper
     {
@@ -89,14 +89,14 @@ namespace Structr.IO
                 formattedPath = formattedPath.Replace(Options.Template(directory), GetPath(directory), StringComparison.OrdinalIgnoreCase);
             }
 
-            var result = Regex.Replace(formattedPath, "\\\\{2,}", @"\");
+            string result = Regex.Replace(formattedPath, "\\\\{2,}", @"\");
             return result;
         }
 
         private static string GetPath(ContentDirectory directory)
         {
             Options.Directories.TryGetValue(directory, out string path);
-            var result = path?.Trim() ?? "";
+            string result = path?.Trim() ?? "";
             return result;
         }
 

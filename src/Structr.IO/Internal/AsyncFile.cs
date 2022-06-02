@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Structr.IO.Internal
 {
     /// <summary>
-    /// Provides static asynchronous methods for the read and write a single file.
+    /// Provides asynchronous methods for the read and write a single file.
     /// </summary>
     internal static class AsyncFile
     {
@@ -115,7 +115,7 @@ namespace Structr.IO.Internal
                 }
 
                 returningInternalTask = true;
-                var result = InternalReadAllBytesAsync(fs, (int)fileLength, cancellationToken);
+                Task<byte[]> result = InternalReadAllBytesAsync(fs, (int)fileLength, cancellationToken);
                 return result;
             }
             finally
@@ -265,7 +265,7 @@ namespace Structr.IO.Internal
             Encoding encoding,
             CancellationToken cancellationToken)
         {
-            using (var sr = AsyncStreamReader(path, encoding))
+            using (StreamReader sr = AsyncStreamReader(path, encoding))
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 StringBuilder sb = new StringBuilder();
@@ -333,7 +333,7 @@ namespace Structr.IO.Internal
             Encoding encoding,
             CancellationToken cancellationToken)
         {
-            using (var sw = AsyncStreamWriter(path, encoding, append: false))
+            using (StreamWriter sw = AsyncStreamWriter(path, encoding, append: false))
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 char[] buffer = new char[0x1000];
