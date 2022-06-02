@@ -35,9 +35,9 @@ namespace Structr.Notices
                 throw new ArgumentNullException(nameof(notice));
             }
 
-            var noticeType = notice.GetType();
+            Type noticeType = notice.GetType();
 
-            var handler = _cache.GetOrAdd(noticeType,
+            InternalHandler handler = _cache.GetOrAdd(noticeType,
                 type => (InternalHandler)Activator.CreateInstance(typeof(InternalNoticeHandler<>).MakeGenericType(type)));
 
             return handler.HandleAsync(notice, _serviceProvider, cancellationToken, PublishAsync);

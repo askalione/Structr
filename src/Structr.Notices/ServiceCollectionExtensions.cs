@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Structr.Notices;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -47,7 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (assembliesToScan != null && assembliesToScan.Length > 0)
             {
-                var allTypes = assembliesToScan
+                TypeInfo[] allTypes = assembliesToScan
                     .Where(a => !a.IsDynamic && a != typeof(INoticePublisher).Assembly)
                     .Distinct()
                     .SelectMany(a => a.DefinedTypes)
@@ -58,15 +59,17 @@ namespace Microsoft.Extensions.DependencyInjection
                     typeof(INoticeHandler<>)
                 };
 
-                foreach (var typeInfo in openTypes.SelectMany(openType => allTypes
+                IEnumerable<TypeInfo> typeInfos = openTypes.SelectMany(openType => allTypes
                     .Where(t => t.IsClass
-                        && !t.IsGenericType
-                        && !t.IsAbstract
-                        && t.AsType().ImplementsGenericInterface(openType))))
-                {
-                    var implementationType = typeInfo.AsType();
+                             && t.IsGenericType == false
+                             && t.IsAbstract == false
+                             && t.AsType().ImplementsGenericInterface(openType)));
 
-                    foreach (var interfaceType in implementationType.GetInterfaces()
+                foreach (var typeInfo in typeInfos)
+                {
+                    Type implementationType = typeInfo.AsType();
+
+                    foreach (Type interfaceType in implementationType.GetInterfaces()
                         .Where(i => openTypes.Any(openType => i.ImplementsGenericInterface(openType))))
                     {
                         services.AddTransient(interfaceType, implementationType);
