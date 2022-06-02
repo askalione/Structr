@@ -132,7 +132,7 @@ namespace Structr.IO
                 }
             }
 
-            var result = File.ReadAllBytes(path);
+            byte[] result = File.ReadAllBytes(path);
             return result;
         }
 
@@ -166,7 +166,7 @@ namespace Structr.IO
                 }
             }
 
-            var result = await AsyncFile.ReadAllBytesAsync(path, cancellationToken);
+            byte[] result = await AsyncFile.ReadAllBytesAsync(path, cancellationToken);
             return result;
         }
 
@@ -182,11 +182,10 @@ namespace Structr.IO
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            // reset pointer just in case
+            // Reset pointer just in case.
             stream.Seek(0, SeekOrigin.Begin);
 
-            // If we've been passed an unhelpful initial length, just
-            // use 32K.
+            // If we've been passed an unhelpful initial length, just use 32K.
             if (initialLength < 1)
             {
                 initialLength = 32768;
@@ -200,20 +199,18 @@ namespace Structr.IO
             {
                 read += chunk;
 
-                // If we've reached the end of our buffer, check to see if there's
-                // any more information
+                // If we've reached the end of our buffer, check to see if there's any more information.
                 if (read == buffer.Length)
                 {
                     int nextByte = stream.ReadByte();
 
-                    // End of stream? If so, we're done
+                    // End of stream? If so, we're done.
                     if (nextByte == -1)
                     {
                         return buffer;
                     }
 
-                    // Nope. Resize the buffer, put in the byte we've just
-                    // read, and continue
+                    // Nope. Resize the buffer, put in the byte we've just read, and continue.
                     byte[] newBuffer = new byte[buffer.Length * 2];
                     Array.Copy(buffer, newBuffer, buffer.Length);
                     newBuffer[read] = (byte)nextByte;
@@ -244,11 +241,10 @@ namespace Structr.IO
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            // reset pointer just in case
+            // Reset pointer just in case.
             stream.Seek(0, SeekOrigin.Begin);
 
-            // If we've been passed an unhelpful initial length, just
-            // use 32K.
+            // If we've been passed an unhelpful initial length, just use 32K.
             if (initialLength < 1)
             {
                 initialLength = 32768;
@@ -262,20 +258,18 @@ namespace Structr.IO
             {
                 read += chunk;
 
-                // If we've reached the end of our buffer, check to see if there's
-                // any more information
+                // If we've reached the end of our buffer, check to see if there's any more information.
                 if (read == buffer.Length)
                 {
                     int nextByte = stream.ReadByte();
 
-                    // End of stream? If so, we're done
+                    // End of stream? If so, we're done.
                     if (nextByte == -1)
                     {
                         return buffer;
                     }
 
-                    // Nope. Resize the buffer, put in the byte we've just
-                    // read, and continue
+                    // Nope. Resize the buffer, put in the byte we've just read, and continue.
                     byte[] newBuffer = new byte[buffer.Length * 2];
                     Array.Copy(buffer, newBuffer, buffer.Length);
                     newBuffer[read] = (byte)nextByte;
@@ -314,14 +308,14 @@ namespace Structr.IO
         /// <param name="path">The absolute file path.</param>
         public static string GetFilePathWithUniqueFileName(string path)
         {
-            var fileNameOnly = Path.GetFileNameWithoutExtension(path);
-            var fileExtension = Path.GetExtension(path);
-            var dir = Path.GetDirectoryName(path);
+            string fileNameOnly = Path.GetFileNameWithoutExtension(path);
+            string fileExtension = Path.GetExtension(path);
+            string dir = Path.GetDirectoryName(path);
 
             if (File.Exists(path))
             {
-                var tempFileName = "";
-                var pathToCheck = path;
+                string tempFileName = "";
+                string pathToCheck = path;
                 int counter = 1;
                 while (File.Exists(pathToCheck))
                 {
@@ -333,19 +327,19 @@ namespace Structr.IO
                 fileNameOnly = Path.GetFileNameWithoutExtension(tempFileName);
             }
 
-            var result = Path.Combine(dir, fileNameOnly + fileExtension);
+            string result = Path.Combine(dir, fileNameOnly + fileExtension);
             return result;
         }
 
         private static string RemoveInvalidFileNameChars(string path)
         {
-            var fileNameOnly = Path.GetFileNameWithoutExtension(path);
-            var fileExtension = Path.GetExtension(path);
-            var dir = Path.GetDirectoryName(path);
+            string fileNameOnly = Path.GetFileNameWithoutExtension(path);
+            string fileExtension = Path.GetExtension(path);
+            string dir = Path.GetDirectoryName(path);
 
             fileNameOnly = fileNameOnly.Trim(Path.GetInvalidFileNameChars());
 
-            var result = Path.Combine(dir, fileNameOnly + fileExtension);
+            string result = Path.Combine(dir, fileNameOnly + fileExtension);
             return result;
         }
     }

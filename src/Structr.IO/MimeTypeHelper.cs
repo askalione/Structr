@@ -5,7 +5,7 @@ using System.Linq;
 namespace Structr.IO
 {
     /// <summary>
-    /// Provides static methods for getting a file extension (starts with dot, e.g. ".pdf")
+    /// Provides methods for getting a file extension (starts with dot, e.g. ".pdf")
     /// by a MIME type and vice versa.
     /// </summary>
     public static class MimeTypeHelper
@@ -725,7 +725,7 @@ namespace Structr.IO
                 extension = "." + extension;
             }
 
-            var result = _mappings.Value.TryGetValue(extension, out string mime) ? mime : "application/octet-stream";
+            string result = _mappings.Value.TryGetValue(extension, out string mime) ? mime : "application/octet-stream";
             return result;
         }
 
@@ -735,7 +735,7 @@ namespace Structr.IO
         /// <param name="mimeType">The MIME type.</param>
         /// <param name="throwIfNotFound">The flag indicates the need for an exception if the MIME type is not found.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="mimeType"/> is <see langword="null"/> or empty.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="mimeType"/> starts with '.'.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="mimeType"/> starts with ".".</exception>
         /// <exception cref="InvalidOperationException">If <paramref name="mimeType"/> not found and <paramref name="throwIfNotFound"/> is <see langword="true"/>.</exception>
         public static string GetExtension(string mimeType, bool throwIfNotFound = true)
         {
@@ -769,7 +769,7 @@ namespace Structr.IO
         /// <param name="mimeType">The MIME type.</param>
         /// <param name="throwIfNotFound">The flag indicates the need for an exception if the MIME type is not found.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="mimeType"/> is <see langword="null"/> or empty.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="mimeType"/> starts with '.'.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="mimeType"/> starts with ".".</exception>
         /// <exception cref="InvalidOperationException">If <paramref name="mimeType"/> not found and <paramref name="throwIfNotFound"/> is <see langword="true"/>.</exception>
         public static IEnumerable<string> GetExtensions(string mimeType, bool throwIfNotFound = true)
         {
