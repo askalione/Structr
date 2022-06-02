@@ -1,6 +1,6 @@
 # Validation
 
-**Structr.Validation** package is intended to help organize model (entities, dtos, commands, queries, etc.) validation in application.
+**Structr.Validation** package provides functionality for building strongly-typed validation.
 
 ## Installation
 
@@ -12,110 +12,177 @@ dotnet add package Structr.Validation
 
 ## Setup
 
-Create a class whose instances you want to validate, for example, `Contract`:
+Configure validation services:
 
 ```csharp
-public class Contract
-{
-    public string Number { get; set; };
-    public string Title { get; set; };
-}
+services.AddValidation(typeof(Program).Assembly);
 ```
 
-Create a validator class that inherits from `Validator<T>` with generic parameter `Contract`, for example, `ContractValidator` and implement a validation logic in method `Validate()`:
+`AddValidation()` extension method performs registration of validation provider service and validators implementing `IValidator` or inherited from `Validator` class.
 
-```csharp
-internal class ContractValidator : Validator<Contract>
-    {
-        protected override ValidationResult Validate(Contract instance)
-        {
-            var failures = new List<ValidationFailure>();
+| Parameter name | Parameter type | Description |
+| --- | --- | --- |
+| assembliesToScan | `params Assembly[]` | List of assemblies to search validators. |
+| configureOptions | `Action<ValidationServiceOptions>` | Options to be used by validation service. | 
 
-            if (instance.Title.Length > 10)
-            {
-                failures.Add(new ValidationFailure(nameof(instance.Title), instance.Title, "Title is too long."));
-            }
+Additionally configure `IValidationProvider` service by specifying it's type and lifetime used `ValidationServiceOptions`.
 
-            if (instance.Number.Length != 5)
-            {
-                failures.Add(new ValidationFailure(nameof(instance.Number), instance.Number, "Document number should be 5 characters."));
-            }
-
-            /* Another validation */
-
-            return failures.ToValidationResult();
-        }
-    }
-```
-
-And then setup validation services:
-
-```csharp
-services.AddValidation(typeof(ContractValidator).Assembly);
-```
+| Property name | Property type | Description |
+| --- | --- | --- |
+| ProviderType | `Type` | Changes standard implementation of `IValidationProvider` to specified one, default is `typeof(ValidationProvider)`. | 
+| Lifetime | `ServiceLifetime` | Specifies the lifetime of an `IValidationProvider` service, default is `Scoped`. |
 
 ## Usage
 
-After setup you can use `IValidationProvider` in your application that allows you to validate instances asynchronously with the method `ValidateAndThrowAsync()`, like this:
+Validation objects can be Entities, DTO's, Commands, Queries and many others typed objects.
+
+The basic usage is:
 
 ```csharp
-    public class ContractService
+public record UserCreateCommand : IOperation<int>
+{
+    public string Email { get; init; }
+    public string Password { get; init; }
+}
+public class UserCreateCommandValidator : IValidator<UserCreateCommand>
+{
+    private readonly IDbContext _dbContext;
+
+    public UserCreateCommandValidator(IDbContext dbContext)
+        => _dbContext = dbContext;
+
+    public async Task<ValidationResult> ValidateAsync(UserCreateCommand command, CancellationToken cancellationToken)
     {
-        private readonly IValidationProvider _validationProvider;
+        var failures = List<ValidationFailure>();
 
-        public ContractService(IValidationProvider validationProvider)
+        if (string.IsNullOrWhitespace(command.Email))
         {
-            _validationProvider = validationProvider;
+            failures.Add(new ValidationFailure(nameof(command.Email), command.Email, "Email is required."));
+        }
+        if (IsValidEmail(command.Email) == false)
+        {
+            failures.Add(new ValidationFailure(nameof(command.Email), command.Email, "Email is invalid."));
+        }
+        bool isUniqueEmail = await IsUniqueEmailAsync(command.Email, cancellationToken);
+        if (isUniqueEmail == false)
+        {
+            failures.Add(new ValidationFailure(nameof(command.Email), command.Email, "Email is not unique."));
+        }
+        if (string.IsNullOrWhitespace(command.Password))
+        {
+            failures.Add(new ValidationFailure(nameof(command.Password), command.Password, "Password is required."));
+        }
+        if (IsValidPassword(command.Email) == false)
+        {
+            failures.Add(new ValidationFailure(nameof(command.Password), command.Password, "Password is invalid."));
         }
 
-        public async Task EditAsync(ContractEditCommand command, CancellationToken cancellationToken)
-        {
-            /* Get contract with Id == id */
-            
-            contract.Number = command.Number;
-            contract.Title = command.Title;
-            
-            await _validationProvider.ValidateAndThrowAsync(contract, cancellationToken);
-        }
+        return failures.ToValidationResult();
     }
+
+    private bool IsValidEmail(string email)
+    {
+        /* Some logic here*/
+    }
+
+    private async Task<bool> IsUniqueEmailAsync(string email, CancellationToken cancellationToken)
+        => await _dbContext.Users.AnyAsync(x => x.Email == email, cancellationToken) == false;
+
+    private bool IsValidPassword(string password)
+    {
+        /* Some logic here*/
+    }
+}
 ```
 
-You can also use the method `ValidateAsync()` that returns a list of validation failures that are wrapped in `ValidationResult`:
+The last step is to inject `IValidationProvider` service and use it:
 
 ```csharp
-ValidationResult result = await _validationProvider.ValidateAsync(contract);
+public class UserCreateCommandHandler : IOperationHandler<UserCreateCommand, int>
+{
+    private readonly IDbContext _dbContext;
+    private readonly IValidationProvider _validationProvider;
+
+    public UserCreateCommandHandler(IDbContext dbContext, IValidationProvider validationProvider)
+    {
+        _dbContext = dbContext;
+        _validationProvider = validationProvider;
+    }
+
+    public async Task<Guid> HandleAsync(UserCreateCommand command, CancellationToken cancellationToken)
+    {
+        // Validate incoming command and throw exception if failures.
+        await _validationProvider.ValidateAndThrowAsync(command);
+
+        /* Some logic here */
+    }
+}
 ```
 
-`ValidationResult` is a collection of `ValidationFailure`.
+**Recommendation**: For validating Commands/Queries use `IOperationFilter` instead of calling `_validationProvider.ValidateAndThrowAsync()` in each command/query.
+See more details about [Operations](Operations/Operations.md).
 
-`ValidationFailure` has the following fields:
+`IValidationProvider` methods:
 
-| Field | Type | Default value | Comment |
-| --- | --- | --- | --- |
-| Message | string | - | The message that describes the failure. |
-| ParameterName | string | null | The name of the parameter that caused the failure. |
-| ActualValue | object | null | The value of the parameter that caused the failure. |
-| Code | string | null | The failure code. |
-| Level | ValidationFailureLevel | Error | The level of the failure. |
+| Method name | Return type | Description |
+| --- | --- | --- |
+| ValidateAsync | `ValidationResult` | Asynchronously validates the object and returns the `ValidationResult`. |
+| ValidateAndThrowAsync | - | Asynchronously validates the object and throws `ValidationException` if validation result has failures. |
 
-## Extensions
+`ValidationFailure` represents a single validation error.
 
-You can implement your custom validation provider `CustomValidationProvider` that inherits from `IValidationProvider` and use it at setup, for example:
+`ValidationFailure` properties:
+
+| Property name | Property type | Description |
+| --- | --- | --- |
+| ParameterName | `string` | The name of the parameter that caused the failure. |
+| ActualValue | `object` | The value of the parameter that caused the failure. |
+| Message | `string` | The message that describes the failure. |
+| Code | `string` | The optional failure code. |
+| Level | `ValidationFailureLevel` | The optional level of failure - `Error`, `Warning` or `Info`. Default value is `Error`. |
+
+`ValidationResult` represents all failures that occur during validation execution.
+
+`ValidationResult` properties:
+
+| Property name | Property type | Description |
+| --- | --- | --- |
+| IsValid | `bool` | Returns `true` if the validation result has not failures, otherwise `false`. |
+
+`ValidationResult` class inherits from `IEnumerable<ValidationFailure>` and allow you to use iteration:
 
 ```csharp
-services.AddValidation(options =>
-  {
-      options.ProviderType = typeof(CustomValidationProvider);
-  },
-  typeof(ContractValidator).Assembly);
+ValidationResult validationResult = await _validationProvider.ValidateAsync(command);
+if (validationResult.IsValid == false)
+{
+    foreach(ValidationFailure validationFailure in validationResult)
+    {
+        _logger.LogError(validationFailure.Message);
+    }
+}
 ```
 
-You can override the lifetime of the validation provider, for example:
+Thrown `ValidationException` class has following main properties:
+
+| Property name | Property type | Description |
+| --- | --- | --- |
+| ValidationResult | `ValidationResult` | The result of validation. |
+| Message | `string` | The messages of all failures joined into one string. |
 
 ```csharp
-services.AddValidation(options =>
-  {
-      options.Lifetime = ServiceLifetime.Transient;
-  },
-  typeof(ContractValidator).Assembly)
+try
+{
+    await _validationProvider.ValidateAsync(command);
+}
+catch(ValidationException ex)
+{
+    // Option 1 - Use default exception message property:
+    _logger.LogError(ex.Message);
+
+    // Option 2 - Iterate all failures with message:
+    foreach(ValidationFailure validationFailure in ex.ValidationResult)
+    {
+        _logger.LogError(validationFailure.Message);
+    }
+}
 ```

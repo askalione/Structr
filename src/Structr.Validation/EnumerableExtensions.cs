@@ -9,7 +9,7 @@ namespace Structr.Validation
     public static class EnumerableExtensions
     {
         /// <summary>
-        /// Map a list of <see cref="ValidationFailure"/> to <see cref="ValidationResult"/>.
+        /// Build a <see cref="ValidationResult"/> with specified list of <see cref="ValidationFailure"/>.
         /// </summary>
         /// <param name="failures">The list of <see cref="ValidationFailure"/>.</param>
         /// <returns>The <see cref="ValidationResult"/>.</returns>

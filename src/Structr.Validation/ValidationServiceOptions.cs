@@ -4,7 +4,7 @@ using System;
 namespace Structr.Validation
 {
     /// <summary>
-    /// Defines a set of options used for configure services.
+    /// Defines a set of options used for validation services.
     /// </summary>
     public class ValidationServiceOptions
     {
