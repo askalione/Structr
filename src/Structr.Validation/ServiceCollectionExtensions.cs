@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Structr.Validation;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -47,18 +48,18 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (assembliesToScan != null && assembliesToScan.Length > 0)
             {
-                var allTypes = assembliesToScan
+                TypeInfo[] allTypes = assembliesToScan
                     .Where(a => a.IsDynamic == false && a != typeof(IValidationProvider).Assembly)
                     .Distinct()
                     .SelectMany(a => a.DefinedTypes)
                     .ToArray();
 
-                var openTypes = new[]
+                Type[] openTypes = new[]
                 {
                     typeof(IValidator<>)
                 };
 
-                var typeInfos = openTypes.SelectMany(openType =>
+                IEnumerable<TypeInfo> typeInfos = openTypes.SelectMany(openType =>
                 {
                     return allTypes
                         .Where(t => t.IsClass
@@ -67,13 +68,13 @@ namespace Microsoft.Extensions.DependencyInjection
                                  && t.AsType().ImplementsGenericInterface(openType));
                 });
 
-                foreach (var typeInfo in typeInfos)
+                foreach (TypeInfo typeInfo in typeInfos)
                 {
-                    var implementationType = typeInfo.AsType();
-                    var interfaceTypes = implementationType
+                    Type implementationType = typeInfo.AsType();
+                    IEnumerable<Type> interfaceTypes = implementationType
                         .GetInterfaces()
                         .Where(i => openTypes.Any(openType => i.ImplementsGenericInterface(openType)));
-                    foreach (var interfaceType in interfaceTypes)
+                    foreach (Type interfaceType in interfaceTypes)
                     {
                         services.TryAddTransient(interfaceType, implementationType);
                     }

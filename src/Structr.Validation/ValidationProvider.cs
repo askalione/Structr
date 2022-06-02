@@ -35,9 +35,9 @@ namespace Structr.Validation
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            var instanceType = instance.GetType();
+            Type instanceType = instance.GetType();
 
-            var validator = _cache.GetOrAdd(instanceType,
+            InternalValidator validator = _cache.GetOrAdd(instanceType,
                 type => (InternalValidator)Activator.CreateInstance(typeof(InternalValidator<>).MakeGenericType(type)));
 
             return validator.ValidateAsync(instance, _serviceProvider, cancellationToken);
@@ -50,7 +50,7 @@ namespace Structr.Validation
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            var failures = await ValidateAsync(instance, cancellationToken).ConfigureAwait(false);
+            ValidationResult failures = await ValidateAsync(instance, cancellationToken).ConfigureAwait(false);
 
             if (failures.Any())
             {
