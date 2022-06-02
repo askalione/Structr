@@ -91,4 +91,4 @@ var entities = new PagedList<Fruit>(
 var dto = entities.ToPagedList(_mapper.Map<FruitDto>(entities));
 ```
 
-For such conversion it is best to use [AutoMapper extensions](/Collections-Automapper-extensions.md).
+For such conversion it is best to use [AutoMapper extensions](Collections-Automapper-extensions.md).
