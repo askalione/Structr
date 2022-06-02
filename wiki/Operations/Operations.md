@@ -1,8 +1,6 @@
 # Operations
 
-Simple yet fully functional in-process messaging library, that allows you to easy implement CQS/CQRS.
-
-**Structr.Operations** is cross-platform, has no external dependencies and uses `netstandard2.0` as a target framework. This allows you to use it in both legacy .NET Framework and any new .NET Core 2.0+ projects.
+**Structr.Operations** - is simple yet fully functional in-process messaging library, that allows you to easy implement CQS/CQRS.
 
 ## Installation
 
@@ -79,7 +77,7 @@ public class FooController : Controller
 }
 ```
 
-That's it! Simple use is really simple but there are more cool stuff which can be done with `Structr.Operations` such as: [operations filtering](/Operations-Filtering.md) and [handlers decoration](/Operations-Decoration.md).
+That's it! Simple use is really simple but there are more cool stuff which can be done with `Structr.Operations` such as: [operations filtering](Operations-Filtering.md) and [handlers decoration](Operations-Decoration.md).
 
 ### Operations
 

@@ -1,6 +1,6 @@
 # Decoration
 
-Using abilities of Microsoft's (and not only theirs) DI-container you could decorate your operations handlers with additional logic which will be applied in processing pipeline. This really almost the same functionality as with [Filters](/Operations-Filtering.md) but in some cases it could have it's own place. In example below we will add some decorators to process our [queries and commands](/Operations-Filtering.md#special-filters).
+Using abilities of Microsoft's (and not only theirs) DI-container you could decorate your operations handlers with additional logic which will be applied in processing pipeline. This really almost the same functionality as with [Filters](Operations-Filtering.md) but in some cases it could have it's own place. In example below we will add some decorators to process our [queries and commands](Operations-Filtering.md#special-filters).
 
 ```csharp
 // Define interface for all decorators.
@@ -25,7 +25,7 @@ public abstract class BaseOperationDecorator<TOperation, TResult> where TOperati
 
 // Define operation decorator that will dispatch command and query decorators
 public class OperationDecorator<TOperation, TResult> : IOperationHandler<TOperation, TResult>
-        where TOperation : IOperation<TResult>
+    where TOperation : IOperation<TResult>
 {
     private readonly IOperationHandler<TOperation, TResult> _handler;
     private readonly IServiceProvider _serviceProvider;

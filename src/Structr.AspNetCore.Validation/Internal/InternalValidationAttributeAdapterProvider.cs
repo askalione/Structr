@@ -14,9 +14,13 @@ namespace Structr.AspNetCore.Validation.Internal
         {
             IAttributeAdapter adapter;
             if (attribute is ModelAwareValidationAttribute modelAwareValidationAttribute)
+            {
                 adapter = new InternalValidationAttributeAdapter(modelAwareValidationAttribute, stringLocalizer);
+            }
             else
+            {
                 adapter = GetAttributeAdapter(attribute, stringLocalizer);
+            }
 
             return adapter;
         }

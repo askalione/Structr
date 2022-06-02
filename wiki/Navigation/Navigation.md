@@ -148,7 +148,7 @@ services.AddNavigation()
 
 ## Usage
 
-Navigation services uses to organize [menu](/Navigation-Menu.md) or [breadcrumbs](/Navigation-Breadcrumbs.md).
+Navigation services uses to organize [menu](Navigation-Menu.md) or [breadcrumbs](Navigation-Breadcrumbs.md).
 Both of navigation elements should be inherited from `NavigationItem<T>` that represents basic navigation item.
 
 `NavigationItem<T>` properties:

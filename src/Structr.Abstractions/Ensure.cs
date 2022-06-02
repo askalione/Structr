@@ -23,13 +23,13 @@ namespace Structr.Abstractions
         }
 
         /// <summary>
-        /// Throws <see cref="ArgumentNullException"/> when value of specified <see cref="string"/> varible is null or empty.
+        /// Throws <see cref="ArgumentNullException"/> when value of specified <see cref="string"/> varible is null or empty or consists only of white-space characters.
         /// </summary>
         /// <param name="value">Value of varible to be checked.</param>
         /// <param name="name">Name of varible to be checked.</param>
         public static void NotEmpty(string value, string name)
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
                 throw new ArgumentNullException(name);
             }
