@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Structr.Stateflows
 {
     /// <summary>
-    /// Serves as a base class for state machine configurations.
+    /// Serves as a base class for state machine configurations and configurators.
     /// </summary>
     /// <typeparam name="TEntity">Type of entity which behavior is modeled.</typeparam>
     /// <typeparam name="TState">Type of object describing entity states.</typeparam>
