@@ -13,6 +13,7 @@ namespace Structr.Stateflows
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc cref="IStateMachineConfiguration{TEntity, TState, TTrigger}.ConfigureAsync"/>
         protected abstract void Configure(Stateless.StateMachine<TState, TTrigger> stateMachine, TEntity entity);
     }
 }

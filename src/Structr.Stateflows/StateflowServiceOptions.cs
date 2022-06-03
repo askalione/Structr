@@ -18,6 +18,9 @@ namespace Structr.Stateflows
         /// </summary>
         public ServiceLifetime ProviderTypeServiceLifetime { get; set; }
 
+        /// <summary>
+        /// Creates an instance of <see cref="StateflowServiceOptions"/>.
+        /// </summary>
         public StateflowServiceOptions()
         {
             ProviderType = typeof(StateMachineProvider);

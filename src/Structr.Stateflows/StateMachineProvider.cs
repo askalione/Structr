@@ -5,10 +5,19 @@ using System.Threading.Tasks;
 
 namespace Structr.Stateflows
 {
+    /// <summary>
+    /// <see cref="IStateMachineProvider"/> implementation based on <see cref="Stateless.StateMachine{TState, TTrigger}"/>
+    /// from <seealso href="https://github.com/dotnet-state-machine/stateless">this</seealso> project.
+    /// </summary>
     public class StateMachineProvider : IStateMachineProvider
     {
         private readonly IServiceProvider _serviceProvider;
 
+        /// <summary>
+        /// Creates instance of <see cref="StateMachineProvider"/>.
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public StateMachineProvider(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null)

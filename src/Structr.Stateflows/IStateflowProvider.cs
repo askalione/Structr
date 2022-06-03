@@ -20,6 +20,6 @@ namespace Structr.Stateflows
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
         /// <returns>Instance of <see cref="Stateflow{TEntity, TState, TTrigger}"/>.</returns>
         Task<Stateflow<TEntity, TState, TTrigger>> GetStateflowAsync(TKey entityId,
-            CancellationToken cancellationToken = default(CancellationToken));
+            CancellationToken cancellationToken = default);
     }
 }

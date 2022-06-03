@@ -37,11 +37,22 @@ namespace Structr.Stateflows
             _stateMachine = stateMachine;
         }
 
+        /// <summary>
+        /// Returns <see langword="true"/> if trigger can be fired in the current state.
+        /// </summary>
+        /// <param name="trigger">Trigger to test.</param>
+        /// <returns><see langword="true"/> if the trigger can be fired, <see langword="false"/> otherwise.</returns>
         public bool CanFire(TTrigger trigger)
         {
             return _stateMachine.CanFire(trigger);
         }
 
+        /// <summary>
+        /// Transition from the current state via the specified trigger. The target state
+        /// is determined by the configuration of the current state. Actions associated with
+        /// leaving the current state and entering the new one will be invoked.
+        /// </summary>
+        /// <param name="trigger">The trigger to fire.</param>
         public void Fire(TTrigger trigger)
         {
             _stateMachine.Fire(trigger);
