@@ -24,7 +24,7 @@ namespace Structr.Stateflows
             TEntity entity,
             Func<TEntity, TState> stateAccessor,
             Action<TEntity, TState> stateMutator,
-            CancellationToken cancellationToken = default(CancellationToken)
+            CancellationToken cancellationToken = default
         );
     }
 }

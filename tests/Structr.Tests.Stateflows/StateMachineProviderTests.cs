@@ -6,6 +6,7 @@ using System;
 using FluentAssertions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Structr.Tests.Stateflows
 {
@@ -48,27 +49,13 @@ namespace Structr.Tests.Stateflows
         }
 
         [Fact]
-        public void Ctor()
-        {
-            // Arrange
-            var foo = new Foo();
-            var innerStateMachine = new Stateless.StateMachine<FooState, FooAction>(() => foo.State, s => foo.ChangeState(s));
-
-            // Act
-            Action act = () => new StateMachine<FooState, FooAction>(innerStateMachine);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void Ctor_throws_when_stateless_stateMachine_is_null()
+        public async Task GetStateMachineAsync()
         {
             // Act
-            Action act = () => new StateMachine<FooState, FooAction>(null);
+            var result = await GetStateMachineAsyncForTest(FooState.Unsent, "");
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage("*stateMachine*");
+            result.Should().BeOfType<StateMachine<FooState, FooAction>>();
         }
 
         [Theory]
@@ -77,12 +64,7 @@ namespace Structr.Tests.Stateflows
         public async Task State(FooState state)
         {
             // Arrange
-            var foo = new Foo();
-            foo.ChangeState(state);
-            var innerStateMachine = new Stateless.StateMachine<FooState, FooAction>(() => foo.State, s => foo.ChangeState(s));
-            IStateMachineConfigurator<Foo, FooState, FooAction> configurator = new FooStateMachineConfigurator();
-            await configurator.ConfigureAsync(innerStateMachine, foo);
-            var sm = new StateMachine<FooState, FooAction>(innerStateMachine);
+            var sm = await GetStateMachineAsyncForTest(state, "");
 
             // Act
             var result = sm.State;
@@ -105,12 +87,7 @@ namespace Structr.Tests.Stateflows
         public async Task PermittedTriggers(FooState state, string content, FooAction[] expected)
         {
             // Arrange
-            var foo = new Foo { Content = content };
-            foo.ChangeState(state);
-            var innerStateMachine = new Stateless.StateMachine<FooState, FooAction>(() => foo.State, s => foo.ChangeState(s));
-            IStateMachineConfigurator<Foo, FooState, FooAction> configurator = new FooStateMachineConfigurator();
-            await configurator.ConfigureAsync(innerStateMachine, foo);
-            var sm = new StateMachine<FooState, FooAction>(innerStateMachine);
+            var sm = await GetStateMachineAsyncForTest(state, content);
 
             // Act
             var result = sm.PermittedTriggers;
@@ -126,18 +103,51 @@ namespace Structr.Tests.Stateflows
         public async Task CanFire(FooAction action, bool expected)
         {
             // Arrange
-            var foo = new Foo { Content = "abc" };
-            foo.ChangeState(FooState.Unsent);
-            var innerStateMachine = new Stateless.StateMachine<FooState, FooAction>(() => foo.State, s => foo.ChangeState(s));
-            IStateMachineConfigurator<Foo, FooState, FooAction> configurator = new FooStateMachineConfigurator();
-            await configurator.ConfigureAsync(innerStateMachine, foo);
-            var sm = new StateMachine<FooState, FooAction>(innerStateMachine);
+            var sm = await GetStateMachineAsyncForTest(FooState.Unsent, "abc");
 
             // Act
             var result = sm.CanFire(action);
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public async Task Fire()
+        {
+            // Arrange
+            var sm = await GetStateMachineAsyncForTest(FooState.Unsent, "abc");
+
+            // Act
+            sm.Fire(FooAction.Send);
+
+            // Assert
+            sm.State.Should().Be(FooState.Sent);
+        }
+
+        [Fact]
+        public async Task Fire_throws_when_unable()
+        {
+            // Arrange
+            var sm = await GetStateMachineAsyncForTest(FooState.Sent, "abc");
+
+            // Act
+            Action act = () => sm.Fire(FooAction.Send);
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        private async Task<IStateMachine<FooState, FooAction>> GetStateMachineAsyncForTest(FooState startState, string fooContent)
+        {
+            var foo = new Foo { Content = fooContent };
+            foo.ChangeState(startState);
+            var servicesProvider = new ServiceCollection()
+                .AddStateflows(this.GetType().Assembly)
+                .BuildServiceProvider();
+            var stateMachineProvider = servicesProvider.GetRequiredService<IStateMachineProvider>();
+            var sm = await stateMachineProvider.GetStateMachineAsync<Foo, FooState, FooAction>(foo, x => x.State, (x, s) => x.ChangeState(s));
+            return sm;
         }
     }
 }

@@ -29,9 +29,13 @@ namespace Structr.Stateflows
         public Stateflow(TEntity entity, IStateMachine<TState, TTrigger> stateMachine)
         {
             if (entity == null)
+            {
                 throw new ArgumentNullException(nameof(entity));
+            }
             if (stateMachine == null)
+            {
                 throw new ArgumentNullException(nameof(stateMachine));
+            }
 
             Entity = entity;
             StateMachine = stateMachine;

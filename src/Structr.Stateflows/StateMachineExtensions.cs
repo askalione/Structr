@@ -19,7 +19,9 @@ namespace Structr.Stateflows
             TTrigger trigger)
         {
             if (configuration == null)
+            {
                 throw new ArgumentNullException(nameof(configuration));
+            }
 
             return configuration.InternalTransition(trigger, () => { });
         }
@@ -39,7 +41,9 @@ namespace Structr.Stateflows
             string guardDescription = null)
         {
             if (configuration == null)
+            {
                 throw new ArgumentNullException(nameof(configuration));
+            }
 
             return configuration.InternalTransitionIf(trigger, x => guard.Invoke(), () => { }, guardDescription);
         }

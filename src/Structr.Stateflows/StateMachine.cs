@@ -32,7 +32,9 @@ namespace Structr.Stateflows
         public StateMachine(Stateless.StateMachine<TState, TTrigger> stateMachine)
         {
             if (stateMachine == null)
+            {
                 throw new ArgumentNullException(nameof(stateMachine));
+            }
 
             _stateMachine = stateMachine;
         }

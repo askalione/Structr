@@ -21,7 +21,9 @@ namespace Structr.Stateflows
         public StateMachineProvider(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null)
+            {
                 throw new ArgumentNullException(nameof(serviceProvider));
+            }
 
             _serviceProvider = serviceProvider;
         }
@@ -30,14 +32,20 @@ namespace Structr.Stateflows
             TEntity entity,
             Func<TEntity, TState> stateAccessor,
             Action<TEntity, TState> stateMutator,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             if (entity == null)
+            {
                 throw new ArgumentNullException(nameof(entity));
+            }
             if (stateAccessor == null)
+            {
                 throw new ArgumentNullException(nameof(stateAccessor));
+            }
             if (stateMutator == null)
+            {
                 throw new ArgumentNullException(nameof(stateMutator));
+            }
 
             Stateless.StateMachine<TState, TTrigger> stateMachine;
 
@@ -53,7 +61,9 @@ namespace Structr.Stateflows
 
             var configurator = ConfiguratorProvider.GetConfigurator<TEntity, TState, TTrigger>(_serviceProvider);
             if (configurator != null)
+            {
                 await configurator.ConfigureAsync(stateMachine, entity, cancellationToken).ConfigureAwait(false);
+            }
 
             return new StateMachine<TState, TTrigger>(stateMachine);
         }

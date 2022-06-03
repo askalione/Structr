@@ -25,6 +25,6 @@ namespace Structr.Stateflows
         /// <param name="entity">Entity which behavior is modeled.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
         /// <returns><see cref="Task"/> to be awaited.</returns>
-        Task ConfigureAsync(Stateless.StateMachine<TState, TTrigger> stateMachine, TEntity entity, CancellationToken cancellationToken = default(CancellationToken));
+        Task ConfigureAsync(Stateless.StateMachine<TState, TTrigger> stateMachine, TEntity entity, CancellationToken cancellationToken = default);
     }
 }
