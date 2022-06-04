@@ -27,7 +27,6 @@ namespace Structr.Tests.Stateflows
         }
         public class Foo
         {
-            public int Id { get; set; }
             public string Content { get; set; }
             public FooState State { get; private set; }
             public void ChangeState(FooState state)
@@ -47,32 +46,6 @@ namespace Structr.Tests.Stateflows
                     .Permit(FooAction.Decline, FooState.Declined);
             }
         }
-
-        [Fact]
-        public async Task GetStateMachineAsync()
-        {
-            // Act
-            var result = await GetStateMachineAsyncForTest(FooState.Unsent, "");
-
-            // Assert
-            result.Should().BeOfType<StateMachine<FooState, FooAction>>();
-        }
-
-        [Theory]
-        [InlineData(FooState.Unsent)]
-        [InlineData(FooState.Sent)]
-        public async Task State(FooState state)
-        {
-            // Arrange
-            var sm = await GetStateMachineAsyncForTest(state, "");
-
-            // Act
-            var result = sm.State;
-
-            // Assert
-            result.Should().Be(state);
-        }
-
         public class PermittedTriggersTheoryData : TheoryData<FooState, string, FooAction[]>
         {
             public PermittedTriggersTheoryData()
@@ -84,70 +57,22 @@ namespace Structr.Tests.Stateflows
         }
         [Theory]
         [ClassData(typeof(PermittedTriggersTheoryData))]
-        public async Task PermittedTriggers(FooState state, string content, FooAction[] expected)
+        public async Task GetStateMachineAsync(FooState state, string content, FooAction[] expected)
         {
             // Arrange
-            var sm = await GetStateMachineAsyncForTest(state, content);
-
-            // Act
-            var result = sm.PermittedTriggers;
-
-            // Assert
-            result.Should().BeEquivalentTo(expected);
-        }
-
-        [Theory]
-        [InlineData(FooAction.Send, true)]
-        [InlineData(FooAction.Accept, false)]
-        [InlineData(FooAction.Decline, false)]
-        public async Task CanFire(FooAction action, bool expected)
-        {
-            // Arrange
-            var sm = await GetStateMachineAsyncForTest(FooState.Unsent, "abc");
-
-            // Act
-            var result = sm.CanFire(action);
-
-            // Assert
-            result.Should().Be(expected);
-        }
-
-        [Fact]
-        public async Task Fire()
-        {
-            // Arrange
-            var sm = await GetStateMachineAsyncForTest(FooState.Unsent, "abc");
-
-            // Act
-            sm.Fire(FooAction.Send);
-
-            // Assert
-            sm.State.Should().Be(FooState.Sent);
-        }
-
-        [Fact]
-        public async Task Fire_throws_when_unable()
-        {
-            // Arrange
-            var sm = await GetStateMachineAsyncForTest(FooState.Sent, "abc");
-
-            // Act
-            Action act = () => sm.Fire(FooAction.Send);
-
-            // Assert
-            act.Should().Throw<InvalidOperationException>();
-        }
-
-        private async Task<IStateMachine<FooState, FooAction>> GetStateMachineAsyncForTest(FooState startState, string fooContent)
-        {
-            var foo = new Foo { Content = fooContent };
-            foo.ChangeState(startState);
+            var foo = new Foo { Content = content };
+            foo.ChangeState(state);
             var servicesProvider = new ServiceCollection()
                 .AddStateflows(this.GetType().Assembly)
                 .BuildServiceProvider();
             var stateMachineProvider = servicesProvider.GetRequiredService<IStateMachineProvider>();
-            var sm = await stateMachineProvider.GetStateMachineAsync<Foo, FooState, FooAction>(foo, x => x.State, (x, s) => x.ChangeState(s));
-            return sm;
+
+            // Act
+            var result = await stateMachineProvider.GetStateMachineAsync<Foo, FooState, FooAction>(foo, x => x.State, (x, s) => x.ChangeState(s));
+
+            // Assert
+            result.Should().BeOfType<StateMachine<FooState, FooAction>>();
+            result.PermittedTriggers.Should().BeEquivalentTo(expected);
         }
     }
 }
