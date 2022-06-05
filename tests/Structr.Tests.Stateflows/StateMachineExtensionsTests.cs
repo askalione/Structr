@@ -2,11 +2,7 @@
 
 using Xunit;
 using Structr.Stateflows;
-using System;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Structr.Tests.Stateflows
 {

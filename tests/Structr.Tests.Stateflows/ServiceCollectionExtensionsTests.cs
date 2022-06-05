@@ -77,9 +77,10 @@ namespace Structr.Tests.Stateflows
             // Act
             var servicesProvider = serviceCollection
                 .AddStateflows(x =>
-                {
-                    x.ProviderType = typeof(FakeStateMachineProvider);
-                }, this.GetType().Assembly)
+                    {
+                        x.ProviderType = typeof(FakeStateMachineProvider);
+                    },
+                    this.GetType().Assembly)
                 .BuildServiceProvider();
 
             // Assert

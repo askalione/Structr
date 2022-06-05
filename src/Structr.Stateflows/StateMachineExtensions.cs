@@ -27,7 +27,7 @@ namespace Structr.Stateflows
         }
 
         /// <summary>
-        /// Add an internal transition without any additional action to the state machine.
+        /// Add an internal transition with guard condition and without any additional action to the state machine.
         /// </summary>
         /// <typeparam name="TState">Type of object describing entity states.</typeparam>
         /// <typeparam name="TTrigger">Type representing set of possible triggers.</typeparam>

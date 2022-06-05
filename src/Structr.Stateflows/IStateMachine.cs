@@ -15,7 +15,7 @@ namespace Structr.Stateflows
         TState State { get; }
 
         /// <summary>
-        /// Set of permited triggers in current set.
+        /// Set of permitted triggers in current state.
         /// </summary>
         IEnumerable<TTrigger> PermittedTriggers { get; }
 
