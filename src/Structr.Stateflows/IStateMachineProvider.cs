@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Structr.Stateflows
 {
     /// <summary>
-    /// Specifies service for providing instances that implement <see cref="IStateMachine{TState, TTrigger}"/> inteface.
+    /// Specifies service for providing instances that implement <see cref="IStateMachine{TState, TTrigger}"/> interface.
     /// </summary>
     public interface IStateMachineProvider
     {

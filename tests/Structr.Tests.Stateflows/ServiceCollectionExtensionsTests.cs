@@ -1,10 +1,10 @@
-using Xunit;
-using Structr.Stateflows;
-using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
+using Structr.Stateflows;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Structr.Tests.Stateflows
 {

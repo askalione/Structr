@@ -1,12 +1,10 @@
 #nullable disable
 
-using Xunit;
-using Structr.Stateflows;
-using System;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Structr.Stateflows;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Structr.Tests.Stateflows
 {

@@ -12,9 +12,8 @@ namespace Structr.Stateflows
     /// <typeparam name="TTrigger">Type representing set of possible triggers.</typeparam>
     /// <remarks>
     /// To use this the <see cref="IStateMachineConfiguration{TEntity, TState, TTrigger}"/> factory like
-    /// Func&lt;FooStateEnum, IFooStateMachineConfiguration&gt; should be registred before. Then this
-    /// factory should be injected into FooStateMachineConfigurator. See more about injecting factories
-    /// <seealso href="https://github.com/askalione/Structr/blob/develop/wiki/Abstractions/Extensions/Abstractions-ServiceCollectionExtensions.md">here</seealso>.
+    /// <see cref="Func{FooStateEnum, IFooStateMachineConfiguration}"/> should be registred before. Then this
+    /// factory should be injected into FooStateMachineConfigurator.
     /// </remarks>
     public interface IStateMachineConfiguration<TEntity, TState, TTrigger>
     {

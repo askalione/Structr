@@ -1,8 +1,8 @@
 #nullable disable
 
-using Xunit;
-using Structr.Stateflows;
 using FluentAssertions;
+using Structr.Stateflows;
+using Xunit;
 
 namespace Structr.Tests.Stateflows
 {

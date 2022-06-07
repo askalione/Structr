@@ -16,7 +16,7 @@ namespace Structr.Stateflows
         /// <summary>
         /// Creates instance of <see cref="StateMachineProvider"/>.
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public StateMachineProvider(IServiceProvider serviceProvider)
         {

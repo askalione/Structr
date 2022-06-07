@@ -12,7 +12,7 @@ namespace Structr.Stateflows
         /// </summary>
         /// <typeparam name="TState">Type of object describing entity states.</typeparam>
         /// <typeparam name="TTrigger">Type representing set of possible triggers.</typeparam>
-        /// <param name="configuration"></param>
+        /// <param name="configuration">The configuration for a single state value.</param>
         /// <param name="trigger">The accepted trigger.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public static Stateless.StateMachine<TState, TTrigger>.StateConfiguration InternalTransition<TState, TTrigger>(this Stateless.StateMachine<TState, TTrigger>.StateConfiguration configuration,
@@ -31,7 +31,7 @@ namespace Structr.Stateflows
         /// </summary>
         /// <typeparam name="TState">Type of object describing entity states.</typeparam>
         /// <typeparam name="TTrigger">Type representing set of possible triggers.</typeparam>
-        /// <param name="configuration"></param>
+        /// <param name="configuration">The configuration for a single state value.</param>
         /// <param name="trigger">The accepted trigger.</param>
         /// <param name="guard">Function that must return true in order for the trigger to be accepted.</param>
         /// <param name="guardDescription">A description of the guard condition.</param>

@@ -40,7 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             configureOptions?.Invoke(options);
 
-            services.TryAdd(new ServiceDescriptor(typeof(IStateMachineProvider), options.ProviderType, options.ProviderTypeServiceLifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IStateMachineProvider), options.ProviderType, options.ProviderServiceLifetime));
 
             services.AddClasses(assembliesToScan);
 

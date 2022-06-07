@@ -1,10 +1,10 @@
 #nullable disable
 
-using Xunit;
+using FluentAssertions;
 using Structr.Stateflows;
 using System;
-using FluentAssertions;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Structr.Tests.Stateflows
 {
