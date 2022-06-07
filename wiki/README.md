@@ -45,7 +45,7 @@ Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dot
 * [Navigation](Navigation/Navigation.md)
     * [Menu](Navigation/Navigation-Menu.md)
     * [Breadcrumbs](Navigation/Navigation-Breadcrumbs.md)
-* Notices
+* [Notices](Notices.md)
 * [Operations](Operations/Operations.md)
     * [Filtering](Operations/Operations-Filtering.md)
     * [Decoration](Operations/Operations-Decoration.md)
