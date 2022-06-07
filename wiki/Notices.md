@@ -35,7 +35,7 @@ Additionally configure `INoticePublisher` service by specifying it's type and li
 
 ## Usage
 
-The main difference from [Structr.Operations](https://www.nuget.org/packages/Structr.Operations/) package is that notice can handling by any of handlers while operation can handling only one handler.
+The main difference from [Structr.Operations](https://www.nuget.org/packages/Structr.Operations/) package is that notice can handling by any of handlers while operation can handling by only one handler.
 
 The basic usage is:
 
