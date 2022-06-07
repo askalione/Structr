@@ -49,6 +49,10 @@ namespace Structr.Configuration
             return _cache;
         }
 
+        /// <summary>
+        /// Load settings from its source.
+        /// </summary>
+        /// <returns>Loaded settings.</returns>
         protected abstract TSettings LoadSettings();
 
         /// <summary>
@@ -66,8 +70,16 @@ namespace Structr.Configuration
             UpdateSettings(settings);
         }
 
+        /// <summary>
+        /// Update settings in its source.
+        /// </summary>
+        /// <param name="settings">New settings</param>
         protected abstract void UpdateSettings(TSettings settings);
 
+        /// <summary>
+        /// Determines whenever settings was modified and now differs from original values.
+        /// </summary>
+        /// <returns><see langword="true"/> if settings was changed, otherwise <see langword="false"/>.</returns>
         protected abstract bool IsSettingsModified();
     }
 }

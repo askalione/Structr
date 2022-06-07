@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TSettings">Settings class.</typeparam>
         /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
-        /// <param name="provider">The <see cref="SettingsProvider{TSettings}"/>.</param>
+        /// <param name="provider">The provider to be used for accessing to settings.</param>
         /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddProvider<TSettings>(this ConfigurationServiceBuilder builder,
             SettingsProvider<TSettings> provider)
@@ -55,7 +55,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TSettings">Settings class.</typeparam>
         /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
         /// <param name="path">Absolute path to JSON file with settings.</param>
-        /// <param name="configure">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <param name="configure">The options object to make additional configurations.</param>
         /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddJson<TSettings>(this ConfigurationServiceBuilder builder,
             string path,
@@ -69,7 +69,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TSettings">Settings class.</typeparam>
         /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
         /// <param name="path">Absolute path to JSON file with settings.</param>
-        /// <param name="configure">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <param name="configure">The options object to make additional configurations.</param>
         /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddJson<TSettings>(this ConfigurationServiceBuilder builder,
             string path,
@@ -89,7 +89,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TSettings">Settings class.</typeparam>
         /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
         /// <param name="path">Absolute path to XML file with settings.</param>
-        /// <param name="configure">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <param name="configure">The options object to make additional configurations.</param>
         /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddXml<TSettings>(this ConfigurationServiceBuilder builder,
             string path,
@@ -103,7 +103,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TSettings">Settings class.</typeparam>
         /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
         /// <param name="path">Absolute path to XML file with settings.</param>
-        /// <param name="configure">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <param name="configure">The options object to make additional configurations.</param>
         /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
         public static ConfigurationServiceBuilder AddXml<TSettings>(this ConfigurationServiceBuilder builder,
             string path,

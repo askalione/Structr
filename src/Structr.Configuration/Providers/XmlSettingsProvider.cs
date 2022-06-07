@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml.Linq;
+using System;
 
 namespace Structr.Configuration.Providers
 {
@@ -12,7 +13,7 @@ namespace Structr.Configuration.Providers
         /// <summary>
         /// Initializes a new <see cref="XmlSettingsProvider{TSettings}"/> instance.
         /// </summary>
-        /// <param name="options">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <param name="options">The options object to make additional configurations.</param>
         /// <param name="path">The path to XML file with settings.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
@@ -21,6 +22,10 @@ namespace Structr.Configuration.Providers
         {
         }
 
+        /// <summary>
+        /// Load settings from XML file.
+        /// </summary>
+        /// <returns>Loaded settings.</returns>
         protected override TSettings LoadSettings()
         {
             ValidatePathOrThrow();
@@ -34,6 +39,9 @@ namespace Structr.Configuration.Providers
             return settings;
         }
 
+        /// <summary>
+        /// Update settings in XML file.
+        /// </summary>
         protected override void UpdateSettings(TSettings settings)
         {
             ValidatePathOrThrow();
