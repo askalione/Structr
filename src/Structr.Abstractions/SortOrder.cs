@@ -3,7 +3,7 @@ namespace Structr.Abstractions
     /// <summary>
     /// Specifies how items in a list are sorted.
     /// </summary>
-    public enum Order
+    public enum SortOrder
     {
         /// <summary>
         /// Ascending.
