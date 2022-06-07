@@ -23,6 +23,7 @@ namespace Structr.Tests.Configuration.Providers
 
             // Assert
             result.Should().NotBeNull();
+            var x = result.GetSettings();
             result.GetSettings().ShouldBeEquivalentToDefaultSettings();
         }
 
@@ -76,7 +77,7 @@ namespace Structr.Tests.Configuration.Providers
             var settingsProvider = new XmlSettingsProvider<TestSettings>(options, path);
 
             // Act
-            settingsProvider.SetSettings(new TestSettings { FilePath = "X:\\readme.txt" });
+            settingsProvider.SetSettings(new TestSettings { FilePath = "X:\\readme.txt", HelpUrl = null });
 
             // Assert
             var settings = settingsProvider.GetSettings();

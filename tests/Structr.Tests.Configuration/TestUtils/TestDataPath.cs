@@ -10,5 +10,8 @@ namespace Structr.Tests.Configuration.TestUtils
 
         public static string Combine(string fileName)
             => Path.Combine(ContentRootPath, fileName);
+
+        public static string CombineWithTemp(string fileName)
+             => Path.Combine(ContentRootPath, "Temp", fileName);
     }
 }

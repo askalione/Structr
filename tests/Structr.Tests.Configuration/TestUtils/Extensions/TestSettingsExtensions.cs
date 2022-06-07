@@ -17,22 +17,32 @@ namespace Structr.Tests.Configuration.TestUtils.Extensions
         public static void WriteToJson(this TestSettings settings)
         {
             var path = TestDataPath.Combine("settings.json");
-            string json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, json);
+            string json = @"
+
+{
+  ""FilePath"": ""X:\\readme.txt"",
+  ""SomeOwnerNameAlias"": ""Owner name"",
+  ""HelpUrl"": ""hhhh""
+}
+
+";
+            File.WriteAllText(path, json.Trim());
         }
 
         public static void WriteToXml(this TestSettings settings)
         {
             var path = TestDataPath.Combine("settings.xml");
-            var serializer = new XmlSerializer(typeof(TestSettings));
-            using (var fs = File.Create(path))
-            {
-                using (var tw = new XmlTextWriter(fs, Encoding.Unicode))
-                {
-                    tw.Formatting = Formatting.Indented;
-                    serializer.Serialize(tw, settings);
-                }
-            }
+            var xml = @"
+
+<?xml version=""1.0"" encoding=""utf-8""?>
+<settings>
+  <FilePath>X:\readme.txt</FilePath>
+  <SomeOwnerNameAlias>Owner name</SomeOwnerNameAlias>
+  <HelpUrl />
+  <ApiKey />
+</settings>
+                  ";
+            File.WriteAllText(path, xml.Trim());
         }
     }
 }
