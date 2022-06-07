@@ -31,6 +31,7 @@ namespace Structr.Tests.Abstractions
         [Theory]
         [InlineData(null, false)]
         [InlineData("", false)]
+        [InlineData("  ", false)]
         [InlineData("123456", true)]
         public void NotEmpty(string myValue, bool passes)
         {

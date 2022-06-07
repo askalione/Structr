@@ -3,6 +3,11 @@ using System.Threading.Tasks;
 
 namespace Structr.Operations
 {
+    /// <summary>
+    /// Class to be used as base for all synchronous operation handlers.
+    /// </summary>
+    /// <typeparam name="TOperation">The type of operation being handled.</typeparam>
+    /// <typeparam name="TResult">The type of result from the handler.</typeparam>
     public abstract class OperationHandler<TOperation, TResult> : IOperationHandler<TOperation, TResult>
         where TOperation : IOperation<TResult>
     {
@@ -14,6 +19,10 @@ namespace Structr.Operations
         protected abstract TResult Handle(TOperation operation);
     }
 
+    /// <summary>
+    /// Class to be used as base for all synchronous operation handlers in case if no result is implied. 
+    /// </summary>
+    /// <typeparam name="TOperation">The type of operation being handled.</typeparam>
     public abstract class OperationHandler<TOperation> : IOperationHandler<TOperation>
         where TOperation : IOperation
     {

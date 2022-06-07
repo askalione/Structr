@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Structr.Tests.Abstractions.TestUtils {
+namespace Structr.Tests.AspNetCore.Validation.TestData {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Structr.Tests.Abstractions.TestUtils {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TestResources {
+    internal class ErrorMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TestResources() {
+        internal ErrorMessages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Structr.Tests.Abstractions.TestUtils {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Structr.Tests.Abstractions.TestUtils.TestResources", typeof(TestResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Structr.Tests.AspNetCore.Validation.TestData.ErrorMessages", typeof(ErrorMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace Structr.Tests.Abstractions.TestUtils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bazzzz.
+        ///   Looks up a localized string similar to Some test error message from resource..
         /// </summary>
-        internal static string displayNameForEnumBaz {
+        internal static string ErrorMessageFromResource {
             get {
-                return ResourceManager.GetString("displayNameForEnumBaz", resourceCulture);
+                return ResourceManager.GetString("ErrorMessageFromResource", resourceCulture);
             }
         }
     }

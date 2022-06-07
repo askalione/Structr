@@ -15,7 +15,7 @@ Ensure.NotNull(myValue, nameof(myValue)); // --> does nothing
 
 ## NotEmpty
 
-Throws ArgumentNullException when value of specified string variable is null or empty:
+Throws ArgumentNullException when value of specified string variable is null or empty or consists only of white-space characters:
 
 ```csharp
 string? myValue = null;
