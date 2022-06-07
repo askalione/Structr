@@ -52,5 +52,7 @@ Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dot
 * Security
 * Specifications
 * SqlServer
-* Stateflows
+* [Stateflows](Stateflows/Stateflows.md)
+    * [StateMachine](Stateflows/Stateflows-StateMachine.md)
+    * [Configurations](Stateflows/Stateflows-Configurations.md)
 * Validation

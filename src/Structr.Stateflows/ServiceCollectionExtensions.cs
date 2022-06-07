@@ -6,11 +6,27 @@ using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// Provides <see cref="IServiceCollection"/> extensions for registering stateflow services.
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Adds stateflow services and registers all configurations placed in provided assemblies.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/> to add services to.</param>
+        /// <param name="assembliesToScan">Assemblies to search configurations in.</param>
+        /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure services.</returns>
         public static IServiceCollection AddStateflows(this IServiceCollection services, params Assembly[] assembliesToScan)
             => AddStateflows(services, null, assembliesToScan);
 
+        /// <summary>
+        /// Adds stateflow services and registers all configurations placed in provided assemblies.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/> to add services to.</param>
+        /// <param name="configureOptions">An <see cref="Action{StateflowServiceOptions}"/> to configure stateflows.</param>
+        /// <param name="assembliesToScan">Assemblies to search configurations in.</param>
+        /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure services.</returns>
         public static IServiceCollection AddStateflows(this IServiceCollection services,
             Action<StateflowServiceOptions> configureOptions,
             params Assembly[] assembliesToScan)
@@ -24,7 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             configureOptions?.Invoke(options);
 
-            services.TryAdd(new ServiceDescriptor(typeof(IStateMachineProvider), options.ProviderType, options.ProviderTypeServiceLifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IStateMachineProvider), options.ProviderType, options.ProviderServiceLifetime));
 
             services.AddClasses(assembliesToScan);
 
