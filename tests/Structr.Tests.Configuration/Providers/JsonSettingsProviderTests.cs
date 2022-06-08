@@ -17,29 +17,31 @@ namespace Structr.Tests.Configuration.Providers
         [Fact]
         public void Ctor()
         {
-            // Arrange
-            var options = new SettingsProviderOptions();
-            var path = TestDataPath.Combine("settings.json");
-
             // Act
-            var result = new JsonSettingsProvider<TestSettings>(options, path);
+            Action act = () => new JsonSettingsProvider<TestSettings>(new SettingsProviderOptions(), "SomePath");
 
             // Assert
-            result.Should().NotBeNull();
-            result.GetSettings().ShouldBeEquivalentToDefaultSettings();
+            act.Should().NotThrow();
         }
 
         [Fact]
         public void Ctor_throws_when_options_are_null()
         {
-            // Arrange
-            var path = TestDataPath.Combine("settings.json");
-
             // Act
-            Action act = () => new JsonSettingsProvider<TestSettings>(null, path);
+            Action act = () => new JsonSettingsProvider<TestSettings>(null, "SomePath");
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>();
+            act.Should().ThrowExactly<ArgumentNullException>().WithMessage("*options*");
+        }
+
+        [Fact]
+        public void Ctor_throws_when_options_is_empty()
+        {
+            // Act
+            Action act = () => new JsonSettingsProvider<TestSettings>(new SettingsProviderOptions(), "");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>().WithMessage("*path*");
         }
 
         [Fact]
@@ -112,41 +114,57 @@ namespace Structr.Tests.Configuration.Providers
         }
 
         [Fact]
-        public async Task SetSettings()
+        public async Task SetSettings_normal()
         {
             // Arrange            
-            var settingsProvider = await GetSettingsProviderAsync(nameof(SetSettings));
+            var settingsProvider = await GetSettingsProviderAsync(nameof(SetSettings_normal));
             var path = settingsProvider.GetPath();
             
             // Act
-            settingsProvider.SetSettings(new TestSettings { FilePath = "abc" });
+            settingsProvider.SetSettings(new TestSettings { FilePath = "X:\\readme123.txt" });
 
             // Assert
-            var result = await GetJsonAsync(path);
-            result.Should().Contain(@"""FilePath"": ""abc"""); // ???
+            var json = await GetJsonAsync(path);
+            json.Should().Contain(@"""FilePath"": ""X:\\readme123.txt"""); // ???
         }
 
         [Fact]
-        public async Task SetSettings_with_encryption()
+        public async Task SetSettings_alias()
+        {
+            // Arrange            
+            var settingsProvider = await GetSettingsProviderAsync(nameof(SetSettings_alias));
+            var path = settingsProvider.GetPath();
+            
+            // Act
+            settingsProvider.SetSettings(new TestSettings { OwnerName = "Owner name" });
+
+            // Assert
+            var json = await GetJsonAsync(path);
+            json.Should().Contain(@"""SomeOwnerNameAlias"": ""Owner name"""); // ???
+        }
+
+        [Fact]
+        public async Task SetSettings_and_GetSettings_with_encryption()
         {
             // Arrange
-            var settingsProvider = await GetSettingsProviderAsync(nameof(SetSettings_with_encryption));
+            var settingsProvider = await GetSettingsProviderAsync(nameof(SetSettings_and_GetSettings_with_encryption));
+            var path = settingsProvider.GetPath();
 
             // Act
             settingsProvider.SetSettings(new TestSettings { ApiKey = "123abc_qwerty&^" });
 
             // Assert
             var settings = settingsProvider.GetSettings();
+            var json = await GetJsonAsync(path);
             settings.ApiKey.Should().Be("123abc_qwerty&^");
+            json.Should().NotContain("123abc_qwerty&^");
         }
 
         [Fact]
-        public void SetSettings_throws_when_settings_are_null()
+        public async Task SetSettings_throws_when_settings_are_null()
         {
             // Arrange
-            var options = new SettingsProviderOptions();
-            var path = TestDataPath.Combine("settings.json");
-            var settingsProvider = new JsonSettingsProvider<TestSettings>(options, path);
+            var settingsProvider = await GetSettingsProviderAsync(null);
 
             // Act
             Action act = () => settingsProvider.SetSettings(null);
@@ -163,7 +181,7 @@ namespace Structr.Tests.Configuration.Providers
         private async Task<JsonSettingsProvider<TestSettings>> GetSettingsProviderAsync(string fileName, params (string Name, string Value)[] data)
         {
             var options = new SettingsProviderOptions();
-            var path = await GenerateJsonAsync(fileName, data);
+            var path = string.IsNullOrEmpty(fileName) == false ? await GenerateJsonAsync(fileName, data) : "null";
             var settingsProvider = new JsonSettingsProvider<TestSettings>(options, path);
             return settingsProvider;
         }
