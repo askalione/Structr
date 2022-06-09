@@ -2,7 +2,6 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Configuration;
 using Structr.Tests.Configuration.TestUtils;
-using Structr.Tests.Configuration.TestUtils.Extensions;
 using System;
 using System.Threading.Tasks;
 using Xunit;

@@ -1,10 +1,7 @@
 using Structr.Configuration;
 using Structr.Configuration.Providers;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Structr.Tests.Configuration.TestUtils

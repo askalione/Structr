@@ -1,6 +1,6 @@
-using Xunit;
 using FluentAssertions;
 using Structr.Configuration;
+using Xunit;
 
 namespace Structr.Tests.Configuration
 {

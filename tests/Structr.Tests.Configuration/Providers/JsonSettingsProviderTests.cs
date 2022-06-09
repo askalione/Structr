@@ -163,7 +163,7 @@ namespace Structr.Tests.Configuration.Providers
             // Arrange            
             var settingsProvider = await GetSettingsProviderAsync(nameof(SetSettings_normal));
             var path = settingsProvider.GetPath();
-            
+
             // Act
             settingsProvider.SetSettings(new TestSettings { FilePath = "X:\\readme123.txt" });
 
@@ -178,7 +178,7 @@ namespace Structr.Tests.Configuration.Providers
             // Arrange            
             var settingsProvider = await GetSettingsProviderAsync(nameof(SetSettings_alias));
             var path = settingsProvider.GetPath();
-            
+
             // Act
             settingsProvider.SetSettings(new TestSettings { OwnerName = "Owner name" });
 
