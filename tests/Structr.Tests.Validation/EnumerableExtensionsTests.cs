@@ -8,25 +8,19 @@ namespace Structr.Tests.Validation
         public void ToValidationResult()
         {
             // Arrange
+            var validationFailure1 = new ValidationFailure("First failure.");
+            var validationFailure2 = new ValidationFailure("Second failure.");
             IEnumerable<ValidationFailure> validationFailures = new List<ValidationFailure>()
             {
-                new ValidationFailure("First failure."),
-                new ValidationFailure("Second failure.")
+                validationFailure1,
+                validationFailure2
             };
 
             // Act
             var validationResult = validationFailures.ToValidationResult();
 
             // Assert
-            validationResult.Should().SatisfyRespectively(
-                first =>
-                {
-                    first.Message.Should().Be("First failure.");
-                },
-                second =>
-                {
-                    second.Message.Should().Be("Second failure.");
-                });
+            validationResult.Should().BeEquivalentTo(new ValidationFailure[] { validationFailure1, validationFailure2 });
         }
 
         [Fact]

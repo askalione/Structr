@@ -34,25 +34,15 @@ namespace Structr.Tests.Validation
             var validationResult = new ValidationResult(_validationFailures);
 
             // Assert
-            validationResult.Should().SatisfyRespectively(
-                first =>
-                {
-                    first.Message.Should().Be("First failure.");
-                },
-                second =>
-                {
-                    second.Message.Should().Be("Second failure.");
-                });
+            validationResult.Should()
+                .BeEquivalentTo(new ValidationFailure[] { _validationFailures.First(), _validationFailures.Last() });
         }
 
         [Fact]
         public void Ctor_throws_when_failures_is_null()
         {
-            // Arrange
-            List<ValidationFailure>? validationFailures = null;
-
             // Act
-            Action act = () => new ValidationResult(validationFailures);
+            Action act = () => new ValidationResult(null);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
@@ -73,13 +63,23 @@ namespace Structr.Tests.Validation
         }
 
         [Fact]
-        public void ToString_with_separator()
+        public void ToStringTest()
         {
             // Act
-            var result = _validationResult.ToString(Environment.NewLine);
+            var result = _validationResult.ToString();
 
             // Assert
             result.Should().Be($"First failure.{Environment.NewLine}Second failure.");
+        }
+
+        [Fact]
+        public void ToString_with_separator()
+        {
+            // Act
+            var result = _validationResult.ToString("---");
+
+            // Assert
+            result.Should().Be($"First failure.---Second failure.");
         }
 
         [Fact]

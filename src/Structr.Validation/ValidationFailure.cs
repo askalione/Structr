@@ -1,7 +1,7 @@
 namespace Structr.Validation
 {
     /// <summary>
-    /// Represents an information about a failure that have occured during validation.
+    /// Represents an information about a failure that have occurred during validation.
     /// </summary>
     public class ValidationFailure
     {

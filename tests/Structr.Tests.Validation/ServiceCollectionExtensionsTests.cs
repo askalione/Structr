@@ -11,11 +11,8 @@ namespace Structr.Tests.Validation
         [Fact]
         public void AddValidation()
         {
-            // Arrange
-            var services = new ServiceCollection();
-
             // Act
-            var serviceProvider = services
+            var serviceProvider = new ServiceCollection()
                 .AddValidation(typeof(Document).Assembly)
                 .BuildServiceProvider();
 
@@ -27,13 +24,24 @@ namespace Structr.Tests.Validation
         }
 
         [Fact]
+        public void AddValidation_adds_scoped_provider()
+        {
+            // Act
+            var serviceProvider = new ServiceCollection()
+                .AddValidation(typeof(Document).Assembly)
+                .BuildServiceProvider();
+
+            // Assert
+            var validationProvider1 = serviceProvider.GetRequiredService<IValidationProvider>();
+            var validationProvider2 = serviceProvider.GetRequiredService<IValidationProvider>();
+            validationProvider1.Should().Be(validationProvider2);
+        }
+
+        [Fact]
         public void AddValidation_with_setting_custom_provider()
         {
-            // Arrange
-            var services = new ServiceCollection();
-
             // Act
-            var serviceProvider = services
+            var serviceProvider = new ServiceCollection()
                 .AddValidation(options =>
                 {
                     options.ProviderType = typeof(CustomValidationProvider);
@@ -49,11 +57,8 @@ namespace Structr.Tests.Validation
         [Fact]
         public void AddValidation_with_setting_lifetime()
         {
-            // Arrange
-            var services = new ServiceCollection();
-
             // Act
-            var serviceProvider = services
+            var serviceProvider = new ServiceCollection()
                 .AddValidation(options =>
                 {
                     options.Lifetime = ServiceLifetime.Transient;
@@ -64,7 +69,7 @@ namespace Structr.Tests.Validation
             // Assert
             var validationProvider1 = serviceProvider.GetRequiredService<IValidationProvider>();
             var validationProvider2 = serviceProvider.GetRequiredService<IValidationProvider>();
-            validationProvider1.Equals(validationProvider2).Should().BeFalse();
+            validationProvider1.Should().NotBe(validationProvider2);
         }
     }
 }

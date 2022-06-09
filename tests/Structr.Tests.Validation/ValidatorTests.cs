@@ -13,7 +13,7 @@ namespace Structr.Tests.Validation
             var validator = new ContractValidator();
 
             // Act
-            var result = await ((IValidator<Contract>)validator).ValidateAsync(contract, default(CancellationToken));
+            var result = await ((IValidator<Contract>)validator).ValidateAsync(contract, default);
 
             // Assert
             result.Should().SatisfyRespectively(
