@@ -7,10 +7,18 @@ using System.Threading.Tasks;
 
 namespace Structr.Email.Clients.Smtp
 {
+    /// <summary>
+    /// Provides functionality for sending an emails using SMTP.
+    /// </summary>
     public class SmtpEmailClient : IEmailClient
     {
         private readonly SmtpOptions _options;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SmtpEmailClient"/> class.
+        /// </summary>
+        /// <param name="options">The <see cref="SmtpOptions"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
         public SmtpEmailClient(SmtpOptions options)
         {
             if (options == null)
@@ -91,14 +99,16 @@ namespace Structr.Email.Clients.Smtp
         }
     }
 
-    // Taken from: https://stackoverflow.com/a/28445791
+    /// <remark>
+    /// Taken from: https://stackoverflow.com/a/28445791 
+    /// </remark>
     internal static class SmtpClientExtensions
     {
         public static Task SendMailExAsync(this SmtpClient smtpClient,
             MailMessage message,
             CancellationToken token = default(CancellationToken))
         {
-            // use Task.Run to negate SynchronizationContext
+            // Use Task.Run to negate SynchronizationContext.
             return Task.Run(() => SendMailExImplAsync(smtpClient, message, token));
         }
 
@@ -116,17 +126,25 @@ namespace Structr.Email.Clients.Smtp
             {
                 unsubscribe();
 
-                // a hack to complete the handler asynchronously
+                // A hack to complete the handler asynchronously.
                 await Task.Yield();
 
                 if (e.UserState != tcs)
+                {
                     tcs.TrySetException(new InvalidOperationException("Unexpected UserState"));
+                }
                 else if (e.Cancelled)
+                {
                     tcs.TrySetCanceled();
+                }
                 else if (e.Error != null)
+                {
                     tcs.TrySetException(e.Error);
+                }
                 else
+                {
                     tcs.TrySetResult(true);
+                }
             };
 
             smtpClient.SendCompleted += handler;

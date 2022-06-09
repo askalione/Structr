@@ -6,8 +6,17 @@ using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// Extension methods for <see cref="EmailServiceBuilder"/>.
+    /// </summary>
     public static class EmailServiceBuilderExtensions
     {
+        /// <summary>
+        /// Adds <see cref="FileEmailClient"/> and related services to the <see cref="EmailServiceBuilder"/>.<see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="EmailServiceBuilder"/>.</param>
+        /// <param name="path">Absolute path to the email directory.</param>
+        /// <returns>The <see cref="EmailServiceBuilder"/>.</returns>
         public static EmailServiceBuilder AddFileClient(this EmailServiceBuilder builder, string path)
         {
             builder.Services.TryAddSingleton<IEmailClient>(_ => new FileEmailClient(path));
@@ -15,12 +24,24 @@ namespace Microsoft.Extensions.DependencyInjection
             return builder;
         }
 
+        /// <param name="host">The name or IP address of the host used for SMTP transactions.</param>
+        /// <param name="port">The port used for SMTP transactions. The default value is 25.</param>
+        /// <inheritdoc cref="AddSmtpClient(EmailServiceBuilder, SmtpOptions)"/>
         public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, string host, int port = 25)
             => AddSmtpClient(builder, _ => new SmtpOptions(host, port));
 
+        /// <param name="options">The <see cref="SmtpOptions"/>.</param>
+        /// <inheritdoc cref="AddSmtpClient(EmailServiceBuilder, Func{IServiceProvider, SmtpOptions})"/>
         public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, SmtpOptions options)
             => AddSmtpClient(builder, _ => options);
 
+        /// <summary>
+        /// Adds <see cref="SmtpEmailClient"/> and related services to the <see cref="EmailServiceBuilder"/>.<see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="EmailServiceBuilder"/>.</param>
+        /// <param name="optionsFactory">The delegate for configure <see cref="SmtpOptions"/>.</param>
+        /// <returns>The <see cref="EmailServiceBuilder"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="optionsFactory"/> is <see langword="null"/>.</exception>
         public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, Func<IServiceProvider, SmtpOptions> optionsFactory)
         {
             if (optionsFactory == null)

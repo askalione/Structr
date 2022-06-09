@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 
 namespace Structr.Email
 {
+    /// <inheritdoc cref="IEmailSender"/>
     public class EmailSender : IEmailSender
     {
         private readonly EmailOptions _options;
         private readonly IEmailClient _client;
         private readonly IEmailTemplateRenderer _templateRenderer;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmailSender"/> class.
+        /// </summary>
+        /// <param name="options">The <see cref="EmailOptions"/>.</param>
+        /// <param name="client">The <see cref="IEmailClient"/>.</param>
+        /// <param name="templateRenderer">The <see cref="IEmailTemplateRenderer"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="client"/> is <see langword="null"/>.</exception>
         public EmailSender(EmailOptions options, IEmailClient client, IEmailTemplateRenderer? templateRenderer = null)
         {
             if (options == null)

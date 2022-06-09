@@ -7,10 +7,20 @@ using System.Threading.Tasks;
 
 namespace Structr.Email.Razor
 {
+    /// <summary>
+    /// Provides functionality for rendering an email model into a template with Razor rendering.
+    /// </summary>
     public class RazorEmailTemplateRenderer : IEmailTemplateRenderer
     {
         private readonly RazorLightEngine _engine;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RazorEmailTemplateRenderer"/> class.
+        /// </summary>
+        /// <param name="options">The <see cref="EmailOptions"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
+        /// <exception cref="InvalidOperationException">If email option "TemplateRootPath" not specified..</exception>
+        /// <exception cref="DirectoryNotFoundException">If directory specified in email option "TemplateRootPath" not found.</exception>
         public RazorEmailTemplateRenderer(EmailOptions options)
         {
             if (options == null)

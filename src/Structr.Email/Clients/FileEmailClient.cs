@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace Structr.Email.Clients
 {
+    /// <summary>
+    /// Provides functionality for writing an email to a file.
+    /// </summary>
     public class FileEmailClient : IEmailClient
     {
         private readonly string _path;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileEmailClient"/> class.
+        /// </summary>
+        /// <param name="path">Absolute path to the directory for writing an emails.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
         public FileEmailClient(string path)
         {
             if (string.IsNullOrEmpty(path))
