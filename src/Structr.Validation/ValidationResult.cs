@@ -11,7 +11,7 @@ namespace Structr.Validation
     public class ValidationResult : IEnumerable<ValidationFailure>
     {
         /// <summary>
-        /// Returns <see langword="true"/> if the validation result has not failures.
+        /// Returns <see langword="true"/> if the validation result has no failures.
         /// </summary>
         public bool IsValid => _failures.Count == 0;
 
@@ -49,7 +49,7 @@ namespace Structr.Validation
         }
 
         /// <summary>
-        /// Returns a string that represents list of <see cref="ValidationFailure"/> that delimiter with <paramref name="separator"/>.
+        /// Returns a string that contains list of <see cref="ValidationFailure"/> separated by <paramref name="separator"/>.
         /// </summary>
         /// <param name="separator">The string to use as a separator.</param>
         public string ToString(string separator)

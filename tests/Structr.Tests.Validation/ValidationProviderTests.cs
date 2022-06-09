@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Tests.Validation.TestUtils.Documents;
+using Structr.Tests.Validation.TestUtils.Documents.Bills;
 using Structr.Tests.Validation.TestUtils.Documents.Contracts;
 using Structr.Validation;
 
@@ -7,19 +8,6 @@ namespace Structr.Tests.Validation
 {
     public class ValidationProviderTests
     {
-        private IValidationProvider _validationProvider;
-        private Contract _contract;
-
-        public ValidationProviderTests()
-        {
-            var serviceProvider = new ServiceCollection()
-                .AddValidation(typeof(Document).Assembly)
-                .BuildServiceProvider();
-            _validationProvider = serviceProvider.GetRequiredService<IValidationProvider>();
-
-            _contract = new Contract { Number = "0123456789", Title = "Super long title" };
-        }
-
         [Fact]
         public void Ctor()
         {
@@ -28,10 +16,10 @@ namespace Structr.Tests.Validation
                 .BuildServiceProvider();
 
             // Act
-            var result = new ValidationProvider(serviceProvider);
+            Action act = () => new ValidationProvider(serviceProvider);
 
             // Assert
-            result.Should().NotBeNull();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -47,8 +35,12 @@ namespace Structr.Tests.Validation
         [Fact]
         public async Task ValidateAsync()
         {
+            // Arrange
+            var validationProvider = GetValidationProvider();
+            var contract = new Contract { Number = "0123456789", Title = "Super long title" };
+
             // Act
-            var result = await _validationProvider.ValidateAsync(_contract);
+            var result = await validationProvider.ValidateAsync(contract);
 
             // Assert
             result.Should().SatisfyRespectively(
@@ -67,10 +59,27 @@ namespace Structr.Tests.Validation
         }
 
         [Fact]
+        public async Task ValidateAsync_when_no_validator_is_presented()
+        {
+            // Arrange
+            var validationProvider = GetValidationProvider();
+            var contract = new Bill { Number = "0123456789", Price = 100 };
+
+            // Act
+            var result = await validationProvider.ValidateAsync(contract);
+
+            // Assert
+            result.IsValid.Should().BeTrue();
+        }
+
+        [Fact]
         public async Task ValidateAsync_throws_when_instance_is_null()
         {
+            // Arrange
+            var validationProvider = GetValidationProvider();
+
             // Act
-            Func<Task> act = async () => await _validationProvider.ValidateAsync(null);
+            Func<Task> act = async () => await validationProvider.ValidateAsync(null);
 
             // Assert
             await act.Should().ThrowExactlyAsync<ArgumentNullException>();
@@ -79,8 +88,12 @@ namespace Structr.Tests.Validation
         [Fact]
         public async Task ValidateAndThrowAsync()
         {
+            // Arrange
+            var validationProvider = GetValidationProvider();
+            var contract = new Contract { Number = "0123456789", Title = "Super long title" };
+
             // Act
-            Func<Task> act = async () => await _validationProvider.ValidateAndThrowAsync(_contract);
+            Func<Task> act = async () => await validationProvider.ValidateAndThrowAsync(contract);
 
             // Assert
             await act.Should().ThrowExactlyAsync<ValidationException>()
@@ -90,11 +103,22 @@ namespace Structr.Tests.Validation
         [Fact]
         public async Task ValidateAndThrowAsync_throws_when_instance_is_null()
         {
+            // Arrange
+            var validationProvider = GetValidationProvider();
+
             // Act
-            Func<Task> act = async () => await _validationProvider.ValidateAndThrowAsync(null);
+            Func<Task> act = async () => await validationProvider.ValidateAndThrowAsync(null);
 
             // Assert
             await act.Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        private IValidationProvider GetValidationProvider()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddValidation(typeof(Document).Assembly)
+                .BuildServiceProvider();
+            return serviceProvider.GetRequiredService<IValidationProvider>();
         }
     }
 }

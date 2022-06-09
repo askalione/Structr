@@ -11,7 +11,7 @@ namespace Structr.Validation
         Error,
 
         /// <summary>
-        /// No critical failure.
+        /// Not critical failure.
         /// </summary>
         Warning,
 
