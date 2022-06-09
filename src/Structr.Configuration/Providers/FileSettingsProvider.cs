@@ -18,7 +18,7 @@ namespace Structr.Configuration.Providers
         /// <summary>
         /// Initializes a new <see cref="FileSettingsProvider{TSettings}"/> instance.
         /// </summary>
-        /// <param name="options">The <see cref="SettingsProviderOptions"/>.</param>
+        /// <param name="options">The options object to make additional configurations.</param>
         /// <param name="path">The path to file with settings.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
@@ -34,6 +34,14 @@ namespace Structr.Configuration.Providers
             {
                 ContractResolver = new JsonSettingsContractResolver()
             };
+        }
+
+        protected override void LogFirstAccess()
+        {
+            ValidatePathOrThrow();
+
+            var fileInfo = new FileInfo(Path);
+            _lastModifiedTime = fileInfo.LastWriteTime;
         }
 
         protected override bool IsSettingsModified()

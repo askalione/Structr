@@ -3,7 +3,7 @@ using System;
 namespace Structr.Configuration
 {
     /// <summary>
-    /// Atribute for configure a settings member
+    /// Atribute for configure a settings member.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class OptionAttribute : Attribute
@@ -19,7 +19,7 @@ namespace Structr.Configuration
         public object DefaultValue { get; set; }
 
         /// <summary>
-        /// Passphrase thats used to encrypt and decrypt the protected a settings member value.
+        /// Passphrase that is used to encrypt and decrypt protected settings member value.
         /// </summary>
         public string EncryptionPassphrase { get; set; }
     }

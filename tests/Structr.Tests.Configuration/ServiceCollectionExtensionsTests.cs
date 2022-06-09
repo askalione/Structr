@@ -5,8 +5,8 @@ using Xunit;
 
 namespace Structr.Tests.Configuration
 {
-    [Collection("TestSettings")]
-    public class ServiceCollectionExtensionsTests : IClassFixture<TestSettingsFixture>
+    [Collection("Tests with temp files")]
+    public class ServiceCollectionExtensionsTests
     {
         [Fact]
         public void AddConfiguration_json()

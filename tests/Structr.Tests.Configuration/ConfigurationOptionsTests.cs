@@ -7,22 +7,20 @@ using Xunit;
 
 namespace Structr.Tests.Configuration
 {
-    [Collection("TestSettings")]
-    public class ConfigurationOptionsTests : IClassFixture<TestSettingsFixture>
+    [Collection("Tests with temp files")]
+    public class ConfigurationOptionsTests
     {
         [Fact]
         public void Ctor()
         {
             // Arrange
-            var path = TestDataPath.Combine("settings.json");
-            var provider = new JsonSettingsProvider<TestSettings>(new SettingsProviderOptions(), path);
+            var provider = new JsonSettingsProvider<TestSettings>(new SettingsProviderOptions(), "Some path");
 
             // Act
             var result = new ConfigurationOptions<TestSettings>(provider);
 
             // Assert
-            result.Should().NotBeNull();
-            result.Provider.Should().BeEquivalentTo(provider);
+            result.Provider.Should().Be(provider);
         }
 
         [Fact]

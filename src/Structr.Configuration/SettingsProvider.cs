@@ -35,6 +35,7 @@ namespace Structr.Configuration
             if (_options.Cache == false || _cache == null)
             {
                 _cache = LoadSettings();
+                LogFirstAccess();
             }
             else
             {
@@ -49,6 +50,10 @@ namespace Structr.Configuration
             return _cache;
         }
 
+        /// <summary>
+        /// Load settings from its source.
+        /// </summary>
+        /// <returns>Loaded settings.</returns>
         protected abstract TSettings LoadSettings();
 
         /// <summary>
@@ -66,8 +71,21 @@ namespace Structr.Configuration
             UpdateSettings(settings);
         }
 
+        /// <summary>
+        /// Update settings in its source.
+        /// </summary>
+        /// <param name="settings">New settings</param>
         protected abstract void UpdateSettings(TSettings settings);
 
+        /// <summary>
+        /// Logs first access to source for further tracking of changes.
+        /// </summary>
+        protected abstract void LogFirstAccess();
+
+        /// <summary>
+        /// Determines whenever settings was modified and now differs from original values.
+        /// </summary>
+        /// <returns><see langword="true"/> if settings was changed, otherwise <see langword="false"/>.</returns>
         protected abstract bool IsSettingsModified();
     }
 }
