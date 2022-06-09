@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Structr.IO
 {
     /// <summary>
-    /// Provides synchronous and asynchronous methods for the write, read and delete a single file.
+    /// Provides synchronous and asynchronous methods for writing, reading and a single file deleting.
     /// </summary>
     public static class FileHelper
     {
@@ -63,7 +63,7 @@ namespace Structr.IO
         /// <param name="createDirIfNotExists">The flag indicates to create destination directory if not exists.</param>
         /// <param name="overrideFileIfExists">The flag indicates to override destination file if exists.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
-        /// <returns>A task that represents the asynchronous save operation, which wraps the absolute path to the saved file</returns>
+        /// <returns>A task that represents the asynchronous save operation, which wraps the absolute path to the saved file.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="bytes"/> is <see langword="null"/>.</exception>
         /// <exception cref="InvalidOperationException">If directory <paramref name="dir"/> was not found and <paramref name="createDirIfNotExists"/> is <see langword="false"/>.</exception>
@@ -286,7 +286,7 @@ namespace Structr.IO
         /// <summary>
         /// Deletes a file if it exists.
         /// </summary>
-        /// <param name="path">The absolute file path to delete to.</param>
+        /// <param name="path">The absolute path to file.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
         public static void DeleteFile(string path)
         {
@@ -302,7 +302,7 @@ namespace Structr.IO
         }
 
         /// <summary>
-        /// Returns an absolute path with changing destination file name with unique postfix
+        /// Returns an absolute path with variable destination file name with unique postfix
         /// e.g. ("file_1.txt", "file_2.txt").
         /// </summary>
         /// <param name="path">The absolute file path.</param>
