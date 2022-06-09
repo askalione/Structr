@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-      <Version>3.0.0</Version>
-      <Description>Base infrastructure for implementing configuration.</Description>
-      <PackageTags>Structr;Configuration;Configurator;Settings</PackageTags>
-      <Authors>Alexey Drapash</Authors>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Version>3.0.0</Version>
+        <Description>Base infrastructure for implementing configuration.</Description>
+        <PackageTags>Structr;Configuration;Configurator;Settings</PackageTags>
+        <Authors>Alexey Drapash</Authors>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
 
 </Project>

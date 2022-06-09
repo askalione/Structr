@@ -32,7 +32,10 @@
     * Helpers
         * [AsyncHelper](Abstractions/Helpers/Abstractions-AsyncHelper.md)
         * [BindHelper](Abstractions/Helpers/Abstractions-BindHelper.md)
-* Configuration
+* [Configuration](Configuration/Configuration.md)
+    * [Get settings](Configuration/Configuration-Get-settings.md.md)
+    * [Set settings](Configuration/Configuration-Set-settings.md.md)
+    * [Customization](Configuration/Configuration-Customization.md.md)
 * [Domain](Domain/Domain.md)
     * [Entities](Domain/Domain-Entities.md)
     * [Value objects](Domain/Domain-ValueObjects.md)
