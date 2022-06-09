@@ -3,7 +3,7 @@ using System;
 namespace Structr.Validation
 {
     /// <summary>
-    /// Represents failures that occur during validation execution.
+    /// Represents failures that occur during validation.
     /// </summary>
     public class ValidationException : Exception
     {
