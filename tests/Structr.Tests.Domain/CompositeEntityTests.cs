@@ -68,5 +68,35 @@ namespace Structr.Tests.Domain
                 Add(userRole1, userRole3, false);
             }
         }
+
+        [Fact]
+        public void IsTransient()
+        {
+            // Arrange
+            var user = new User(1, "Ivanov I.I.", new Address());
+            var role = new Role(RoleId.Admin, "Admin");
+            var userRole = new UserRole(user, role);
+
+            // Act
+            bool result = userRole.IsTransient();
+
+            // Assert
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void ToStringTest()
+        {
+            // Arrange
+            var user = new User(1, "Ivanov I.I.", new Address());
+            var role = new Role(RoleId.Admin, "Admin");
+            var userRole = new UserRole(user, role);
+
+            // Act
+            var result = userRole.ToString();
+
+            // Assert
+            result.Should().Be("UserRole [UserId=1][RoleId=Admin]");
+        }
     }
 }
