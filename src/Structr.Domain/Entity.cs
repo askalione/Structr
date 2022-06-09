@@ -12,6 +12,9 @@ namespace Structr.Domain
     public abstract class Entity<TEntity> : IEquatable<TEntity>
         where TEntity : Entity<TEntity>
     {
+        /// <summary>
+        /// Cached hash code.
+        /// </summary>
         protected int? CachedHashCode;
 
         protected Entity()
@@ -19,7 +22,7 @@ namespace Structr.Domain
             if ((this as TEntity) == null)
             {
                 throw new InvalidOperationException(
-                    $"Entity \"{GetType()}\" specifies \"{typeof(TEntity).Name}\" as generic argument, it should be its own type");
+                    $"Entity \"{GetType()}\" specifies \"{typeof(TEntity).Name}\" as generic argument, but it should be its own type.");
             }
         }
 

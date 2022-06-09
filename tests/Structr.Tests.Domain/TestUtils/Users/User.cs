@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Structr.Tests.Domain.TestUtils.Users
 {
-    public class User : AuditableEntity<User, int>
+    public class User : Entity<User, int>
     {
-        public string Fio { get; private set; }
+        public string FullName { get; private set; }
         public Address Address { get; private set; }
 
         private HashSet<UserRole> _userRoles;
@@ -16,11 +16,11 @@ namespace Structr.Tests.Domain.TestUtils.Users
 
         private User() : base() { }
 
-        public User(int id, string fio, Address address) : this()
+        public User(int id, string fullName, Address address) : this()
         {
-            if (string.IsNullOrWhiteSpace(fio))
+            if (string.IsNullOrWhiteSpace(fullName))
             {
-                throw new ArgumentNullException(nameof(fio));
+                throw new ArgumentNullException(nameof(fullName));
             }
             if (address == null)
             {
@@ -28,7 +28,7 @@ namespace Structr.Tests.Domain.TestUtils.Users
             }
 
             Id = id;
-            Fio = fio.Trim();
+            FullName = fullName.Trim();
             Address = address;
 
             _userRoles = new HashSet<UserRole>();

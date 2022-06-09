@@ -29,7 +29,7 @@ namespace Structr.Tests.Domain
         [Theory]
         [ClassData(typeof(EqualsTheoryData))]
         [InlineData(null, null, true)]
-        public void EqualSign(Address address1, Address address2, bool expected)
+        public void EqualtyOp(Address address1, Address address2, bool expected)
         {
             // Act
             bool result = address1 == address2;
@@ -41,7 +41,7 @@ namespace Structr.Tests.Domain
         [Theory]
         [ClassData(typeof(EqualsTheoryData))]
         [InlineData(null, null, true)]
-        public void NotEqualSign(Address address1, Address address2, bool expected)
+        public void NotEqualtyOp(Address address1, Address address2, bool expected)
         {
             // Act
             bool result = address1 != address2;

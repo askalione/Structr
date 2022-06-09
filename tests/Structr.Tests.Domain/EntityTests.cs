@@ -1,9 +1,22 @@
+using Structr.Tests.Domain.TestUtils.Items;
+using Structr.Tests.Domain.TestUtils.Roles;
 using Structr.Tests.Domain.TestUtils.Users;
+using System;
 
 namespace Structr.Tests.Domain
 {
     public class EntityTests
     {
+        [Fact]
+        public void Ctor_throws_when_wrong_generic_parameter_was_specified()
+        {
+            // Act
+            Action act = () => new Item();
+
+            act.Should().ThrowExactly<InvalidOperationException>()
+                .WithMessage($"Entity \"*Item\" specifies \"User\" as generic argument, but it should be its own type.");
+        }
+
         [Theory]
         [InlineData(0, true)]
         [InlineData(1, false)]
@@ -33,7 +46,7 @@ namespace Structr.Tests.Domain
         [Theory]
         [ClassData(typeof(EqualsTheoryData))]
         [InlineData(null, null, true)]
-        public void EqualSign(User user1, User user2, bool expected)
+        public void EqualtyOp(User user1, User user2, bool expected)
         {
             // Act
             bool result = user1 == user2;
@@ -45,7 +58,7 @@ namespace Structr.Tests.Domain
         [Theory]
         [ClassData(typeof(EqualsTheoryData))]
         [InlineData(null, null, true)]
-        public void NotEqualSign(User user1, User user2, bool expected)
+        public void NotEqualtyOp(User user1, User user2, bool expected)
         {
             // Act
             bool result = user1 != user2;
@@ -70,6 +83,32 @@ namespace Structr.Tests.Domain
                 Add(user1, user3, false);
                 Add(user1, null, false);
                 Add(user4, user5, false);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(EqualsToObjectTheoryData))]
+        public void Equals_to_object(User user1, object object2, bool expected)
+        {
+            // Act
+            bool result = user1.Equals(object2);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        private class EqualsToObjectTheoryData : TheoryData<User, object, bool>
+        {
+            public EqualsToObjectTheoryData()
+            {
+                var user1 = new User(1, "Ivanov I.I.", new Address());
+                var user2 = new User(2, "Petrov I.I.", new Address());
+                var role = new Role(RoleId.Admin, "Admin");
+
+                Add(user1, user1, true);
+                Add(user1, user2, false);
+                Add(user1, role, false);
+
             }
         }
 
@@ -100,6 +139,19 @@ namespace Structr.Tests.Domain
                 Add(user1, user2, true);
                 Add(user1, user3, false);
             }
+        }
+
+        [Fact]
+        public void ToStringTest()
+        {
+            // Arrange
+            var user = new User(1, "Ivanov I.I.", new Address());
+
+            // Act
+            var result = user.ToString();
+
+            // Assert
+            result.Should().Be("User [Id=1]");
         }
     }
 }
