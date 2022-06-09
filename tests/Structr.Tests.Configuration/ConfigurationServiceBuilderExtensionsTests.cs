@@ -7,15 +7,14 @@ using Xunit;
 
 namespace Structr.Tests.Configuration
 {
-    [Collection("TestSettings")]
-    public class ConfigurationServiceBuilderExtensionsTests : IClassFixture<TestSettingsFixture>
+    [Collection("Tests with temp files")]
+    public class ConfigurationServiceBuilderExtensionsTests
     {
         [Fact]
         public void AddProvider_json()
         {
             // Arrange
-            var path = TestDataPath.Combine("settings.json");
-            var provider = new JsonSettingsProvider<TestSettings>(new SettingsProviderOptions(), path);
+            var provider = new JsonSettingsProvider<TestSettings>(new SettingsProviderOptions(), "Some path");
             var configurationBuilder = new ServiceCollection()
                 .AddConfiguration();
 
@@ -33,8 +32,7 @@ namespace Structr.Tests.Configuration
         public void AddProvider_xml()
         {
             // Arrange
-            var path = TestDataPath.Combine("settings.xml");
-            var provider = new XmlSettingsProvider<TestSettings>(new SettingsProviderOptions(), path);
+            var provider = new XmlSettingsProvider<TestSettings>(new SettingsProviderOptions(), "Some path");
             var configurationBuilder = new ServiceCollection()
                 .AddConfiguration();
 

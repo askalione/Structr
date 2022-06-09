@@ -5,14 +5,13 @@ using Structr.Tests.Configuration.TestUtils;
 using Structr.Tests.Configuration.TestUtils.Extensions;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Structr.Tests.Configuration.Providers
 {
-    [Collection("TestSettings")]
-    public class JsonSettingsProviderTests : IClassFixture<TestSettingsFixture>
+    [Collection("Tests with temp files")]
+    public class JsonSettingsProviderTests
     {
         [Fact]
         public void Ctor()
@@ -35,26 +34,13 @@ namespace Structr.Tests.Configuration.Providers
         }
 
         [Fact]
-        public void Ctor_throws_when_options_is_empty()
+        public void Ctor_throws_when_path_is_empty()
         {
             // Act
             Action act = () => new JsonSettingsProvider<TestSettings>(new SettingsProviderOptions(), "");
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>().WithMessage("*path*");
-        }
-
-        [Fact]
-        public void Ctor_throws_when_path_is_null()
-        {
-            // Arrange
-            var options = new SettingsProviderOptions();
-
-            // Act
-            Action act = () => new JsonSettingsProvider<TestSettings>(options, null);
-
-            // Assert
-            act.Should().ThrowExactly<ArgumentNullException>();
         }
 
         [Fact]
@@ -124,8 +110,8 @@ namespace Structr.Tests.Configuration.Providers
             settingsProvider.SetSettings(new TestSettings { FilePath = "X:\\readme123.txt" });
 
             // Assert
-            var json = await GetJsonAsync(path);
-            json.Should().Contain(@"""FilePath"": ""X:\\readme123.txt"""); // ???
+            var json = await TestDataManager.GetJsonAsync(path);
+            json.Should().Contain(@"""FilePath"": ""X:\\readme123.txt""");
         }
 
         [Fact]
@@ -139,8 +125,8 @@ namespace Structr.Tests.Configuration.Providers
             settingsProvider.SetSettings(new TestSettings { OwnerName = "Owner name" });
 
             // Assert
-            var json = await GetJsonAsync(path);
-            json.Should().Contain(@"""SomeOwnerNameAlias"": ""Owner name"""); // ???
+            var json = await TestDataManager.GetJsonAsync(path);
+            json.Should().Contain(@"""SomeOwnerNameAlias"": ""Owner name""");
         }
 
         [Fact]
@@ -155,7 +141,7 @@ namespace Structr.Tests.Configuration.Providers
 
             // Assert
             var settings = settingsProvider.GetSettings();
-            var json = await GetJsonAsync(path);
+            var json = await TestDataManager.GetJsonAsync(path);
             settings.ApiKey.Should().Be("123abc_qwerty&^");
             json.Should().NotContain("123abc_qwerty&^");
         }
@@ -173,25 +159,10 @@ namespace Structr.Tests.Configuration.Providers
             act.Should().ThrowExactly<ArgumentNullException>();
         }
 
-        private async Task<string> GetJsonAsync(string fileName)
-        {
-            return await File.ReadAllTextAsync(fileName);
-        }
-
         private async Task<JsonSettingsProvider<TestSettings>> GetSettingsProviderAsync(string fileName, params (string Name, string Value)[] data)
-        {
-            var options = new SettingsProviderOptions();
-            var path = string.IsNullOrEmpty(fileName) == false ? await GenerateJsonAsync(fileName, data) : "null";
-            var settingsProvider = new JsonSettingsProvider<TestSettings>(options, path);
-            return settingsProvider;
-        }
+            => await TestDataManager.GetSettingsJsonProviderAsync(this.GetType().Name + "+" + fileName, true, data);
 
-        private async Task<string> GenerateJsonAsync(string fileName, params (string Name, string Value)[] data)
-        {
-            fileName = TestDataPath.CombineWithTemp(this.GetType().Name + "+" + fileName + ".json");
-            var result = "{" + string.Join(",", data.Select(x => $"\"{x.Name}\": {x.Value}")) + "}";
-            await File.WriteAllTextAsync(fileName, result);
-            return fileName;
-        }
+        private async Task<JsonSettingsProvider<TestSettings>> GetSettingsProviderMoCacheAsync(string fileName, params (string Name, string Value)[] data)
+            => await TestDataManager.GetSettingsJsonProviderAsync(this.GetType().Name + "+" + fileName, false, data);
     }
 }

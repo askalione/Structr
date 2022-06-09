@@ -8,6 +8,7 @@ namespace Structr.Configuration
         /// <summary>
         /// Determines whether settings should be cached.
         /// </summary>
+        /// <remarks>If settings source was changed than all the same will reload settings despite of this property value.</remarks>
         public bool Cache { get; set; }
 
         /// <summary>

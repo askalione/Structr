@@ -1,5 +1,4 @@
 using Structr.Configuration;
-using System.Configuration;
 
 namespace Structr.Tests.Configuration.TestUtils
 {

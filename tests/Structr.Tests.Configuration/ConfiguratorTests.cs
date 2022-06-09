@@ -2,30 +2,31 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Configuration;
 using Structr.Tests.Configuration.TestUtils;
+using Structr.Tests.Configuration.TestUtils.Extensions;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Structr.Tests.Configuration
 {
-    [Collection("TestSettings")]
-    public class ConfiguratorTests : IClassFixture<TestSettingsFixture>
+    [Collection("Tests with temp files")]
+    public class ConfiguratorTests
     {
         [Fact]
         public void Ctor()
         {
             // Arrange
-            var path = TestDataPath.Combine("settings.json");
             var serviceProvider = new ServiceCollection()
                 .AddConfiguration()
-                .AddJson<TestSettings>(path)
+                .AddJson<TestSettings>("Some path")
                 .Services
                 .BuildServiceProvider();
 
             // Act
-            var result = new Configurator<TestSettings>(serviceProvider);
+            Action act = () => new Configurator<TestSettings>(serviceProvider);
 
             // Assert
-            result.Should().NotBeNull();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -55,10 +56,11 @@ namespace Structr.Tests.Configuration
         }
 
         [Fact]
-        public void Configure()
+        public async Task Configure()
         {
             // Arrange
-            var path = TestDataPath.Combine("settings.json");
+            var path = await TestDataManager.GenerateJsonFileAsync(nameof(ConfigurationTests) + nameof(Configure),
+                ("FilePath", @"""X:\\SomeOtherFile.txt"""));
             var serviceProvider = new ServiceCollection()
                 .AddConfiguration()
                 .AddJson<TestSettings>(path)
@@ -79,10 +81,9 @@ namespace Structr.Tests.Configuration
         public void Configure_throws_when_changes_are_null()
         {
             // Arrange
-            var path = TestDataPath.Combine("settings.json");
             var serviceProvider = new ServiceCollection()
                 .AddConfiguration()
-                .AddJson<TestSettings>(path)
+                .AddJson<TestSettings>("Some path")
                 .Services
                 .BuildServiceProvider();
             var configurator = serviceProvider.GetRequiredService<IConfigurator<TestSettings>>();

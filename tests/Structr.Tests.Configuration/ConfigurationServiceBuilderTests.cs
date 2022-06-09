@@ -1,14 +1,13 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Configuration;
-using Structr.Tests.Configuration.TestUtils;
 using System;
 using Xunit;
 
 namespace Structr.Tests.Configuration
 {
-    [Collection("TestSettings")]
-    public class ConfigurationServiceBuilderTests : IClassFixture<TestSettingsFixture>
+    [Collection("Tests with temp files")]
+    public class ConfigurationServiceBuilderTests
     {
         [Fact]
         public void Ctor()
@@ -20,7 +19,6 @@ namespace Structr.Tests.Configuration
             var result = new ConfigurationServiceBuilder(services);
 
             // Assert
-            result.Should().NotBeNull();
             result.Services.Should().BeEquivalentTo(services);
         }
 
