@@ -36,6 +36,14 @@ namespace Structr.Configuration.Providers
             };
         }
 
+        protected override void LogFirstAccess()
+        {
+            ValidatePathOrThrow();
+
+            var fileInfo = new FileInfo(Path);
+            _lastModifiedTime = fileInfo.LastWriteTime;
+        }
+
         protected override bool IsSettingsModified()
         {
             ValidatePathOrThrow();

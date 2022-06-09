@@ -100,6 +100,64 @@ namespace Structr.Tests.Configuration.Providers
         }
 
         [Fact]
+        public async Task GetSettings_doesnt_access_file_when_cache_turned_on()
+        {
+            // Arrange
+            var settingsProvider = await GetSettingsProviderAsync(nameof(GetSettings_doesnt_access_file_when_cache_turned_on),
+                ("FilePath", @"""X:\\readme.txt"""));
+            var path = settingsProvider.GetPath();
+
+            settingsProvider.GetSettings();
+            var firstAccessTime = File.GetLastAccessTime(path);
+
+            // Act
+            settingsProvider.GetSettings();
+
+            // Assert
+            var secondAccessTime = File.GetLastAccessTime(path);
+            secondAccessTime.Should().Be(firstAccessTime);
+        }
+
+        [Fact]
+        public async Task GetSettings_does_access_file_when_cache_turned_off()
+        {
+            // Arrange
+            var settingsProvider = await GetSettingsProviderNoCacheAsync(nameof(GetSettings_does_access_file_when_cache_turned_off),
+                ("FilePath", @"""X:\\readme.txt"""));
+            var path = settingsProvider.GetPath();
+
+            settingsProvider.GetSettings();
+            var firstAccessTime = File.GetLastAccessTime(path);
+
+            // Act
+            settingsProvider.GetSettings();
+
+            // Assert
+            var secondAccessTime = File.GetLastAccessTime(path);
+            secondAccessTime.Should().BeAfter(firstAccessTime);
+        }
+
+        [Fact]
+        public async Task GetSettings_tracks_modification_despite_cache_turned_on()
+        {
+            // Arrange
+            var settingsProvider = await GetSettingsProviderAsync(nameof(GetSettings_tracks_modification_despite_cache_turned_on),
+                ("FilePath", @"""X:\\readme.txt"""));
+            var fileName = Path.GetFileNameWithoutExtension(settingsProvider.GetPath());
+
+            settingsProvider.GetSettings();
+
+            await TestDataManager.GenerateJsonFileAsync(fileName,
+                ("FilePath", @"""X:\\readme_changed.txt"""));
+
+            // Act
+            var settingsAfterChanges = settingsProvider.GetSettings();
+
+            // Assert
+            settingsAfterChanges.FilePath.Should().Be(@"X:\readme_changed.txt");
+        }
+
+        [Fact]
         public async Task SetSettings_normal()
         {
             // Arrange            
@@ -141,8 +199,9 @@ namespace Structr.Tests.Configuration.Providers
 
             // Assert
             var settings = settingsProvider.GetSettings();
-            var json = await TestDataManager.GetJsonAsync(path);
             settings.ApiKey.Should().Be("123abc_qwerty&^");
+
+            var json = await TestDataManager.GetJsonAsync(path);
             json.Should().NotContain("123abc_qwerty&^");
         }
 
@@ -162,7 +221,7 @@ namespace Structr.Tests.Configuration.Providers
         private async Task<JsonSettingsProvider<TestSettings>> GetSettingsProviderAsync(string fileName, params (string Name, string Value)[] data)
             => await TestDataManager.GetSettingsJsonProviderAsync(this.GetType().Name + "+" + fileName, true, data);
 
-        private async Task<JsonSettingsProvider<TestSettings>> GetSettingsProviderMoCacheAsync(string fileName, params (string Name, string Value)[] data)
+        private async Task<JsonSettingsProvider<TestSettings>> GetSettingsProviderNoCacheAsync(string fileName, params (string Name, string Value)[] data)
             => await TestDataManager.GetSettingsJsonProviderAsync(this.GetType().Name + "+" + fileName, false, data);
     }
 }

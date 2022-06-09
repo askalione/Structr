@@ -35,6 +35,7 @@ namespace Structr.Configuration
             if (_options.Cache == false || _cache == null)
             {
                 _cache = LoadSettings();
+                LogFirstAccess();
             }
             else
             {
@@ -75,6 +76,11 @@ namespace Structr.Configuration
         /// </summary>
         /// <param name="settings">New settings</param>
         protected abstract void UpdateSettings(TSettings settings);
+
+        /// <summary>
+        /// Logs first access to source for further tracking of changes.
+        /// </summary>
+        protected abstract void LogFirstAccess();
 
         /// <summary>
         /// Determines whenever settings was modified and now differs from original values.

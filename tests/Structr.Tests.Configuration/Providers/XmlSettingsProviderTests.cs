@@ -4,6 +4,7 @@ using Structr.Configuration.Providers;
 using Structr.Tests.Configuration.TestUtils;
 using Structr.Tests.Configuration.TestUtils.Extensions;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -99,6 +100,64 @@ namespace Structr.Tests.Configuration.Providers
         }
 
         [Fact]
+        public async Task GetSettings_doesnt_access_file_when_cache_turned_on()
+        {
+            // Arrange
+            var settingsProvider = await GetSettingsProviderAsync(nameof(GetSettings_doesnt_access_file_when_cache_turned_on),
+                ("FilePath", @"X:\readme.txt"));
+            var path = settingsProvider.GetPath();
+
+            settingsProvider.GetSettings();
+            var firstAccessTime = File.GetLastAccessTime(path);
+
+            // Act
+            settingsProvider.GetSettings();
+
+            // Assert
+            var secondAccessTime = File.GetLastAccessTime(path);
+            secondAccessTime.Should().Be(firstAccessTime);
+        }
+
+        [Fact]
+        public async Task GetSettings_does_access_file_when_cache_turned_off()
+        {
+            // Arrange
+            var settingsProvider = await GetSettingsProviderNoCacheAsync(nameof(GetSettings_does_access_file_when_cache_turned_off),
+                ("FilePath", @"X:\readme.txt"));
+            var path = settingsProvider.GetPath();
+
+            settingsProvider.GetSettings();
+            var firstAccessTime = File.GetLastAccessTime(path);
+
+            // Act
+            settingsProvider.GetSettings();
+
+            // Assert
+            var secondAccessTime = File.GetLastAccessTime(path);
+            secondAccessTime.Should().BeAfter(firstAccessTime);
+        }
+
+        [Fact]
+        public async Task GetSettings_tracks_modification_despite_cache_turned_on()
+        {
+            // Arrange
+            var settingsProvider = await GetSettingsProviderAsync(nameof(GetSettings_tracks_modification_despite_cache_turned_on),
+                ("FilePath", @"X:\readme.txt"));
+            var fileName = Path.GetFileNameWithoutExtension(settingsProvider.GetPath());
+
+            settingsProvider.GetSettings();
+
+            await TestDataManager.GenerateXmlFileAsync(fileName,
+                ("FilePath", @"X:\readme_changed.txt"));
+
+            // Act
+            var settingsAfterChanges = settingsProvider.GetSettings();
+
+            // Assert
+            settingsAfterChanges.FilePath.Should().Be(@"X:\readme_changed.txt");
+        }
+
+        [Fact]
         public async Task SetSettings_normal()
         {
             // Arrange            
@@ -109,8 +168,8 @@ namespace Structr.Tests.Configuration.Providers
             settingsProvider.SetSettings(new TestSettings { FilePath = "X:\\readme123.txt" });
 
             // Assert
-            var json = await TestDataManager.GetXmlAsync(path);
-            json.Should().Contain(@"<FilePath>X:\readme123.txt</FilePath>");
+            var xml = await TestDataManager.GetXmlAsync(path);
+            xml.Should().Contain(@"<FilePath>X:\readme123.txt</FilePath>");
         }
 
         [Fact]
@@ -124,8 +183,8 @@ namespace Structr.Tests.Configuration.Providers
             settingsProvider.SetSettings(new TestSettings { OwnerName = "Owner name" });
 
             // Assert
-            var json = await TestDataManager.GetXmlAsync(path);
-            json.Should().Contain(@"<SomeOwnerNameAlias>Owner name</SomeOwnerNameAlias>");
+            var xml = await TestDataManager.GetXmlAsync(path);
+            xml.Should().Contain(@"<SomeOwnerNameAlias>Owner name</SomeOwnerNameAlias>");
         }
 
         [Fact]
@@ -140,9 +199,10 @@ namespace Structr.Tests.Configuration.Providers
 
             // Assert
             var settings = settingsProvider.GetSettings();
-            var json = await TestDataManager.GetXmlAsync(path);
             settings.ApiKey.Should().Be("123abc_qwerty&^");
-            json.Should().NotContain("123abc_qwerty&^");
+
+            var xml = await TestDataManager.GetXmlAsync(path);
+            xml.Should().NotContain("123abc_qwerty&^");
         }
 
         [Fact]
@@ -161,7 +221,7 @@ namespace Structr.Tests.Configuration.Providers
         private async Task<XmlSettingsProvider<TestSettings>> GetSettingsProviderAsync(string fileName, params (string Name, string Value)[] data)
             => await TestDataManager.GetSettingsXmlProviderAsync(this.GetType().Name + "+" + fileName, true, data);
 
-        private async Task<XmlSettingsProvider<TestSettings>> GetSettingsProviderMoCacheAsync(string fileName, params (string Name, string Value)[] data)
+        private async Task<XmlSettingsProvider<TestSettings>> GetSettingsProviderNoCacheAsync(string fileName, params (string Name, string Value)[] data)
             => await TestDataManager.GetSettingsXmlProviderAsync(this.GetType().Name + "+" + fileName, false, data);
     }
 }
