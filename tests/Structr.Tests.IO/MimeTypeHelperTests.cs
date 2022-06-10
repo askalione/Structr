@@ -9,22 +9,13 @@ namespace Structr.Tests.IO
     public class MimeTypeHelperTests
     {
         [Theory]
-        [InlineData(".323", "text/h323")]
-        [InlineData(".aiff", "audio/aiff")]
-        [InlineData(".bcpio", "application/x-bcpio")]
-        [InlineData(".c", "text/plain")]
-        [InlineData(".csproj", "text/plain")]
-        [InlineData(".css", "text/css")]
+        [InlineData(".doc", "application/msword")]
+        [InlineData(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")]
+        [InlineData(".jpeg", "image/jpeg")]
+        [InlineData(".jpg", "image/jpeg")]
+        [InlineData(".png", "image/png")]
         [InlineData(".csv", "text/csv")]
-        [InlineData(".hdml", "text/x-hdml")]
-        [InlineData(".ico", "image/x-icon")]
-        [InlineData(".odl", "text/plain")]
-        [InlineData(".psess", "application/xml")]
-        [InlineData("svg", "image/svg+xml")]
-        [InlineData(".xrm-ms", "text/xml")]
-        [InlineData(".mytestfileextension", "application/octet-stream")]
-        [InlineData("fictitiousfileextension", "application/octet-stream")]
-        [InlineData(".aaa", "application/octet-stream")]
+        [InlineData(".pdf", "application/pdf")]
         public void GetMimeType(string extension, string expected)
         {
             // Act
@@ -32,6 +23,26 @@ namespace Structr.Tests.IO
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void GetMimeType_when_extension_without_dot()
+        {
+            // Act
+            var result = MimeTypeHelper.GetMimeType("svg");
+
+            // Assert
+            result.Should().Be("image/svg+xml");
+        }
+
+        [Fact]
+        public void GetMimeType_if_no_mime_exists()
+        {
+            // Act
+            var result = MimeTypeHelper.GetMimeType(".mytestfileextension");
+
+            // Assert
+            result.Should().Be("application/octet-stream");
         }
 
         [Theory]
@@ -51,8 +62,7 @@ namespace Structr.Tests.IO
         [InlineData("application/octet-stream", ".bin")]
         [InlineData("application/vnd.ms-excel", ".xls")]
         [InlineData("application/x-zip-compressed", ".zip")]
-        [InlineData("image/pict", ".pic")]
-        [InlineData("video/mp4", ".mp4")]
+        [InlineData("application/pdf", ".pdf")]
         public void GetExtension(string mimeType, string expected)
         {
             // Act
@@ -96,13 +106,13 @@ namespace Structr.Tests.IO
         }
 
         [Fact]
-        public void GetExtension_return_empty_string_when_mimeType_not_found_and_throwIfNotFound_false()
+        public void GetExtension_return_empty_string_when_mimeType_not_found()
         {
             // Act
             var result = MimeTypeHelper.GetExtension("my-test-mime-type", false);
 
             // Assert
-            result.Should().Be(string.Empty);
+            result.Should().BeEmpty();
         }
 
         [Theory]

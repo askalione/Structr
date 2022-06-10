@@ -12,7 +12,7 @@ namespace Structr.Tests.IO.TestUtils
 
         public static string ContentRootPath => System.IO.Path.Combine(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName,
-            "TestData");
+                "TestData");
 
         public static string Combine(string fileName)
             => System.IO.Path.Combine(ContentRootPath, fileName);

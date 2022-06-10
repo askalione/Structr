@@ -18,7 +18,20 @@ namespace Structr.Tests.IO
         }
 
         [Fact]
-        public void NewFileName_with_param()
+        public void NewFileName_generates_new_value_each_run()
+        {
+            // Arrange
+            var firstRunResult = SequentialFileName.NewFileName();
+
+            // Act
+            var secondRunResult = SequentialFileName.NewFileName();
+
+            // Assert
+            secondRunResult.Should().NotBe(firstRunResult);
+        }
+
+        [Fact]
+        public void NewFileName_from_existing_file_name()
         {
             // Act
             var result = SequentialFileName.NewFileName("readme.txt");
