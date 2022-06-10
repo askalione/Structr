@@ -11,30 +11,24 @@ namespace Structr.Tests.IO
 {
     public class FileHelperTests : IClassFixture<FileHelperFixture>
     {
-        FileHelperFixture _fixture;
-
-        public FileHelperTests(FileHelperFixture fixture)
+        public FileHelperTests()
         {
-            _fixture = fixture;
+            FileHelperFixture.DeleteTestFiles();
         }
 
         [Fact]
         public void SaveFile()
         {
             // Arrange
-            if (File.Exists(_fixture.Path))
-            {
-                File.Delete(_fixture.Path);
-            }
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
 
             // Act
-            var filePath = FileHelper.SaveFile(_fixture.Path, bytes, true, true);
+            var filePath = FileHelper.SaveFile(TestDataPath.Path, bytes);
 
             // Assert
-            filePath.Should().Be(_fixture.Path);
+            filePath.Should().Be(TestDataPath.Path);
             File.Exists(filePath).Should().BeTrue();
-            File.ReadAllText(filePath).Should().Be(_fixture.Text);
+            File.ReadAllText(filePath).Should().Be(_text);
         }
 
         [Theory]
@@ -44,7 +38,7 @@ namespace Structr.Tests.IO
         public void SaveFile_throws_when_path_is_null_or_empty_with_whitespace(string path)
         {
             // Arrange
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
 
             // Act
             Action act = () => FileHelper.SaveFile(path, bytes);
@@ -57,74 +51,85 @@ namespace Structr.Tests.IO
         public void SaveFile_throws_when_bytes_is_null()
         {
             // Act
-            Action act = () => FileHelper.SaveFile(_fixture.Path, null);
+            Action act = () => FileHelper.SaveFile(TestDataPath.Path, null);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
         }
 
         [Fact]
-        public void SaveFile_throws_if_file_already_exist()
+        public void SaveFile_creates_directory_if_not_exist()
         {
             // Arrange
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
 
             // Act
-            Action act = () => FileHelper.SaveFile(_fixture.Path, bytes);
+            var filePath = FileHelper.SaveFile(TestDataPath.NonExistentPath, bytes, true);
 
             // Assert
-            act.Should().ThrowExactly<InvalidOperationException>();
+            filePath.Should().Be(TestDataPath.NonExistentPath);
+            File.Exists(filePath).Should().BeTrue();
+            File.ReadAllText(filePath).Should().Be(_text);
         }
 
         [Fact]
         public void SaveFile_throws_if_directory_not_exist()
         {
             // Arrange
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
 
             // Act
-            Action act = () => FileHelper.SaveFile(_fixture.NonExistentPath, bytes, false);
+            Action act = () => FileHelper.SaveFile(TestDataPath.NonExistentPath, bytes, false);
 
             // Assert
             act.Should().ThrowExactly<InvalidOperationException>();
         }
 
         [Fact]
-        public void SaveFile_with_unique_file_name()
+        public void SaveFile_creates_file_with_sequential_name_if_exists()
         {
             // Arrange
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            AddTestFile();
+            byte[] bytes = Encoding.UTF8.GetBytes("Some new text");
 
             // Act
-            var filePath = FileHelper.SaveFile(_fixture.Path, bytes, true, true);
+            var filePath = FileHelper.SaveFile(TestDataPath.Path, bytes,
+                useSequentialFileNameIfExists: true);
 
             // Assert
-            filePath.Should().Be(_fixture.NextUniquePath);
-            File.Exists(_fixture.NextUniquePath).Should().BeTrue();
-            File.ReadAllText(_fixture.NextUniquePath).Should().Be(_fixture.Text);
-            if (File.Exists(_fixture.NextUniquePath))
-            {
-                File.Delete(_fixture.NextUniquePath);
-            }
+            filePath.Should().Be(TestDataPath.NextUniquePath);
+            File.Exists(filePath).Should().BeTrue();
+            File.ReadAllText(filePath).Should().Be("Some new text");
+        }
+
+        [Fact]
+        public void SaveFile_throws_if_file_already_exist()
+        {
+            // Arrange
+            AddTestFile();
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
+
+            // Act
+            Action act = () => FileHelper.SaveFile(TestDataPath.Path, bytes,
+                useSequentialFileNameIfExists: false);
+
+            // Assert
+            act.Should().ThrowExactly<InvalidOperationException>();
         }
 
         [Fact]
         public async Task SaveFileAsync()
         {
             // Arrange
-            if (File.Exists(_fixture.Path))
-            {
-                File.Delete(_fixture.Path);
-            }
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
 
             // Act
-            var filePath = await FileHelper.SaveFileAsync(_fixture.Path, bytes, true, true);
+            var filePath = await FileHelper.SaveFileAsync(TestDataPath.Path, bytes);
 
             // Assert
-            filePath.Should().Be(_fixture.Path);
+            filePath.Should().Be(TestDataPath.Path);
             File.Exists(filePath).Should().BeTrue();
-            File.ReadAllText(filePath).Should().Be(_fixture.Text);
+            File.ReadAllText(filePath).Should().Be(_text);
         }
 
         [Theory]
@@ -134,7 +139,7 @@ namespace Structr.Tests.IO
         public async Task SaveFileAsync_throws_when_path_is_null_or_empty_with_whitespace(string path)
         {
             // Arrange
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
 
             // Act
             Func<Task> act = async () => await FileHelper.SaveFileAsync(path, bytes);
@@ -147,65 +152,83 @@ namespace Structr.Tests.IO
         public async Task SaveFileAsync_throws_when_bytes_is_null()
         {
             // Act
-            Func<Task> act = async () => await FileHelper.SaveFileAsync(_fixture.Path, null);
+            Func<Task> act = async () => await FileHelper.SaveFileAsync(TestDataPath.Path, null);
 
             // Assert
             await act.Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
         [Fact]
-        public async Task SaveFileAsync_throws_if_file_already_exist()
+        public async Task SaveFileAsync_creates_directory_if_not_exist()
         {
             // Arrange
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
 
             // Act
-            Func<Task> act = async () => await FileHelper.SaveFileAsync(_fixture.Path, bytes);
+            var filePath = await FileHelper.SaveFileAsync(TestDataPath.NonExistentPath, bytes, true);
 
             // Assert
-            await act.Should().ThrowExactlyAsync<InvalidOperationException>();
+            filePath.Should().Be(TestDataPath.NonExistentPath);
+            File.Exists(filePath).Should().BeTrue();
+            File.ReadAllText(filePath).Should().Be(_text);
         }
 
         [Fact]
         public async Task SaveFileAsync_throws_if_directory_not_exist()
         {
             // Arrange
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
 
             // Act
-            Func<Task> act = async () => await FileHelper.SaveFileAsync(_fixture.NonExistentPath, bytes, false);
+            Func<Task> act = async () => await FileHelper.SaveFileAsync(TestDataPath.NonExistentPath, bytes, false);
 
             // Assert
             await act.Should().ThrowExactlyAsync<InvalidOperationException>();
         }
 
         [Fact]
-        public async Task SaveFileAsync_with_unique_file_name()
+        public async Task SaveFileAsync_creates_file_with_sequential_name_if_exists()
         {
             // Arrange
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            AddTestFile();
+            byte[] bytes = Encoding.UTF8.GetBytes("Some new text");
 
             // Act
-            var filePath = await FileHelper.SaveFileAsync(_fixture.Path, bytes, true, true);
+            var filePath = await FileHelper.SaveFileAsync(TestDataPath.Path, bytes,
+                useSequentialFileNameIfExists: true);
 
             // Assert
-            filePath.Should().Be(_fixture.NextUniquePath);
-            File.Exists(_fixture.NextUniquePath).Should().BeTrue();
-            File.ReadAllText(_fixture.NextUniquePath).Should().Be(_fixture.Text);
-            if (File.Exists(_fixture.NextUniquePath))
-            {
-                File.Delete(_fixture.NextUniquePath);
-            }
+            filePath.Should().Be(TestDataPath.NextUniquePath);
+            File.Exists(TestDataPath.NextUniquePath).Should().BeTrue();
+            File.ReadAllText(TestDataPath.NextUniquePath).Should().Be("Some new text");
+        }
+
+        [Fact]
+        public async Task SaveFileAsync_throws_if_file_already_exist()
+        {
+            // Arrange
+            AddTestFile();
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
+
+            // Act
+            Func<Task> act = async () => await FileHelper.SaveFileAsync(TestDataPath.Path, bytes,
+                useSequentialFileNameIfExists: false);
+
+            // Assert
+            await act.Should().ThrowExactlyAsync<InvalidOperationException>();
         }
 
         [Fact]
         public void ReadFile()
         {
+            // Arrange
+            AddTestFile();
+
             // Act
-            var result = FileHelper.ReadFile(_fixture.Path);
+            var result = FileHelper.ReadFile(TestDataPath.Path);
 
             // Assert
-            Encoding.UTF8.GetString(result).Should().Be(_fixture.Text);
+            Encoding.UTF8.GetString(result).Should().Be(_text);
         }
 
         [Theory]
@@ -225,7 +248,7 @@ namespace Structr.Tests.IO
         public void ReadFile_file_not_exist()
         {
             // Act
-            var result = FileHelper.ReadFile(_fixture.NonExistentPath, false);
+            var result = FileHelper.ReadFile(TestDataPath.NonExistentPath, false);
 
             // Assert
             result.Should().BeNull();
@@ -234,11 +257,14 @@ namespace Structr.Tests.IO
         [Fact]
         public async Task ReadFileAsync()
         {
+            // Arrange
+            AddTestFile();
+
             // Act
-            var result = await FileHelper.ReadFileAsync(_fixture.Path);
+            var result = await FileHelper.ReadFileAsync(TestDataPath.Path);
 
             // Assert
-            Encoding.UTF8.GetString(result).Should().Be(_fixture.Text);
+            Encoding.UTF8.GetString(result).Should().Be(_text);
         }
 
         [Theory]
@@ -258,7 +284,7 @@ namespace Structr.Tests.IO
         public async Task ReadFileAsync_file_not_exist()
         {
             // Act
-            var result = await FileHelper.ReadFileAsync(_fixture.NonExistentPath, false);
+            var result = await FileHelper.ReadFileAsync(TestDataPath.NonExistentPath, false);
 
             // Assert
             result.Should().BeNull();
@@ -269,7 +295,7 @@ namespace Structr.Tests.IO
         {
             // Arrange
             Stream stream = new MemoryStream();
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
             foreach (var @byte in bytes)
             {
                 stream.WriteByte(@byte);
@@ -279,7 +305,7 @@ namespace Structr.Tests.IO
             var result = FileHelper.ReadFile(stream);
 
             // Assert
-            Encoding.UTF8.GetString(result).Should().Be(_fixture.Text);
+            Encoding.UTF8.GetString(result).Should().Be(_text);
         }
 
         [Fact]
@@ -297,7 +323,7 @@ namespace Structr.Tests.IO
         {
             // Arrange
             Stream stream = new MemoryStream();
-            byte[] bytes = Encoding.UTF8.GetBytes(_fixture.Text);
+            byte[] bytes = Encoding.UTF8.GetBytes(_text);
             foreach (var @byte in bytes)
             {
                 stream.WriteByte(@byte);
@@ -307,7 +333,7 @@ namespace Structr.Tests.IO
             var result = await FileHelper.ReadFileAsync(stream);
 
             // Assert
-            Encoding.UTF8.GetString(result).Should().Be(_fixture.Text);
+            Encoding.UTF8.GetString(result).Should().Be(_text);
         }
 
         [Fact]
@@ -323,12 +349,14 @@ namespace Structr.Tests.IO
         [Fact]
         public void DeleteFile()
         {
+            // Arrange
+            AddTestFile();
+
             // Act
-            FileHelper.DeleteFile(_fixture.Path);
+            FileHelper.DeleteFile(TestDataPath.Path);
 
             // Assert
-            File.Exists(_fixture.Path).Should().BeFalse();
-            File.WriteAllText(_fixture.Path, _fixture.Text);
+            File.Exists(TestDataPath.Path).Should().BeFalse();
         }
 
         [Theory]
@@ -345,13 +373,21 @@ namespace Structr.Tests.IO
         }
 
         [Fact]
-        public void GetFilePathWithUniqueFileName()
+        public void GetFilePathWithSequentialFileName()
         {
+            // Arrange
+            AddTestFile();
+
             // Act
-            var result = FileHelper.GetFilePathWithUniqueFileName(_fixture.Path);
+            var result = FileHelper.GetFilePathWithSequentialFileName(TestDataPath.Path);
 
             // Assert
-            result.Should().Be(_fixture.NextUniquePath);
+            result.Should().Be(TestDataPath.NextUniquePath);
         }
+
+        private const string _text = "Hello world!";
+
+        private static void AddTestFile(string text = _text)
+            => File.WriteAllText(TestDataPath.Path, text);
     }
 }

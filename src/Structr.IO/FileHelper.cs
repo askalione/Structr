@@ -19,7 +19,7 @@ namespace Structr.IO
         public static string SaveFile(string path,
             byte[] bytes,
             bool createDirIfNotExists = true,
-            bool overrideFileIfExists = false)
+            bool useSequentialFileNameIfExists = false)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -35,20 +35,26 @@ namespace Structr.IO
             string dir = Path.GetDirectoryName(filePath);
             if (Directory.Exists(dir) == false)
             {
-                if (createDirIfNotExists == false)
+                if (createDirIfNotExists)
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                else
                 {
                     throw new InvalidOperationException($"Directory \"{dir}\" was not found.");
                 }
-                Directory.CreateDirectory(dir);
             }
 
             if (File.Exists(filePath))
             {
-                if (overrideFileIfExists == false)
+                if (useSequentialFileNameIfExists)
+                {
+                    filePath = GetFilePathWithSequentialFileName(filePath);
+                }
+                else
                 {
                     throw new InvalidOperationException($"File \"{filePath}\" already exists.");
                 }
-                filePath = GetFilePathWithUniqueFileName(filePath);
             }
 
             File.WriteAllBytes(filePath, bytes);
@@ -61,17 +67,17 @@ namespace Structr.IO
         /// <param name="path">The absolute file path to save to.</param>
         /// <param name="bytes">The bytes to save to the file.</param>
         /// <param name="createDirIfNotExists">The flag indicates to create destination directory if not exists.</param>
-        /// <param name="overrideFileIfExists">The flag indicates to override destination file if exists.</param>
+        /// <param name="useSequentialFileNameIfExists">The flag indicates that target file name should be changed by adding sequential postfix if file with specfied name already exists.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
         /// <returns>A task that represents the asynchronous save operation, which wraps the absolute path to the saved file.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="bytes"/> is <see langword="null"/>.</exception>
         /// <exception cref="InvalidOperationException">If directory <paramref name="dir"/> was not found and <paramref name="createDirIfNotExists"/> is <see langword="false"/>.</exception>
-        /// <exception cref="InvalidOperationException">If file <paramref name="filePath"/> already exists and <paramref name="overrideFileIfExists"/> is <see langword="false"/>.</exception>
+        /// <exception cref="InvalidOperationException">If file <paramref name="filePath"/> already exists and <paramref name="useSequentialFileNameIfExists"/> is <see langword="false"/>.</exception>
         public static async Task<string> SaveFileAsync(string path,
             byte[] bytes,
             bool createDirIfNotExists = true,
-            bool overrideFileIfExists = false,
+            bool useSequentialFileNameIfExists = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -88,20 +94,26 @@ namespace Structr.IO
             string dir = Path.GetDirectoryName(filePath);
             if (Directory.Exists(dir) == false)
             {
-                if (createDirIfNotExists == false)
+                if (createDirIfNotExists)
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                else
                 {
                     throw new InvalidOperationException($"Directory \"{dir}\" was not found.");
                 }
-                Directory.CreateDirectory(dir);
             }
 
             if (File.Exists(filePath))
             {
-                if (overrideFileIfExists == false)
+                if (useSequentialFileNameIfExists)
+                {
+                   filePath = GetFilePathWithSequentialFileName(filePath); 
+                }
+                else
                 {
                     throw new InvalidOperationException($"File \"{filePath}\" already exists.");
                 }
-                filePath = GetFilePathWithUniqueFileName(filePath);
             }
 
             await AsyncFile.WriteAllBytesAsync(filePath, bytes, cancellationToken);
@@ -302,11 +314,11 @@ namespace Structr.IO
         }
 
         /// <summary>
-        /// Returns an absolute path with variable destination file name with unique postfix
+        /// Returns an absolute path with variable destination file name with sequential postfix
         /// e.g. ("file_1.txt", "file_2.txt").
         /// </summary>
         /// <param name="path">The absolute file path.</param>
-        public static string GetFilePathWithUniqueFileName(string path)
+        public static string GetFilePathWithSequentialFileName(string path)
         {
             string fileNameOnly = Path.GetFileNameWithoutExtension(path);
             string fileExtension = Path.GetExtension(path);
