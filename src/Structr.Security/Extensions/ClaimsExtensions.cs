@@ -197,7 +197,7 @@ namespace Structr.Security.Extensions
             string claimValue = identity.FindFirstValue(type);
             if (string.IsNullOrEmpty(claimValue))
             {
-                throw new InvalidOperationException($"Claim with type \"{typeof(T).Name}\" not found.");
+                throw new InvalidOperationException($"Claim with type \"{type}\" not found.");
             }
             T value = CastClaimValueOrThrow<T>(claimValue);
 
