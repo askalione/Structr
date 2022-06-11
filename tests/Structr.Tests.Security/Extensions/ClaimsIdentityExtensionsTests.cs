@@ -113,8 +113,12 @@ namespace Structr.Tests.Security.Extensions
         [InlineData(null)]
         public void SetClaim_throws_when_type_is_null_or_empty(string type)
         {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
+
             // Act
-            Action act = () => new ClaimsIdentity().SetClaim(type, "Value");
+            Action act = () => claimsIdentity.SetClaim(type, "Value");
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage("*type*");
@@ -172,18 +176,23 @@ namespace Structr.Tests.Security.Extensions
         [InlineData(null)]
         public void SetClaims_throws_when_type_is_null_or_empty(string type)
         {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
+
             // Act
-            Action act = () => new ClaimsIdentity().SetClaims(type, new string[] { "new Value 1", "new Value 2" });
+            Action act = () => claimsIdentity.SetClaims(type, new string[] { "new Value 1", "new Value 2" });
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage("*type*");
         }
 
         [Fact]
-        public void SetClaims_throws_when_values_is_null()
+        public void SetClaims_throws_when_values_are_null()
         {
             // Arrange
             var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
 
             // Act
             Action act = () => claimsIdentity.SetClaims("Type", null);
@@ -228,6 +237,7 @@ namespace Structr.Tests.Security.Extensions
         {
             // Arrange
             var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
 
             // Act
             Action act = () => claimsIdentity.RemoveAllClaims(type);
@@ -238,6 +248,7 @@ namespace Structr.Tests.Security.Extensions
 
         [Theory]
         [InlineData("Type_2", "Value_21")]
+        [InlineData("tYPE_2", "Value_21")]
         [InlineData("Type_3", null)]
         public void FindFirstValue(string type, string expected)
         {
@@ -274,6 +285,7 @@ namespace Structr.Tests.Security.Extensions
         {
             // Arrange
             var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
 
             // Act
             Action act = () => claimsIdentity.FindFirstValue(type);
@@ -291,6 +303,7 @@ namespace Structr.Tests.Security.Extensions
             claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
             claimsIdentity.AddClaim(new Claim("Type_2", "Value_21"));
             claimsIdentity.AddClaim(new Claim("Type_2", "Value_22"));
+            claimsIdentity.AddClaim(new Claim("Type_2", "Value_22"));
 
             // Act
             var result = claimsIdentity.FindAllValues(type);
@@ -302,7 +315,7 @@ namespace Structr.Tests.Security.Extensions
         {
             public FindAllValuesTheoryData()
             {
-                Add("Type_2", new string[] { "Value_21", "Value_22" });
+                Add("Type_2", new string[] { "Value_21", "Value_22", "Value_22" });
                 Add("Type_3", new string[] { });
             }
         }
@@ -327,6 +340,7 @@ namespace Structr.Tests.Security.Extensions
         {
             // Arrange
             var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
 
             // Act
             Action act = () => claimsIdentity.FindAllValues(type);
@@ -335,8 +349,42 @@ namespace Structr.Tests.Security.Extensions
             act.Should().Throw<ArgumentNullException>().WithMessage("*type*");
         }
 
+        [Theory]
+        [InlineData("Type_1", 1)]
+        [InlineData("Type_2", 3)]
+        [InlineData("tYPE_2", 3)]
+        public void GetFirstValue(string type, int expected)
+        {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "1"));
+            claimsIdentity.AddClaim(new Claim("Type_2", "3"));
+            claimsIdentity.AddClaim(new Claim("Type_2", "4"));
+
+            // Act
+            var result = claimsIdentity.GetFirstValue<int>(type);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
         [Fact]
-        public void GetFirstValue()
+        public void GetFirstValue_throws_when_nothing_found()
+        {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
+
+            // Act
+            Action act = () => claimsIdentity.GetFirstValue<int>("Type_2");
+
+            // Assert
+            act.Should().ThrowExactly<InvalidOperationException>()
+                .WithMessage("Claim with type \"Type_2\" not found.");
+        }
+
+        [Fact]
+        public void GetFirstValue_throws_when_cast_is_invalid()
         {
             // Arrange
             var claimsIdentity = new ClaimsIdentity();
@@ -345,24 +393,151 @@ namespace Structr.Tests.Security.Extensions
             claimsIdentity.AddClaim(new Claim("Type_2", "Value_22"));
 
             // Act
-            var result = claimsIdentity.FindFirstValue("Type_2");
-
-            // Assert
-            result.Should().Be("Value_21");
-        }
-
-        [Fact]
-        public void GetFirstValue_throws_when_nothing_found()
-        {
-            // Arrange
-            var claimsIdentity = new ClaimsIdentity();
-
-            // Act
             Action act = () => claimsIdentity.GetFirstValue<int>("Type_2");
 
             // Assert
-            act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Claim with type \"Type_2\" not found.");
+            act.Should().ThrowExactly<InvalidCastException>()
+                .WithMessage("Claim value \"Value_21\" cast to \"Int32\" is not valid.");
+        }
+
+        [Theory]
+        [InlineData("", 0, false)]
+        [InlineData("abc", 0, false)]
+        [InlineData("3", 3, true)]
+        public void TryGetFirstValue(string val, int expectedVal, bool expected)
+        {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "1"));
+            claimsIdentity.AddClaim(new Claim("Type_2", val));
+            claimsIdentity.AddClaim(new Claim("Type_2", "4"));
+
+            // Act
+            var result = claimsIdentity.TryGetFirstValue("Type_2", out int parsedVal);
+
+            // Assert
+            result.Should().Be(expected);
+            parsedVal.Should().Be(expectedVal);
+        }
+
+        [Fact]
+        public void TryGetFirstValue_when_type_not_found()
+        {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
+
+            // Act
+            var result = claimsIdentity.TryGetFirstValue("Type_2", out int parsedVal);
+
+            // Assert
+            result.Should().BeFalse();
+            parsedVal.Should().Be(0);
+        }
+
+        [Theory]
+        [ClassData(typeof(FindAllValuesGenericTheoryData))]
+        public void FindAllValuesGeneric(string type, IEnumerable<int> expected)
+        {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "1"));
+            claimsIdentity.AddClaim(new Claim("Type_2", "3"));
+            claimsIdentity.AddClaim(new Claim("tYPE_2", "4"));
+            claimsIdentity.AddClaim(new Claim("tYPE_2", "4"));
+            claimsIdentity.AddClaim(new Claim("Type_2", "abc"));
+
+            // Act
+            var result = claimsIdentity.FindAllValues<int>(type);
+
+            // Assert
+            result.Should().BeEquivalentTo(expected);
+        }
+        private class FindAllValuesGenericTheoryData : TheoryData<string, IEnumerable<int>>
+        {
+            public FindAllValuesGenericTheoryData()
+            {
+                Add("Type_2", new int[] { 3, 4, 4 });
+                Add("Type_3", new int[] { });
+            }
+        }
+
+        [Fact]
+        public void FindAllValuesGeneric_throws_when_identity_is_null()
+        {
+            // Arrange
+            ClaimsIdentity claimsIdentity = null!;
+
+            // Act
+            Action act = () => claimsIdentity.FindAllValues<int>("Type");
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*identity*");
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public void FindAllValuesGeneric_throws_when_type_is_null_or_empty(string type)
+        {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
+
+            // Act
+            Action act = () => claimsIdentity.FindAllValues<int>(type);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*type*");
+        }
+
+        [Theory]
+        [InlineData("Type_1", true)]
+        [InlineData("Type_2", true)]
+        [InlineData("tYPE_2", true)]
+        [InlineData("Type_3", false)]
+        public void HasClaim(string type, bool expected)
+        {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "1"));
+            claimsIdentity.AddClaim(new Claim("Type_2", "3"));
+            claimsIdentity.AddClaim(new Claim("Type_2", "4"));
+
+            // Act
+            var result = claimsIdentity.HasClaim(type);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void HasClaim_throws_when_identity_is_null()
+        {
+            // Arrange
+            ClaimsIdentity claimsIdentity = null!;
+
+            // Act
+            Action act = () => claimsIdentity.HasClaim("Type");
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*identity*");
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public void HasClaim_throws_when_type_is_null_or_empty(string type)
+        {
+            // Arrange
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim("Type_1", "Value_11"));
+
+            // Act
+            Action act = () => claimsIdentity.HasClaim(type);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*type*");
         }
     }
 }

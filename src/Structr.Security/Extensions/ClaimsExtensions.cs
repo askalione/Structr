@@ -285,7 +285,7 @@ namespace Structr.Security.Extensions
         /// Retrieves first claim that is matched by the specified claim type.
         /// </summary>
         /// <param name="source">Collection of <see cref="Claim"/> to find claim from.</param>
-        /// <param name="type">The claim type to match.</param>
+        /// <param name="type">The claim type to match (case insensitive).</param>
         /// <returns>The first matching claim or <see cref="null"/> if no match is found.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null"/> and <paramref name="type"/> is <see langword="null"/> or empty.</exception>
         public static Claim FindFirst(this IEnumerable<Claim> source, string type)
@@ -329,7 +329,7 @@ namespace Structr.Security.Extensions
         /// Retrieves all of the claims values that are matched by the specified claim type.
         /// </summary>
         /// <param name="source">Collection of <see cref="Claim"/> to find claim from.</param>
-        /// <param name="type">The claim type to match.</param>
+        /// <param name="type">The claim type to match (case insensitive).</param>
         /// <returns>The values of matching claims.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null"/> and <paramref name="type"/> is <see langword="null"/> or empty.</exception>
         public static IEnumerable<string> FindAllValues(this IEnumerable<Claim> source, string type)
@@ -375,7 +375,7 @@ namespace Structr.Security.Extensions
             string claimValue = source.FindFirstValue(type);
             if (string.IsNullOrEmpty(claimValue))
             {
-                throw new InvalidOperationException($"Claim with type \"{typeof(T).Name}\" not found.");
+                throw new InvalidOperationException($"Claim with type \"{type}\" not found.");
             }
             T value = CastClaimValueOrThrow<T>(claimValue);
 
