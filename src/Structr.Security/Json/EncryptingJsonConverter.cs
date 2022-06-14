@@ -7,10 +7,19 @@ using System.Text;
 namespace Structr.Security.Json
 {
     // Taken from: https://gist.github.com/thoemmi/e118c15e7588750b1cc18dab00be31fd#file-encryptingjsonconverter-cs
+    /// <summary>
+    /// Provides functionality for encryption and decryption of string values in json.
+    /// </summary>
+    /// <remarks>Could be used to encrypt for example passwords stored in settings files.</remarks>
     public class EncryptingJsonConverter : JsonConverter
     {
         private readonly byte[] _encryptionKeyBytes;
 
+        /// <summary>
+        /// Provides functionality for encryption and decryption of string values in json.
+        /// </summary>
+        /// <param name="encryptionKey">Key to be used in encryption.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="encryptionKey"/> is null.</exception>
         public EncryptingJsonConverter(string encryptionKey)
         {
             if (encryptionKey == null)
