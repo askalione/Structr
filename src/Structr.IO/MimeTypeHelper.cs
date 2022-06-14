@@ -733,7 +733,7 @@ namespace Structr.IO
         /// Returns file extension by MIME type.
         /// </summary>
         /// <param name="mimeType">The MIME type.</param>
-        /// <param name="throwIfNotFound">The flag indicates the need for an exception if the MIME type is not found.</param>
+        /// <param name="throwIfNotFound">The flag indicating the need for an exception if the MIME type is not found.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="mimeType"/> is <see langword="null"/> or empty.</exception>
         /// <exception cref="ArgumentException">If <paramref name="mimeType"/> starts with ".".</exception>
         /// <exception cref="InvalidOperationException">If <paramref name="mimeType"/> not found and <paramref name="throwIfNotFound"/> is <see langword="true"/>.</exception>

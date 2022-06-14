@@ -2,15 +2,34 @@ using FluentAssertions;
 using Structr.IO;
 using Structr.Tests.IO.TestUtils;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Xunit;
 
 namespace Structr.Tests.IO
 {
-    public class PathHelperTests : IClassFixture<PathHelperFixture>
+    public class PathHelperTests
     {
+        public PathHelperTests()
+        {
+            SetOptionsTemplate((directory) => $"|{directory}Directory|");
+            SetOptionsDirectories(new Dictionary<ContentDirectory, string>
+            {
+                { ContentDirectory.Base, ContentDirectoryDefaults.Base },
+                { ContentDirectory.Data, ContentDirectoryDefaults.Data }
+            });
+        }
+
         [Fact]
         public void Configure()
         {
+            // Arrange
+            SetOptionsDirectories(new Dictionary<ContentDirectory, string>
+            {
+                { ContentDirectory.Base, "SomeBaseDir" },
+                { ContentDirectory.Data, "SomeDataDir" }
+            });
+
             // Act
             PathHelper.Configure(options =>
             {
@@ -60,12 +79,7 @@ namespace Structr.Tests.IO
         {
             // Arrange
             var path = @"|DataCustomDirectory|\foo\bar\baz.txt";
-            PathHelper.Configure(options =>
-            {
-                options.Template = (directory) => $"|{directory}CustomDirectory|";
-                options.Directories[ContentDirectory.Base] = ContentDirectoryDefaults.Base;
-                options.Directories[ContentDirectory.Data] = ContentDirectoryDefaults.Data;
-            });
+            SetOptionsTemplate((directory) => $"|{directory}CustomDirectory|");
 
             // Act
             var result = PathHelper.Format(path, ContentDirectory.Data);
@@ -92,11 +106,11 @@ namespace Structr.Tests.IO
         {
             // Arrange
             var path = "|BaseCustomDirectory|\\|DataCustomDirectory|\\foo\\bar\\baz.txt";
-            PathHelper.Configure(options =>
+            SetOptionsTemplate((directory) => $"|{directory}CustomDirectory|");
+            SetOptionsDirectories(new Dictionary<ContentDirectory, string>
             {
-                options.Template = (directory) => $"|{directory}CustomDirectory|";
-                options.Directories[ContentDirectory.Base] = "D:";
-                options.Directories[ContentDirectory.Data] = "Data";
+                { ContentDirectory.Base, "D:" },
+                { ContentDirectory.Data, "Data" }
             });
 
             // Act
@@ -114,6 +128,18 @@ namespace Structr.Tests.IO
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
+        }
+
+        private void SetOptionsTemplate(Func<ContentDirectory, string> template)
+        {
+            typeof(PathOptions).GetField("<Template>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(PathHelper.Options, template);
+        }
+
+        private void SetOptionsDirectories(Dictionary<ContentDirectory, string> directories)
+        {
+            typeof(PathOptions).GetField("<Directories>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(PathHelper.Options, directories);
         }
     }
 }

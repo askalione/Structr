@@ -5,30 +5,26 @@ namespace Structr.Tests.IO.TestUtils
 {
     public class FileHelperFixture : IDisposable
     {
-        public string Text { get; private set; } = "Hello world!";
-        public string Path { get; private set; }
-        public string NextUniquePath { get; private set; }
-        public string NonExistentPath { get; private set; }
-
-        public FileHelperFixture()
+        public static void DeleteTestFiles()
         {
-            var dir = TestDataPath.Combine(ContentDirectoryDefaults.Data);
-            Path = $"{dir}\\readme.txt";
-            NextUniquePath = $"{dir}\\readme_1.txt";
-            NonExistentPath = $"{dir}\\NotExistDirectory\\readme.txt";
-
-            if (File.Exists(Path) == false)
+            if (File.Exists(TestDataPath.Path))
             {
-                File.WriteAllText(Path, Text);
+                File.Delete(TestDataPath.Path);
+            }
+            if (File.Exists(TestDataPath.NextUniquePath))
+            {
+                File.Delete(TestDataPath.NextUniquePath);
+            }
+            var nonExistentDirectory = Path.GetDirectoryName(TestDataPath.NonExistentPath);
+            if (Directory.Exists(nonExistentDirectory))
+            {
+                Directory.Delete(nonExistentDirectory, true);
             }
         }
 
         public void Dispose()
         {
-            if (File.Exists(Path) == false)
-            {
-                File.WriteAllText(Path, Text);
-            }
+            DeleteTestFiles();
         }
     }
 }

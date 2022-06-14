@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace Structr.IO
 {
     /// <summary>
-    /// Provides methods for combine and format <see cref="ContentDirectory"/> paths.
+    /// Provides methods for combining and formatting <see cref="ContentDirectory"/> paths.
     /// </summary>
     public static class PathHelper
     {

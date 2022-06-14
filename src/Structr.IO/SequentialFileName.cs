@@ -4,7 +4,7 @@ using System.IO;
 namespace Structr.IO
 {
     /// <summary>
-    /// Provides methods for generate new sequntial filename based on guid and time stamp segments
+    /// Provides methods for generating new sequntial filename based on guid and time stamp segments
     /// using different params, e.g. existing file, MIME type or file extension.
     /// </summary>
     public static class SequentialFileName
@@ -23,11 +23,11 @@ namespace Structr.IO
 
         /// <summary>
         /// Generate new sequntial filename based on guid and time stamp segments
-        /// using extension from exists file name.
+        /// using extension from existing file name.
         /// </summary>
-        /// <param name="existsFileName">Name of exists file.</param>
-        public static string NewFileName(string existsFileName)
-            => NewFileNameWithExtension(Path.GetExtension(existsFileName));
+        /// <param name="existingFileName">Name of existing file.</param>
+        public static string NewFileName(string existingFileName)
+            => NewFileNameWithExtension(Path.GetExtension(existingFileName));
 
         /// <summary>
         /// Generate new sequntial filename based on guid and time stamp segments
