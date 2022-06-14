@@ -1,8 +1,6 @@
 using FluentAssertions;
 using Structr.Security.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Security.Claims;
 using Xunit;
 
@@ -53,17 +51,17 @@ namespace Structr.Tests.Security.Extensions
         [InlineData("", 0, false)]
         [InlineData("abc", 0, false)]
         [InlineData("3", 3, true)]
-        public void TryGetValue(string val, int expectedVal, bool expected)
+        public void TryGetValue(string value, int expectedValue, bool expected)
         {
             // Arrange
-            var claim = new Claim("Type_1", val);
+            var claim = new Claim("Type_1", value);
 
             // Act
             var result = claim.TryGetValue(out int parsedVal);
 
             // Assert
             result.Should().Be(expected);
-            parsedVal.Should().Be(expectedVal);
+            parsedVal.Should().Be(expectedValue);
         }
     }
 }

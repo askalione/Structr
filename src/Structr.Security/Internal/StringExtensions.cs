@@ -4,6 +4,15 @@ namespace Structr.Security.Internal
 {
     internal static class StringExtensions
     {
+        public static T CastClaimValueOrThrow<T>(this string claimValue)
+        {
+            if (claimValue.TryCast(out T value) == false)
+            {
+                throw new InvalidCastException($"Claim value \"{claimValue}\" cast to \"{typeof(T).Name}\" is not valid.");
+            }
+            return value;
+        }
+
         public static bool TryCast<T>(this string src, out T value)
         {
             value = default(T);
