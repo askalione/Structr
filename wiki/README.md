@@ -41,7 +41,11 @@
     * [Value objects](Domain/Domain-ValueObjects.md)
 * Entity Framework 6
 * Entity Framework Core
-* IO
+* [IO](IO/IO.md)
+    * [FileHelper](IO/IO-FileHelper.md)
+    * [MimeTypeHelper](IO/IO-MimeTypeHelper.md)
+    * [PathHelper](IO/IO-PathHelper.md)
+    * [SequentialFileName](IO/IO-SequentialFileName.md)
 * [Navigation](Navigation/Navigation.md)
     * [Menu](Navigation/Navigation-Menu.md)
     * [Breadcrumbs](Navigation/Navigation-Breadcrumbs.md)
@@ -49,8 +53,8 @@
 * [Operations](Operations/Operations.md)
     * [Filtering](Operations/Operations-Filtering.md)
     * [Decoration](Operations/Operations-Decoration.md)
-* Security
-* Specifications
+* [Security](Security.md)
+* [Specifications](Specifications.md)
 * SqlServer
 * [Stateflows](Stateflows/Stateflows.md)
     * [StateMachine](Stateflows/Stateflows-StateMachine.md)
