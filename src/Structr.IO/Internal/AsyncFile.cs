@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Structr.IO.Internal
 {
+    /// <summary>
+    /// Provides asynchronous methods for the read and write a single file.
+    /// </summary>
     internal static class AsyncFile
     {
         private static Encoding _UTF8NoBOM;
@@ -14,21 +17,45 @@ namespace Structr.IO.Internal
 
         private static Encoding UTF8NoBOM => _UTF8NoBOM ?? (_UTF8NoBOM = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true));
 
-        public static Task WriteAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default(CancellationToken))
+        /// <summary>
+        /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is overwritten.
+        /// </summary>
+        /// <param name="path">The absolute file path to write to.</param>
+        /// <param name="bytes">The bytes to write to the file.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
+        /// <returns>A task that represents the asynchronous write operation.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="bytes"/> is <see langword="null"/>.</exception>
+        public static Task WriteAllBytesAsync(
+            string path,
+            byte[] bytes,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
-            if (path.Length == 0)
-                throw new ArgumentException("Invalid file path.", nameof(path));
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentNullException(nameof(path), "Invalid file path.");
+            }
             if (bytes == null)
+            {
                 throw new ArgumentNullException(nameof(bytes));
+            }
 
-            return cancellationToken.IsCancellationRequested
-                ? Task.FromCanceled(cancellationToken)
-                : InternalWriteAllBytesAsync(path, bytes, cancellationToken);
+            Task result;
+            if (cancellationToken.IsCancellationRequested)
+            {
+                result = Task.FromCanceled(cancellationToken);
+            }
+            else
+            {
+                result = InternalWriteAllBytesAsync(path, bytes, cancellationToken);
+            }
+            return result;
         }
 
-        private static async Task InternalWriteAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken)
+        private static async Task InternalWriteAllBytesAsync(
+            string path,
+            byte[] bytes,
+            CancellationToken cancellationToken)
         {
             using (FileStream fs = new FileStream(path,
                 FileMode.Create,
@@ -42,18 +69,34 @@ namespace Structr.IO.Internal
             }
         }
 
-        public static Task<byte[]> ReadAllBytesAsync(string path, CancellationToken cancellationToken = default(CancellationToken))
+        /// <summary>
+        /// Asynchronously opens a binary file, reads the contents of the file into a byte array, and then closes the file.
+        /// </summary>
+        /// <param name="path">The absolute file path to open for reading.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
+        /// <returns>A task that represents the asynchronous read operation, which wraps the byte array containing the contents of the file.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="IOException">If file is too long. This operation is currently limited to supporting files less than 2 gigabytes in size.</exception>
+        public static Task<byte[]> ReadAllBytesAsync(
+            string path,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentNullException(nameof(path), "Invalid file path.");
+            }
+
             if (cancellationToken.IsCancellationRequested)
             {
                 return Task.FromCanceled<byte[]>(cancellationToken);
             }
 
+            // NOTE: bufferSize == 1 used to avoid unnecessary buffer in FileStream
             var fs = new FileStream(path,
                 FileMode.Open,
                 FileAccess.Read,
                 FileShare.Read,
-                bufferSize: 1, // bufferSize == 1 used to avoid unnecessary buffer in FileStream
+                bufferSize: 1,
                 useAsync: true);
 
             bool returningInternalTask = false;
@@ -62,24 +105,32 @@ namespace Structr.IO.Internal
                 long fileLength = fs.Length;
                 if (fileLength > int.MaxValue)
                 {
-                    return Task.FromException<byte[]>(new IOException(
-                        "The file is too long. This operation is currently limited to supporting files less than 2 gigabytes in size."));
+                    var message = "The file is too long. This operation is currently limited to supporting files less than 2 gigabytes in size.";
+                    return Task.FromException<byte[]>(new IOException(message));
                 }
 
-                if (!(fileLength > 0))
+                if (fileLength <= 0)
+                {
                     throw new IOException("Invalid file length.");
+                }
 
                 returningInternalTask = true;
-                return InternalReadAllBytesAsync(fs, (int)fileLength, cancellationToken);
+                Task<byte[]> result = InternalReadAllBytesAsync(fs, (int)fileLength, cancellationToken);
+                return result;
             }
             finally
             {
-                if (!returningInternalTask)
+                if (returningInternalTask == false)
+                {
                     fs.Dispose();
+                }
             }
         }
 
-        private static async Task<byte[]> InternalReadAllBytesAsync(FileStream fs, int count, CancellationToken cancellationToken)
+        private static async Task<byte[]> InternalReadAllBytesAsync(
+            FileStream fs,
+            int count,
+            CancellationToken cancellationToken)
         {
             using (fs)
             {
@@ -101,26 +152,59 @@ namespace Structr.IO.Internal
             }
         }
 
-        public static Task WriteAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default(CancellationToken))
+        /// <inheritdoc cref="WriteAllLinesAsync(string, IEnumerable{string}, Encoding, CancellationToken)"/>
+        public static Task WriteAllLinesAsync(
+            string path,
+            IEnumerable<string> contents,
+            CancellationToken cancellationToken = default(CancellationToken))
             => WriteAllLinesAsync(path, contents, UTF8NoBOM, cancellationToken);
 
-        public static Task WriteAllLinesAsync(string path, IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default(CancellationToken))
+        /// <summary>
+        /// Asynchronously creates a new file, writes the specified lines to the file, and then closes the file.
+        /// </summary>
+        /// <param name="path">The absolute file path to write to.</param>
+        /// <param name="contents">The lines to write to the file.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
+        /// <returns>A task that represents the asynchronous write operation.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="contents"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="encoding"/> is <see langword="null"/>.</exception>
+        public static Task WriteAllLinesAsync(
+            string path,
+            IEnumerable<string> contents,
+            Encoding encoding,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentNullException(nameof(path), "Invalid file path.");
+            }
             if (contents == null)
+            {
                 throw new ArgumentNullException(nameof(contents));
+            }
             if (encoding == null)
+            {
                 throw new ArgumentNullException(nameof(encoding));
-            if (path.Length == 0)
-                throw new ArgumentException("Invalid file path.", nameof(path));
+            }
 
-            return cancellationToken.IsCancellationRequested
-                ? Task.FromCanceled(cancellationToken)
-                : InternalWriteAllLinesAsync(AsyncStreamWriter(path, encoding, append: false), contents, cancellationToken);
+            Task result;
+            if (cancellationToken.IsCancellationRequested)
+            {
+                result = Task.FromCanceled(cancellationToken);
+            }
+            else
+            {
+                result = InternalWriteAllLinesAsync(AsyncStreamWriter(path, encoding, append: false), contents, cancellationToken);
+            }
+            return result;
         }
 
-        private static async Task InternalWriteAllLinesAsync(TextWriter writer, IEnumerable<string> contents, CancellationToken cancellationToken)
+        private static async Task InternalWriteAllLinesAsync(
+            TextWriter writer,
+            IEnumerable<string> contents,
+            CancellationToken cancellationToken)
         {
             using (writer)
             {
@@ -135,49 +219,99 @@ namespace Structr.IO.Internal
             }
         }
 
-        public static Task<string> ReadAllTextAsync(string path, CancellationToken cancellationToken = default(CancellationToken))
+        /// <inheritdoc cref="ReadAllTextAsync(string, Encoding, CancellationToken)"/>
+        public static Task<string> ReadAllTextAsync(
+            string path,
+            CancellationToken cancellationToken = default(CancellationToken))
             => ReadAllTextAsync(path, Encoding.UTF8, cancellationToken);
 
-        public static Task<string> ReadAllTextAsync(string path, Encoding encoding, CancellationToken cancellationToken = default(CancellationToken))
+        /// <summary>
+        /// Asynchronously opens a text file, reads all the text in the file, and then closes the file.
+        /// </summary>
+        /// <param name="path">The absolute file path to open for reading.</param>
+        /// <param name="encoding">The encoding applied to the contents of the file.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
+        /// <returns>A task that represents the asynchronous read operation, which wraps the string containing all text in the file.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="encoding"/> is <see langword="null"/>.</exception>
+        public static Task<string> ReadAllTextAsync(
+            string path,
+            Encoding encoding,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentNullException(nameof(path), "Invalid file path.");
+            }
             if (encoding == null)
+            {
                 throw new ArgumentNullException(nameof(encoding));
-            if (path.Length == 0)
-                throw new ArgumentException("Invalid file path.", nameof(path));
+            }
 
-            return cancellationToken.IsCancellationRequested
-                ? Task.FromCanceled<string>(cancellationToken)
-                : InternalReadAllTextAsync(path, encoding, cancellationToken);
+            Task<string> result;
+            if (cancellationToken.IsCancellationRequested)
+            {
+                result = Task.FromCanceled<string>(cancellationToken);
+            }
+            else
+            {
+                result = InternalReadAllTextAsync(path, encoding, cancellationToken);
+            }
+            return result;
         }
 
-        private static async Task<string> InternalReadAllTextAsync(string path, Encoding encoding, CancellationToken cancellationToken)
+        private static async Task<string> InternalReadAllTextAsync(
+            string path,
+            Encoding encoding,
+            CancellationToken cancellationToken)
         {
-            using (var sr = AsyncStreamReader(path, encoding))
+            using (StreamReader sr = AsyncStreamReader(path, encoding))
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 StringBuilder sb = new StringBuilder();
                 char[] buffer = new char[0x1000];
                 int read;
                 while ((read = await sr.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                {
                     sb.Append(buffer, 0, read);
+                }
 
-                return sb.ToString();
+                var result = sb.ToString();
+                return result;
             }
         }
 
-        public static Task WriteAllTextAsync(string path, string contents, CancellationToken cancellationToken = default(CancellationToken))
+        /// <inheritdoc cref="WriteAllTextAsync(string, string, Encoding, CancellationToken)"/>
+        public static Task WriteAllTextAsync(
+            string path,
+            string contents,
+            CancellationToken cancellationToken = default(CancellationToken))
             => WriteAllTextAsync(path, contents, UTF8NoBOM, cancellationToken);
 
-        public static Task WriteAllTextAsync(string path, string contents, Encoding encoding, CancellationToken cancellationToken = default(CancellationToken))
+        /// <summary>
+        /// Asynchronously creates a new file, writes the specified string to the file, and then closes the file. If the target file already exists, it is overwritten.
+        /// </summary>
+        /// <param name="path">The absolute file path to write to.</param>
+        /// <param name="contents">The string to write to the file.</param>
+        /// <param name="encoding">The encoding to apply to the string.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
+        /// <returns>A task that represents the asynchronous write operation.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="encoding"/> is <see langword="null"/>.</exception>
+        public static Task WriteAllTextAsync(
+            string path,
+            string contents,
+            Encoding encoding,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentNullException(nameof(path), "Invalid file path.");
+            }
             if (encoding == null)
+            {
                 throw new ArgumentNullException(nameof(encoding));
-            if (path.Length == 0)
-                throw new ArgumentException("Invalid file path.", nameof(path));
+            }
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -193,10 +327,13 @@ namespace Structr.IO.Internal
             return InternalWriteAllTextAsync(path, contents, encoding, cancellationToken);
         }
 
-        private static async Task InternalWriteAllTextAsync(string path, string contents, Encoding encoding, CancellationToken cancellationToken)
+        private static async Task InternalWriteAllTextAsync(
+            string path,
+            string contents,
+            Encoding encoding,
+            CancellationToken cancellationToken)
         {
-
-            using (var sw = AsyncStreamWriter(path, encoding, append: false))
+            using (StreamWriter sw = AsyncStreamWriter(path, encoding, append: false))
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 char[] buffer = new char[0x1000];
@@ -216,10 +353,12 @@ namespace Structr.IO.Internal
 
         private static StreamWriter AsyncStreamWriter(string path, Encoding encoding, bool append)
         {
+            var fileMode = append ? FileMode.Append : FileMode.Create;
             FileStream stream = new FileStream(
-                path, append ? FileMode.Append : FileMode.Create, FileAccess.Write, FileShare.Read, DefaultBufferSize, useAsync: true);
+                path, fileMode, FileAccess.Write, FileShare.Read, DefaultBufferSize, useAsync: true);
 
-            return new StreamWriter(stream, encoding);
+            var result = new StreamWriter(stream, encoding);
+            return result;
         }
 
         private static StreamReader AsyncStreamReader(string path, Encoding encoding)
@@ -227,7 +366,8 @@ namespace Structr.IO.Internal
             FileStream stream = new FileStream(
                 path, FileMode.Open, FileAccess.Read, FileShare.Read, DefaultBufferSize, useAsync: true);
 
-            return new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks: true);
+            var result = new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks: true);
+            return result;
         }
     }
 }

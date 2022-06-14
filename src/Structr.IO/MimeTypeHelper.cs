@@ -4,11 +4,17 @@ using System.Linq;
 
 namespace Structr.IO
 {
+    /// <summary>
+    /// Provides methods for getting a file extension (starts with dot, e.g. ".pdf")
+    /// by a MIME type and vice versa.
+    /// </summary>
     public static class MimeTypeHelper
     {
         private static readonly Lazy<IDictionary<string, string>> _mappings = new Lazy<IDictionary<string, string>>(BuildMappings);
 
-        // NOTE: Taken from https://github.com/samuelneff/MimeTypeMap/blob/master/src/MimeTypes/MimeTypeMap.cs
+        /// <remarks>
+        /// Taken from https://github.com/samuelneff/MimeTypeMap/blob/master/src/MimeTypes/MimeTypeMap.cs
+        /// </remarks>
         private static IDictionary<string, string> BuildMappings()
         {
             var mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -690,11 +696,11 @@ namespace Structr.IO
 
             };
 
-            var cache = mappings.ToList(); // need ToList() to avoid modifying while still enumerating
+            var cache = mappings.ToList(); // Need ToList() to avoid modifying while still enumerating.
 
             foreach (var mapping in cache)
             {
-                if (!mappings.ContainsKey(mapping.Value))
+                if (mappings.ContainsKey(mapping.Value) == false)
                 {
                     mappings.Add(mapping.Value, mapping.Key);
                 }
@@ -703,35 +709,53 @@ namespace Structr.IO
             return mappings;
         }
 
+        /// <summary>
+        /// Returns MIME type by file extension.
+        /// </summary>
+        /// <param name="extension">The file extension.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="extension"/> is <see langword="null"/> or empty.</exception>
         public static string GetMimeType(string extension)
         {
-            if (extension == null)
+            if (string.IsNullOrWhiteSpace(extension))
+            {
                 throw new ArgumentNullException(nameof(extension));
-
-            if (!extension.StartsWith("."))
+            }
+            if (extension.StartsWith(".") == false)
+            {
                 extension = "." + extension;
+            }
 
-            return _mappings.Value.TryGetValue(extension, out string mime) ? mime : "application/octet-stream";
+            string result = _mappings.Value.TryGetValue(extension, out string mime) ? mime : "application/octet-stream";
+            return result;
         }
 
-        public static string GetExtension(string mimeType)
-        {
-            return GetExtension(mimeType, true);
-        }
-
-        public static string GetExtension(string mimeType, bool throwIfNotFound)
+        /// <summary>
+        /// Returns file extension by MIME type.
+        /// </summary>
+        /// <param name="mimeType">The MIME type.</param>
+        /// <param name="throwIfNotFound">The flag indicating the need for an exception if the MIME type is not found.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="mimeType"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="mimeType"/> starts with ".".</exception>
+        /// <exception cref="InvalidOperationException">If <paramref name="mimeType"/> not found and <paramref name="throwIfNotFound"/> is <see langword="true"/>.</exception>
+        public static string GetExtension(string mimeType, bool throwIfNotFound = true)
         {
             if (string.IsNullOrWhiteSpace(mimeType))
+            {
                 throw new ArgumentNullException(nameof(mimeType));
+            }
             if (mimeType.StartsWith("."))
-                throw new ArgumentException($"Requested mime type is not valid: {mimeType}");
+            {
+                throw new ArgumentException($"Requested mime type is not valid: \"{mimeType}\".");
+            }
 
             if (_mappings.Value.TryGetValue(mimeType, out string extension))
+            {
                 return extension;
+            }
 
             if (throwIfNotFound)
             {
-                throw new ArgumentException($"Requested mime type is not registered: {mimeType}");
+                throw new InvalidOperationException($"Requested mime type is not registered: \"{mimeType}\".");
             }
             else
             {
@@ -739,27 +763,35 @@ namespace Structr.IO
             }
         }
 
-        public static IEnumerable<string> GetExtensions(string mimeType, bool throwIfNotFound)
+        /// <summary>
+        /// Returns file extensions by MIME type.
+        /// </summary>
+        /// <param name="mimeType">The MIME type.</param>
+        /// <param name="throwIfNotFound">The flag indicates the need for an exception if the MIME type is not found.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="mimeType"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="mimeType"/> starts with ".".</exception>
+        /// <exception cref="InvalidOperationException">If <paramref name="mimeType"/> not found and <paramref name="throwIfNotFound"/> is <see langword="true"/>.</exception>
+        public static IEnumerable<string> GetExtensions(string mimeType, bool throwIfNotFound = true)
         {
             if (string.IsNullOrWhiteSpace(mimeType))
+            {
                 throw new ArgumentNullException(nameof(mimeType));
+            }
             if (mimeType.StartsWith("."))
-                throw new ArgumentException($"Requested mime type is not valid: {mimeType}");
+            {
+                throw new ArgumentException($"Requested mime type is not valid: \"{mimeType}\"");
+            }
 
             List<string> extensions = _mappings.Value
                 .Where(x => x.Value.ToLower().Equals(mimeType.ToLower()))
                 .Select(x => x.Key)
                 .ToList();
 
-            if (extensions.Count == 0 && throwIfNotFound)
-                throw new ArgumentException($"Requested mime type is not registered: {mimeType}");
-
+            if (extensions.Any() == false && throwIfNotFound)
+            {
+                throw new InvalidOperationException($"Requested mime type is not registered: \"{mimeType}\"");
+            }
             return extensions;
-        }
-
-        public static IEnumerable<string> GetExtensions(string mimeType)
-        {
-            return GetExtensions(mimeType, true);
         }
     }
 }
