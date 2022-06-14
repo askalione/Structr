@@ -14,7 +14,7 @@ namespace Structr.Abstractions.Extensions
         /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
         /// <param name="source"></param>
         /// <param name="dictionary">Key-value pairs to be added to source dictionary.</param>
-        public static void AddRangeOverride<TKey, TValue>(this Dictionary<TKey, TValue> source, Dictionary<TKey, TValue> dictionary)
+        public static void AddRangeOverride<TKey, TValue>(this IDictionary<TKey, TValue> source, IReadOnlyDictionary<TKey, TValue> dictionary)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(dictionary, nameof(dictionary));
@@ -29,7 +29,7 @@ namespace Structr.Abstractions.Extensions
         /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
         /// <param name="source"></param>
         /// <param name="dictionary">Key-value pairs to be added to source dictionary.</param>
-        public static void AddRangeNewOnly<TKey, TValue>(this Dictionary<TKey, TValue> source, Dictionary<TKey, TValue> dictionary)
+        public static void AddRangeNewOnly<TKey, TValue>(this IDictionary<TKey, TValue> source, IReadOnlyDictionary<TKey, TValue> dictionary)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(dictionary, nameof(dictionary));
@@ -51,7 +51,7 @@ namespace Structr.Abstractions.Extensions
         /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
         /// <param name="source"></param>
         /// <param name="dictionary">Key-value pairs to be added to source dictionary.</param>
-        public static void AddRange<TKey, TValue>(this Dictionary<TKey, TValue> source, Dictionary<TKey, TValue> dictionary)
+        public static void AddRange<TKey, TValue>(this IDictionary<TKey, TValue> source, IReadOnlyDictionary<TKey, TValue> dictionary)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(dictionary, nameof(dictionary));
@@ -67,7 +67,7 @@ namespace Structr.Abstractions.Extensions
         /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
         /// <param name="source"></param>
         /// <param name="dictionary">Key-value pairs to be added to source dictionary.</param>
-        public static bool ContainsKeys<TKey, TValue>(this Dictionary<TKey, TValue> source, IEnumerable<TKey> keys)
+        public static bool ContainsKeys<TKey, TValue>(this IDictionary<TKey, TValue> source, IEnumerable<TKey> keys)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(keys, nameof(keys));

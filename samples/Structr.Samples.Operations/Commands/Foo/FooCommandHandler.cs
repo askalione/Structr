@@ -13,7 +13,9 @@ namespace Structr.Samples.Operations.Commands.Foo
         public FooCommandHandler(IStringWriter writer)
         {
             if (writer == null)
+            {
                 throw new ArgumentNullException(nameof(writer));
+            }
 
             _writer = writer;
         }

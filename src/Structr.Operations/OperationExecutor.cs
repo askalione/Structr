@@ -6,11 +6,19 @@ using System.Threading.Tasks;
 
 namespace Structr.Operations
 {
+    /// <summary>
+    /// Default implementation of operation executor.
+    /// </summary>
     public class OperationExecutor : IOperationExecutor
     {
         private readonly IServiceProvider _serviceProvider;
         private static readonly ConcurrentDictionary<Type, object> _cache = new ConcurrentDictionary<Type, object>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OperationExecutor"/>.
+        /// </summary>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="serviceProvider"/> is <see langword="null"/>.</exception>
         public OperationExecutor(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null)

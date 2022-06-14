@@ -1,9 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
+using FluentAssertions;
+using Microsoft.Extensions.Caching.Memory;
 using Structr.Navigation;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+using Structr.Navigation.Providers;
+using Structr.Tests.Navigation.TestUtils;
 using Xunit;
 
 namespace Structr.Tests.Navigation
@@ -11,41 +10,21 @@ namespace Structr.Tests.Navigation
     public class NavigationBuilderTests
     {
         [Fact]
-        public void Build_SeveralActiveNavigationItems_ResultHasOneActiveNavigationItem()
+        public void BuildNavigation()
         {
-            var services = new ServiceCollection();
-            string path = Path.Combine(new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
-                .Parent.Parent.Parent.FullName, "menu.json");
-            services.AddNavigation()
-                .AddJson<MenuItem>(path, (serviceProvider, options) =>
-                {
-                    options.ItemActivator = item =>
-                    {
-                        return true;
-                    };
-                });
-            var serviceProvider = services.BuildServiceProvider();
-            var navigation = serviceProvider.GetService<INavigation<MenuItem>>();
-            var activeMenuItem = navigation.Active;
+            // Arrange
+            var path = TestDataPath.Combine("menu.json");
+            var provider = new JsonNavigationProvider<CustomNavigationItem>(path);
+            var options = new NavigationOptions<CustomNavigationItem>();
+            var navigationCache = new NavigationCache(new MemoryCache(new MemoryCacheOptions { SizeLimit = 1024 }));
+            var builder = new NavigationBuilder<CustomNavigationItem>(provider, options, navigationCache);
 
-            int activeCount = RecursivelyCountActiveChildren(navigation);
-            var firstMenuItem = navigation.FirstOrDefault();
+            // Act
+            var result = builder.BuildNavigation();
 
-            Assert.Equal(1, activeCount);
-            Assert.Equal(firstMenuItem.Id, activeMenuItem.Id);
-        }
-
-        private static int RecursivelyCountActiveChildren(IEnumerable<MenuItem> items)
-        {
-            int activeCount = 0;
-            foreach (var item in items)
-            {
-                if (item.IsActive)
-                    activeCount++;
-                if (item.HasChildren)
-                    activeCount += RecursivelyCountActiveChildren(item.Children);
-            }
-            return activeCount;
+            // Assert
+            var expected = MenuBuilder.Build();
+            result.Should().BeEquivalentTo(expected, opt => opt.IgnoringCyclicReferences());
         }
     }
 }
