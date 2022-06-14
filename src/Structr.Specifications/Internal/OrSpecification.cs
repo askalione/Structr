@@ -11,9 +11,13 @@ namespace Structr.Specifications.Internal
         public OrSpecification(Specification<T> spec1, Specification<T> spec2)
         {
             if (spec1 == null)
+            {
                 throw new ArgumentNullException(nameof(spec1));
+            }
             if (spec2 == null)
+            {
                 throw new ArgumentNullException(nameof(spec2));
+            }
 
             _spec1 = spec1;
             _spec2 = spec2;
@@ -27,11 +31,17 @@ namespace Structr.Specifications.Internal
         public override bool Equals(object other)
         {
             if (ReferenceEquals(null, other))
+            {
                 return false;
+            }
             if (ReferenceEquals(this, other))
+            {
                 return true;
+            }
             if (GetType() != other.GetType())
+            {
                 return false;
+            }
 
             var otherSpec = other as OrSpecification<T>;
             return _spec1.Equals(otherSpec._spec1) && _spec2.Equals(otherSpec._spec2);
