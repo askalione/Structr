@@ -1,9 +1,8 @@
+using FluentAssertions;
 using Structr.Specifications;
 using System;
-using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
-using FluentAssertions;
 
 namespace Structr.Tests.Specifications
 {
