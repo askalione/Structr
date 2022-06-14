@@ -80,7 +80,7 @@ namespace Structr.Tests.IO
             // Arrange
             var path = @"|DataCustomDirectory|\foo\bar\baz.txt";
             SetOptionsTemplate((directory) => $"|{directory}CustomDirectory|");
-            
+
             // Act
             var result = PathHelper.Format(path, ContentDirectory.Data);
 

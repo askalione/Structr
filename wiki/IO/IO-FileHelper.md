@@ -24,7 +24,7 @@ All parameters:
 | path | `string` | The absolute file path to save to. |
 | bytes | `byte[]` | The bytes to save to the file. |
 | createDirIfNotExists | `bool` | The flag indicates to create destination directory if not exists. Default value is `true`. |
-| overrideFileIfExists | `bool` | The flag indicates to override destination file if exists. Default value is `false`. |
+| useSequentialFileNameIfExists | `bool` | The flag indicates that target file name should be changed by adding sequential postfix if file with specfied name already exists. Default value is `false`. |
 
 ## SaveFileAsync()
 
@@ -48,7 +48,7 @@ All parameters:
 | path | `string` | The absolute file path to save to. |
 | bytes | `byte[]` | The bytes to save to the file. |
 | createDirIfNotExists | `bool` | The flag indicates to create destination directory if not exists. Default value is `true`. |
-| overrideFileIfExists | `bool` | The flag indicates to override destination file if exists. Default value is `false`. |
+| useSequentialFileNameIfExists | `bool` | The flag indicates that target file name should be changed by adding sequential postfix if file with specfied name already exists. Default value is `false`. |
 | cancellationToken | `CancellationToken` | The token to monitor for cancellation requests. Default value is `None`. |
 
 ## ReadFile()
@@ -123,13 +123,13 @@ All parameters:
 | --- | --- | --- |
 | path | `string` | The absolute file path to delete to. |
 
-## GetFilePathWithUniqueFileName()
+## GetFilePathWithSequentialFileName()
 
-Returns an absolute path with changing destination file name with unique postfix e.g. ("file_1.txt", "file_2.txt").
+Returns an absolute path with variable destination file name with sequential postfix e.g. ("file_1.txt", "file_2.txt").
 
 ```csharp
 string existingFilePath = "D:\\readme.txt";
-string newFilePath = FileHelper.GetFilePathWithUniqueFileName(existingFilePath); // Returns "D:\\readme_1.txt".
+string newFilePath = FileHelper.GetFilePathWithSequentialFileName(existingFilePath); // Returns "D:\\readme_1.txt".
 ```
 
 All parameters:

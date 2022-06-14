@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Structr.IO;
-using System;
 using Xunit;
 
 namespace Structr.Tests.IO

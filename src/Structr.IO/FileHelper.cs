@@ -108,7 +108,7 @@ namespace Structr.IO
             {
                 if (useSequentialFileNameIfExists)
                 {
-                   filePath = GetFilePathWithSequentialFileName(filePath); 
+                    filePath = GetFilePathWithSequentialFileName(filePath);
                 }
                 else
                 {
