@@ -13,24 +13,36 @@ namespace Structr.AspNetCore.JavaScript
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
 
+        /// <summary>
+        /// Creates an instance of <see cref="JavaScriptAlertProvider"/>.
+        /// </summary>
+        /// <param name="contextAccessor">Instance of <see cref="IHttpContextAccessor"/>.</param>
+        /// <param name="tempDataDictionaryFactory">Instance of <see cref="ITempDataDictionaryFactory"/>.</param>
+        /// <exception cref="ArgumentNullException">When <paramref name="contextAccessor"/> is null.</exception>
         public JavaScriptAlertProvider(IHttpContextAccessor contextAccessor,
             ITempDataDictionaryFactory tempDataDictionaryFactory)
         {
             if (contextAccessor == null)
+            {
                 throw new ArgumentNullException(nameof(contextAccessor));
+            }
             if (tempDataDictionaryFactory == null)
+            {
                 throw new ArgumentNullException(nameof(tempDataDictionaryFactory));
+            }
 
             _contextAccessor = contextAccessor;
             _tempDataDictionaryFactory = tempDataDictionaryFactory;
         }
 
-        /// <inheritdoc cref="IJavaScriptAlertProvider.AddAlert(JavaScriptAlert)"/>
+        /// <inheritdoc/>
         /// <exception cref="ArgumentNullException">When <paramref name="alert"/> is null.</exception>
         public void AddAlert(JavaScriptAlert alert)
         {
             if (alert == null)
+            {
                 throw new ArgumentNullException(nameof(alert));
+            }
 
             var alerts = GetAlertsFromTempData();
             alerts.Add(alert);

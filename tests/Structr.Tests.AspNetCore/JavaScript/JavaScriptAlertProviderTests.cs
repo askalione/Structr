@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Net;
 using Xunit;
-using Structr.AspNetCore.Http;
 using FluentAssertions;
 using Structr.AspNetCore.JavaScript;
 using Moq;
@@ -75,22 +73,14 @@ namespace Structr.Tests.AspNetCore.Http
         public void AddAlert_GetAlerts()
         {
             // Arrange
-            var context = new DefaultHttpContext();
-            var tempDataDictionary = new TempDataDictionary(context, Mock.Of<ITempDataProvider>());
-
-            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-            httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
-            var tempDataDictionaryFactoryMock = new Mock<ITempDataDictionaryFactory>();
-            tempDataDictionaryFactoryMock
-                .Setup(x => x.GetTempData(context))
-                .Returns(tempDataDictionary);
-
-            var javaScriptAlertProvider = new JavaScriptAlertProvider(httpContextAccessorMock.Object, tempDataDictionaryFactoryMock.Object);
+            var tempDataDictionary = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+            var firstProviderForAdding = GetJavaScriptAlertProvider(tempDataDictionary);
+            var secondProviderForGetting = GetJavaScriptAlertProvider(tempDataDictionary);
 
             // Act
-            javaScriptAlertProvider.AddAlert(new JavaScriptAlert("Type1", "Message1"));
-            javaScriptAlertProvider.AddAlert(new JavaScriptAlert("Type2", "Message2"));
-            var result = javaScriptAlertProvider.GetAlerts();
+            firstProviderForAdding.AddAlert(new JavaScriptAlert("Type1", "Message1"));
+            firstProviderForAdding.AddAlert(new JavaScriptAlert("Type2", "Message2"));
+            var result = secondProviderForGetting.GetAlerts();
 
             // Assert
             result.Should().BeEquivalentTo(new[] {
@@ -110,6 +100,19 @@ namespace Structr.Tests.AspNetCore.Http
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
+        }
+
+        private IJavaScriptAlertProvider GetJavaScriptAlertProvider(ITempDataDictionary tempDataDictionary)
+        {
+            var context = new DefaultHttpContext();
+            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+            httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
+            var tempDataDictionaryFactoryMock = new Mock<ITempDataDictionaryFactory>();
+            tempDataDictionaryFactoryMock
+                .Setup(x => x.GetTempData(context))
+                .Returns(tempDataDictionary);
+
+            return new JavaScriptAlertProvider(httpContextAccessorMock.Object, tempDataDictionaryFactoryMock.Object);
         }
     }
 }
