@@ -74,7 +74,7 @@ namespace Structr.Email
         private Task<bool> SendEmailAsync(EmailData emailData, string body, CancellationToken cancellationToken)
         {
             emailData.From = emailData.From ?? _options.From;
-            if (string.IsNullOrEmpty(emailData.From?.Address))
+            if (string.IsNullOrWhiteSpace(emailData.From?.Address))
             {
                 throw new InvalidOperationException($"Email \"From\" not specified.");
             }

@@ -36,7 +36,7 @@ namespace Structr.Email
         /// <exception cref="ArgumentNullException">If <paramref name="address"/> is <see langword="null"/> or empty.</exception>
         public EmailAddress(string address)
         {
-            if (string.IsNullOrEmpty(address))
+            if (string.IsNullOrWhiteSpace(address))
             {
                 throw new ArgumentNullException(nameof(address));
             }
@@ -49,7 +49,7 @@ namespace Structr.Email
         /// </summary>
         public override string ToString()
         {
-            return string.IsNullOrEmpty(Name)
+            return string.IsNullOrWhiteSpace(Name)
                 ? Address
                 : $"{Name} <{Address}>";
         }

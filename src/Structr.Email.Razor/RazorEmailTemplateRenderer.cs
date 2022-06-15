@@ -27,7 +27,7 @@ namespace Structr.Email.Razor
             {
                 throw new ArgumentNullException(nameof(options));
             }
-            if (string.IsNullOrEmpty(options.TemplateRootPath))
+            if (string.IsNullOrWhiteSpace(options.TemplateRootPath))
             {
                 throw new InvalidOperationException($"Email option \"TemplateRootPath\" not specified.");
             }

@@ -41,7 +41,7 @@ namespace Structr.Email.Clients.Smtp
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="port"/> is less than zero.</exception>
         public SmtpOptions(string host, int port = 25)
         {
-            if (string.IsNullOrEmpty(host))
+            if (string.IsNullOrWhiteSpace(host))
             {
                 throw new ArgumentNullException(nameof(host));
             }

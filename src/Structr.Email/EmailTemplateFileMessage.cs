@@ -55,7 +55,7 @@ namespace Structr.Email
             object model)
             : base(to)
         {
-            if (string.IsNullOrEmpty(templatePath))
+            if (string.IsNullOrWhiteSpace(templatePath))
             {
                 throw new ArgumentNullException(nameof(templatePath));
             }

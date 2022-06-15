@@ -30,7 +30,7 @@ namespace Structr.Email
         /// <exception cref="ArgumentNullException">If <paramref name="fileName"/> is <see langword="null"/> or empty.</exception>
         public EmailAttachment(string fileName)
         {
-            if (string.IsNullOrEmpty(fileName))
+            if (string.IsNullOrWhiteSpace(fileName))
             {
                 throw new ArgumentNullException(nameof(fileName));
             }
@@ -48,7 +48,7 @@ namespace Structr.Email
         public EmailAttachment(string fileName, string contentType)
             : this(fileName)
         {
-            if (string.IsNullOrEmpty(contentType))
+            if (string.IsNullOrWhiteSpace(contentType))
             {
                 throw new ArgumentNullException(nameof(contentType));
             }

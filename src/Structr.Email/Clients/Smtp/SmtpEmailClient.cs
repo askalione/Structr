@@ -33,7 +33,7 @@ namespace Structr.Email.Clients.Smtp
         {
             var message = CreateMessage(emailData, body);
 
-            using (var smtpClient = CreateCmtpClient())
+            using (var smtpClient = CreateSmtpClient())
             {
                 await smtpClient.SendMailExAsync(message, cancellationToken);
             }
@@ -41,12 +41,12 @@ namespace Structr.Email.Clients.Smtp
             return true;
         }
 
-        private SmtpClient CreateCmtpClient()
+        private SmtpClient CreateSmtpClient()
         {
             var smtpClient = new SmtpClient(_options.Host, _options.Port);
 
             smtpClient.EnableSsl = _options.IsSslEnabled;
-            if (string.IsNullOrEmpty(_options.User) == false)
+            if (string.IsNullOrWhiteSpace(_options.User) == false)
             {
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials = new NetworkCredential(_options.User, _options.Password);
