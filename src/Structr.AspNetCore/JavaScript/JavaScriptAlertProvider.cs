@@ -25,6 +25,8 @@ namespace Structr.AspNetCore.JavaScript
             _tempDataDictionaryFactory = tempDataDictionaryFactory;
         }
 
+        /// <inheritdoc cref="IJavaScriptAlertProvider.AddAlert(JavaScriptAlert)"/>
+        /// <exception cref="ArgumentNullException">When <paramref name="alert"/> is null.</exception>
         public void AddAlert(JavaScriptAlert alert)
         {
             if (alert == null)
