@@ -1,8 +1,12 @@
 using FluentAssertions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +36,7 @@ namespace Structr.Tests.AspNetCore.Mvc
             result.Should().BeEquivalentTo(new JavaScriptResult("alert('Hello World!')"));
         }
 
+        #region JavaScriptOptions
         private class TestOptions
         {
             public string? Foo { get; set; }
@@ -42,7 +47,8 @@ namespace Structr.Tests.AspNetCore.Mvc
         public void AddJavaScriptOptions_with_object()
         {
             // Arrange
-            var controller = GetController(out var httpContext);
+            var controller = GetController(out var httpContext, configureServices:
+                (sc, ctx) => sc.AddScoped<IJavaScriptOptionProvider>(x => GetJavaScriptOptionProvider(ctx)));
 
             // Act
             controller.AddJavaScriptOptions(new TestOptions { Foo = "foo1", Bar = "bar1" });
@@ -64,7 +70,8 @@ namespace Structr.Tests.AspNetCore.Mvc
         public void AddJavaScriptOptions_with_key_and_options()
         {
             // Arrange
-            var controller = GetController(out var httpContext);
+            var controller = GetController(out var httpContext, configureServices:
+                (sc, ctx) => sc.AddScoped<IJavaScriptOptionProvider>(x => GetJavaScriptOptionProvider(ctx)));
 
             // Act
             controller.AddJavaScriptOptions("TestKey", new TestOptions { Foo = "foo1", Bar = "bar1" });
@@ -84,7 +91,8 @@ namespace Structr.Tests.AspNetCore.Mvc
         public void AddJavaScriptOptions_with_dictionary()
         {
             // Arrange
-            var controller = GetController(out var httpContext);
+            var controller = GetController(out var httpContext, configureServices:
+                (sc, ctx) => sc.AddScoped<IJavaScriptOptionProvider>(x => GetJavaScriptOptionProvider(ctx)));
             var options = new Dictionary<string, object> { { "Foo", "foo1" }, { "Bar", "bar1" } };
 
             // Act
@@ -105,7 +113,8 @@ namespace Structr.Tests.AspNetCore.Mvc
         public void AddJavaScriptOptions_with_key_and_dictionary()
         {
             // Arrange
-            var controller = GetController(out var httpContext);
+            var controller = GetController(out var httpContext, configureServices:
+                (sc, ctx) => sc.AddScoped<IJavaScriptOptionProvider>(x => GetJavaScriptOptionProvider(ctx)));
             var options = new Dictionary<string, object> { { "Foo", "foo1" }, { "Bar", "bar1" } };
 
             // Act
@@ -122,21 +131,6 @@ namespace Structr.Tests.AspNetCore.Mvc
             );
         }
 
-        private Controller GetController(out HttpContext httpContext)
-        {
-            httpContext = new DefaultHttpContext();
-            var routeData = new RouteData(new RouteValueDictionary(new Dictionary<string, string> { { "area", "Admin" }, { "Controller", "Test" }, { "Action", "TestAction" } }));
-            var controllerContext = new ControllerContext(new ActionContext(httpContext, routeData, new ControllerActionDescriptor()));
-            var innerHttpContext = httpContext;
-            var serviceCollection = new ServiceCollection()
-                .AddScoped<IJavaScriptOptionProvider>(x => GetJavaScriptOptionProvider(innerHttpContext));
-            httpContext.RequestServices = serviceCollection.BuildServiceProvider();
-            var controller = new TestController();
-            controller.ControllerContext = controllerContext;
-
-            return controller;
-        }
-
         private JavaScriptOptionProvider GetJavaScriptOptionProvider(HttpContext context)
         {
             var tempDataDictionary = new TempDataDictionary(context, Mock.Of<ITempDataProvider>());
@@ -150,7 +144,9 @@ namespace Structr.Tests.AspNetCore.Mvc
 
             return new JavaScriptOptionProvider(httpContextAccessorMock.Object);
         }
+        #endregion
 
+        #region Json
         [Fact]
         public void JsonResult_with_ok()
         {
@@ -248,6 +244,128 @@ namespace Structr.Tests.AspNetCore.Mvc
             // Assert
             result.Value.Should()
                 .BeEquivalentTo(new Structr.AspNetCore.Json.JsonResult(true, new DateTime(2018, 01, 18)));
+        }
+        #endregion
+
+        #region Redirect
+        [Theory]
+        [InlineData("http://example.com", "/")]
+        [InlineData("/Users/Details/1", "/Users/Details/1")]
+        public void LocalRedirectAjax(string url, string expected)
+        {
+            // Act
+            var result = GetController(out _).LocalRedirectAjax(url);
+
+            // Assert
+            result.Url.Should().Be(expected);
+        }
+
+        [Fact]
+        public void RedirectAjax()
+        {
+            // Act
+            var result = new TestController().RedirectAjax("/Users/Details/1");
+
+            // Assert
+            result.Url.Should().Be("/Users/Details/1");
+        }
+
+        [Theory]
+        [InlineData(null, "/Users/Edit/1")]
+        [InlineData("/Users/Details/1", "/Users/Details/1")]
+        public void RedirectToReferrer(string reffrer, string expected)
+        {
+            // Arrange
+            var controller = GetController(out _, reffrer);
+
+            // Act
+            var result = controller.RedirectToReferrer("/Users/Edit/1");
+
+            // Assert
+            result.Url.Should().Be(expected);
+        }
+
+        [Fact]
+        public void RedirectToReferrer_throws_when_url_is_null_or_empty()
+        {
+            // Act
+            Action act = () => new TestController().RedirectToReferrer(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>();
+        }
+        #endregion
+
+        #region Render
+
+        private class TestVm
+        {
+            public int Id { get; set; }
+            public string? Name { get; set; }
+        }
+
+        //[Fact]
+        //public async void RenderPartialViewAsync()
+        //{
+
+        //}
+
+        // ???: ?
+        //[Fact]
+        //public async void RenderViewAsync()
+        //{
+        //    // Arrange
+        //    var viewName = "TestView";
+        //    var isPartial = false;
+
+        //    var viewEngineMock = new Mock<IViewEngine>()
+        //        .Setup(x => x.GetView(It.IsAny<string?>(), viewName, isPartial == false))
+        //        .Returns(new ViewEngineResult());
+
+        //    var controller = GetController(out _, configureServices:
+        //        (sc, ctx) => {
+        //            sc.AddScoped<ICompositeViewEngine>(x => );
+        //            sc.AddScoped<IWebHostEnvironment>(x => Mock.Of<IWebHostEnvironment>());
+        //        });
+
+        //    // Act
+        //    var result = controller.RenderViewAsync<TestVm>();
+
+        //    // Assert
+
+        //}
+
+        #endregion
+
+        private Controller GetController(out HttpContext httpContext, string? refferer = null, Action<IServiceCollection, HttpContext>? configureServices = null)
+        {
+            httpContext = new DefaultHttpContext();
+
+            if (refferer != null)
+            {
+                httpContext.Request.Headers.Add("Content-Type", "multipart/form-data");
+                httpContext.Request.Form =
+                    new FormCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> {
+                        { "__Referrer", refferer } // ???: From where we could take this value, while can't access internal ReferrerConstants.Key
+                    });
+            }
+
+            var routeData = new RouteData(new RouteValueDictionary(new Dictionary<string, string> { { "area", "Admin" }, { "Controller", "Test" }, { "Action", "TestAction" } }));
+
+            var controllerActionDescriptor = new ControllerActionDescriptor();
+            controllerActionDescriptor.ActionName = "TestAction";
+
+            var actionContext = new ActionContext(httpContext, routeData, controllerActionDescriptor);
+
+            var serviceCollection = new ServiceCollection();
+            configureServices?.Invoke(serviceCollection, httpContext);
+            httpContext.RequestServices = serviceCollection.BuildServiceProvider();
+
+            var controller = new TestController();
+            controller.Url = new UrlHelper(actionContext);
+            controller.ControllerContext = new ControllerContext(actionContext);
+
+            return controller;
         }
     }
 }

@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace Structr.AspNetCore.Json
 {
+    /// <summary>
+    /// Represents a result containing data object, errors list, message and success marker.
+    /// </summary>
     public class JsonResult
     {
         /// <summary>

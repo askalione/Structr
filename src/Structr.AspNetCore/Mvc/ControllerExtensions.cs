@@ -30,12 +30,19 @@ namespace Structr.AspNetCore.Mvc
 
         #region JavaScriptOptions
 
+        /// <summary>
+        /// Adds javascript options to context associated with controller.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="options">Options to add represented by object.</param>
         public static void AddJavaScriptOptions(this Controller controller, object options)
         {
             var key = GetJavaScriptOptionKey(controller);
             AddJavaScriptOptions(controller, key, options);
         }
 
+        /// <param name="key">Key to use for storing options.</param>
+        /// <inheritdoc cref="AddJavaScriptOptions(Controller, object)"/>
         public static void AddJavaScriptOptions(this Controller controller, string key, object options)
         {
             if (options == null)
@@ -47,16 +54,22 @@ namespace Structr.AspNetCore.Mvc
             AddJavaScriptOptions(controller, key, optionsAsDictionary);
         }
 
+        /// <param name="options">Options to add represented by dictionary.</param>
+        /// <inheritdoc cref="AddJavaScriptOptions(Controller, object)"/>
         public static void AddJavaScriptOptions(this Controller controller, Dictionary<string, object> options)
         {
             var key = GetJavaScriptOptionKey(controller);
             AddJavaScriptOptions(controller, key, options);
         }
 
+        /// <inheritdoc cref="AddJavaScriptOptions(Controller, Dictionary{string, object})"/>
+        /// <inheritdoc cref="AddJavaScriptOptions(Controller, string, object)"/>
         public static void AddJavaScriptOptions(this Controller controller, string key, Dictionary<string, object> options)
         {
             if (controller == null)
+            {
                 throw new ArgumentNullException(nameof(controller));
+            }
 
             var optionProvider = GetJavaScriptOptionProvider(controller);
             optionProvider.AddOptions(key, options);
@@ -70,7 +83,7 @@ namespace Structr.AspNetCore.Mvc
             var area = routeData.Values["area"];
             string areaName = area?.ToString();
             var delimiter = JavaScriptOptionConstants.Delimiter;
-            var key = (!string.IsNullOrWhiteSpace(areaName) ? FormatJavaScriptOptionKey(areaName) + delimiter : "")
+            var key = (string.IsNullOrWhiteSpace(areaName) == false ? FormatJavaScriptOptionKey(areaName) + delimiter : "")
                 + FormatJavaScriptOptionKey(controllerName)
                 + delimiter
                 + FormatJavaScriptOptionKey(actionName);
@@ -110,59 +123,121 @@ namespace Structr.AspNetCore.Mvc
 
         #region Json
 
+        /// <summary>
+        /// Creates a <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/> object, with serialized success marker.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="ok">Success marker.</param>
+        /// <returns>An instance of <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/>.</returns>
+        /// <exception cref="ArgumentNullException">When <paramref name="controller"/> is <see langword="null"/>.</exception>
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonResult(this Controller controller, bool ok)
         {
             if (controller == null)
+            {
                 throw new ArgumentNullException(nameof(controller));
+            }
 
             return controller.Json(new Json.JsonResult(ok));
         }
 
+        /// <summary>
+        /// Creates a <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/> object, with serialized success marker and message.
+        /// </summary>
+        /// <param name="message">Message to attach to result.</param>
+        /// <inheritdoc cref="JsonResult(Controller, bool)"/>
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonResult(this Controller controller, bool ok, string message)
         {
             if (controller == null)
+            {
                 throw new ArgumentNullException(nameof(controller));
+            }
 
             return controller.Json(new Json.JsonResult(ok, message));
         }
 
+
+        /// <summary>
+        /// Creates a <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/> object, with serialized success marker, message and data.
+        /// </summary>
+        /// <param name="data">Data object to append to result.</param>
+        /// <inheritdoc cref="JsonResult(Controller, bool, string)"/>
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonResult(this Controller controller, bool ok, string message, object data)
         {
             if (controller == null)
+            {
                 throw new ArgumentNullException(nameof(controller));
+            }
 
             return controller.Json(new Json.JsonResult(ok, message, data));
         }
 
+        /// <summary>
+        /// Creates a <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/> object representing successful response,
+        /// with serialized success marker equals <see langword="true"/> and message.
+        /// </summary>
+        /// <inheritdoc cref="JsonResult(Controller, bool, string)"/>
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonSuccess(this Controller controller, string message)
             => JsonResult(controller, true, message);
 
+        /// <summary>
+        /// Creates a <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/> object representing successful response,
+        /// with serialized success marker equals <see langword="true"/>, message and data.
+        /// </summary>
+        /// <inheritdoc cref="JsonResult(Controller, bool, string, object)"/>
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonSuccess(this Controller controller, string message, object data)
             => JsonResult(controller, true, message, data);
 
+        /// <summary>
+        /// Creates a <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/> object representing failed response,
+        /// with serialized success marker equals <see langword="false"/> and error message.
+        /// </summary>
+        /// <inheritdoc cref="JsonResult(Controller, bool, string)"/>
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonError(this Controller controller, string message)
             => JsonResult(controller, false, message);
 
+        /// <summary>
+        /// Creates a <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/> object representing failed response,
+        /// with serialized success marker equals <see langword="false"/> and error messages.
+        /// </summary>
+        /// <param name="messages">Error messages to attach to result.</param>
+        /// <inheritdoc cref="JsonResult(Controller, bool, string)"/>
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonError(this Controller controller, IEnumerable<string> messages)
         {
             if (controller == null)
+            {
                 throw new ArgumentNullException(nameof(controller));
+            }
 
             return controller.Json(new Json.JsonResult(messages));
         }
 
+        /// <summary>
+        /// Creates a <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/> object representing failed response,
+        /// with serialized success marker equals <see langword="false"/>, error messages and data.
+        /// </summary>
+        /// <inheritdoc cref="JsonResult(Controller, bool, string, object)"/>
+        /// <inheritdoc cref="JsonError(Controller, IEnumerable{string})"/>
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonError(this Controller controller, IEnumerable<string> messages, object data)
         {
             if (controller == null)
+            {
                 throw new ArgumentNullException(nameof(controller));
+            }
 
             return controller.Json(new Json.JsonResult(messages, data));
         }
 
+        /// <summary>
+        /// Creates a <see cref="Microsoft.AspNetCore.Mvc.JsonResult"/> object representing successful response,
+        /// with serialized success marker equals <see langword="true"/> and data object.
+        /// </summary>
+        /// <inheritdoc cref="JsonResult(Controller, bool, string, object)"/>
         public static Microsoft.AspNetCore.Mvc.JsonResult JsonData(this Controller controller, object data)
         {
             if (controller == null)
+            {
                 throw new ArgumentNullException(nameof(controller));
+            }
 
             return controller.Json(new Json.JsonResult(true, data));
         }
@@ -170,24 +245,44 @@ namespace Structr.AspNetCore.Mvc
         #endregion
 
         #region Redirect
-
+        /// <summary>
+        /// Creates an instance of <see cref="RedirectAjaxResult"/> while checking if url is local.
+        /// In case of local url the redirect is performed to specified <paramref name="url"/>.
+        /// Otherwise creates response for redirecting to application's root.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="url">Url to redirect to.</param>
+        /// <returns>An instace of <see cref="RedirectResult"/>.</returns>
+        /// <exception cref="ArgumentNullException">When <paramref name="controller"/> is <see langword="null"/>.</exception>
         public static RedirectAjaxResult LocalRedirectAjax(this Controller controller, string url)
         {
             if (controller == null)
+            {
                 throw new ArgumentNullException(nameof(controller));
+            }
 
             return RedirectAjax(controller, controller.Url.IsLocalUrl(url) ? url : "/");
         }
 
+        /// <summary>
+        /// Creates an instance of <see cref="RedirectAjaxResult"/>.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="url">Url to redirect to.</param>
+        /// <returns>An instace of <see cref="RedirectResult"/>.</returns>
         public static RedirectAjaxResult RedirectAjax(this Controller controller, string url)
             => new RedirectAjaxResult(url);
 
         public static RedirectResult RedirectToReferrer(this Controller controller, string url)
         {
             if (controller == null)
+            {
                 throw new ArgumentNullException(nameof(controller));
+            }
             if (string.IsNullOrEmpty(url))
+            {
                 throw new ArgumentNullException(nameof(url));
+            }
 
             var request = controller.HttpContext.Request;
             string referrer = request.HasFormContentType ? request.Form[ReferrerConstants.Key].ToString() : "";
