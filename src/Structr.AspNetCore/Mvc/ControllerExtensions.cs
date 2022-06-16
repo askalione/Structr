@@ -14,8 +14,17 @@ using System.Threading.Tasks;
 
 namespace Structr.AspNetCore.Mvc
 {
+    /// <summary>
+    /// Defines extension methods on <see cref="Controller"/>.
+    /// </summary>
     public static class ControllerExtensions
     {
+        /// <summary>
+        /// Creates a <see cref="JavaScriptResult"/> with specified content.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="content">Javascript code.</param>
+        /// <returns>A <see cref="JavaScriptResult"/> object.</returns>
         public static JavaScriptResult JavaScript(this Controller controller, string content)
             => new JavaScriptResult(content);
 

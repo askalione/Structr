@@ -111,7 +111,7 @@ namespace Structr.Tests.AspNetCore.Json
             var result = new JsonResult(new JsonError[] { });
 
             // Assert
-            result.Ok.Should().BeTrue();
+            result.Ok.Should().BeFalse();
             result.Message.Should().BeNull();
             result.Data.Should().BeNull();
             result.Errors.Should().BeEmpty();
@@ -183,7 +183,7 @@ namespace Structr.Tests.AspNetCore.Json
             var result = new JsonResult(new string[] { });
 
             // Assert
-            result.Ok.Should().BeTrue();
+            result.Ok.Should().BeFalse();
             result.Message.Should().BeNull();
             result.Data.Should().BeNull();
             result.Errors.Should().BeEmpty();

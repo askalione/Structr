@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Structr.AspNetCore.Http
 {
     /// <summary>
-    /// Defines async extension methods on HttpContext.
+    /// Defines extension methods on <see cref="HttpContext"/>.
     /// </summary>
     public static class HttpContextExtensions
     {

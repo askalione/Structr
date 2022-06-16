@@ -40,35 +40,6 @@ namespace Structr.Tests.AspNetCore.Http
             act.Should().ThrowExactly<ArgumentNullException>();
         }
 
-        //[Fact]
-        //public void AddAlert()
-        //{
-        //    // Arrange
-        //    var context = new DefaultHttpContext();
-        //    var tempDataDictionary = new TempDataDictionary(context, Mock.Of<ITempDataProvider>());
-
-        //    var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-        //    httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
-        //    var tempDataDictionaryFactoryMock = new Mock<ITempDataDictionaryFactory>();
-        //    tempDataDictionaryFactoryMock
-        //        .Setup(x => x.GetTempData(context))
-        //        .Returns(tempDataDictionary);
-
-        //    var javaScriptAlertProvider = new JavaScriptAlertProvider(httpContextAccessorMock.Object, tempDataDictionaryFactoryMock.Object);
-
-        //    // Act
-        //    javaScriptAlertProvider.AddAlert(new JavaScriptAlert("Type1", "Message1"));
-        //    javaScriptAlertProvider.AddAlert(new JavaScriptAlert("Type2", "Message2"));
-
-        //    // Assert
-        //    tempDataDictionary.Values.Should().SatisfyRespectively(
-        //        (x) =>
-        //        {
-        //            x.Should().BeOfType<string>()
-        //                .Subject.Should().ContainAll("Type1", "Message1", "Type2", "Message2");
-        //        });
-        //}
-
         [Fact]
         public void AddAlert_GetAlerts()
         {

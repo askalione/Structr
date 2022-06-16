@@ -85,7 +85,7 @@ namespace Structr.AspNetCore.Json
         /// </summary>
         /// <param name="errors">Errors contained in result.</param>
         /// <exception cref="ArgumentNullException">When <paramref name="errors"/> is <see langword="null"/>.</exception>
-        public JsonResult(IEnumerable<JsonError> errors) : this(false) // ???: maybe should pass errors.Any() == false
+        public JsonResult(IEnumerable<JsonError> errors) : this(false)
         {
             if (errors == null)
             {
@@ -112,7 +112,7 @@ namespace Structr.AspNetCore.Json
         /// </summary>
         /// <param name="errorsMessages">Error messages contained in result.</param>
         /// <exception cref="ArgumentNullException">When <paramref name="errorsMessages"/> is <see langword="null"/>.</exception>
-        public JsonResult(IEnumerable<string> errorsMessages) : this(false) // ???: maybe should pass errorsMessages.Any() == false
+        public JsonResult(IEnumerable<string> errorsMessages) : this(false)
         {
             if (errorsMessages == null)
             {
