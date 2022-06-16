@@ -37,6 +37,7 @@ namespace Structr.Tests.Email
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
+            serviceProvider.GetService<ISmtpClientFactory>().Should().NotBeNull();
             serviceProvider.GetService<IEmailClient>().Should().BeOfType<SmtpEmailClient>();
         }
 
@@ -54,6 +55,7 @@ namespace Structr.Tests.Email
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
+            serviceProvider.GetService<ISmtpClientFactory>().Should().NotBeNull();
             serviceProvider.GetService<IEmailClient>().Should().BeOfType<SmtpEmailClient>();
         }
 
@@ -76,6 +78,7 @@ namespace Structr.Tests.Email
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
+            serviceProvider.GetService<ISmtpClientFactory>().Should().NotBeNull();
             serviceProvider.GetService<IEmailClient>().Should().BeOfType<SmtpEmailClient>();
         }
     }

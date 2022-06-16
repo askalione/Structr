@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading;
@@ -12,47 +11,33 @@ namespace Structr.Email.Clients.Smtp
     /// </summary>
     public class SmtpEmailClient : IEmailClient
     {
-        private readonly SmtpOptions _options;
+        private readonly ISmtpClientFactory _smtpClientFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SmtpEmailClient"/> class.
         /// </summary>
-        /// <param name="options">The <see cref="SmtpOptions"/>.</param>
+        /// <param name="smtpClientFactory">The <see cref="ISmtpClientFactory"/>.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
-        public SmtpEmailClient(SmtpOptions options)
+        public SmtpEmailClient(ISmtpClientFactory smtpClientFactory)
         {
-            if (options == null)
+            if (smtpClientFactory == null)
             {
-                throw new ArgumentNullException(nameof(options));
+                throw new ArgumentNullException(nameof(smtpClientFactory));
             }
 
-            _options = options;
+            _smtpClientFactory = smtpClientFactory;
         }
 
         public async Task<bool> SendAsync(EmailData emailData, string body, CancellationToken cancellationToken = default)
         {
-            var message = CreateMessage(emailData, body);
+            MailMessage message = CreateMessage(emailData, body);
 
-            using (var smtpClient = CreateSmtpClient())
+            using (SmtpClient smtpClient = _smtpClientFactory.CreateSmtpClient())
             {
                 await smtpClient.SendMailExAsync(message, cancellationToken);
             }
 
             return true;
-        }
-
-        private SmtpClient CreateSmtpClient()
-        {
-            var smtpClient = new SmtpClient(_options.Host, _options.Port);
-
-            smtpClient.EnableSsl = _options.IsSslEnabled;
-            if (string.IsNullOrWhiteSpace(_options.User) == false)
-            {
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential(_options.User, _options.Password);
-            }
-
-            return smtpClient;
         }
 
         private MailMessage CreateMessage(EmailData emailData, string body)

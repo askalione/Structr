@@ -50,6 +50,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             builder.Services.TryAddSingleton(serviceProvider => optionsFactory.Invoke(serviceProvider));
+            builder.Services.TryAddSingleton<ISmtpClientFactory, SmtpClientFactory>();
             builder.Services.TryAddSingleton<IEmailClient, SmtpEmailClient>();
 
             return builder;
