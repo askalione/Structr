@@ -29,7 +29,8 @@ namespace Structr.Tests.AspNetCore.Mvc
             var result = new TestController().JavaScript("alert('Hello World!')");
 
             // Assert
-            result.Should().BeEquivalentTo(new JavaScriptResult("alert('Hello World!')"));
+            result.ContentType.Should().Be("application/javascript");
+            result.Content.Should().Be("alert('Hello World!')");
         }
 
         #region JavaScriptOptions

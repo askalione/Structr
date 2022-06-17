@@ -4,6 +4,9 @@ using System;
 
 namespace Structr.AspNetCore.Mvc
 {
+    /// <summary>
+    /// Defines extension methods on <see cref="HttpRequest"/>.
+    /// </summary>
     public static class HttpRequestExtensions
     {
         /// <summary>

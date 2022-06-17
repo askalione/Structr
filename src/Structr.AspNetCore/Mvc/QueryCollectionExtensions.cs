@@ -3,8 +3,16 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Structr.AspNetCore.Mvc
 {
+    /// <summary>
+    /// Defines extension methods on <see cref="IQueryCollection"/>.
+    /// </summary>
     public static class QueryCollectionExtensions
     {
+        /// <summary>
+        /// Creates an instance of <see cref="RouteValueDictionary"/> containing key-value pairs form specified <see cref="IQueryCollection"/>. 
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns><see cref="RouteValueDictionary"/> object.</returns>
         public static RouteValueDictionary ToRouteValueDictionary(this IQueryCollection collection)
         {
             var routeValues = new RouteValueDictionary();
@@ -15,6 +23,7 @@ namespace Structr.AspNetCore.Mvc
             return routeValues;
         }
 
+        // TODO: some refactoring
         public static RouteValueDictionary ToRouteValueDictionary(this IQueryCollection collection, string newKey, object newValue)
         {
             string value = newValue?.ToString();
