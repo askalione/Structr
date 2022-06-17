@@ -276,12 +276,12 @@ namespace Structr.AspNetCore.Mvc
 
         /// <summary>
         /// Creates <see cref="RedirectResult"/> object specifying redirect to url depending on
-        /// presence '__Referrer' key in <see cref="HttpRequest.Form"/>. In case of existing of such key
+        /// presence <see cref="ReferrerConstants.Key"/> key in <see cref="HttpRequest.Form"/>. In case of existing of such key
         /// the corresponding url from From value will be used to redirect to. In other case the
         /// provided <paramref name="url"/> will be.
         /// </summary>
         /// <param name="controller"></param>
-        /// <param name="url">Fallback url to redirect to in case of lack of '__Referrer' key in <see cref="HttpRequest.Form"/></param>
+        /// <param name="url">Fallback url to redirect to in case of lack of <see cref="ReferrerConstants.Key"/> key in <see cref="HttpRequest.Form"/></param>
         /// <returns>An instance of <see cref="RedirectResult"/>.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <remarks>The extension method could be helpful when, for example, redirect back to entity's

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Structr.AspNetCore.Internal;
 using Structr.AspNetCore.JavaScript;
 using Structr.AspNetCore.Mvc;
 using Structr.Tests.AspNetCore.TestWebApp;
@@ -350,7 +351,7 @@ namespace Structr.Tests.AspNetCore.Mvc
                 httpContext.Request.Headers.Add("Content-Type", "multipart/form-data");
                 httpContext.Request.Form =
                     new FormCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> {
-                        { "__Referrer", refferer } // ???: From where we could take this value, while can't access internal ReferrerConstants.Key
+                        { ReferrerConstants.Key, refferer }
                     });
             }
 

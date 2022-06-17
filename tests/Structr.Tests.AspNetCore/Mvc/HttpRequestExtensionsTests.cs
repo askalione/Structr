@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Structr.AspNetCore.Internal;
 using Structr.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Xunit;
@@ -57,7 +58,7 @@ namespace Structr.Tests.AspNetCore.Mvc
                 httpContext.Request.Headers.Add("Content-Type", "multipart/form-data");
                 httpContext.Request.Form =
                     new FormCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> {
-                        { "__Referrer", "/Users/Details/1" } // ???: From where we could take this value, while can't access internal ReferrerConstants.Key
+                        { ReferrerConstants.Key, "/Users/Details/1" }
                     });
             }
 

@@ -1,8 +1,8 @@
 namespace Structr.AspNetCore.Internal
 {
-    internal class ReferrerConstants
+    public class ReferrerConstants
     {
-        // ???: make public?
-        internal const string Key = "__Referrer";
+        // TODO: move from Internal
+        public const string Key = "__Referrer";
     }
 }
