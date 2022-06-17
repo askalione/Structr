@@ -286,7 +286,7 @@ namespace Structr.AspNetCore.Mvc
         /// <exception cref="ArgumentNullException"></exception>
         /// <remarks>The extension method could be helpful when, for example, redirect back to entity's
         /// details form from edit form is needed after pressing "Ok" button or "Cancel" button. In such
-        /// cases use of <see cref="TagHelpers.ReferrerTagHelper"/> will be helpful.</remarks>
+        /// cases use of <see cref="TagHelpers.ReferrerTagHelper"/> will be helpful too.</remarks>
         public static RedirectResult RedirectToReferrer(this Controller controller, string url)
         {
             if (controller == null)
@@ -300,7 +300,7 @@ namespace Structr.AspNetCore.Mvc
 
             var request = controller.HttpContext.Request;
             string referrer = request.HasFormContentType ? request.Form[ReferrerConstants.Key].ToString() : "";
-            string urlRedirect = !string.IsNullOrEmpty(referrer) ? referrer : url;
+            string urlRedirect = string.IsNullOrEmpty(referrer) == false ? referrer : url;
 
             var redirect = new RedirectResult(urlRedirect);
             return redirect;
