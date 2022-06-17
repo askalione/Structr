@@ -1,8 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using System;
-using System.Net;
 using Xunit;
-using Structr.AspNetCore.Http;
 using FluentAssertions;
 using Structr.AspNetCore.JavaScript;
 

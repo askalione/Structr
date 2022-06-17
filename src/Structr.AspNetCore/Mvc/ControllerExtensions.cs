@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -273,6 +274,19 @@ namespace Structr.AspNetCore.Mvc
         public static RedirectAjaxResult RedirectAjax(this Controller controller, string url)
             => new RedirectAjaxResult(url);
 
+        /// <summary>
+        /// Creates <see cref="RedirectResult"/> object specifying redirect to url depending on
+        /// presence '__Referrer' key in <see cref="HttpRequest.Form"/>. In case of existing of such key
+        /// the corresponding url from From value will be used to redirect to. In other case the
+        /// provided <paramref name="url"/> will be.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="url">Fallback url to redirect to in case of lack of '__Referrer' key in <see cref="HttpRequest.Form"/></param>
+        /// <returns>An instance of <see cref="RedirectResult"/>.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <remarks>The extension method could be helpful when, for example, redirect back to entity's
+        /// details form from edit form is needed after pressing "Ok" button or "Cancel" button. In such
+        /// cases use of <see cref="TagHelpers.ReferrerTagHelper"/> will be helpful.</remarks>
         public static RedirectResult RedirectToReferrer(this Controller controller, string url)
         {
             if (controller == null)
@@ -296,11 +310,24 @@ namespace Structr.AspNetCore.Mvc
 
         #region Render
 
+        /// <summary>
+        /// Render a partial view using provided model.
+        /// </summary>
+        /// <typeparam name="TModel">Type of model to render view with.</typeparam>
+        /// <param name="controller"></param>
+        /// <param name="viewName">Name of view. If not specified then action name will be taken.</param>
+        /// <param name="model">Model to render view with.</param>
+        /// <returns>Rendered view as a <see langword="string"/>.</returns>
         public static async Task<string> RenderPartialViewAsync<TModel>(this Controller controller, string viewName, TModel model)
         {
             return await RenderViewAsync(controller, viewName, model, true);
         }
 
+        /// <summary>
+        /// Render a view using provided model.
+        /// </summary>
+        /// <param name="isPartial">Determines if current view is a partial view.</param>
+        /// <inheritdoc cref="RenderPartialViewAsync{TModel}(Controller, string, TModel)"/>
         public static async Task<string> RenderViewAsync<TModel>(this Controller controller, string viewName, TModel model, bool isPartial = false)
         {
             if (string.IsNullOrEmpty(viewName))
@@ -316,7 +343,9 @@ namespace Structr.AspNetCore.Mvc
                 ViewEngineResult viewResult = GetViewEngineResult(controller, viewName, isPartial, viewEngine);
 
                 if (viewResult.Success == false)
+                {
                     throw new Exception($"A view with the name {viewName} could not be found");
+                }
 
                 ViewContext viewContext = new ViewContext(
                     controller.ControllerContext,

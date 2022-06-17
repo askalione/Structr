@@ -1,23 +1,18 @@
 using FluentAssertions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Structr.AspNetCore.JavaScript;
 using Structr.AspNetCore.Mvc;
+using Structr.Tests.AspNetCore.TestWebApp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Structr.Tests.AspNetCore.Mvc
@@ -298,42 +293,51 @@ namespace Structr.Tests.AspNetCore.Mvc
 
         #region Render
 
-        private class TestVm
+        [Fact]
+        public async void RenderPartialViewAsync()
         {
-            public int Id { get; set; }
-            public string? Name { get; set; }
+            // Arrange
+            var client = new WebApplicationFactory<Startup>().CreateClient();
+
+            // Act
+            var response = await client.GetAsync($"/MvcControllerExtensions/RenderPartialViewAsyncTest?id=7&name=Peter");
+
+            // Assert
+            response.Should().BeSuccessful();
+            var result = await response.Content.ReadAsStringAsync();
+            result.Should().Contain("Id3Partial=7 Name3Partial=Peter");
         }
 
-        //[Fact]
-        //public async void RenderPartialViewAsync()
-        //{
+        [Theory]
+        [InlineData("", false, "Id=7 Name=Peter")]
+        [InlineData("RenderViewAsyncTest2", false, "Id2=7 Name2=Peter")]
+        [InlineData("_RenderViewAsyncTest3Partial", true, "Id3Partial=7 Name3Partial=Peter")]
+        public async void RenderViewAsync(string viewName, bool isPartial, string expected)
+        {
+            // Arrange
+            var client = new WebApplicationFactory<Startup>().CreateClient();
 
-        //}
+            // Act
+            var response = await client.GetAsync($"/MvcControllerExtensions/RenderViewAsyncTest?id=7&name=Peter&viewName={viewName}&isPartial={isPartial}");
 
-        // ???: ?
-        //[Fact]
-        //public async void RenderViewAsync()
-        //{
-        //    // Arrange
-        //    var viewName = "TestView";
-        //    var isPartial = false;
+            // Assert
+            response.Should().BeSuccessful();
+            var result = await response.Content.ReadAsStringAsync();
+            result.Should().Contain(expected);
+        }
 
-        //    var viewEngineMock = new Mock<IViewEngine>()
-        //        .Setup(x => x.GetView(It.IsAny<string?>(), viewName, isPartial == false))
-        //        .Returns(new ViewEngineResult());
+        [Fact]
+        public async void RenderViewAsync_throws_when_view_not_found()
+        {
+            // Arrange
+            var client = new WebApplicationFactory<Startup>().CreateClient();
 
-        //    var controller = GetController(out _, configureServices:
-        //        (sc, ctx) => {
-        //            sc.AddScoped<ICompositeViewEngine>(x => );
-        //            sc.AddScoped<IWebHostEnvironment>(x => Mock.Of<IWebHostEnvironment>());
-        //        });
+            // Act
+            var response = await client.GetAsync($"/MvcControllerExtensions/RenderViewAsyncTest?id=7&name=Peter&viewName=someUnexistingView");
 
-        //    // Act
-        //    var result = controller.RenderViewAsync<TestVm>();
-
-        //    // Assert
-
-        //}
+            // Assert
+            response.Should().HaveServerError();
+        }
 
         #endregion
 
