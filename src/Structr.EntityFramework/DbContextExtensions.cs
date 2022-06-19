@@ -4,15 +4,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Security.Principal;
 
 namespace Structr.EntityFramework
 {
     public static class DbContextExtensions
     {
         public static DbContext Audit(this DbContext context,
-            AuditTimestampProvider timestampProvider,
-            IPrincipal principal = null)
+            AuditTimestampProvider timestampProvider = null,
+            AuditSignProvider signProvider = null)
         {
             if (context == null)
             {
@@ -25,7 +24,7 @@ namespace Structr.EntityFramework
                 .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified || x.State == EntityState.Deleted);
 
             var timestamp = timestampProvider?.Invoke() ?? DateTime.Now;
-            var sign = principal?.Identity?.Name;
+            var sign = signProvider?.Invoke();
 
             if (entries != null)
             {

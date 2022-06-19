@@ -20,6 +20,9 @@ namespace Structr.Samples.EntityFramework.DataAccess
         public AuditTimestampProvider AuditTimestampProvider => _timestampProvider != null
             ? _timestampProvider.GetTimestamp
             : null;
+        public AuditSignProvider AuditSignProvider => _principal != null
+                ? () => _principal.Identity.Name
+                : null;
 
         public DataContext(string nameOrConnectionString, ITimestampProvider timestampProvider, IPrincipal principal)
             : base(nameOrConnectionString)
@@ -57,13 +60,13 @@ namespace Structr.Samples.EntityFramework.DataAccess
 
         public override int SaveChanges()
         {
-            this.Audit(AuditTimestampProvider, _principal);
+            this.Audit(AuditTimestampProvider, AuditSignProvider);
             return base.SaveChanges();
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
-            this.Audit(AuditTimestampProvider, _principal);
+            this.Audit(AuditTimestampProvider, AuditSignProvider);
             return base.SaveChangesAsync(cancellationToken);
         }
     }
