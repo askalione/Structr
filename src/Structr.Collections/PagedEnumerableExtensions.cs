@@ -6,7 +6,7 @@ namespace Structr.Collections
     /// <summary>
     /// Extension methods for <see cref="IPagedList"/>.
     /// </summary>
-    public static class PagedListExtensions
+    public static class PagedEnumerableExtensions
     {
         /// <summary>
         /// Creates new <see cref="PagedList{TDestination}"/> instance using elements from <paramref name="destination"/>
@@ -17,7 +17,7 @@ namespace Structr.Collections
         /// <param name="destination">Array of items to build new PagedList with.</param>
         /// <returns>New instance of <see cref="PagedList{TDestination}"/> that contains items from <paramref name="destination"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null"/>.</exception>
-        public static PagedList<TDestination> ToPagedList<TDestination>(this IPagedList source, IEnumerable<TDestination> destination)
+        public static PagedList<TDestination> ToPagedList<TDestination>(this IPagedEnumerable source, IEnumerable<TDestination> destination)
         {
             if (source == null)
             {

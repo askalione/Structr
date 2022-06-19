@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 
 namespace Structr.Collections
 {
@@ -7,8 +6,7 @@ namespace Structr.Collections
     /// Collection based type, suitable for pagination tasks. It supplies all
     /// needed properties such as page size, number, first and last page attribute, etc.
     /// </summary>
-    /// <typeparam name="T">Type of items in list.</typeparam>
-    public interface IPagedList : IEnumerable
+    public interface IPagedEnumerable : IEnumerable
     {
         /// <summary>
         /// Gets declared total count of items in superset collection.
@@ -59,17 +57,5 @@ namespace Structr.Collections
         /// Gets number of last item on page.
         /// </summary>
         int LastItemOnPage { get; }
-    }
-
-    public interface IPagedList<out T> : IPagedList, IEnumerable<T>
-    {
-        T this[int index] { get; }
-
-        /// <summary>
-        /// Gets count of items on page.
-        /// </summary>
-        /// <remarks>Could be less then <see cref="PageSize"/> when <see cref="TotalItems"/>
-        /// couldn't be divided without a remainder on <see cref="PageSize"/>.</remarks>
-        int Count { get; }
     }
 }

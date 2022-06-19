@@ -10,7 +10,7 @@ namespace Structr.Collections
     /// needed properties such as page size, number, first and last page attribute, etc.
     /// </summary>
     /// <typeparam name="T">Type of items in list.</typeparam>
-    public class PagedList<T> : IPagedList<T>
+    public class PagedList<T> : IPagedEnumerable, IEnumerable<T>
     {
         public int TotalItems { get; }
         public int PageNumber { get; }
@@ -55,23 +55,28 @@ namespace Structr.Collections
             }
             if (totalItems < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(totalItems), totalItems, "Total number of elements in superset must be greater or equal 0");
+                throw new ArgumentOutOfRangeException(nameof(totalItems), totalItems,
+                    "Total number of elements in superset must be greater or equal 0");
             }
             if (totalItems < collection.Count())
             {
-                throw new ArgumentOutOfRangeException(nameof(totalItems), totalItems, "Total number of elements in superset must be greater or equal collection items count");
+                throw new ArgumentOutOfRangeException(nameof(totalItems), totalItems,
+                    "Total number of elements in superset must be greater or equal collection items count");
             }
             if (pageNumber < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(pageNumber), pageNumber, "Page number must be greater or equal 1");
+                throw new ArgumentOutOfRangeException(nameof(pageNumber), pageNumber,
+                    "Page number must be greater or equal 1");
             }
             if (pageSize < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater or equal 0");
+                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize,
+                    "Page size must be greater or equal 0");
             }
             if (pageSize < collection.Count())
             {
-                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater or equal collection items count");
+                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize,
+                    "Page size must be greater or equal collection items count");
             }
 
             _collection = collection.ToList();
@@ -114,7 +119,7 @@ namespace Structr.Collections
         /// </summary>
         /// <typeparam name="T">Type of items in list.</typeparam>
         /// <returns></returns>
-        public static IPagedList<T> Empty<T>()
+        public static PagedList<T> Empty<T>()
             => new PagedList<T>();
     }
 }
