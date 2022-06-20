@@ -13,18 +13,18 @@ namespace Structr.Tests.AspNetCore.Mvc
         public void AddClass()
         {
             // Arrange
-            var th = new TagHelperOutput("a", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
+            var tagHelperOutput = new TagHelperOutput("a", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
                 Task.Factory.StartNew<TagHelperContent>(() => new DefaultTagHelperContent()));
 
             // Act
-            th.AddClass("SomeTestClass");
-            th.AddClass("SomeTestClass2");
+            tagHelperOutput.AddClass("test-css-class");
+            tagHelperOutput.AddClass("test-css-class-2");
 
             // Assert
-            th.Attributes.Should().SatisfyRespectively(
+            tagHelperOutput.Attributes.Should().SatisfyRespectively(
                 x => {
                     x.Name.Should().Be("class");
-                    x.Value.Should().BeEquivalentTo(new HtmlString("SomeTestClass SomeTestClass2"));
+                    x.Value.Should().BeEquivalentTo(new HtmlString("test-css-class test-css-class-2"));
                 });
         }
     }
