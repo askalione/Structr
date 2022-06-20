@@ -18,7 +18,7 @@ namespace Structr.Tests.AspNetCore.TagHelpers
         [InlineData("Admin", "Users", "", null)]
         [InlineData("Admin", "", "Details", null)]
         [InlineData("", "Users", "Details", null)]
-        public void ApplyRule(string area, string controller, string action, string expected)
+        public void Process(string area, string controller, string action, string expected)
         {
             var context = TagHelperContextFactory.Create();
             var output = TagHelperOutputFactory.Create();

@@ -49,16 +49,16 @@ namespace Structr.Tests.AspNetCore.Mvc
         [Theory]
         [InlineData(null, "/Users/Edit/1")]
         [InlineData("/Users/Details/1", "/Users/Details/1")]
-        public void GetReferrer(string reffrer, string expected)
+        public void GetReferrer(string referrer, string expected)
         {
             // Arrange
             var httpContext = new DefaultHttpContext();
-            if (reffrer != null)
+            if (referrer != null)
             {
                 httpContext.Request.Headers.Add("Content-Type", "multipart/form-data");
                 httpContext.Request.Form =
                     new FormCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> {
-                        { ReferrerConstants.Key, "/Users/Details/1" }
+                        { ReferrerConstants.Key, referrer }
                     });
             }
 

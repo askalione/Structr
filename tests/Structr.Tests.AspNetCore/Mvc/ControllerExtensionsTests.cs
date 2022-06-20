@@ -343,16 +343,16 @@ namespace Structr.Tests.AspNetCore.Mvc
 
         #endregion
 
-        private Controller GetController(out HttpContext httpContext, string? refferer = null, Action<IServiceCollection, HttpContext>? configureServices = null)
+        private Controller GetController(out HttpContext httpContext, string? referrer = null, Action<IServiceCollection, HttpContext>? configureServices = null)
         {
             httpContext = new DefaultHttpContext();
 
-            if (refferer != null)
+            if (referrer != null)
             {
                 httpContext.Request.Headers.Add("Content-Type", "multipart/form-data");
                 httpContext.Request.Form =
                     new FormCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> {
-                        { ReferrerConstants.Key, refferer }
+                        { ReferrerConstants.Key, referrer }
                     });
             }
 

@@ -11,7 +11,7 @@ namespace Structr.Tests.AspNetCore.TagHelpers
         [Theory]
         [InlineData(true, "test-css-class")]
         [InlineData(false, null)]
-        public void ApplyRule(bool append, string expected)
+        public void Process(bool append, string expected)
         {
             var context = TagHelperContextFactory.Create();
             var output = TagHelperOutputFactory.Create();

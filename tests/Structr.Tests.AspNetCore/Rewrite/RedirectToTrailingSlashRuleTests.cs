@@ -8,13 +8,13 @@ using Xunit;
 
 namespace Structr.Tests.AspNetCore.Rewrite
 {
-    public class RedirectToLowercaseRuleTests
+    public class RedirectToTrailingSlashRuleTests
     {
         [Fact]
         public void Ctor()
         {
             // Act
-            Action act = () => new RedirectToLowercaseRule(x => true, 301);
+            Action act = () => new RedirectToTrailingSlashRule(x => true, 301);
 
             // Assert
             act.Should().NotThrow<ArgumentNullException>();
@@ -24,21 +24,21 @@ namespace Structr.Tests.AspNetCore.Rewrite
         public void Ctor_throws_when_filter_is_null()
         {
             // Act
-            Action act = () => new RedirectToLowercaseRule(null, 301);
+            Action act = () => new RedirectToTrailingSlashRule(null, 301);
 
             // Assert
             act.Should().Throw<ArgumentNullException>();
         }
 
         [Theory]
-        [InlineData("/Users/Index", "gEt", true, "http://localhost:8080/users/index?id=1")]
-        [InlineData("/users/index", "gEt", true, "")] // No need for redirect.
+        [InlineData("/Users/Index", "gEt", true, "http://localhost:8080/Users/Index/?id=1")]
+        [InlineData("/Users/Index/", "gEt", true, "")] // No need for redirect.
         [InlineData("/Users/Index", "gEt", false, "")] // Filter prohibits redirect.
         [InlineData("/Users/Index", "POST", true, "")] // Only GET should be redirected.
         public void ApplyRule(string controllerAction, string method, bool filter, string expected)
         {
             // Arrange
-            var rule = new RedirectToLowercaseRule(x => filter, 301);
+            var rule = new RedirectToTrailingSlashRule(x => filter, 301);
 
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Method = method;

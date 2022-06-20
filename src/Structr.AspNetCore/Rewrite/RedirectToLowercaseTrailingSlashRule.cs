@@ -8,11 +8,22 @@ using System.Text.RegularExpressions;
 
 namespace Structr.AspNetCore.Rewrite
 {
+    /// <summary>
+    /// Rule performing redirect for GET requests to lower case url if case any upper characters are
+    /// present, while adding trailing slash.
+    /// </summary>
+    /// <remarks>Example: <c>http://localhost:5001/Home/Index?search=hello => http://localhost:5001/home/index/?search=hello</c></remarks>
     public class RedirectToLowercaseTrailingSlashRule : IRule
     {
         private readonly int _statusCode;
         private readonly Func<HttpRequest, bool> _filter;
 
+        /// <summary>
+        /// Creates an instance of <see cref="RedirectToLowercaseTrailingSlashRule"/>
+        /// </summary>
+        /// <param name="filter">Function that determines if rule should be applied.</param>
+        /// <param name="statusCode">Status code to redirect with.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="filter"/> is null.</exception>
         public RedirectToLowercaseTrailingSlashRule(Func<HttpRequest, bool> filter, int statusCode)
         {
             if (filter == null)
@@ -65,7 +76,7 @@ namespace Structr.AspNetCore.Rewrite
                 request.QueryString);
 
             var response = context.HttpContext.Response;
-            response.StatusCode = StatusCodes.Status301MovedPermanently;
+            response.StatusCode = _statusCode;
             response.Headers[HeaderNames.Location] = url;
             context.Result = RuleResult.EndResponse;
         }
