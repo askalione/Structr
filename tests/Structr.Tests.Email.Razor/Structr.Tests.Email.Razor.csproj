@@ -4,8 +4,8 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
         <IsPackable>false</IsPackable>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,8 +23,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Structr.Email.Razor\Structr.Email.Razor.csproj" />
-      <ProjectReference Include="..\..\src\Structr.Email\Structr.Email.csproj" />
+        <ProjectReference Include="..\..\src\Structr.Email.Razor\Structr.Email.Razor.csproj" />
+        <ProjectReference Include="..\..\src\Structr.Email\Structr.Email.csproj" />
     </ItemGroup>
 
     <ItemGroup>

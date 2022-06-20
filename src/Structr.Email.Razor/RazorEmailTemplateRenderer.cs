@@ -42,6 +42,10 @@ namespace Structr.Email.Razor
                 .Build();
         }
 
+        /// <remarks>
+        ///  Works with public model classes only.
+        /// </remarks>
+        /// <inheritdoc />
         public Task<string> RenderAsync<TModel>(string template, TModel model)
         {
             dynamic? viewBag = (model as IRazorModel)?.ViewBag;
@@ -52,13 +56,14 @@ namespace Structr.Email.Razor
         {
             using (var algorithm = SHA256.Create())
             {
-                var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(template));
+                byte[] hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(template));
                 var sb = new StringBuilder();
                 foreach (byte b in hash)
                 {
                     sb.Append(b.ToString("X2"));
                 }
-                return sb.ToString();
+                string result = sb.ToString();
+                return result;
             }
         }
     }

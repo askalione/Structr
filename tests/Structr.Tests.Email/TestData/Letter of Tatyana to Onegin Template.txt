@@ -1,4 +1,4 @@
-Letter of Tatyana to Onegin.
+Letter of {{From}} to {{To}}.
 I write this to you - what more can be said?
 What more can I add to that one fact?
 For now I know it is in your power

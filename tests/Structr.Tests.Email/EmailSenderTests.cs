@@ -6,20 +6,34 @@ namespace Structr.Tests.Email
 {
     public class EmailSenderTests : IDisposable
     {
-        private IEmailClient _emailClient;
         private string _tempDirPath;
+        private IEmailClient _emailClient;
+        private string _from;
+        private string _to;
+        private string _subject;
+        private string _message;
+        private string _template;
+        private string _templatePath;
 
         public EmailSenderTests()
         {
             _tempDirPath = TestDataPath.Combine("EmailSenderTemp");
             _emailClient = new FileEmailClient(_tempDirPath);
+
+            _from = "tatyana@larina.name";
+            _to = "eugene@onegin.name";
+            _subject = "Letter of Tatyana to Onegin.";
+            _message = string.Join(Environment.NewLine, "Letter of Tatyana to Onegin.", "I write this to you - what more can be said?");
+            _template = string.Join(Environment.NewLine, "Letter of {{From}} to {{To}}.", "I write this to you - what more can be said?");
+
+            _templatePath = TestDataPath.Combine("Letter of Tatyana to Onegin Template.txt");
         }
 
         [Fact]
         public void Ctor()
         {
             // Arrange
-            var options = new EmailOptions(new EmailAddress("tatyana@larina.name"));
+            var options = new EmailOptions(new EmailAddress(_from));
 
             // Act
             var result = new EmailSender(options, _emailClient);
@@ -44,7 +58,7 @@ namespace Structr.Tests.Email
         public void Ctor_throws_if_emailClient_is_null(IEmailClient emailClient)
         {
             // Arrange
-            var options = new EmailOptions(new EmailAddress("tatyana@larina.name"));
+            var options = new EmailOptions(new EmailAddress(_from));
 
             // Act
             Action act = () => new EmailSender(options, emailClient);
@@ -54,27 +68,61 @@ namespace Structr.Tests.Email
         }
 
         [Fact]
-        public async Task SendEmailAsync()
+        public async Task SendEmailAsync_with_emailMassage()
         {
             // Arrange
-            string from = "tatyana@larina.name";
-            string to = "eugene@onegin.name";
-            string subject = "Tatyana's letter to Onegin.";
-            string message = "I write this to you - what more can be said?";
+            var emailMessage = new EmailMessage(_to, _message);
+            emailMessage.Subject = _subject;
 
-            var emailSender = new EmailSender(new EmailOptions(new EmailAddress(from)), _emailClient);
-
-            var emailMessage = new EmailMessage(to, message);
-            emailMessage.Subject = subject;
+            var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
 
             // Act
             bool result = await emailSender.SendEmailAsync(emailMessage, default(CancellationToken));
 
             // Assert
             result.Should().BeTrue();
+            FileShouldBeValid();
+        }
+
+        [Fact]
+        public async Task SendEmailAsync_with_emailTemplateMessage()
+        {
+            // Arrange
+            var emailTemplateMessage = new EmailTemplateMessage(_to, _template, new CustomModel());
+            emailTemplateMessage.Subject = _subject;
+
+            var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
+
+            // Act
+            bool result = await emailSender.SendEmailAsync(emailTemplateMessage, default(CancellationToken));
+
+            // Assert
+            result.Should().BeTrue();
+            FileShouldBeValid();
+        }
+
+        [Fact]
+        public async Task SendEmailAsync_with_emailTemplateFileMessage()
+        {
+            // Arrange
+            var emailTemplateFileMessage = new EmailTemplateFileMessage(_to, _templatePath, new CustomModel());
+            emailTemplateFileMessage.Subject = _subject;
+
+            var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
+
+            // Act
+            bool result = await emailSender.SendEmailAsync(emailTemplateFileMessage, default(CancellationToken));
+
+            // Assert
+            result.Should().BeTrue();
+            FileShouldBeValid();
+        }
+
+        private void FileShouldBeValid()
+        {
             string filePath = Directory.EnumerateFiles(_tempDirPath).Single();
             string content = File.ReadAllText(filePath);
-            content.Should().BeEquivalentTo(string.Join(Environment.NewLine, $"From: {from}", $"To: {to}", $"Subject: {subject}", "", message));
+            content.Should().StartWith(string.Join(Environment.NewLine, $"From: {_from}", $"To: {_to}", $"Subject: {_subject}", "", _message));
         }
 
         public void Dispose()

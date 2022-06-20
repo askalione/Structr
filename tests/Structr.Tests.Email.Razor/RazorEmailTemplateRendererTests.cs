@@ -61,5 +61,22 @@ namespace Structr.Tests.Email.Razor
             // Assert
             act.Should().ThrowExactly<DirectoryNotFoundException>();
         }
+
+        [Fact]
+        public async Task RenderAsync()
+        {
+            // Arrange            
+            var options = new EmailOptions(new EmailAddress("tatyana@larina.name"));
+            options.TemplateRootPath = TestDataPath.ContentRootPath;
+            var renderer = new RazorEmailTemplateRenderer(options);
+            var template = File.ReadAllText(TestDataPath.Combine("Letter of Tatyana to Onegin Razor Template.txt"));
+            var model = new CustomModel();
+
+            // Act
+            string result = await renderer.RenderAsync(template, model);
+
+            // Assert
+            result.Should().StartWith("Letter of Tatyana to Onegin.");
+        }
     }
 }
