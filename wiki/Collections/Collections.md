@@ -60,7 +60,7 @@ Based on such `result` you can successfully create user interface or provide inf
 
 | Method name | Return type | Description |
 | --- | --- | --- |
-| Empty | `IPagedList<T>` | Creates an empty paged list. |
+| Empty | `PagedList<T>` | Creates an empty paged list. |
 
 ## Extensions
 
@@ -78,7 +78,7 @@ It is very common to convert an existing paged list of items of one type (Entiti
 
 ```csharp
 // Paged list of entities
-var entities = new PagedList<Fruit>(
+IPagedEnumerable entities = new PagedList<Fruit>(
      new List<Fruit> {
           new Fruit("orange"),
           new Fruit("mandarin"),
@@ -98,9 +98,9 @@ Use `SerializablePagedList` class with `ToSerializablePagedList()` and `ToPagedL
 ```csharp
 var pagedList = new PagedList<FruitDto>(
      new List<FruitDto> {
-          new Fruit("orange"),
-          new Fruit("mandarin"),
-          new Fruit("plum")
+          new FruitDto("orange"),
+          new FruitDto("mandarin"),
+          new FruitDto("plum")
      }, 
      totalItems: 13, 
      pageNumber: 2,
