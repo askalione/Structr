@@ -92,3 +92,37 @@ var dto = entities.ToPagedList(_mapper.Map<FruitDto>(entities));
 ```
 
 For such conversion it is best to use [AutoMapper extensions](Collections-Automapper-extensions.md).
+
+Use `SerializablePagedList` class with `ToSerializablePagedList()` and `ToPagedList()` methods if you need serialize and deserialize a paged list (to JSON for example):
+
+```csharp
+var pagedList = new PagedList<FruitDto>(
+     new List<FruitDto> {
+          new Fruit("orange"),
+          new Fruit("mandarin"),
+          new Fruit("plum")
+     }, 
+     totalItems: 13, 
+     pageNumber: 2,
+     pageSize: 3);
+
+// Serialize
+SerializablePagedList<FruitDto> serializablePagedList = pagedList.ToSerializablePagedList();
+string json = JsonSerializer.Serialize(serializablePagedList);
+
+// json:
+//{
+//  "Items": [
+//    { "Name": "orange" },
+//    { "Name": "mandarin" },
+//    { "Name": "plum" }
+//  ],
+//  "TotalItems": 13,
+//  "PageNumber": 2,
+//  "PageSize": 3
+//}
+
+// Deserialize
+serializablePagedList = JsonSerializer.Deserialize<SerializablePagedList<FruitDto>>(json);
+pagedList = serializablePagedList.ToPagedList();
+```

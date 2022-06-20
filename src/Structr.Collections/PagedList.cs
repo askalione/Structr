@@ -41,24 +41,24 @@ namespace Structr.Collections
         /// contains elements copied from the specified collection. It's intended to contain
         /// currently displaying elements from corresponding superset.
         /// </summary>
-        /// <param name="collection">Source colleciton of elements. For example: part of search results to be displayed.</param>
+        /// <param name="items">Source colleciton of elements. For example: part of search results to be displayed.</param>
         /// <param name="totalItems">Total count of items in superset. For example: total count of search results.</param>
         /// <param name="pageNumber">Number of current page.</param>
         /// <param name="pageSize">Count of items to be dislpayed on page.</param>
         /// <exception cref="ArgumentNullException">Null source collection was provided.</exception>
         /// <exception cref="ArgumentOutOfRangeException">There are some inconsistence in provided page prameters.</exception>
-        public PagedList(IEnumerable<T> collection, int totalItems, int pageNumber, int pageSize)
+        public PagedList(IEnumerable<T> items, int totalItems, int pageNumber, int pageSize)
         {
-            if (collection == null)
+            if (items == null)
             {
-                throw new ArgumentNullException(nameof(collection));
+                throw new ArgumentNullException(nameof(items));
             }
             if (totalItems < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(totalItems), totalItems,
                     "Total number of elements in superset must be greater or equal 0");
             }
-            if (totalItems < collection.Count())
+            if (totalItems < items.Count())
             {
                 throw new ArgumentOutOfRangeException(nameof(totalItems), totalItems,
                     "Total number of elements in superset must be greater or equal collection items count");
@@ -73,13 +73,13 @@ namespace Structr.Collections
                 throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize,
                     "Page size must be greater or equal 0");
             }
-            if (pageSize < collection.Count())
+            if (pageSize < items.Count())
             {
                 throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize,
                     "Page size must be greater or equal collection items count");
             }
 
-            _collection = collection.ToList();
+            _collection = items.ToList();
 
             TotalItems = totalItems;
             PageNumber = pageNumber;
