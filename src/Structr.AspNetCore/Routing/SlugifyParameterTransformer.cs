@@ -3,6 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Structr.AspNetCore.Routing
 {
+    /// <summary>
+    /// An implementation of <see cref="IOutboundParameterTransformer"/> that slugifies URL string to make it more user-frendly.
+    /// </summary>
+    /// <remarks>Example: <c>/Users/AccountInfo => /Users/Account-Info</c></remarks>
     public class SlugifyParameterTransformer : IOutboundParameterTransformer
     {
         public string TransformOutbound(object value)

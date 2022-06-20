@@ -31,7 +31,7 @@ namespace Structr.AspNetCore.TagHelpers
         private readonly IUrlHelper _urlHelper;
 
         /// <summary>
-        /// Creates an instance of <see cref="PageSizeTagHelper"/>.
+        /// Initializes an instance of <see cref="PageSizeTagHelper"/>.
         /// </summary>
         /// <param name="urlHelper"></param>
         /// <exception cref="ArgumentNullException"></exception>

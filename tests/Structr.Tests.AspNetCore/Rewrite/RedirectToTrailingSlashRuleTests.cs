@@ -1,8 +1,7 @@
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Net.Http.Headers;
 using Structr.AspNetCore.Rewrite;
+using Structr.Tests.AspNetCore._TestUtils;
 using System;
 using Xunit;
 
@@ -35,19 +34,11 @@ namespace Structr.Tests.AspNetCore.Rewrite
         [InlineData("/Users/Index/", "gEt", true, "")] // No need for redirect.
         [InlineData("/Users/Index", "gEt", false, "")] // Filter prohibits redirect.
         [InlineData("/Users/Index", "POST", true, "")] // Only GET should be redirected.
-        public void ApplyRule(string controllerAction, string method, bool filter, string expected)
+        public void ApplyRule(string path, string method, bool filter, string expected)
         {
             // Arrange
             var rule = new RedirectToTrailingSlashRule(x => filter, 307);
-
-            var httpContext = new DefaultHttpContext();
-            httpContext.Request.Method = method;
-            httpContext.Request.Scheme = "http";
-            httpContext.Request.Host = new HostString("localhost:8080");
-            httpContext.Request.Path = controllerAction;
-            httpContext.Request.QueryString = new QueryString("?id=1");
-
-            var rewriteContext = new RewriteContext { HttpContext = httpContext };
+            var rewriteContext = RewriteContextFactory.Create(method, path);
 
             // Act
             rule.ApplyRule(rewriteContext);

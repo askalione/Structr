@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Structr.AspNetCore.JavaScript
 {
+    /// <summary>
+    /// An implementation of <see cref="IJavaScriptAlertProvider"/>.
+    /// </summary>
     public class JavaScriptAlertProvider : IJavaScriptAlertProvider
     {
         private static readonly string _key = typeof(IJavaScriptAlertProvider).FullName;

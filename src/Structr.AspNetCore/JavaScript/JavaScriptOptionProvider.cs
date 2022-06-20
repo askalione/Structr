@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace Structr.AspNetCore.JavaScript
 {
+    /// <summary>
+    /// An implementation of <see cref="IJavaScriptOptionProvider"/>.
+    /// </summary>
     public class JavaScriptOptionProvider : IJavaScriptOptionProvider
     {
         private static readonly object _key = typeof(IJavaScriptOptionProvider);

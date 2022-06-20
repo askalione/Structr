@@ -8,7 +8,7 @@ using System.Linq;
 namespace Structr.AspNetCore.Rewrite
 {
     /// <summary>
-    /// Rule performing redirect for GET requests to lower case url if case any upper characters are present.
+    /// Rule performing redirect for GET requests to lower case url in case any upper characters are present.
     /// </summary>
     /// <remarks>Example: <c>http://localhost:5001/Home/Index => http://localhost:5001/home/index</c></remarks>
     public class RedirectToLowercaseRule : IRule

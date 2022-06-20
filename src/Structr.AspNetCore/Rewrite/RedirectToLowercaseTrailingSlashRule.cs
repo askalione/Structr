@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace Structr.AspNetCore.Rewrite
 {
     /// <summary>
-    /// Rule performing redirect for GET requests to lower case url if case any upper characters are
+    /// Rule performing redirect for GET requests to lower case url in case any upper characters are
     /// present, while adding trailing slash.
     /// </summary>
     /// <remarks>Example: <c>http://localhost:5001/Home/Index?search=hello => http://localhost:5001/home/index/?search=hello</c></remarks>
