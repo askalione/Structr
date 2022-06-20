@@ -18,7 +18,7 @@ namespace Structr.Email.Clients.Smtp
             _options = options;
         }
 
-        public SmtpClient CreateSmtpClient()
+        public ISmtpClient CreateSmtpClient()
         {
             var smtpClient = new SmtpClient(_options.Host, _options.Port);
 
@@ -29,7 +29,8 @@ namespace Structr.Email.Clients.Smtp
                 smtpClient.Credentials = new NetworkCredential(_options.User, _options.Password);
             }
 
-            return smtpClient;
+            var smtpClientWrapper = new SmtpClientWrapper(smtpClient);
+            return smtpClientWrapper;
         }
     }
 }

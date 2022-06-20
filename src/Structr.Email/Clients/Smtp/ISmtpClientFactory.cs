@@ -1,15 +1,13 @@
-using System.Net.Mail;
-
 namespace Structr.Email.Clients.Smtp
 {
     /// <summary>
-    /// Provides functionality for creating a SmtpClient.
+    /// Provides functionality for creating an ISmtpClient.
     /// </summary>
     public interface ISmtpClientFactory
     {
         /// <summary>
-        /// Create a <see cref="SmtpClient"/>.
+        /// Create an <see cref="ISmtpClient"/>.
         /// </summary>
-        SmtpClient CreateSmtpClient();
+        ISmtpClient CreateSmtpClient();
     }
 }

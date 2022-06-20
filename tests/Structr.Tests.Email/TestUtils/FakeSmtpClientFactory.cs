@@ -18,7 +18,7 @@ namespace Structr.Tests.Email.TestUtils
             _options = options;
         }
 
-        public SmtpClient CreateSmtpClient()
+        public ISmtpClient CreateSmtpClient()
         {
             var smtpClient = new SmtpClient(_options.Host, _options.Port);
 
@@ -33,7 +33,8 @@ namespace Structr.Tests.Email.TestUtils
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
             smtpClient.PickupDirectoryLocation = TestDataPath.Combine("FakeSmtpClientTemp");
 
-            return smtpClient;
+            var smtpClientWrapper = new SmtpClientWrapper(smtpClient);
+            return smtpClientWrapper;
         }
     }
 }
