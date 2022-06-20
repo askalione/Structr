@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Structr.AspNetCore;
 using Structr.AspNetCore.Internal;
 using Structr.AspNetCore.JavaScript;
 using Structr.AspNetCore.Mvc;

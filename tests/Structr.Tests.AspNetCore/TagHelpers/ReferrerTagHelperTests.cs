@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Structr.AspNetCore;
 using Structr.AspNetCore.Internal;
 using Structr.AspNetCore.TagHelpers;
 using Structr.Collections;

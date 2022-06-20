@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Structr.AspNetCore;
 using Structr.AspNetCore.Internal;
 using Structr.AspNetCore.Mvc;
 using System.Collections.Generic;

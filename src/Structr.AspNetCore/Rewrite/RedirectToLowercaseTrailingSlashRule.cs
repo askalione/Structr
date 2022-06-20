@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Net.Http.Headers;
+using Structr.AspNetCore.Internal;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -58,7 +59,7 @@ namespace Structr.AspNetCore.Rewrite
                 || request.PathBase.Value.Any(char.IsUpper)
                 || request.Path.Value.Any(char.IsUpper);
 
-            var shouldUseTrailingSlash = Regex.IsMatch(request.Path.Value, RedirectToTrailingSlashDefaults.MatchPattern);
+            var shouldUseTrailingSlash = Regex.IsMatch(request.Path.Value, RedirectToTrailingSlashConstants.MatchPattern);
 
             if (shouldUseLowercase == false)
             {

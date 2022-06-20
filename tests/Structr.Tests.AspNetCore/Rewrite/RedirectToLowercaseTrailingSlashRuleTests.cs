@@ -40,7 +40,7 @@ namespace Structr.Tests.AspNetCore.Rewrite
         public void ApplyRule(string controllerAction, string method, bool filter, string expected)
         {
             // Arrange
-            var rule = new RedirectToLowercaseTrailingSlashRule(x => filter, 301);
+            var rule = new RedirectToLowercaseTrailingSlashRule(x => filter, 307);
 
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Method = method;
@@ -56,7 +56,7 @@ namespace Structr.Tests.AspNetCore.Rewrite
 
             // Assert
             rewriteContext.HttpContext.Response.Headers[HeaderNames.Location].ToString().Should().Be(expected);
-            rewriteContext.HttpContext.Response.StatusCode.Should().Be(string.IsNullOrEmpty(expected) ? 200 : 301);
+            rewriteContext.HttpContext.Response.StatusCode.Should().Be(string.IsNullOrEmpty(expected) ? 200 : 307);
         }
     }
 }

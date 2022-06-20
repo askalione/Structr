@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Net.Http.Headers;
+using Structr.AspNetCore.Internal;
 using System;
 using System.Text.RegularExpressions;
 
@@ -51,7 +52,7 @@ namespace Structr.AspNetCore.Rewrite
                 return;
             }
 
-            var shouldUseTrailingSlash = Regex.IsMatch(request.Path.Value, RedirectToTrailingSlashDefaults.MatchPattern);
+            var shouldUseTrailingSlash = Regex.IsMatch(request.Path.Value, RedirectToTrailingSlashConstants.MatchPattern);
 
             if (shouldUseTrailingSlash == false)
             {
