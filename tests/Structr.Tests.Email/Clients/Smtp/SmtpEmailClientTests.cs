@@ -4,8 +4,16 @@ using Structr.Tests.Email.TestUtils;
 
 namespace Structr.Tests.Email.Clients.Smtp
 {
-    public class SmtpEmailClientTests
+    public class SmtpEmailClientTests : IDisposable
     {
+        private string _tempDirPath;
+
+        public SmtpEmailClientTests()
+        {
+            _tempDirPath = TestDataPath.Combine("FakeSmtpClientTemp");
+            Directory.CreateDirectory(_tempDirPath);
+        }
+
         [Fact]
         public void Ctor()
         {
@@ -35,21 +43,27 @@ namespace Structr.Tests.Email.Clients.Smtp
         {
             // Arrange
             var emailClient = new SmtpEmailClient(new FakeSmtpClientFactory(new SmtpOptions("127.0.0.1")));
-            var emailData = new CustomEmailData(new List<EmailAddress>() { new EmailAddress("address@example.com") });
-            emailData.From = new EmailAddress("from@example.com");
-
-            var tempDirPath = TestDataPath.Combine("FakeSmtpClientTemp");
-            Directory.CreateDirectory(tempDirPath);
+            var emailData = new CustomEmailData(new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") });
+            emailData.From = new EmailAddress("tatyana@larina.name");
 
             // Act
-            var result = await emailClient.SendAsync(emailData, "Hello!");
+            var result = await emailClient.SendAsync(emailData, "I write this to you - what more can be said?");
 
             // Assert
             result.Should().BeTrue();
-            IEnumerable<string> files = Directory.EnumerateFiles(tempDirPath);
-            files.Should().ContainSingle();
-            File.Delete(files.Single());
-            Directory.Delete(tempDirPath);
+            Directory.EnumerateFiles(_tempDirPath).Should().ContainSingle();
+        }
+
+        public void Dispose()
+        {
+            if (Directory.Exists(_tempDirPath))
+            {
+                foreach (var file in Directory.EnumerateFiles(_tempDirPath))
+                {
+                    File.Delete(file);
+                }
+                Directory.Delete(_tempDirPath);
+            }
         }
     }
 }

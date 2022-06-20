@@ -4,8 +4,15 @@ using Structr.Tests.Email.TestUtils;
 
 namespace Structr.Tests.Email.Clients
 {
-    public class FileEmailClientTests
+    public class FileEmailClientTests : IDisposable
     {
+        private string _tempDirPath;
+
+        public FileEmailClientTests()
+        {
+            _tempDirPath = TestDataPath.Combine("FileEmailClientTemp");
+        }
+
         [Fact]
         public void Ctor()
         {
@@ -33,19 +40,28 @@ namespace Structr.Tests.Email.Clients
         public async Task SendAsync()
         {
             // Arrange
-            var tempDirPath = TestDataPath.Combine("FileEmailClientTemp");
-            var fileEmailClient = new FileEmailClient(tempDirPath);
-            var emailData = new CustomEmailData(new List<EmailAddress> { new EmailAddress("address@example.com") });
+            var fileEmailClient = new FileEmailClient(_tempDirPath);
+            var emailData = new CustomEmailData(new List<EmailAddress> { new EmailAddress("eugene@onegin.name") });
+            emailData.From = new EmailAddress("tatyana@larina.name");
 
             // Act
-            var result = await fileEmailClient.SendAsync(emailData, "Some message", default(CancellationToken));
+            var result = await fileEmailClient.SendAsync(emailData, "I write this to you - what more can be said?", default(CancellationToken));
 
             // Assert
             result.Should().BeTrue();
-            IEnumerable<string> files = Directory.EnumerateFiles(tempDirPath);
-            files.Should().ContainSingle();
-            File.Delete(files.Single());
-            Directory.Delete(tempDirPath);
+            Directory.EnumerateFiles(_tempDirPath).Should().ContainSingle();
+        }
+
+        public void Dispose()
+        {
+            if (Directory.Exists(_tempDirPath))
+            {
+                foreach (var file in Directory.EnumerateFiles(_tempDirPath))
+                {
+                    File.Delete(file);
+                }
+                Directory.Delete(_tempDirPath);
+            }
         }
     }
 }

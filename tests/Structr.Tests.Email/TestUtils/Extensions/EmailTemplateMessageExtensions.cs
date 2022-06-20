@@ -6,15 +6,15 @@ namespace Structr.Tests.Email.TestUtils.Extensions
     {
         public static void ShouldBeValid(this EmailTemplateMessage emailTemplateMessage)
         {
-            emailTemplateMessage.To.Should().BeEquivalentTo(new List<EmailAddress>() { new EmailAddress("address@example.com") });
-            emailTemplateMessage.Template.Should().Be("Hello, {{Name}}");
+            emailTemplateMessage.To.Should().BeEquivalentTo(new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") });
+            emailTemplateMessage.Template.Should().Be("Letter of {{From}} to {{To}}.");
             emailTemplateMessage.Model.Should().NotBeNull();
         }
 
         public static void ShouldBeValid<TModel>(this EmailTemplateMessage<TModel> emailTemplateMessage)
         {
-            emailTemplateMessage.To.Should().BeEquivalentTo(new List<EmailAddress>() { new EmailAddress("address@example.com") });
-            emailTemplateMessage.Template.Should().Be("Hello, {{Name}}");
+            emailTemplateMessage.To.Should().BeEquivalentTo(new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") });
+            emailTemplateMessage.Template.Should().Be("Letter of {{From}} to {{To}}.");
             emailTemplateMessage.Model.Should().NotBeNull();
         }
     }

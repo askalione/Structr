@@ -8,10 +8,10 @@ namespace Structr.Tests.Email
         public void Ctor()
         {
             // Act
-            var result = new EmailAddress("address@example.com");
+            var result = new EmailAddress("tatyana@larina.name");
 
             // Assert
-            result.Address.Should().Be("address@example.com");
+            result.Address.Should().Be("tatyana@larina.name");
             result.Name.Should().BeNull();
         }
 
@@ -32,18 +32,18 @@ namespace Structr.Tests.Email
         public void Ctor_with_name()
         {
             // Act
-            var result = new EmailAddress("address@example.com", "Example");
+            var result = new EmailAddress("tatyana@larina.name", "Tatyana Larina");
 
             // Assert
-            result.Address.Should().Be("address@example.com");
-            result.Name.Should().Be("Example");
+            result.Address.Should().Be("tatyana@larina.name");
+            result.Name.Should().Be("Tatyana Larina");
         }
 
         [Theory]
-        [InlineData("address@example.com", "", "address@example.com")]
-        [InlineData("address@example.com", "  ", "address@example.com")]
-        [InlineData("address@example.com", null, "address@example.com")]
-        [InlineData("address@example.com", "Example", "Example <address@example.com>")]
+        [InlineData("tatyana@larina.name", "", "tatyana@larina.name")]
+        [InlineData("tatyana@larina.name", "  ", "tatyana@larina.name")]
+        [InlineData("tatyana@larina.name", null, "tatyana@larina.name")]
+        [InlineData("tatyana@larina.name", "Tatyana Larina", "Tatyana Larina <tatyana@larina.name>")]
         public void ToStringTest(string address, string? name, string expected)
         {
             // Arrange

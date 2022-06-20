@@ -14,7 +14,7 @@ namespace Structr.Tests.Email
 
             // Act
             serviceCollection
-                .AddEmail(new EmailAddress("address@example.com", "Example"))
+                .AddEmail(new EmailAddress("tatyana@larina.name", "Tatyana Larina"))
                 .AddFileClient(TestDataPath.ContentRootPath);
 
             // Assert

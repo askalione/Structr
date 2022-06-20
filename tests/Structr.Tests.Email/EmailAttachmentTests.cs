@@ -8,10 +8,10 @@ namespace Structr.Tests.Email
         public void Ctor()
         {
             // Act
-            var result = new EmailAttachment("readme.txt");
+            var result = new EmailAttachment("Letter of Tatyana to Onegin.txt");
 
             // Assert
-            result.FileName.Should().Be("readme.txt");
+            result.FileName.Should().Be("Letter of Tatyana to Onegin.txt");
             result.ContentType.Should().BeNull();
             result.Content.Should().BeNull();
         }
@@ -33,10 +33,10 @@ namespace Structr.Tests.Email
         public void Ctor_with_contentType()
         {
             // Act
-            var result = new EmailAttachment("readme.txt", "text/plain");
+            var result = new EmailAttachment("Letter of Tatyana to Onegin.txt", "text/plain");
 
             // Assert
-            result.FileName.Should().Be("readme.txt");
+            result.FileName.Should().Be("Letter of Tatyana to Onegin.txt");
             result.ContentType.Should().Be("text/plain");
             result.Content.Should().BeNull();
         }
@@ -48,7 +48,7 @@ namespace Structr.Tests.Email
         public void Ctor_throws_when_contentType_is_null_or_empty(string contentType)
         {
             // Act
-            Action act = () => new EmailAttachment("readme.txt", contentType);
+            Action act = () => new EmailAttachment("Letter of Tatyana to Onegin.txt", contentType);
 
             // Assert
             act.Should().Throw<ArgumentNullException>();
@@ -61,10 +61,10 @@ namespace Structr.Tests.Email
             Stream stream = new MemoryStream();
 
             // Act
-            var result = new EmailAttachment(stream, "readme.txt", "text/plain");
+            var result = new EmailAttachment(stream, "Letter of Tatyana to Onegin.txt", "text/plain");
 
             // Assert
-            result.FileName.Should().Be("readme.txt");
+            result.FileName.Should().Be("Letter of Tatyana to Onegin.txt");
             result.ContentType.Should().Be("text/plain");
             result.Content.Should().NotBeNull();
         }
@@ -74,7 +74,7 @@ namespace Structr.Tests.Email
         public void Ctor_throws_when_content_is_null(Stream content)
         {
             // Act
-            Action act = () => new EmailAttachment(content, "readme.txt", "text/plain");
+            Action act = () => new EmailAttachment(content, "Letter of Tatyana to Onegin.txt", "text/plain");
 
             // Assert
             act.Should().Throw<ArgumentNullException>();

@@ -14,7 +14,7 @@ namespace Structr.Tests.Email
             // Arrange
             var serviceCollection = new ServiceCollection();
             var emailBuilder = serviceCollection
-                .AddEmail(new EmailAddress("address@example.com", "Example"));
+                .AddEmail(new EmailAddress("tatyana@larina.name", "Tatyana Larina"));
 
             // Act
             emailBuilder.AddFileClient(TestDataPath.ContentRootPath);
@@ -30,7 +30,7 @@ namespace Structr.Tests.Email
             // Arrange
             var serviceCollection = new ServiceCollection();
             var emailBuilder = serviceCollection
-                .AddEmail(new EmailAddress("address@example.com", "Example"));
+                .AddEmail(new EmailAddress("tatyana@larina.name", "Tatyana Larina"));
 
             // Act
             emailBuilder.AddSmtpClient("127.0.0.1");
@@ -47,7 +47,7 @@ namespace Structr.Tests.Email
             // Arrange
             var serviceCollection = new ServiceCollection();
             var emailBuilder = serviceCollection
-                .AddEmail(new EmailAddress("address@example.com", "Example"));
+                .AddEmail(new EmailAddress("tatyana@larina.name", "Tatyana Larina"));
             var options = new SmtpOptions("127.0.0.1");
 
             // Act
@@ -65,7 +65,7 @@ namespace Structr.Tests.Email
             // Arrange
             var serviceCollection = new ServiceCollection();
             var emailBuilder = serviceCollection
-                .AddEmail(new EmailAddress("address@example.com", "Example"));
+                .AddEmail(new EmailAddress("tatyana@larina.name", "Tatyana Larina"));
 
             // Act
             emailBuilder.AddSmtpClient(_ =>

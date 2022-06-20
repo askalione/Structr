@@ -8,7 +8,7 @@ namespace Structr.Tests.Email
         public void Ctor()
         {
             // Arrange
-            var from = new EmailAddress("address@example.com");
+            var from = new EmailAddress("tatyana@larina.name");
 
             // Act
             var result = new EmailOptions(from);

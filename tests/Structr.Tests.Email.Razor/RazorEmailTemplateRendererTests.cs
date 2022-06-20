@@ -10,7 +10,7 @@ namespace Structr.Tests.Email.Razor
         public void Ctor()
         {
             // Arrange
-            var options = new EmailOptions(new EmailAddress("address@example.com"));
+            var options = new EmailOptions(new EmailAddress("tatyana@larina.name"));
             options.TemplateRootPath = TestDataPath.ContentRootPath;
 
             // Act
@@ -38,7 +38,7 @@ namespace Structr.Tests.Email.Razor
         public void Ctor_throws_when_templateRootPath_is_null(string templateRootPath)
         {
             // Arrange
-            var options = new EmailOptions(new EmailAddress("address@example.com"));
+            var options = new EmailOptions(new EmailAddress("tatyana@larina.name"));
             options.TemplateRootPath = templateRootPath;
 
             // Act
@@ -52,7 +52,7 @@ namespace Structr.Tests.Email.Razor
         public void Ctor_throws_when_templateRootPath_does_not_exist()
         {
             // Arrange
-            var options = new EmailOptions(new EmailAddress("address@example.com"));
+            var options = new EmailOptions(new EmailAddress("tatyana@larina.name"));
             options.TemplateRootPath = TestDataPath.Combine("NotExistFolder");
 
             // Act

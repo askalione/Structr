@@ -1,24 +1,11 @@
 using Structr.Email;
+using Structr.Tests.Email.TestUtils;
 using Structr.Tests.Email.TestUtils.Extensions;
 
 namespace Structr.Tests.Email
 {
     public class EmailTemplateMessageTests
     {
-        class CustomModel
-        {
-            public string Name { get; set; } = "Peter Parker";
-        }
-
-        class CustomEmailTemplateMessage : EmailTemplateMessage<CustomModel>
-        {
-            public CustomEmailTemplateMessage(string to, CustomModel model) : base(to, model) { }
-            public CustomEmailTemplateMessage(IEnumerable<string> to, CustomModel model) : base(to, model) { }
-            public CustomEmailTemplateMessage(IEnumerable<EmailAddress> to, CustomModel model) : base(to, model) { }
-
-            public override string Template => "Hello, {{Name}}";
-        }
-
         [Fact]
         public void Ctor()
         {
@@ -26,7 +13,7 @@ namespace Structr.Tests.Email
             var model = new CustomModel();
 
             // Act
-            var result = new EmailTemplateMessage("address@example.com", "Hello, {{Name}}", model);
+            var result = new EmailTemplateMessage("eugene@onegin.name", "Letter of {{From}} to {{To}}.", model);
 
             // Assert
             result.ShouldBeValid();
@@ -42,7 +29,7 @@ namespace Structr.Tests.Email
             var model = new CustomModel();
 
             // Act
-            Action act = () => new EmailTemplateMessage("address@example.com", template, model);
+            Action act = () => new EmailTemplateMessage("eugene@onegin.name", template, model);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
@@ -53,7 +40,7 @@ namespace Structr.Tests.Email
         public void Ctor_throws_when_model_is_null_or_empty(object model)
         {
             // Act
-            Action act = () => new EmailTemplateMessage("address@example.com", "Hello, {{Name}}", model);
+            Action act = () => new EmailTemplateMessage("eugene@onegin.name", "Letter of {{From}} to {{To}}.", model);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
@@ -63,11 +50,11 @@ namespace Structr.Tests.Email
         public void Ctor_with_list_of_strings()
         {
             // Arrange
-            var strings = new List<string>() { "address@example.com" };
+            var strings = new List<string>() { "eugene@onegin.name" };
             var model = new CustomModel();
 
             // Act
-            var result = new EmailTemplateMessage(strings, "Hello, {{Name}}", model);
+            var result = new EmailTemplateMessage(strings, "Letter of {{From}} to {{To}}.", model);
 
             // Assert
             result.ShouldBeValid();
@@ -77,11 +64,11 @@ namespace Structr.Tests.Email
         public void Ctor_with_list_of_emails()
         {
             // Arrange
-            var emails = new List<EmailAddress>() { new EmailAddress("address@example.com") };
+            var emails = new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") };
             var model = new CustomModel();
 
             // Act
-            var result = new EmailTemplateMessage(emails, "Hello, {{Name}}", model);
+            var result = new EmailTemplateMessage(emails, "Letter of {{From}} to {{To}}.", model);
 
             // Assert
             result.ShouldBeValid();
@@ -94,7 +81,7 @@ namespace Structr.Tests.Email
             var model = new CustomModel();
 
             // Act
-            var result = new CustomEmailTemplateMessage("address@example.com", model);
+            var result = new CustomEmailTemplateMessage("eugene@onegin.name", model);
 
             // Assert
             result.ShouldBeValid();
@@ -104,7 +91,7 @@ namespace Structr.Tests.Email
         public void Ctor_for_custom_model_with_list_of_strings()
         {
             // Arrange
-            var strings = new List<string>() { "address@example.com" };
+            var strings = new List<string>() { "eugene@onegin.name" };
             var model = new CustomModel();
 
             // Act
@@ -118,7 +105,7 @@ namespace Structr.Tests.Email
         public void Ctor_for_custom_model_with_list_of_emails()
         {
             // Arrange
-            var emails = new List<EmailAddress>() { new EmailAddress("address@example.com") };
+            var emails = new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") };
             var model = new CustomModel();
 
             // Act

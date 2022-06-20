@@ -13,7 +13,7 @@ namespace Structr.Tests.Email.Razor
             // Arrange
             var serviceCollection = new ServiceCollection();
             var emailServiceBuilder = serviceCollection
-                .AddEmail(new EmailAddress("address@example.com", "Example"), options =>
+                .AddEmail(new EmailAddress("tatyana@larina.name", "Tatyana Larina"), options =>
                 {
                     options.TemplateRootPath = TestDataPath.ContentRootPath;
                 })

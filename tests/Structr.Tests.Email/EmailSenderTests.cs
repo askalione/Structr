@@ -4,17 +4,25 @@ using Structr.Tests.Email.TestUtils;
 
 namespace Structr.Tests.Email
 {
-    public class EmailSenderTests
+    public class EmailSenderTests : IDisposable
     {
+        private IEmailClient _emailClient;
+        private string _tempDirPath;
+
+        public EmailSenderTests()
+        {
+            _tempDirPath = TestDataPath.Combine("EmailSenderTemp");
+            _emailClient = new FileEmailClient(_tempDirPath);
+        }
+
         [Fact]
         public void Ctor()
         {
             // Arrange
-            var options = new EmailOptions(new EmailAddress("address@example.com"));
-            var emailClient = new FileEmailClient(TestDataPath.Combine("EmailSenderTemp"));
+            var options = new EmailOptions(new EmailAddress("tatyana@larina.name"));
 
             // Act
-            var result = new EmailSender(options, emailClient);
+            var result = new EmailSender(options, _emailClient);
 
             // Assert
             result.Should().NotBeNull();
@@ -24,11 +32,8 @@ namespace Structr.Tests.Email
         [InlineData(null)]
         public void Ctor_throws_if_options_is_null(EmailOptions options)
         {
-            // Arrange
-            var fileEmailClient = new FileEmailClient(TestDataPath.Combine("EmailSenderTemp"));
-
             // Act
-            Action act = () => new EmailSender(options, fileEmailClient);
+            Action act = () => new EmailSender(options, _emailClient);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
@@ -39,7 +44,7 @@ namespace Structr.Tests.Email
         public void Ctor_throws_if_emailClient_is_null(IEmailClient emailClient)
         {
             // Arrange
-            var options = new EmailOptions(new EmailAddress("address@example.com"));
+            var options = new EmailOptions(new EmailAddress("tatyana@larina.name"));
 
             // Act
             Action act = () => new EmailSender(options, emailClient);
@@ -52,21 +57,36 @@ namespace Structr.Tests.Email
         public async Task SendEmailAsync()
         {
             // Arrange
-            var tempDirPath = TestDataPath.Combine("EmailSenderTemp");
-            var options = new EmailOptions(new EmailAddress("address@example.com"));
-            var emailClient = new FileEmailClient(tempDirPath);
-            var emailSender = new EmailSender(options, emailClient);
-            var emailMessage = new EmailMessage("member@example.com", "Hello!");
+            string from = "tatyana@larina.name";
+            string to = "eugene@onegin.name";
+            string subject = "Tatyana's letter to Onegin.";
+            string message = "I write this to you - what more can be said?";
+
+            var emailSender = new EmailSender(new EmailOptions(new EmailAddress(from)), _emailClient);
+
+            var emailMessage = new EmailMessage(to, message);
+            emailMessage.Subject = subject;
 
             // Act
-            var result = await emailSender.SendEmailAsync(emailMessage, default(CancellationToken));
+            bool result = await emailSender.SendEmailAsync(emailMessage, default(CancellationToken));
 
             // Assert
             result.Should().BeTrue();
-            IEnumerable<string> files = Directory.EnumerateFiles(tempDirPath);
-            files.Should().ContainSingle();
-            File.Delete(files.Single());
-            Directory.Delete(tempDirPath);
+            string filePath = Directory.EnumerateFiles(_tempDirPath).Single();
+            string content = File.ReadAllText(filePath);
+            content.Should().BeEquivalentTo(string.Join(Environment.NewLine, $"From: {from}", $"To: {to}", $"Subject: {subject}", "", message));
+        }
+
+        public void Dispose()
+        {
+            if (Directory.Exists(_tempDirPath))
+            {
+                foreach (var file in Directory.EnumerateFiles(_tempDirPath))
+                {
+                    File.Delete(file);
+                }
+                Directory.Delete(_tempDirPath);
+            }
         }
     }
 }

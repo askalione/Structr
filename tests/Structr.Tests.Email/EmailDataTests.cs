@@ -9,7 +9,7 @@ namespace Structr.Tests.Email
         public void Ctor()
         {
             // Arrange
-            var addresses = new List<EmailAddress> { new EmailAddress("address@example.com") };
+            var addresses = new List<EmailAddress> { new EmailAddress("eugene@onegin.name") };
 
             // Act
             var result = new CustomEmailData(addresses);

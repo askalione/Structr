@@ -6,20 +6,6 @@ namespace Structr.Tests.Email
 {
     public class EmailTemplateFileMessageTests
     {
-        class CustomModel
-        {
-            public string Name { get; set; } = "Peter Parker";
-        }
-
-        class CustomEmailTemplateFileMessage : EmailTemplateFileMessage<CustomModel>
-        {
-            public CustomEmailTemplateFileMessage(string to, CustomModel model) : base(to, model) { }
-            public CustomEmailTemplateFileMessage(IEnumerable<string> to, CustomModel model) : base(to, model) { }
-            public CustomEmailTemplateFileMessage(IEnumerable<EmailAddress> to, CustomModel model) : base(to, model) { }
-
-            public override string TemplatePath => TestDataPath.ContentRootPath;
-        }
-
         [Fact]
         public void Ctor()
         {
@@ -27,7 +13,7 @@ namespace Structr.Tests.Email
             var model = new CustomModel();
 
             // Act
-            var result = new EmailTemplateFileMessage("address@example.com", TestDataPath.ContentRootPath, model);
+            var result = new EmailTemplateFileMessage("eugene@onegin.name", TestDataPath.ContentRootPath, model);
 
             // Assert
             result.ShouldBeValid();
@@ -43,7 +29,7 @@ namespace Structr.Tests.Email
             var model = new CustomModel();
 
             // Act
-            Action act = () => new EmailTemplateFileMessage("address@example.com", template, model);
+            Action act = () => new EmailTemplateFileMessage("eugene@onegin.name", template, model);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
@@ -54,7 +40,7 @@ namespace Structr.Tests.Email
         public void Ctor_throws_when_model_is_null_or_empty(object model)
         {
             // Act
-            Action act = () => new EmailTemplateFileMessage("address@example.com", TestDataPath.ContentRootPath, model);
+            Action act = () => new EmailTemplateFileMessage("eugene@onegin.name", TestDataPath.ContentRootPath, model);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
@@ -64,7 +50,7 @@ namespace Structr.Tests.Email
         public void Ctor_with_list_of_strings()
         {
             // Arrange
-            var strings = new List<string>() { "address@example.com" };
+            var strings = new List<string>() { "eugene@onegin.name" };
             var model = new CustomModel();
 
             // Act
@@ -78,7 +64,7 @@ namespace Structr.Tests.Email
         public void Ctor_with_list_of_emails()
         {
             // Arrange
-            var emails = new List<EmailAddress>() { new EmailAddress("address@example.com") };
+            var emails = new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") };
             var model = new CustomModel();
 
             // Act
@@ -95,7 +81,7 @@ namespace Structr.Tests.Email
             var model = new CustomModel();
 
             // Act
-            var result = new CustomEmailTemplateFileMessage("address@example.com", model);
+            var result = new CustomEmailTemplateFileMessage("eugene@onegin.name", model);
 
             // Assert
             result.ShouldBeValid();
@@ -105,7 +91,7 @@ namespace Structr.Tests.Email
         public void Ctor_for_custom_model_with_list_of_strings()
         {
             // Arrange
-            var strings = new List<string>() { "address@example.com" };
+            var strings = new List<string>() { "eugene@onegin.name" };
             var model = new CustomModel();
 
             // Act
@@ -119,7 +105,7 @@ namespace Structr.Tests.Email
         public void Ctor_for_custom_model_with_list_of_emails()
         {
             // Arrange
-            var emails = new List<EmailAddress>() { new EmailAddress("address@example.com") };
+            var emails = new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") };
             var model = new CustomModel();
 
             // Act
