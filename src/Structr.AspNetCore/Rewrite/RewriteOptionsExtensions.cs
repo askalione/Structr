@@ -21,6 +21,14 @@ namespace Structr.AspNetCore.Rewrite
                 (request) => true,
                 StatusCodes.Status301MovedPermanently);
 
+        /// <summary>
+        /// Define rule performing redirect for GET requests to lower case url in
+        /// case any upper characters are present.
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="filter">Function that determines if rule should be applied.</param>
+        /// <param name="statusCode">Status code to redirect with.</param>
+        /// <inheritdoc cref="AddRedirectToLowercase(RewriteOptions)"/>
         public static RewriteOptions AddRedirectToLowercase(this RewriteOptions options, Func<HttpRequest, bool> filter, int statusCode)
         {
             if (options == null)
@@ -32,11 +40,21 @@ namespace Structr.AspNetCore.Rewrite
             return options;
         }
 
+        /// <summary>
+        /// Define rule performing redirect with status 301 for GET requests by adding a trailing slash.
+        /// </summary>
+        /// <remarks>Example: <c>http://localhost:5001/Home/Index?search=hello => http://localhost:5001/Home/Index/?search=hello</c></remarks>
+        /// <inheritdoc cref="AddRedirectToLowercase(RewriteOptions)"/>
         public static RewriteOptions AddRedirectToTrailingSlash(this RewriteOptions options)
             => AddRedirectToTrailingSlash(options,
                 (request) => true,
                 StatusCodes.Status301MovedPermanently);
 
+        /// <summary>
+        /// Define rule performing redirect with status 301 for GET requests by adding a trailing slash.
+        /// </summary>
+        /// <inheritdoc cref="AddRedirectToTrailingSlash(RewriteOptions)"/>
+        /// <inheritdoc cref="AddRedirectToTrailingSlash(RewriteOptions, Func{HttpRequest, bool}, int)"/>
         public static RewriteOptions AddRedirectToTrailingSlash(this RewriteOptions options, Func<HttpRequest, bool> filter, int statusCode)
         {
             if (options == null)
@@ -46,11 +64,22 @@ namespace Structr.AspNetCore.Rewrite
             return options;
         }
 
+        /// <summary>
+        /// Define rule performing redirect with status 301 for GET requests to lower case url in
+        /// case any upper characters are present, while adding trailing slash.
+        /// </summary>
+        /// <remarks>Example: <c>http://localhost:5001/Home/Index?search=hello => http://localhost:5001/home/index/?search=hello</c></remarks>
         public static RewriteOptions AddRedirectToLowercaseTrailingSlash(this RewriteOptions options)
             => AddRedirectToLowercaseTrailingSlash(options,
                 (request) => true,
                 StatusCodes.Status301MovedPermanently);
 
+        /// <summary>
+        /// Define rule performing redirect for GET requests to lower case url in
+        /// case any upper characters are present, while adding trailing slash.
+        /// </summary>
+        /// <inheritdoc cref="AddRedirectToLowercaseTrailingSlash(RewriteOptions)"/>
+        /// <inheritdoc cref="AddRedirectToLowercaseTrailingSlash(RewriteOptions, Func{HttpRequest, bool}, int)"/>
         public static RewriteOptions AddRedirectToLowercaseTrailingSlash(this RewriteOptions options, Func<HttpRequest, bool> filter, int statusCode)
         {
             if (options == null)

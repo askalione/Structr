@@ -14,7 +14,7 @@ namespace Structr.AspNetCore.Http
     public static class HttpContextExtensions
     {
         /// <summary>
-        /// Gets IP-address common human-readable representation for remoute target.
+        /// Gets IP-address common human-readable representation for remote target.
         /// </summary>
         /// <param name="context"></param>
         /// <returns>Human-readable IP-address of remoute target.</returns>
