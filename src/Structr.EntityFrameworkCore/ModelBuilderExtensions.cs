@@ -102,9 +102,11 @@ namespace Structr.EntityFrameworkCore
                         entityTypeBuilder.Property(AuditableProperties.DateCreated)
                             .IsRequired(true);
                         if (typeof(ISignedCreatable).IsAssignableFrom(entityClrType))
+                        {
                             entityTypeBuilder.Property(AuditableProperties.CreatedBy)
                                 .IsRequired(options.SignedColumnIsRequired)
                                 .HasMaxLength(options.SignedColumnMaxLength);
+                        }
                     }
 
                     if (typeof(IModifiable).IsAssignableFrom(entityClrType))
@@ -112,9 +114,11 @@ namespace Structr.EntityFrameworkCore
                         entityTypeBuilder.Property(AuditableProperties.DateModified)
                             .IsRequired(true);
                         if (typeof(ISignedModifiable).IsAssignableFrom(entityClrType))
+                        {
                             entityTypeBuilder.Property(AuditableProperties.ModifiedBy)
                                 .IsRequired(options.SignedColumnIsRequired)
                                 .HasMaxLength(options.SignedColumnMaxLength);
+                        }
                     }
 
                     if (typeof(ISoftDeletable).IsAssignableFrom(entityClrType))
@@ -124,9 +128,11 @@ namespace Structr.EntityFrameworkCore
                         entityTypeBuilder.HasSoftDeletableQueryFilter(entityClrType);
 
                         if (typeof(ISignedSoftDeletable).IsAssignableFrom(entityClrType))
+                        {
                             entityTypeBuilder.Property(AuditableProperties.DeletedBy)
                                 .IsRequired(options.SignedColumnIsRequired)
                                 .HasMaxLength(options.SignedColumnMaxLength);
+                        }
                     }
                 });
             }
@@ -144,10 +150,10 @@ namespace Structr.EntityFrameworkCore
             builder.HasQueryFilter(filter);
         }
 
-        public static IEnumerable<IMutableEntityType> GetEntityTypes(this ModelBuilder builder, Type type)
+        public static List<IMutableEntityType> GetEntityTypes(this ModelBuilder builder, Type type)
             => GetEntityTypes(builder, type, null);
 
-        public static IEnumerable<IMutableEntityType> GetEntityTypes(this ModelBuilder builder, Type type, Func<IMutableEntityType, bool> filter)
+        public static List<IMutableEntityType> GetEntityTypes(this ModelBuilder builder, Type type, Func<IMutableEntityType, bool> filter)
         {
             if (builder == null)
             {
@@ -162,7 +168,9 @@ namespace Structr.EntityFrameworkCore
                 .Where(x => type.IsGenericType ? type.IsAssignableFromGenericType(x.ClrType) : type.IsAssignableFrom(x.ClrType));
 
             if (filter != null)
+            {
                 types = types.Where(x => filter(x));
+            }
 
             return types.ToList();
         }
