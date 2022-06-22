@@ -11,11 +11,22 @@ using System.Linq.Expressions;
 
 namespace Structr.EntityFrameworkCore
 {
+    /// <summary>
+    /// Extensions for the <see cref="ModelBuilder"/>.
+    /// </summary>
     public static class ModelBuilderExtensions
     {
+        /// <inheritdoc cref="ApplyEntityConfiguration(ModelBuilder, Action{EntityConfigurationOptions})"/>
         public static ModelBuilder ApplyEntityConfiguration(this ModelBuilder builder)
             => ApplyEntityConfiguration(builder, null);
 
+        /// <summary>
+        /// Applies the default configuration for all classes inherited from the <see cref="Entity{TEntity, TKey}"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="ModelBuilder"/>.</param>
+        /// <param name="configureOptions">Delegate for additional configure options.</param>
+        /// <returns>The <see cref="ModelBuilder"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="builder"/> is <see langword="null"/>.</exception>
         public static ModelBuilder ApplyEntityConfiguration(this ModelBuilder builder, Action<EntityConfigurationOptions> configureOptions)
         {
             if (builder == null)
@@ -49,9 +60,17 @@ namespace Structr.EntityFrameworkCore
             return builder;
         }
 
+        /// <inheritdoc cref="ApplyValueObjectConfiguration(ModelBuilder, Action{ValueObjectConfigurationOptions})"/>
         public static ModelBuilder ApplyValueObjectConfiguration(this ModelBuilder builder)
             => ApplyValueObjectConfiguration(builder, null);
 
+        /// <summary>
+        /// Applies the default configuration for all classes inherited from the <see cref="ValueObject{TValueObject}"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="ModelBuilder"/>.</param>
+        /// <param name="configureOptions">Delegate for additional configure options.</param>
+        /// <returns>The <see cref="ModelBuilder"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="builder"/> is <see langword="null"/>.</exception>
         public static ModelBuilder ApplyValueObjectConfiguration(this ModelBuilder builder, Action<ValueObjectConfigurationOptions> configureOptions)
         {
             if (builder == null)
@@ -77,9 +96,18 @@ namespace Structr.EntityFrameworkCore
             return builder;
         }
 
+        /// <inheritdoc cref="ApplyAuditableConfiguration(ModelBuilder, Action{AuditableConfigurationOptions})"/>
         public static ModelBuilder ApplyAuditableConfiguration(this ModelBuilder builder)
             => ApplyAuditableConfiguration(builder, null);
 
+        /// <summary>
+        /// Applies the default configuration for all classes that implement the <see cref="IAuditable"/>
+        /// except those inherited from the <see cref="ValueObject{TValueObject}"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="ModelBuilder"/>.</param>
+        /// <param name="configureOptions">Delegate for additional configure options.</param>
+        /// <returns>The <see cref="ModelBuilder"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="builder"/> is <see langword="null"/>.</exception>
         public static ModelBuilder ApplyAuditableConfiguration(this ModelBuilder builder, Action<AuditableConfigurationOptions> configureOptions)
         {
             if (builder == null)
@@ -150,9 +178,19 @@ namespace Structr.EntityFrameworkCore
             builder.HasQueryFilter(filter);
         }
 
+        /// <inheritdoc cref="GetEntityTypes(ModelBuilder, Type, Func{IMutableEntityType, bool})"/>
         public static List<IMutableEntityType> GetEntityTypes(this ModelBuilder builder, Type type)
             => GetEntityTypes(builder, type, null);
 
+        /// <summary>
+        /// Returns entity types that implements or inherits the <paramref name="type"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="ModelBuilder"/>.</param>
+        /// <param name="type">The generic or non-generic parent <see cref="Type"/>.</param>
+        /// <param name="filter">Delegate for additional type filters.</param>
+        /// <returns>The list of entity types that implements or inherits the <paramref name="type"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="builder"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="type"/> is <see langword="null"/>.</exception>
         public static List<IMutableEntityType> GetEntityTypes(this ModelBuilder builder, Type type, Func<IMutableEntityType, bool> filter)
         {
             if (builder == null)
