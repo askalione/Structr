@@ -1,11 +1,52 @@
+using Microsoft.EntityFrameworkCore;
+using Structr.Abstractions;
+using Structr.Domain;
 using Structr.EntityFrameworkCore;
-using Structr.Tests.EntityFrameworkCore.TestUtils.DataAccess;
-using Structr.Tests.EntityFrameworkCore.TestUtils.Domain.Foos;
 
 namespace Structr.Tests.EntityFrameworkCore
 {
     public class DbContextExtensionsTests : IDisposable
     {
+        private class Foo : Entity<Foo, int>, ISignedCreatable, ISignedModifiable, ISignedSoftDeletable
+        {
+            public string Name { get; private set; } = default!;
+
+            public DateTime DateCreated { get; private set; }
+            public string CreatedBy { get; private set; } = default!;
+
+            public DateTime DateModified { get; private set; }
+            public string ModifiedBy { get; private set; } = default!;
+
+            public DateTime? DateDeleted { get; private set; }
+            public string? DeletedBy { get; private set; }
+
+            private Foo() : base() { }
+
+            public Foo(string name) : this()
+            {
+                Ensure.NotNull(name, nameof(name));
+
+                Name = name;
+            }
+
+            public void Edit(string name)
+            {
+                Ensure.NotNull(name, nameof(name));
+
+                Name = name;
+            }
+        }
+
+        private class TestDbContext : DbContext
+        {
+            public DbSet<Foo> Foos { get; private set; } = default!;
+
+            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+                => optionsBuilder
+                    .UseInMemoryDatabase(nameof(TestDbContext))
+                    .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider);
+        }
+
         private TestDbContext _context;
 
         public DbContextExtensionsTests()
