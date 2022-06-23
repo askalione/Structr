@@ -77,10 +77,10 @@ namespace Structr.Tests.Email
             var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
 
             // Act
-            bool result = await emailSender.SendEmailAsync(emailMessage, default(CancellationToken));
+            Func<Task> act = () => emailSender.SendEmailAsync(emailMessage, default(CancellationToken));
 
             // Assert
-            result.Should().BeTrue();
+            await act.Should().NotThrowAsync();
             FileShouldBeValid();
         }
 
@@ -94,10 +94,10 @@ namespace Structr.Tests.Email
             var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
 
             // Act
-            bool result = await emailSender.SendEmailAsync(emailTemplateMessage, default(CancellationToken));
+            Func<Task> act = () => emailSender.SendEmailAsync(emailTemplateMessage, default(CancellationToken));
 
             // Assert
-            result.Should().BeTrue();
+            await act.Should().NotThrowAsync();
             FileShouldBeValid();
         }
 
@@ -111,10 +111,10 @@ namespace Structr.Tests.Email
             var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
 
             // Act
-            bool result = await emailSender.SendEmailAsync(emailTemplateFileMessage, default(CancellationToken));
+            Func<Task> act = () => emailSender.SendEmailAsync(emailTemplateFileMessage, default(CancellationToken));
 
             // Assert
-            result.Should().BeTrue();
+            await act.Should().NotThrowAsync();
             FileShouldBeValid();
         }
 

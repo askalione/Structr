@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading;
@@ -6,27 +7,32 @@ using System.Threading.Tasks;
 
 namespace Structr.Email.Clients.Smtp
 {
-    internal class SmtpClientWrapper : ISmtpClient
+    internal class SmtpClient : ISmtpClient
     {
-        private SmtpClient _smtpClient;
+        private System.Net.Mail.SmtpClient _smtpClient;
 
-        public SmtpClientWrapper(SmtpClient smtpClient)
+        public SmtpClient(SmtpOptions options)
         {
-            if (smtpClient == null)
+            if (options == null)
             {
-                throw new ArgumentNullException(nameof(smtpClient));
+                throw new ArgumentNullException(nameof(options));
             }
 
-            _smtpClient = smtpClient;
+            _smtpClient = new System.Net.Mail.SmtpClient(options.Host, options.Port)
+            {
+                EnableSsl = options.IsSslEnabled
+            };
+            if (string.IsNullOrWhiteSpace(options.User) == false)
+            {
+                _smtpClient.UseDefaultCredentials = false;
+                _smtpClient.Credentials = new NetworkCredential(options.User, options.Password);
+            }
         }
 
-        public async Task<bool> SendAsync(EmailData emailData, string body, CancellationToken cancellationToken)
+        public async Task SendAsync(EmailData emailData, string body, CancellationToken cancellationToken)
         {
             MailMessage message = CreateMessage(emailData, body);
-
             await _smtpClient.SendMailExAsync(message, cancellationToken);
-
-            return true;
         }
 
         private MailMessage CreateMessage(EmailData emailData, string body)
@@ -45,10 +51,7 @@ namespace Structr.Email.Clients.Smtp
                 message.From = new MailAddress(emailData.From.Address, emailData.From.Name);
             }
 
-            foreach (var to in emailData.To)
-            {
-                message.To.Add(new MailAddress(to.Address, to.Name));
-            }
+            message.To.Add(new MailAddress(emailData.To.Address, emailData.To.Name));
 
             if (emailData.Attachments != null)
             {
@@ -83,7 +86,7 @@ namespace Structr.Email.Clients.Smtp
     /// </remark>
     internal static class SmtpClientExtensions
     {
-        public static Task SendMailExAsync(this SmtpClient smtpClient,
+        public static Task SendMailExAsync(this System.Net.Mail.SmtpClient smtpClient,
             MailMessage message,
             CancellationToken token = default(CancellationToken))
         {
@@ -91,7 +94,7 @@ namespace Structr.Email.Clients.Smtp
             return Task.Run(() => SendMailExImplAsync(smtpClient, message, token));
         }
 
-        private static async Task SendMailExImplAsync(SmtpClient smtpClient,
+        private static async Task SendMailExImplAsync(System.Net.Mail.SmtpClient smtpClient,
             MailMessage message,
             CancellationToken token)
         {

@@ -6,16 +6,8 @@ namespace Structr.Samples.Email.Models
     {
         public override string TemplatePath => "Foo.html";
 
-        public FooEmailTemplateFileMessage(string to, FooEmailModel model) : base(to, model)
-        {
-        }
-
-        public FooEmailTemplateFileMessage(IEnumerable<string> to, FooEmailModel model) : base(to, model)
-        {
-        }
-
-        public FooEmailTemplateFileMessage(IEnumerable<EmailAddress> to, FooEmailModel model) : base(to, model)
-        {
-        }
+        public FooEmailTemplateFileMessage(string to, FooEmailModel model)
+            : base(new EmailAddress(to), model)
+        { }
     }
 }

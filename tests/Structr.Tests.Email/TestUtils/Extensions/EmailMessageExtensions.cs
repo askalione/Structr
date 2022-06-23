@@ -7,7 +7,7 @@ namespace Structr.Tests.Email.TestUtils.Extensions
         public static void ShouldBeValid(this EmailMessage emailMessage)
         {
             emailMessage.Message.Should().Be("I write this to you - what more can be said?");
-            emailMessage.To.Should().BeEquivalentTo(new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") });
+            emailMessage.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
         }
     }
 }

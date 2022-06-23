@@ -1,12 +1,12 @@
 namespace Structr.Email.Clients.Smtp
 {
     /// <summary>
-    /// Provides functionality for creating an ISmtpClient.
+    /// Provides functionality for creating an <see cref="ISmtpClient"/>.
     /// </summary>
     public interface ISmtpClientFactory
     {
         /// <summary>
-        /// Create an <see cref="ISmtpClient"/>.
+        /// Creates an <see cref="ISmtpClient"/>.
         /// </summary>
         ISmtpClient CreateSmtpClient();
     }

@@ -4,6 +4,6 @@ namespace Structr.Tests.Email.TestUtils
 {
     internal class CustomEmailData : EmailData
     {
-        public CustomEmailData(IEnumerable<EmailAddress> to) : base(to) { }
+        public CustomEmailData(EmailAddress to) : base(to) { }
     }
 }

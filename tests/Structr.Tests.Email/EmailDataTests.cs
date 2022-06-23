@@ -9,37 +9,24 @@ namespace Structr.Tests.Email
         public void Ctor()
         {
             // Arrange
-            var addresses = new List<EmailAddress> { new EmailAddress("eugene@onegin.name") };
+            var address = new EmailAddress("eugene@onegin.name");
 
             // Act
-            var result = new CustomEmailData(addresses);
+            var result = new CustomEmailData(address);
 
             // Assert
-            result.To.Should().BeEquivalentTo(addresses);
+            result.To.Should().BeEquivalentTo(address);
         }
 
         [Theory]
         [InlineData(null)]
-        public void Ctor_throws_when_addresses_is_null(IEnumerable<EmailAddress> addresses)
+        public void Ctor_throws_when_addresses_is_null(EmailAddress address)
         {
             // Act
-            Action act = () => new CustomEmailData(addresses);
+            Action act = () => new CustomEmailData(address);
 
             // Assert
             act.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void Ctor_throws_when_addresses_is_empty()
-        {
-            // Arrange
-            var addresses = new List<EmailAddress>();
-
-            // Act
-            Action act = () => new CustomEmailData(addresses);
-
-            // Assert
-            act.Should().Throw<ArgumentException>();
         }
     }
 }

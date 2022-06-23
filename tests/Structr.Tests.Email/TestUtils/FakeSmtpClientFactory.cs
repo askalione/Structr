@@ -1,40 +1,22 @@
 using Structr.Email.Clients.Smtp;
-using System.Net;
-using System.Net.Mail;
 
 namespace Structr.Tests.Email.TestUtils
 {
     public class FakeSmtpClientFactory : ISmtpClientFactory
     {
-        private readonly SmtpOptions _options;
+        private readonly string _path;
 
-        public FakeSmtpClientFactory(SmtpOptions options)
+        public FakeSmtpClientFactory(string path)
         {
-            if (options == null)
+            if (string.IsNullOrWhiteSpace(path))
             {
-                throw new ArgumentNullException(nameof(options));
+                throw new ArgumentNullException(nameof(path));
             }
 
-            _options = options;
+            _path = path;
         }
 
         public ISmtpClient CreateSmtpClient()
-        {
-            var smtpClient = new SmtpClient(_options.Host, _options.Port);
-
-            smtpClient.EnableSsl = _options.IsSslEnabled;
-            if (string.IsNullOrWhiteSpace(_options.User) == false)
-            {
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential(_options.User, _options.Password);
-            }
-
-            // NOTE: Write messages to directory.
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-            smtpClient.PickupDirectoryLocation = TestDataPath.Combine("FakeSmtpClientTemp");
-
-            var smtpClientWrapper = new SmtpClientWrapper(smtpClient);
-            return smtpClientWrapper;
-        }
+            => new FakeSmtpClient(_path);
     }
 }

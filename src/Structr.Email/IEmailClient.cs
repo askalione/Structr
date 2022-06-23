@@ -14,7 +14,6 @@ namespace Structr.Email
         /// <param name="emailData">The <see cref="EmailData"/>.</param>
         /// <param name="body">The body of an email.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
-        /// <returns>Returns <see langword="true"/> if email sent successfully.</returns>
-        Task<bool> SendAsync(EmailData emailData, string body, CancellationToken cancellationToken = default);
+        Task SendAsync(EmailData emailData, string body, CancellationToken cancellationToken = default);
     }
 }

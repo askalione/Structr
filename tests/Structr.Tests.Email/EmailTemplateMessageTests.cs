@@ -50,11 +50,11 @@ namespace Structr.Tests.Email
         public void Ctor_with_list_of_strings()
         {
             // Arrange
-            var strings = new List<string>() { "eugene@onegin.name" };
+            var address = "eugene@onegin.name";
             var model = new CustomModel();
 
             // Act
-            var result = new EmailTemplateMessage(strings, "Letter of {{From}} to {{To}}.", model);
+            var result = new EmailTemplateMessage(address, "Letter of {{From}} to {{To}}.", model);
 
             // Assert
             result.ShouldBeValid();
@@ -64,11 +64,11 @@ namespace Structr.Tests.Email
         public void Ctor_with_list_of_emails()
         {
             // Arrange
-            var emails = new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") };
+            var address = new EmailAddress("eugene@onegin.name");
             var model = new CustomModel();
 
             // Act
-            var result = new EmailTemplateMessage(emails, "Letter of {{From}} to {{To}}.", model);
+            var result = new EmailTemplateMessage(address, "Letter of {{From}} to {{To}}.", model);
 
             // Assert
             result.ShouldBeValid();
@@ -88,28 +88,14 @@ namespace Structr.Tests.Email
         }
 
         [Fact]
-        public void Ctor_for_custom_model_with_list_of_strings()
+        public void Ctor_for_custom_model_with_string_address()
         {
             // Arrange
-            var strings = new List<string>() { "eugene@onegin.name" };
+            var address = "eugene@onegin.name";
             var model = new CustomModel();
 
             // Act
-            var result = new CustomEmailTemplateMessage(strings, model);
-
-            // Assert
-            result.ShouldBeValid();
-        }
-
-        [Fact]
-        public void Ctor_for_custom_model_with_list_of_emails()
-        {
-            // Arrange
-            var emails = new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") };
-            var model = new CustomModel();
-
-            // Act
-            var result = new CustomEmailTemplateMessage(emails, model);
+            var result = new CustomEmailTemplateMessage(address, model);
 
             // Assert
             result.ShouldBeValid();

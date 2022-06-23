@@ -1,34 +1,16 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Structr.Email;
+using Structr.Email.Clients.Smtp;
 
-namespace Structr.Email.Clients
+namespace Structr.Tests.Email.TestUtils
 {
-    /// <summary>
-    /// Provides functionality for writing an email to a file.
-    /// </summary>
-    public class FileEmailClient : IEmailClient
+    internal class FakeSmtpClient : ISmtpClient
     {
         private readonly string _path;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileEmailClient"/> class.
-        /// </summary>
-        /// <param name="path">Absolute path to the directory for writing an emails.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
-        public FileEmailClient(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+        public FakeSmtpClient(string path)
+            => _path = path;
 
-            _path = path;
-        }
-
-        public async Task SendAsync(EmailData emailData, string body, CancellationToken cancellationToken = default)
+        public async Task SendAsync(EmailData emailData, string body, CancellationToken cancellationToken)
         {
             var filePath = Path.Combine(_path, NewFileName());
             var content =
@@ -54,5 +36,8 @@ namespace Structr.Email.Clients
             string dateSegment = DateTime.Now.ToString("yyyyMMddHHmmss");
             return $"{dateSegment}-{guidSegment}";
         }
+
+        public void Dispose()
+        { }
     }
 }

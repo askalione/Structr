@@ -47,28 +47,28 @@ namespace Structr.Tests.Email
         }
 
         [Fact]
-        public void Ctor_with_list_of_strings()
+        public void Ctor_with_string_address()
         {
             // Arrange
-            var strings = new List<string>() { "eugene@onegin.name" };
+            var address = "eugene@onegin.name";
             var model = new CustomModel();
 
             // Act
-            var result = new EmailTemplateFileMessage(strings, TestDataPath.ContentRootPath, model);
+            var result = new EmailTemplateFileMessage(address, TestDataPath.ContentRootPath, model);
 
             // Assert
             result.ShouldBeValid();
         }
 
         [Fact]
-        public void Ctor_with_list_of_emails()
+        public void Ctor_with_email_address()
         {
             // Arrange
-            var emails = new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") };
+            var address = new EmailAddress("eugene@onegin.name");
             var model = new CustomModel();
 
             // Act
-            var result = new EmailTemplateFileMessage(emails, TestDataPath.ContentRootPath, model);
+            var result = new EmailTemplateFileMessage(address, TestDataPath.ContentRootPath, model);
 
             // Assert
             result.ShouldBeValid();
@@ -88,28 +88,14 @@ namespace Structr.Tests.Email
         }
 
         [Fact]
-        public void Ctor_for_custom_model_with_list_of_strings()
+        public void Ctor_for_custom_model_with_string_address()
         {
             // Arrange
-            var strings = new List<string>() { "eugene@onegin.name" };
+            var address = "eugene@onegin.name";
             var model = new CustomModel();
 
             // Act
-            var result = new CustomEmailTemplateFileMessage(strings, model);
-
-            // Assert
-            result.ShouldBeValid();
-        }
-
-        [Fact]
-        public void Ctor_for_custom_model_with_list_of_emails()
-        {
-            // Arrange
-            var emails = new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") };
-            var model = new CustomModel();
-
-            // Act
-            var result = new CustomEmailTemplateFileMessage(emails, model);
+            var result = new CustomEmailTemplateFileMessage(address, model);
 
             // Assert
             result.ShouldBeValid();

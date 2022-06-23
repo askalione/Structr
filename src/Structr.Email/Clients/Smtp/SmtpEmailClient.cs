@@ -26,14 +26,12 @@ namespace Structr.Email.Clients.Smtp
             _smtpClientFactory = smtpClientFactory;
         }
 
-        public async Task<bool> SendAsync(EmailData emailData, string body, CancellationToken cancellationToken = default)
+        public async Task SendAsync(EmailData emailData, string body, CancellationToken cancellationToken = default)
         {
             using (ISmtpClient smtpClient = _smtpClientFactory.CreateSmtpClient())
             {
                 await smtpClient.SendAsync(emailData, body, cancellationToken);
             }
-
-            return true;
         }
     }
 }

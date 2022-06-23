@@ -37,26 +37,26 @@ namespace Structr.Email
             _templateRenderer = templateRenderer ?? new ReplaceEmailTemplateRenderer();
         }
 
-        public Task<bool> SendEmailAsync(EmailMessage email, CancellationToken cancellationToken = default)
+        public Task SendEmailAsync(EmailMessage email, CancellationToken cancellationToken = default)
             => SendEmailAsync(email, email.Message, cancellationToken);
 
-        public Task<bool> SendEmailAsync(EmailTemplateMessage email, CancellationToken cancellationToken = default)
+        public Task SendEmailAsync(EmailTemplateMessage email, CancellationToken cancellationToken = default)
             => SendEmailTemplateAsync(email, email.Template, email.Model, cancellationToken);
 
-        public Task<bool> SendEmailAsync<TModel>(EmailTemplateMessage<TModel> email, CancellationToken cancellationToken = default)
+        public Task SendEmailAsync<TModel>(EmailTemplateMessage<TModel> email, CancellationToken cancellationToken = default)
             => SendEmailTemplateAsync(email, email.Template, email.Model!, cancellationToken);
 
-        public Task<bool> SendEmailAsync(EmailTemplateFileMessage email, CancellationToken cancellationToken = default)
+        public Task SendEmailAsync(EmailTemplateFileMessage email, CancellationToken cancellationToken = default)
             => SendEmailTemplateFileAsync(email, email.TemplatePath, email.Model!, cancellationToken);
 
-        public Task<bool> SendEmailAsync<TModel>(EmailTemplateFileMessage<TModel> email, CancellationToken cancellationToken = default)
+        public Task SendEmailAsync<TModel>(EmailTemplateFileMessage<TModel> email, CancellationToken cancellationToken = default)
             => SendEmailTemplateFileAsync(email, email.TemplatePath, email.Model!, cancellationToken);
 
-        private Task<bool> SendEmailTemplateFileAsync(EmailData emailData, string templatePath, object model, CancellationToken cancellationToken)
+        private Task SendEmailTemplateFileAsync(EmailData emailData, string templatePath, object model, CancellationToken cancellationToken)
         {
             var template = "";
 
-            var templateFilePath = Path.Combine(_options.TemplateRootPath ?? "", templatePath);
+            string templateFilePath = Path.Combine(_options.TemplateRootPath ?? "", templatePath);
             using (var sr = new StreamReader(File.OpenRead(templateFilePath)))
             {
                 template = sr.ReadToEnd();
@@ -65,13 +65,13 @@ namespace Structr.Email
             return SendEmailTemplateAsync(emailData, template, model, cancellationToken);
         }
 
-        private async Task<bool> SendEmailTemplateAsync(EmailData emailData, string template, object model, CancellationToken cancellationToken)
+        private async Task SendEmailTemplateAsync(EmailData emailData, string template, object model, CancellationToken cancellationToken)
         {
-            var body = await _templateRenderer.RenderAsync(template, model).ConfigureAwait(false);
-            return await SendEmailAsync(emailData, body, cancellationToken).ConfigureAwait(false);
+            string body = await _templateRenderer.RenderAsync(template, model).ConfigureAwait(false);
+            await SendEmailAsync(emailData, body, cancellationToken).ConfigureAwait(false);
         }
 
-        private Task<bool> SendEmailAsync(EmailData emailData, string body, CancellationToken cancellationToken)
+        private Task SendEmailAsync(EmailData emailData, string body, CancellationToken cancellationToken)
         {
             emailData.From = emailData.From ?? _options.From;
             if (string.IsNullOrWhiteSpace(emailData.From?.Address))

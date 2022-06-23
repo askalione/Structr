@@ -32,10 +32,10 @@ namespace Structr.Tests.Email
         public void Ctor_with_list_of_strings()
         {
             // Arrange
-            var addresses = new List<string>() { "eugene@onegin.name" };
+            var address = "eugene@onegin.name";
 
             // Act
-            var result = new EmailMessage(addresses, "I write this to you - what more can be said?");
+            var result = new EmailMessage(address, "I write this to you - what more can be said?");
 
             // Assert
             result.ShouldBeValid();
@@ -45,10 +45,10 @@ namespace Structr.Tests.Email
         public void Ctor_with_list_of_emails()
         {
             // Arrange
-            var addresses = new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") };
+            var address = new EmailAddress("eugene@onegin.name");
 
             // Act
-            var result = new EmailMessage(addresses, "I write this to you - what more can be said?");
+            var result = new EmailMessage(address, "I write this to you - what more can be said?");
 
             // Assert
             result.ShouldBeValid();

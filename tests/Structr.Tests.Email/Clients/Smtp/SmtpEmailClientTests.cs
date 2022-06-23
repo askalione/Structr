@@ -18,7 +18,7 @@ namespace Structr.Tests.Email.Clients.Smtp
         public void Ctor()
         {
             // Arrange
-            var smtpClientFactory = new FakeSmtpClientFactory(new SmtpOptions("127.0.0.1"));
+            var smtpClientFactory = new FakeSmtpClientFactory(_tempDirPath);
 
             // Act
             var result = new SmtpEmailClient(smtpClientFactory);
@@ -42,15 +42,15 @@ namespace Structr.Tests.Email.Clients.Smtp
         public async Task SendAsync()
         {
             // Arrange
-            var emailClient = new SmtpEmailClient(new FakeSmtpClientFactory(new SmtpOptions("127.0.0.1")));
-            var emailData = new CustomEmailData(new List<EmailAddress>() { new EmailAddress("eugene@onegin.name") });
+            var emailClient = new SmtpEmailClient(new FakeSmtpClientFactory(_tempDirPath));
+            var emailData = new CustomEmailData(new EmailAddress("eugene@onegin.name"));
             emailData.From = new EmailAddress("tatyana@larina.name");
 
             // Act
-            var result = await emailClient.SendAsync(emailData, "I write this to you - what more can be said?");
+            Func<Task> act = () => emailClient.SendAsync(emailData, "I write this to you - what more can be said?");
 
             // Assert
-            result.Should().BeTrue();
+            await act.Should().NotThrowAsync();
             Directory.EnumerateFiles(_tempDirPath).Should().ContainSingle();
         }
 

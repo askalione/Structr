@@ -42,16 +42,18 @@ namespace Structr.Tests.Email
         }
 
         [Fact]
-        public void AddSmtpClient_with_optins()
+        public void AddSmtpClient_with_options()
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
             var emailBuilder = serviceCollection
                 .AddEmail(new EmailAddress("tatyana@larina.name", "Tatyana Larina"));
-            var options = new SmtpOptions("127.0.0.1");
 
             // Act
-            emailBuilder.AddSmtpClient(options);
+            emailBuilder.AddSmtpClient(host: "127.0.0.1", port: 25, options =>
+            {
+                options.IsSslEnabled = true;
+            });
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
@@ -60,7 +62,7 @@ namespace Structr.Tests.Email
         }
 
         [Fact]
-        public void AddSmtpClient_with_optionsFactory()
+        public void AddSmtpClient_with_options_and_service_provider()
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
@@ -68,12 +70,10 @@ namespace Structr.Tests.Email
                 .AddEmail(new EmailAddress("tatyana@larina.name", "Tatyana Larina"));
 
             // Act
-            emailBuilder.AddSmtpClient(_ =>
+            emailBuilder.AddSmtpClient(host: "127.0.0.1", port: 25, (_, options) =>
             {
-                var options = new SmtpOptions("127.0.0.1");
                 options.User = "Admin";
                 options.Password = "Qwerty";
-                return options;
             });
 
             // Assert

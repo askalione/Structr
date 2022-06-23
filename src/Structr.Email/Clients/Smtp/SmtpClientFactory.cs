@@ -1,6 +1,4 @@
 using System;
-using System.Net;
-using System.Net.Mail;
 
 namespace Structr.Email.Clients.Smtp
 {
@@ -19,18 +17,6 @@ namespace Structr.Email.Clients.Smtp
         }
 
         public ISmtpClient CreateSmtpClient()
-        {
-            var smtpClient = new SmtpClient(_options.Host, _options.Port);
-
-            smtpClient.EnableSsl = _options.IsSslEnabled;
-            if (string.IsNullOrWhiteSpace(_options.User) == false)
-            {
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential(_options.User, _options.Password);
-            }
-
-            var smtpClientWrapper = new SmtpClientWrapper(smtpClient);
-            return smtpClientWrapper;
-        }
+            => new SmtpClient(_options);
     }
 }

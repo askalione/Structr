@@ -43,7 +43,7 @@ namespace Structr.Email.Razor
         }
 
         /// <remarks>
-        ///  Works with public model classes only.
+        /// Works with public model classes only.
         /// </remarks>
         /// <inheritdoc />
         public Task<string> RenderAsync<TModel>(string template, TModel model)

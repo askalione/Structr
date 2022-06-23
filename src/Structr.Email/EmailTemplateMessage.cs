@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Structr.Email
 {
@@ -20,22 +18,11 @@ namespace Structr.Email
         public object Model { get; }
 
         /// <param name="to">The email address of a recipient.</param>
-        /// <inheritdoc cref="EmailTemplateMessage(IEnumerable{string},string,object)"/>
+        /// <inheritdoc cref="EmailTemplateMessage(EmailAddress,string,object)"/>
         public EmailTemplateMessage(string to,
             string template,
             object model)
-            : this(new[] { to },
-                 template,
-                 model)
-        {
-        }
-
-        /// <param name="to">The list of the emails of a recipients.</param>
-        /// <inheritdoc cref="EmailTemplateMessage(IEnumerable{EmailAddress},string,object)"/>
-        public EmailTemplateMessage(IEnumerable<string> to,
-            string template,
-            object model)
-            : this(to.Select(x => new EmailAddress(x)),
+            : this(new EmailAddress(to),
                  template,
                  model)
         {
@@ -44,12 +31,12 @@ namespace Structr.Email
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailTemplateMessage"/> class.
         /// </summary>
-        /// <param name="to">The list of the <see cref="EmailAddress"/> of a recipients.</param>
+        /// <param name="to">The <see cref="EmailAddress"/> of a recipient.</param>
         /// <param name="template">The template content.</param>
         /// <param name="model">The model to render into the template.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="template"/> is <see langword="null"/> or empty.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="model"/> is <see langword="null"/>.</exception>
-        public EmailTemplateMessage(IEnumerable<EmailAddress> to,
+        public EmailTemplateMessage(EmailAddress to,
             string template,
             object model)
             : base(to)
@@ -84,27 +71,13 @@ namespace Structr.Email
         /// </summary>
         public TModel Model { get; }
 
-        /// <param name="to">The email address of a recipient.</param>
-        /// <inheritdoc cref="EmailTemplateMessage{TModel}(IEnumerable{string},TModel)"/>
-        public EmailTemplateMessage(string to, TModel model)
-            : this(new[] { to }, model)
-        {
-        }
-
-        /// <param name="to">The list of the emails of a recipients.</param>
-        /// <inheritdoc cref="EmailTemplateMessage{TModel}(IEnumerable{EmailAddress},TModel)"/>
-        public EmailTemplateMessage(IEnumerable<string> to, TModel model)
-            : this(to.Select(x => new EmailAddress(x)), model)
-        {
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailTemplateMessage{TModel}"/> class.
         /// </summary>
-        /// <param name="to">The list of the <see cref="EmailAddress"/> of a recipients.</param>
+        /// <param name="to">The <see cref="EmailAddress"/> of a recipient.</param>
         /// <param name="model">The model to render into the template.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="model"/> is <see langword="null"/>.</exception>
-        public EmailTemplateMessage(IEnumerable<EmailAddress> to, TModel model)
+        public EmailTemplateMessage(EmailAddress to, TModel model)
             : base(to)
         {
             if (model == null)

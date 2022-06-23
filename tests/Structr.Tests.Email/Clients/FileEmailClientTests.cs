@@ -41,14 +41,14 @@ namespace Structr.Tests.Email.Clients
         {
             // Arrange
             var fileEmailClient = new FileEmailClient(_tempDirPath);
-            var emailData = new CustomEmailData(new List<EmailAddress> { new EmailAddress("eugene@onegin.name") });
+            var emailData = new CustomEmailData(new EmailAddress("eugene@onegin.name"));
             emailData.From = new EmailAddress("tatyana@larina.name");
 
             // Act
-            var result = await fileEmailClient.SendAsync(emailData, "I write this to you - what more can be said?", default(CancellationToken));
+            Func<Task> act = () => fileEmailClient.SendAsync(emailData, "I write this to you - what more can be said?", default(CancellationToken));
 
             // Assert
-            result.Should().BeTrue();
+            await act.Should().NotThrowAsync();
             Directory.EnumerateFiles(_tempDirPath).Should().ContainSingle();
         }
 
