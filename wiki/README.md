@@ -1,8 +1,5 @@
 # Structr
 
-**Structr** is a framework composed of several components for development cross-platform applications on .NET by following the software development best practices and patterns.
-Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) as a target framework allows you to use it in .NET Framework and any new .NET projects. All Structr components have no or have few external dependencies.
-
 **Structr** is a framework composed of several components for development of cross-platform applications on .NET by following the software development best practices and patterns. Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) as a target framework which allows you to use them in .NET Framework and any new .NET projects. All Structr components have few or no external dependencies.
 
 ## Contents
@@ -35,22 +32,31 @@ Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dot
     * Helpers
         * [AsyncHelper](Abstractions/Helpers/Abstractions-AsyncHelper.md)
         * [BindHelper](Abstractions/Helpers/Abstractions-BindHelper.md)
-* Configuration
-* Domain
-    * Entities
-    * Value objects
+* [Configuration](Configuration/Configuration.md)
+    * [Get settings](Configuration/Configuration-Get-settings.md.md)
+    * [Set settings](Configuration/Configuration-Set-settings.md.md)
+    * [Customization](Configuration/Configuration-Customization.md.md)
+* [Domain](Domain/Domain.md)
+    * [Entities](Domain/Domain-Entities.md)
+    * [Value objects](Domain/Domain-ValueObjects.md)
 * Entity Framework 6
 * Entity Framework Core
-* IO
+* [IO](IO/IO.md)
+    * [FileHelper](IO/IO-FileHelper.md)
+    * [MimeTypeHelper](IO/IO-MimeTypeHelper.md)
+    * [PathHelper](IO/IO-PathHelper.md)
+    * [SequentialFileName](IO/IO-SequentialFileName.md)
 * [Navigation](Navigation/Navigation.md)
     * [Menu](Navigation/Navigation-Menu.md)
     * [Breadcrumbs](Navigation/Navigation-Breadcrumbs.md)
-* Notices
+* [Notices](Notices.md)
 * [Operations](Operations/Operations.md)
     * [Filtering](Operations/Operations-Filtering.md)
     * [Decoration](Operations/Operations-Decoration.md)
-* Security
-* Specifications
+* [Security](Security.md)
+* [Specifications](Specifications.md)
 * SqlServer
-* Stateflows
-* Validation
+* [Stateflows](Stateflows/Stateflows.md)
+    * [StateMachine](Stateflows/Stateflows-StateMachine.md)
+    * [Configurations](Stateflows/Stateflows-Configurations.md)
+* [Validation](Validation.md)

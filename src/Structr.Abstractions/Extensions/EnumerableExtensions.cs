@@ -21,7 +21,7 @@ namespace Structr.Abstractions.Extensions
         /// <returns>An System.Linq.IOrderedEnumerable`1 whose elements are sorted according to provided dictionary.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IReadOnlyDictionary<string, Order> sort)
+        public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IReadOnlyDictionary<string, SortOrder> sort)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(sort, nameof(sort));
@@ -46,9 +46,9 @@ namespace Structr.Abstractions.Extensions
             return (IOrderedEnumerable<T>)source;
         }
 
-        public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, string propertyName, Order order)
+        public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, string propertyName, SortOrder order)
         {
-            return Order(source, propertyName, order == Abstractions.Order.Asc ? OrderMethod.OrderBy : OrderMethod.OrderByDescending);
+            return Order(source, propertyName, order == Abstractions.SortOrder.Asc ? OrderMethod.OrderBy : OrderMethod.OrderByDescending);
         }
 
         public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, string propertyName)
@@ -61,9 +61,9 @@ namespace Structr.Abstractions.Extensions
             return Order(source, propertyName, OrderMethod.OrderByDescending);
         }
 
-        public static IOrderedEnumerable<T> ThenBy<T>(this IEnumerable<T> source, string propertyName, Order order)
+        public static IOrderedEnumerable<T> ThenBy<T>(this IEnumerable<T> source, string propertyName, SortOrder order)
         {
-            return Order(source, propertyName, order == Abstractions.Order.Asc ? OrderMethod.ThenBy : OrderMethod.ThenByDescending);
+            return Order(source, propertyName, order == Abstractions.SortOrder.Asc ? OrderMethod.ThenBy : OrderMethod.ThenByDescending);
         }
 
         public static IOrderedEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> source, string propertyName)

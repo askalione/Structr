@@ -31,11 +31,11 @@ namespace Structr.Tests.Abstractions.Extensions
             };
 
             // Act
-            var result = list.OrderBy(new Dictionary<string, Order>
+            var result = list.OrderBy(new Dictionary<string, SortOrder>
             {
-                { "Foo", Order.Asc },
-                { "Bar", Order.Desc },
-                { "Baz", Order.Asc }
+                { "Foo", SortOrder.Asc },
+                { "Bar", SortOrder.Desc },
+                { "Baz", SortOrder.Asc }
             });
 
             // Assert

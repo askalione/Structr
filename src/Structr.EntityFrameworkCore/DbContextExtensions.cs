@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Structr.Domain;
 using System;
 using System.Linq;
-using System.Security.Principal;
 
 namespace Structr.EntityFrameworkCore
 {
@@ -11,7 +10,7 @@ namespace Structr.EntityFrameworkCore
     {
         public static DbContext Audit(this DbContext context,
             AuditTimestampProvider timestampProvider = null,
-            IPrincipal principal = null)
+            AuditSignProvider signProvider = null)
         {
             if (context == null)
             {
@@ -24,7 +23,7 @@ namespace Structr.EntityFrameworkCore
                 .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified || x.State == EntityState.Deleted);
 
             var timestamp = timestampProvider?.Invoke() ?? DateTime.Now;
-            var sign = principal?.Identity?.Name;
+            var sign = signProvider?.Invoke();
 
             if (entries != null)
             {

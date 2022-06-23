@@ -6,7 +6,7 @@ namespace Structr.Validation.Internal
     {
         public static IValidator<T> GetValidator<T>(IServiceProvider serviceProvider)
         {
-            var validatorType = typeof(IValidator<T>);
+            Type validatorType = typeof(IValidator<T>);
             IValidator<T> validator;
 
             try

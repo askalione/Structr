@@ -10,7 +10,9 @@ namespace Structr.Specifications.Internal
         public NotSpecification(Specification<T> spec)
         {
             if (spec == null)
+            {
                 throw new ArgumentNullException(nameof(spec));
+            }
 
             _spec = spec;
         }
@@ -24,11 +26,17 @@ namespace Structr.Specifications.Internal
         public override bool Equals(object other)
         {
             if (ReferenceEquals(null, other))
+            {
                 return false;
+            }
             if (ReferenceEquals(this, other))
+            {
                 return true;
+            }
             if (GetType() != other.GetType())
+            {
                 return false;
+            }
 
             var otherSpec = other as NotSpecification<T>;
             return _spec.Equals(otherSpec._spec);

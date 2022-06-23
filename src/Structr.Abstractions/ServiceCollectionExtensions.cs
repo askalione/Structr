@@ -21,14 +21,15 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public static IServiceCollection AddFactory<TKey, TValue>(this IServiceCollection services, Dictionary<TKey, Type> index)
+        public static IServiceCollection AddFactory<TKey, TValue>(this IServiceCollection services, IReadOnlyDictionary<TKey, Type> index)
         {
             Ensure.NotNull(services, nameof(services));
             Ensure.NotNull(index, nameof(index));
 
             if (index.Any() == false)
             {
-                throw new ArgumentException("Items on index not found. At least one item for configured factory is required.");
+                throw new ArgumentException(
+                    "Items on index not found. At least one item for configured factory is required.");
             }
 
             var valueType = typeof(TValue);

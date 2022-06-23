@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Structr.Specifications;
 using System.Collections.Generic;
 using Xunit;
@@ -7,20 +8,24 @@ namespace Structr.Tests.Specifications
     public class AnySpecificationTests
     {
         [Fact]
-        public void IsSatisfiedBy_StringCollection_AllItems()
+        public void IsSatisfiedBy()
         {
+            // Arrange
+            var strings = new[] { "abc", "bcd", "abcde", "bcde", "" };
             var spec = new AnySpecification<string>();
+            List<string> result = new List<string>();
 
-            List<string> actual = new List<string>();
-            foreach (var item in StringCollection.Items)
+            // Act
+            foreach (var item in strings)
             {
                 if (spec.IsSatisfiedBy(item))
                 {
-                    actual.Add(item);
+                    result.Add(item);
                 }
             }
 
-            Assert.Equal(StringCollection.Items, actual);
+            // Assert
+            result.Should().Equal(strings);
         }
     }
 }

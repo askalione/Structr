@@ -18,10 +18,14 @@ namespace Structr.Specifications.Internal
             PropertyInfo pinfo = m.Member as PropertyInfo;
 
             if (pinfo == null)
+            {
                 throw new Exception("You can only include Properties");
+            }
 
             if (m.Expression.NodeType != ExpressionType.Parameter)
+            {
                 throw new Exception("You can only include Properties of the Expression Parameter");
+            }
 
             Property = pinfo.Name;
 
