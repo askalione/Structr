@@ -10,7 +10,7 @@ namespace Structr.Email
         /// <summary>
         /// Email address name.
         /// </summary>
-        public string? Name { get; set; }
+        public string? Name { get; }
 
         /// <summary>
         /// Email address.

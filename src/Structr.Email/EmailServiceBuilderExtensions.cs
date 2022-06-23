@@ -27,13 +27,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="host">The name or IP address of the host used for SMTP transactions.</param>
         /// <param name="port">The port used for SMTP transactions. The default value is 25.</param>
         /// <inheritdoc cref="AddSmtpClient(EmailServiceBuilder, SmtpOptions)"/>
-        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, string host, int port = 25)
-            => AddSmtpClient(builder, _ => new SmtpOptions(host, port));
-
-        /// <param name="options">The <see cref="SmtpOptions"/>.</param>
-        /// <inheritdoc cref="AddSmtpClient(EmailServiceBuilder, Func{IServiceProvider, SmtpOptions})"/>
-        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, SmtpOptions options)
-            => AddSmtpClient(builder, _ => options);
+        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, string host, int port = 25, Action<SmtpOptions>? configure = null)
+            => AddSmtpClient(builder, host, port, (_, options) => configure?.Invoke(options));
 
         /// <summary>
         /// Adds <see cref="SmtpEmailClient"/> and related services to the <see cref="EmailServiceBuilder"/>.<see cref="IServiceCollection"/>.
@@ -42,14 +37,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="optionsFactory">The delegate for configure <see cref="SmtpOptions"/>.</param>
         /// <returns>The <see cref="EmailServiceBuilder"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="optionsFactory"/> is <see langword="null"/>.</exception>
-        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, Func<IServiceProvider, SmtpOptions> optionsFactory)
+        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, string host, int port = 25, Action<IServiceProvider, SmtpOptions>? configure = null)
         {
-            if (optionsFactory == null)
+            builder.Services.TryAddSingleton(serviceProvider =>
             {
-                throw new ArgumentNullException(nameof(optionsFactory));
-            }
-
-            builder.Services.TryAddSingleton(serviceProvider => optionsFactory.Invoke(serviceProvider));
+                var options = new SmtpOptions(host, port);
+                configure?.Invoke(serviceProvider, options);
+                return options;
+            });
             builder.Services.TryAddSingleton<ISmtpClientFactory, SmtpClientFactory>();
             builder.Services.TryAddSingleton<IEmailClient, SmtpEmailClient>();
 

@@ -10,7 +10,7 @@ namespace Structr.Email
         /// <summary>
         /// Email address of a sender.
         /// </summary>
-        internal EmailAddress From { get; }
+        public EmailAddress From { get; }
 
         /// <summary>
         /// Root directory path with email templates.
