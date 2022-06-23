@@ -109,12 +109,20 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Specifications", "tests\Structr.Tests.Specifications\Structr.Tests.Specifications.csproj", "{E894E942-AB92-42A1-A9AC-3EC015957B49}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Operations", "tests\Structr.Tests.Operations\Structr.Tests.Operations.csproj", "{64F1DB09-B10F-494F-A086-A52CF5E036AF}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Tests.Configuration", "tests\Structr.Tests.Configuration\Structr.Tests.Configuration.csproj", "{E2339FA6-DA07-4DDC-92C9-47A94E9011B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Tests.Configuration", "tests\Structr.Tests.Configuration\Structr.Tests.Configuration.csproj", "{E2339FA6-DA07-4DDC-92C9-47A94E9011B7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Collections", "tests\Structr.Tests.Collections\Structr.Tests.Collections.csproj", "{EB0959EF-6926-4326-AF97-3DEF5EE6869A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Collections.Extensions.AutoMapper", "tests\Structr.Tests.Collections.Extensions.AutoMapper\Structr.Tests.Collections.Extensions.AutoMapper.csproj", "{0F2FCE30-CE76-4EB1-A63A-5C18F5B64AE0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.AspNetCore.Validation", "tests\Structr.Tests.AspNetCore.Validation\Structr.Tests.AspNetCore.Validation.csproj", "{86C1C954-4948-4ED9-9514-6DDC28BBD677}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Email", "Email", "{98460FB5-0B1B-4E25-BA90-A1808FB1141F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Tests.Email", "tests\Structr.Tests.Email\Structr.Tests.Email.csproj", "{71BE8854-45C4-44C0-AB4E-3BCD5DD79B53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Tests.Email.Razor", "tests\Structr.Tests.Email.Razor\Structr.Tests.Email.Razor.csproj", "{E6825E23-D269-4922-840D-D4247A80C0CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Security", "tests\Structr.Tests.Security\Structr.Tests.Security.csproj", "{4A6853C9-041D-48EA-8388-2F9549EAD600}"
 EndProject
@@ -332,6 +340,14 @@ Global
 		{86C1C954-4948-4ED9-9514-6DDC28BBD677}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86C1C954-4948-4ED9-9514-6DDC28BBD677}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86C1C954-4948-4ED9-9514-6DDC28BBD677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71BE8854-45C4-44C0-AB4E-3BCD5DD79B53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71BE8854-45C4-44C0-AB4E-3BCD5DD79B53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71BE8854-45C4-44C0-AB4E-3BCD5DD79B53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71BE8854-45C4-44C0-AB4E-3BCD5DD79B53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6825E23-D269-4922-840D-D4247A80C0CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6825E23-D269-4922-840D-D4247A80C0CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6825E23-D269-4922-840D-D4247A80C0CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6825E23-D269-4922-840D-D4247A80C0CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -390,6 +406,9 @@ Global
 		{44DEAE03-3A2D-47D8-8807-5B2D9BCED8DA} = {77CAEE0B-590C-47CD-9AA8-18BDDD3F36BD}
 		{92300E0C-E8B4-497D-A5B0-C737E904AEB6} = {77CAEE0B-590C-47CD-9AA8-18BDDD3F36BD}
 		{86C1C954-4948-4ED9-9514-6DDC28BBD677} = {77CAEE0B-590C-47CD-9AA8-18BDDD3F36BD}
+		{98460FB5-0B1B-4E25-BA90-A1808FB1141F} = {77CAEE0B-590C-47CD-9AA8-18BDDD3F36BD}
+		{71BE8854-45C4-44C0-AB4E-3BCD5DD79B53} = {98460FB5-0B1B-4E25-BA90-A1808FB1141F}
+		{E6825E23-D269-4922-840D-D4247A80C0CA} = {98460FB5-0B1B-4E25-BA90-A1808FB1141F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {316D113C-3632-4A63-A1B6-0847E9818E28}

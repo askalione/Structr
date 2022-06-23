@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 namespace Structr.Email.TemplateRenderers
 {
+    /// <inheritdoc cref="IEmailTemplateRenderer"/>
     public class ReplaceEmailTemplateRenderer : IEmailTemplateRenderer
     {
         public Task<string> RenderAsync<TModel>(string template, TModel model)
