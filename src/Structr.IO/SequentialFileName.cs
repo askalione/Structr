@@ -25,7 +25,10 @@ namespace Structr.IO
         /// <returns></returns>
         public static string NewFileName(string existsFileName)
         {
-            return NewFileNameWithExtension(Path.GetExtension(existsFileName));
+            string extension = Path.GetExtension(existsFileName);
+            return string.IsNullOrWhiteSpace(extension) == false
+                ? NewFileNameWithExtension(extension)
+                : NewFileName();
         }
 
         /// <summary>
