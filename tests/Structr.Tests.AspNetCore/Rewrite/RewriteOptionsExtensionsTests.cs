@@ -2,8 +2,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Net.Http.Headers;
 using Structr.AspNetCore.Rewrite;
-using Structr.Tests.AspNetCore._TestUtils;
-using System;
+using Structr.Tests.AspNetCore.TestUtils;
 using System.Linq;
 using Xunit;
 

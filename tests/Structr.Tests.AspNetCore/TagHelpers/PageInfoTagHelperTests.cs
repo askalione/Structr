@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Structr.AspNetCore.TagHelpers;
 using Structr.Collections;
-using Structr.Tests.AspNetCore._TestUtils;
+using Structr.Tests.AspNetCore.TestUtils;
 using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.Mvc;
 
 namespace Structr.AspNetCore.TagHelpers
 {
@@ -10,8 +9,8 @@ namespace Structr.AspNetCore.TagHelpers
     [HtmlTargetElement(Attributes = "asp-append-if, asp-append-class")]
     public class AppendClassTagHelper : TagHelper
     {
-        /// Determines whenever class should or shouldn't be added.
         /// <summary>
+        /// Determines whenever class should or shouldn't be added.
         /// </summary>
         [HtmlAttributeName("asp-append-if")]
         public bool Append { get; set; }

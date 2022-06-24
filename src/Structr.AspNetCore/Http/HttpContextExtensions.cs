@@ -42,10 +42,8 @@ namespace Structr.AspNetCore.Http
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var schemeProvider = context.RequestServices.GetRequiredService<IAuthenticationSchemeProvider>();
-
-            var allSchemes = await schemeProvider.GetAllSchemesAsync();
-            //var schemes = allSchemes.Where(x => string.IsNullOrEmpty(x.DisplayName) == false);
+            IAuthenticationSchemeProvider schemeProvider = context.RequestServices.GetRequiredService<IAuthenticationSchemeProvider>();
+            IEnumerable<AuthenticationScheme> allSchemes = await schemeProvider.GetAllSchemesAsync();
 
             return allSchemes;
         }
@@ -64,8 +62,8 @@ namespace Structr.AspNetCore.Http
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var schemes = await GetAuthenticationSchemesAsync(context);
-            var isSupported = schemes.Any(x => string.Equals(x.Name, scheme, StringComparison.OrdinalIgnoreCase));
+            IEnumerable<AuthenticationScheme> schemes = await GetAuthenticationSchemesAsync(context);
+            bool isSupported = schemes.Any(x => string.Equals(x.Name, scheme, StringComparison.OrdinalIgnoreCase));
 
             return isSupported;
         }

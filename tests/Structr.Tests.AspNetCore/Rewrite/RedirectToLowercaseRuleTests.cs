@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
 using Structr.AspNetCore.Rewrite;
-using Structr.Tests.AspNetCore._TestUtils;
+using Structr.Tests.AspNetCore.TestUtils;
 using System;
 using Xunit;
 

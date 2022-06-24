@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.Mvc;
+using Structr.AspNetCore.Http;
 using Structr.Collections;
 using System;
 using System.Collections.Generic;

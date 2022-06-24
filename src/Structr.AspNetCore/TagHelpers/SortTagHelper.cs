@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.Mvc;
+using Structr.AspNetCore.Http;
 using System;
 using System.Linq;
 using System.Text.Encodings.Web;
@@ -66,7 +66,7 @@ namespace Structr.AspNetCore.TagHelpers
         {
             if (string.IsNullOrWhiteSpace(Sort))
             {
-                throw new InvalidOperationException("Sort must be not null");
+                throw new InvalidOperationException("Sort must be not null.");
             }
 
             if (Options == null)

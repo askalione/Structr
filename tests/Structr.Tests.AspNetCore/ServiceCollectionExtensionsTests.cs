@@ -5,43 +5,46 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using Structr.AspNetCore.JavaScript;
+using Structr.AspNetCore.Client.Alerts;
+using Structr.AspNetCore.Client.Options;
 using Xunit;
 
 namespace Structr.Tests.AspNetCore
 {
     public class ServiceCollectionExtensionsTests
     {
+        // TODO: Test AddAspNetCore()
+
         [Fact]
-        public void AddJavaScriptAlerts()
+        public void AddClientAlerts()
         {
             // Act
             var serviceProvider = new ServiceCollection()
                 .AddTransient(x => Mock.Of<IHttpContextAccessor>())
                 .AddTransient(x => Mock.Of<ITempDataDictionaryFactory>())
-                .AddJavaScriptAlerts()
+                .AddClientAlerts()
                 .BuildServiceProvider();
 
             // Assert
-            var javaScriptAlertProvider1 = serviceProvider.GetService<IJavaScriptAlertProvider>();
-            var javaScriptAlertProvider2 = serviceProvider.GetService<IJavaScriptAlertProvider>();
-            javaScriptAlertProvider1.Should().BeOfType<JavaScriptAlertProvider>()
+            var javaScriptAlertProvider1 = serviceProvider.GetService<IClientAlertProvider>();
+            var javaScriptAlertProvider2 = serviceProvider.GetService<IClientAlertProvider>();
+            javaScriptAlertProvider1.Should().BeOfType<ClientAlertProvider>()
                 .And.NotBe(javaScriptAlertProvider2);
         }
 
         [Fact]
-        public void AddJavaScriptOptions()
+        public void AddClientOptions()
         {
             // Act
             var serviceProvider = new ServiceCollection()
                 .AddTransient(x => Mock.Of<IHttpContextAccessor>())
-                .AddJavaScriptOptions()
+                .AddClientOptions()
                 .BuildServiceProvider();
 
             // Assert
-            var javaScriptOptionProvider1 = serviceProvider.GetService<IJavaScriptOptionProvider>();
-            var javaScriptOptionProvider2 = serviceProvider.GetService<IJavaScriptOptionProvider>();
-            javaScriptOptionProvider1.Should().BeOfType<JavaScriptOptionProvider>()
+            var javaScriptOptionProvider1 = serviceProvider.GetService<IClientOptionProvider>();
+            var javaScriptOptionProvider2 = serviceProvider.GetService<IClientOptionProvider>();
+            javaScriptOptionProvider1.Should().BeOfType<ClientOptionProvider>()
                 .And.NotBe(javaScriptOptionProvider2);
         }
 

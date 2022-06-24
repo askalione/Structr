@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.Mvc;
+using Structr.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,7 +100,7 @@ namespace Structr.AspNetCore.TagHelpers
                 toggle.AddCssClass(Options.DropdownToggleCssClass);
             }
             toggle.Attributes.Add("type", "button");
-            if (string.IsNullOrEmpty(Options.DropdownToggleAttribute) == false) 
+            if (string.IsNullOrEmpty(Options.DropdownToggleAttribute) == false)
             {
                 toggle.Attributes.Add(Options.DropdownToggleAttribute, "dropdown");
             }

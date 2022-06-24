@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
@@ -24,7 +23,8 @@ namespace Structr.AspNetCore.TagHelpers
         /// Creates a new <see cref="AnchorMatchTagHelper"/>.
         /// </summary>
         /// <param name="generator">The <see cref="IHtmlGenerator"/>.</param>
-        public AnchorMatchTagHelper(IHtmlGenerator generator) : base(generator)
+        public AnchorMatchTagHelper(IHtmlGenerator generator)
+            : base(generator)
         { }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -76,8 +76,8 @@ namespace Structr.AspNetCore.TagHelpers
 
                 foreach (var routeValueKey in RouteValues.Keys)
                 {
-                    if (!routeValues.TryGetValue(routeValueKey, out string routeValue)
-                        || !routeValue.Equals(RouteValues[routeValueKey], StringComparison.OrdinalIgnoreCase))
+                    if (routeValues.TryGetValue(routeValueKey, out string routeValue) == false
+                        || routeValue.Equals(RouteValues[routeValueKey], StringComparison.OrdinalIgnoreCase) == false)
                     {
                         return false;
                     }

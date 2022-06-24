@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Moq;
 using Structr.AspNetCore.TagHelpers;
-using Structr.Tests.AspNetCore._TestUtils;
+using Structr.Tests.AspNetCore.TestUtils;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;

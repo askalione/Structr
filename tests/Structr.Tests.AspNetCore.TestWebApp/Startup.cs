@@ -11,8 +11,7 @@ namespace Structr.Tests.AspNetCore.TestWebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-            { });
+            services.AddMvc(options => { });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

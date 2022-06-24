@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Structr.AspNetCore.TagHelpers;
-using Structr.Tests.AspNetCore._TestUtils;
+using Structr.Tests.AspNetCore.TestUtils;
 using System.Linq;
 using Xunit;
 

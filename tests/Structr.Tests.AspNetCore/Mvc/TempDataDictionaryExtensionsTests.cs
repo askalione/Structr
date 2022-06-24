@@ -1,12 +1,9 @@
 using FluentAssertions;
-using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Moq;
 using Structr.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Structr.Tests.AspNetCore.Mvc
