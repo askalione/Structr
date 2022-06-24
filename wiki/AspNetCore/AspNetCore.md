@@ -6,7 +6,7 @@ Big part of package consists of extensions for controllers, HttpContext, etc., a
 
 ## Installation
 
-Abstractions package is available on [NuGet](https://www.nuget.org/packages/Structr.AspNetCore/). 
+AspNetCore package is available on [NuGet](https://www.nuget.org/packages/Structr.AspNetCore/). 
 
 ```
 dotnet add package Structr.AspNetCore
