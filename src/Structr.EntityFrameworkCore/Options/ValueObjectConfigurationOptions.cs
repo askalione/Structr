@@ -12,7 +12,7 @@ namespace Structr.EntityFrameworkCore.Options
         /// <summary>
         /// Delegate for configuring Value Objects.
         /// </summary>
-        public Action<IMutableEntityType, OwnedNavigationBuilder> Configure { get; set; }
+        public Action<IMutableEntityType, string, OwnedNavigationBuilder> Configure { get; set; }
 
         /// <summary>
         /// Initializes an instance of <see cref="ValueObjectConfigurationOptions"/> with default values.

@@ -82,39 +82,26 @@ namespace Structr.EntityFrameworkCore
 
             configureOptions?.Invoke(options);
 
-            foreach (IMutableEntityType entityType in builder.GetEntityTypes(typeof(ValueObject<>)))
+            if (options.Configure != null)
             {
-                if (options.Configure != null)
-                {
-                    if (entityType.IsOwned())
-                    {
-                        IMutableEntityType ownerEntityType = entityType.FindOwnership().PrincipalToDependent.DeclaringEntityType;
-                        IEnumerable<IMutableNavigation> navigations = ownerEntityType.GetNavigations().Where(x => x.ClrType == entityType.ClrType);
+                IEnumerable<IMutableEntityType> entityTypes = builder.GetEntityTypes(typeof(ValueObject<>), x => x.IsOwned());
 
-                        foreach (IMutableNavigation navigation in navigations)
-                        {
-                            builder
-                                .Entity(ownerEntityType.ClrType)
-                                .OwnsOne(entityType.ClrType, navigation.Name, ownedNavigationBuilder =>
-                                {
-                                    options.Configure.Invoke(entityType, ownedNavigationBuilder);
-                                });
-                        }
+                foreach (IMutableEntityType entityType in entityTypes)
+                {
+                    IMutableEntityType principalEntityType = entityType.FindOwnership().PrincipalToDependent.DeclaringEntityType;
+                    IEnumerable<IMutableNavigation> navigations = principalEntityType.GetNavigations().Where(x => x.ClrType == entityType.ClrType);
+
+                    foreach (IMutableNavigation navigation in navigations)
+                    {
+                        builder
+                            .Entity(principalEntityType.ClrType)
+                            .OwnsOne(entityType.ClrType, navigation.Name, ownedNavigationBuilder =>
+                            {
+                                options.Configure.Invoke(entityType, navigation.Name, ownedNavigationBuilder);
+                            });
                     }
                 }
             }
-
-            // TODO: Old solution
-            //foreach (var entityType in builder.GetEntityTypes(typeof(ValueObject<>)))
-            //{
-            //    if (options.Configure != null)
-            //    {
-            //        builder.Entity(entityType.ClrType, entityTypeBuilder =>
-            //        {
-            //            options.Configure.Invoke(entityType, entityTypeBuilder);
-            //        });
-            //    }
-            //}
 
             return builder;
         }

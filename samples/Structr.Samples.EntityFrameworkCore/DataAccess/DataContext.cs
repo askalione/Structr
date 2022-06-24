@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Structr.Abstractions.Providers;
 using Structr.EntityFrameworkCore;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
+using System.Linq;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,11 +37,11 @@ namespace Structr.Samples.EntityFrameworkCore.DataAccess
             builder.ApplyEntityConfiguration();
             builder.ApplyValueObjectConfiguration(options =>
             {
-                options.Configure = (entityType, builder) =>
+                options.Configure = (entityType, navigationName, builder) =>
                 {
-                    foreach (var property in entityType.GetProperties())
+                    foreach (var property in entityType.GetProperties().Where(x => x.IsPrimaryKey() == false))
                     {
-                        property.SetColumnName(property.Name);
+                        property.SetColumnName(navigationName + property.Name);
                     }
                 };
             });
