@@ -4,8 +4,16 @@ using System.IO;
 
 namespace Structr.SqlServer
 {
+    /// <summary>
+    /// Database MS SQL Server.
+    /// </summary>
     public static class Database
     {
+        /// <summary>
+        /// Method that guarantees deletion of a database for MS SQL Server.
+        /// </summary>
+        /// <param name="connectionString">Connection string for MS SQL Server.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="connectionString"/> is null.</exception>
         public static void EnsureDeleted(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString))
@@ -30,6 +38,12 @@ namespace Structr.SqlServer
             }
         }
 
+
+        /// <summary>
+        /// Method that guarantees creation of a database for MS SQL Server.
+        /// </summary>
+        /// <param name="connectionString">Connection string for MS SQL Server.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="connectionString"/> is null.</exception>
         public static void EnsureCreated(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString))
