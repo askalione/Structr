@@ -66,16 +66,3 @@ public class TicketCloseCommandHandler : ICommand<TicketCloseCommand>
 ```
 
 Done! We've managed closing ticket using its own lifecycle service implementation, despite we didn't know its type at start.
-
-## AddTimestampProvider
-
-Adds a singleton timestamp provider service, which implements ITimestampProvider interface holding the single method - GetTimestamp().
-
-There are two implementations for this service:
-
-* LocalTimestampProvider - simply returns DateTime.Now;
-* UtcTimestampProvider - returns DateTime.UtcNow;
-
-```csharp
-services.AddTimestampProvider<LocalTimestampProvider>();
-```

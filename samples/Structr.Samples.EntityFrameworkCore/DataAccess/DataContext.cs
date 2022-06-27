@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Abstractions.Providers;
+using Structr.Abstractions.Providers.Timestamp;
 using Structr.EntityFrameworkCore;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
 using System.Security.Principal;
