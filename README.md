@@ -32,7 +32,7 @@ Structr is a framework for development cross platform apps on .NET.
 
 | Component name | NuGet | Downloads |
 | --- | --- | --- |
-| Structr.Collections.Extensions.AutoMapper | [![NuGet Structr.Collections.Extensions.AutoMapper](https://img.shields.io/nuget/v/Structr.Collections.Extensions.AutoMapper)](https://www.nuget.org/packages/Structr.Collections.Extensions.AutoMapper/) | [![Downloads Structr.Collections.Extensions.AutoMapper](https://img.shields.io/nuget/dt/Structr.Collections.Extensions.AutoMapper)](https://www.nuget.org/stats/packages/Structr.Collections.Extensions.AutoMapper?groupby=Version) |
+| Structr.Collections.Extensions.AutoMapper | [![NuGet Structr.Collections.Extensions.AutoMapper](https://img.shields.io/nuget/v/Structr.Collections.Extensions.AutoMapper)](https://www.nuget.org/packages/Structr.Collections.Extensions.AutoMapper/) | [![Downloads Structr.Collections.Extensions.AutoMapper](https://img.shields.io/nuget/dt/Structr.Collections.Extensions.AutoMapper)](https://www.nuget.org/stats/packages/Structr.Collections.Extensions.AutoMapper?groupby=Version) [![Join the chat at https://gitter.im/Structr-dotnet/community](https://badges.gitter.im/Structr-dotnet/community.svg)](https://gitter.im/Structr-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) |
 
 ## License
 Structr is open source, licensed under the [MIT License](https://github.com/askalione/Structr/blob/master/LICENSE).
