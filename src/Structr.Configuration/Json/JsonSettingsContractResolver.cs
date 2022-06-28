@@ -4,6 +4,10 @@ using System.Reflection;
 
 namespace Structr.Configuration.Json
 {
+    /// <summary>
+    /// The <see cref="DefaultContractResolver"/>, that overrides <see cref="DefaultContractResolver.CreateProperty(MemberInfo, MemberSerialization)"/>
+    /// for handling <see cref="OptionAttribute"/>.
+    /// </summary>
     public class JsonSettingsContractResolver : DefaultContractResolver
     {
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
@@ -29,7 +33,7 @@ namespace Structr.Configuration.Json
                     property.DefaultValue = settingAttr.DefaultValue;
                     property.DefaultValueHandling = DefaultValueHandling.Populate;
 
-                    if (propertyInfo.PropertyType == typeof(string) && !string.IsNullOrWhiteSpace(settingAttr.EncryptionPassphrase))
+                    if (propertyInfo.PropertyType == typeof(string) && string.IsNullOrWhiteSpace(settingAttr.EncryptionPassphrase) == false)
                     {
                         property.Converter = new JsonSettingsEncryptionConverter(settingAttr.EncryptionPassphrase);
                     }

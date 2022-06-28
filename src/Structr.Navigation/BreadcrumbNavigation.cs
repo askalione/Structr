@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Structr.Navigation
 {
+    /// <inheritdoc cref="IBreadcrumbNavigation{TNavigationItem}"/>
     public class BreadcrumbNavigation<TNavigationItem> : IBreadcrumbNavigation<TNavigationItem>
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
@@ -12,6 +13,11 @@ namespace Structr.Navigation
 
         public TNavigationItem Active { get; }
 
+        /// <summary>
+        /// Initializes an instance of <see cref="BreadcrumbNavigation{TNavigationItem}"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="INavigationBuilder{TNavigationItem}"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="builder"/> is <see langword="null"/>.</exception>
         public BreadcrumbNavigation(INavigationBuilder<TNavigationItem> builder)
         {
             if (builder == null)

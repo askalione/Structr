@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Abstractions.Providers;
+using Structr.Abstractions.Providers.Timestamp;
 using Structr.EntityFrameworkCore;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
 using System.Security.Principal;
@@ -19,6 +20,9 @@ namespace Structr.Samples.EntityFrameworkCore.DataAccess
 
         public AuditTimestampProvider AuditTimestampProvider => _timestampProvider != null
             ? _timestampProvider.GetTimestamp
+            : null;
+        public AuditSignProvider AuditSignProvider => _principal != null
+            ? () => _principal.Identity.Name
             : null;
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -46,13 +50,13 @@ namespace Structr.Samples.EntityFrameworkCore.DataAccess
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            this.Audit(AuditTimestampProvider, _principal);
+            this.Audit(AuditTimestampProvider, AuditSignProvider);
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
-            this.Audit(AuditTimestampProvider, _principal);
+            this.Audit(AuditTimestampProvider, AuditSignProvider);
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }

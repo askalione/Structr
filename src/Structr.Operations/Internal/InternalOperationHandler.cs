@@ -11,7 +11,10 @@ namespace Structr.Operations.Internal
             IServiceProvider serviceProvider,
             CancellationToken cancellationToken)
         {
-            Task<TResult> HandleAsync() => serviceProvider.GetRequiredService<IOperationHandler<TOperation, TResult>>().HandleAsync((TOperation)operation, cancellationToken);
+            Task<TResult> HandleAsync() => serviceProvider
+                .GetService<IOperationHandler<TOperation, TResult>>()?
+                .HandleAsync((TOperation)operation, cancellationToken)
+                ?? throw new InvalidOperationException($"Operation handler for operation '{typeof(TOperation).FullName}' was not found");
             var filters = serviceProvider.GetServices<IOperationFilter<TOperation, TResult>>();
             return filters
                 .Reverse()

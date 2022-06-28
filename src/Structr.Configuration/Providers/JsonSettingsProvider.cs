@@ -1,16 +1,31 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using System;
 
 namespace Structr.Configuration.Providers
 {
+    /// <summary>
+    /// Provides functionality for access to a JSON file with settings <see cref="TSettings"/>.
+    /// </summary>
     public class JsonSettingsProvider<TSettings> : FileSettingsProvider<TSettings> where TSettings : class, new()
     {
+        /// <summary>
+        /// Initializes a new <see cref="JsonSettingsProvider{TSettings}"/> instance.
+        /// </summary>
+        /// <param name="options">The options object to make additional configurations.</param>
+        /// <param name="path">The path to JSON file with settings.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
         public JsonSettingsProvider(SettingsProviderOptions options, string path)
             : base(options, path)
         {
         }
 
+        /// <summary>
+        /// Load settings from JSON file.
+        /// </summary>
+        /// <returns>Loaded settings.</returns>
         protected override TSettings LoadSettings()
         {
             ValidatePathOrThrow();
@@ -26,6 +41,9 @@ namespace Structr.Configuration.Providers
             }
         }
 
+        /// <summary>
+        /// Update settings in JSON file.
+        /// </summary>
         protected override void UpdateSettings(TSettings settings)
         {
             ValidatePathOrThrow();
