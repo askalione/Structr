@@ -41,7 +41,7 @@ If you then still feel the need to ask a question and need clarification, follow
 * Provide as much context as you can about what you're running into.
 * Provide project and platform versions, depending on what seems relevant.
 
-Also you can use [Gitter](https://gitter.im/Structr-dotnet) to ask questions!
+Also you can use [Gitter](https://gitter.im/Structr-dotnet/community) to ask questions!
 
 ## I Want To Contribute
 
