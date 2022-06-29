@@ -168,7 +168,7 @@ namespace Structr.EntityFrameworkCore
                         if (typeof(ISignedSoftDeletable).IsAssignableFrom(entityClrType))
                         {
                             entityTypeBuilder.Property(AuditableProperties.DeletedBy)
-                                .IsRequired(options.SignedColumnIsRequired)
+                                .IsRequired(false)
                                 .HasMaxLength(options.SignedColumnMaxLength);
                         }
                     }

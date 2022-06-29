@@ -9,6 +9,9 @@ namespace Structr.Tests.EntityFrameworkCore
 {
     public class ModelBuilderExtensionsTests
     {
+        private const bool _signedColumnIsRequired = true;
+        private const int _signedColumnMaxLength = 100;
+
         private class Foo : Entity<Foo, int>
         {
             public Boo Boo { get; set; } = default!;
@@ -17,6 +20,13 @@ namespace Structr.Tests.EntityFrameworkCore
         private class Boo : ValueObject<Boo>
         {
             public string Name { get; set; } = default!;
+        }
+
+        private class Bar : SignedAuditableEntity<Bar, int>, ISignedSoftDeletable
+        {
+            public string? DeletedBy { get; set; }
+
+            public DateTime? DateDeleted { get; set; }
         }
 
         private class FooConfiguration : IEntityTypeConfiguration<Foo>
@@ -30,6 +40,7 @@ namespace Structr.Tests.EntityFrameworkCore
         private class TestDbContext : DbContext
         {
             public DbSet<Foo> Foos { get; private set; } = default!;
+            public DbSet<Bar> Bars { get; private set; } = default!;
 
             public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
 
@@ -40,7 +51,7 @@ namespace Structr.Tests.EntityFrameworkCore
                 builder.ApplyEntityConfiguration();
                 builder.ApplyValueObjectConfiguration(options =>
                 {
-                    options.Configure = (entityType, builder) =>
+                    options.Configure = (entityType, navigationName, builder) =>
                     {
                         foreach (var property in entityType.GetProperties())
                         {
@@ -48,7 +59,11 @@ namespace Structr.Tests.EntityFrameworkCore
                         }
                     };
                 });
-                builder.ApplyAuditableConfiguration();
+                builder.ApplyAuditableConfiguration(options =>
+                {
+                    options.SignedColumnIsRequired = _signedColumnIsRequired;
+                    options.SignedColumnMaxLength = _signedColumnMaxLength;
+                });
             }
         }
 
@@ -105,13 +120,102 @@ namespace Structr.Tests.EntityFrameworkCore
         [Fact]
         public void ApplyAuditableConfiguration()
         {
-            // TODO
+            // Arrange
+            var serviceProvider = new ServiceCollection()
+                .AddDbContext<TestDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase(nameof(TestDbContext));
+                })
+                .BuildServiceProvider();
+
+            // Act
+            TestDbContext context = serviceProvider.GetRequiredService<TestDbContext>();
+
+            // Assert
+            IEntityType barType = context.Bars.EntityType;
+            IProperty? dateCreatedProp = barType.FindProperty("DateCreated");
+            IProperty? createdByProp = barType.FindProperty("CreatedBy");
+            IProperty? dateModifiedProp = barType.FindProperty("DateModified");
+            IProperty? modifiedByProp = barType.FindProperty("ModifiedBy");
+            IProperty? dateDeletedProp = barType.FindProperty("DateDeleted");
+            IProperty? deletedByProp = barType.FindProperty("DeletedBy");
+
+            dateCreatedProp.Should().NotBeNull();
+            dateCreatedProp!.IsNullable.Should().BeFalse();
+            createdByProp.Should().NotBeNull();
+            createdByProp!.IsNullable.Should().Be(!_signedColumnIsRequired);
+            createdByProp!.GetMaxLength().Should().Be(_signedColumnMaxLength);
+
+            dateModifiedProp.Should().NotBeNull();
+            dateModifiedProp!.IsNullable.Should().BeFalse();
+            modifiedByProp.Should().NotBeNull();
+            modifiedByProp!.IsNullable.Should().Be(!_signedColumnIsRequired);
+            modifiedByProp!.GetMaxLength().Should().Be(_signedColumnMaxLength);
+
+            dateDeletedProp.Should().NotBeNull();
+            dateDeletedProp!.IsNullable.Should().BeTrue();
+            deletedByProp.Should().NotBeNull();
+            deletedByProp!.IsNullable.Should().BeTrue();
+            deletedByProp!.GetMaxLength().Should().Be(_signedColumnMaxLength);
         }
 
         [Fact]
-        public void GetEntityTypes()
+        public void GetEntityTypes_entities()
         {
-            // TODO
+            // Arrange
+            var modelBuilder = new ModelBuilder();
+            modelBuilder.Entity<Foo>().OwnsOne(x => x.Boo);
+            modelBuilder.Entity<Bar>();
+
+            // Act
+            List<IMutableEntityType> entityTypes = modelBuilder.GetEntityTypes(typeof(Entity<>));
+
+            // Assert
+            entityTypes.Should().Satisfy(
+                foo => foo.ClrType == typeof(Foo),
+                bar => bar.ClrType == typeof(Bar)
+            );
+        }
+
+        [Fact]
+        public void GetEntityTypes_value_objects()
+        {
+            // Arrange
+            var modelBuilder = new ModelBuilder();
+            modelBuilder.Entity<Foo>().OwnsOne(x => x.Boo);
+            modelBuilder.Entity<Bar>();
+
+            // Act
+            List<IMutableEntityType> entityTypes = modelBuilder.GetEntityTypes(typeof(ValueObject<>));
+
+            // Assert
+            entityTypes.Should().Satisfy(
+                boo => boo.ClrType == typeof(Boo)
+            );
+        }
+
+        [Theory]
+        [InlineData(null)]
+        public void GetEntityTypes_throws_when_modelBuilder_is_null(ModelBuilder modelBuilder)
+        {
+            // Act
+            Action act = () => modelBuilder.GetEntityTypes(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void GetEntityTypes_throws_when_type_is_null()
+        {
+            // Arrange
+            var modelBuilder = new ModelBuilder();
+
+            // Act
+            Action act = () => modelBuilder.GetEntityTypes(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>();
         }
     }
 }

@@ -14,13 +14,13 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         public virtual void CreateShared(string name, Action initializeDatabase)
         {
             // ReSharper disable once InconsistentlySynchronizedField
-            if (!_createdDatabases.Contains(name))
+            if (_createdDatabases.Contains(name) == false)
             {
                 var creationLock = _creationLocks.GetOrAdd(name, new object());
 
                 lock (creationLock)
                 {
-                    if (!_createdDatabases.Contains(name))
+                    if (_createdDatabases.Contains(name) == false)
                     {
                         initializeDatabase?.Invoke();
 
@@ -51,7 +51,7 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
                 finally
                 {
                     Monitor.Exit(creationLock);
-                    if (!_creationLocks.TryRemove(name, out _))
+                    if (_creationLocks.TryRemove(name, out _) == false)
                     {
                         throw new InvalidOperationException(
                             $"An attempt was made to initialize a non-shared store {name} from two different threads.");
