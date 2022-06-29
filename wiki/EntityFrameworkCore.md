@@ -1,10 +1,10 @@
 # EntityFrameworkCore
 
-**Structr.EntityFrameworkCore** package provides methods to easy implement auto-auditing in EntityFrameworkCore `DbContext`.
+**Structr.EntityFrameworkCore** package provides methods to easy implement auto-auditing in [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) `DbContext`, `ModelBuilder` extensions which applies the entity type default configuration and `IQueryable<T>` extensions to paginate through a list of entities.
 
 ## Installation
 
-Structr.EntityFrameworkCore package is available on [NuGet](https://www.nuget.org/packages/Structr.EntityFrameworkCore/).
+EntityFrameworkCore package is available on [NuGet](https://www.nuget.org/packages/Structr.EntityFrameworkCore/).
 
 ```
 dotnet add package Structr.EntityFrameworkCore
@@ -12,106 +12,158 @@ dotnet add package Structr.EntityFrameworkCore
 
 ## Usage
 
-Structr.EntityFrameworkCore package uses with [Structr.Domain](Domain/Domain.md) package that provides some abstract classes for entities and value objects and interfaces like `ICreatable` or `ISignedCreatable`. Structr.EntityFrameworkCore provides methods to easy implement auto-auditing in EFCore DbContext. Auto-auditing - it's when you call `SaveChanges()` entity's properties like `DateCreated` or `CreatedBy` filling and tracking automatically.
+EntityFrameworkCore package have a reference to [Structr.Domain](Domain/Domain.md) package that provides some abstract classes for entities, value objects and interfaces which are intended to help to implement [Domain Model](https://www.domainlanguage.com/ddd/).
+
+### Auto-auditing
+
+Auto-auditing - it's entity change auditing for Entity Framework Core entities. The basic process for auditing is to override the `SaveChanges()` method on the `DbContext` and plug in some logic to filling and tracking auditable properties (e.g. `DateCreated` or `CreatedBy`) automatically.
 
 For example, create some entity that inherits `Entity<TEntity,TKey>` class and `ISignedCreatable` interface.
 
 ```csharp
-public class Foo : Entity<Foo, int>, ISignedCreatable
+public class Issue : Entity<Issue, int>, ICreatable
 {
     public string Name { get; set; }
-    public string CreatedBy { get; set; }
-    public DateTime DateCreated { get; set; }
+    public string Description { get; set; }
+    public DateTime DateCreated { get; set; } // It's an auditable property from "ISignedCreatable".
 }
 ```
 
-Create your own `DbContext` class, configure it with `ITimestampProvider` and `IPrincipal` and add `DbSet<Foo>`.
+Create your own `DbContext` class implementation with configure some auditing dependencies (e.g. `ITimestampProvider`) and override `SaveChanges()` methods.
 
 ```csharp
 public class DataContext : DbContext
 {
-    public DbSet<Foo> Foos { get; private set; } = default!;
+    public DbSet<Issue> Issues { get; set; };
 
-    private readonly ITimestampProvider _timestampProvider;
-    private readonly IPrincipal _principal;
+    private readonly AuditTimestampProvider? _auditTimestampProvider;
 
-    private AuditTimestampProvider _auditTimestampProvider => _timestampProvider != null
-        ? _timestampProvider.GetTimestamp
-        : null;
-    private AuditSignProvider _auditSignProvider => _principal != null
-        ? () => _principal.Identity.Name
-        : null;
-
-    public DataContext(DbContextOptions<DataContext> options) : base(options)
+    public DataContext(DbContextOptions<DataContext> options, 
+        ITimestampProvider? timestampProvider = null,
+        IPrincipal? principal) : base(options)
     {
-        _timestampProvider = options.GetService<ITimestampProvider>();
-        _principal = options.GetService<IPrincipal>();
+        _auditTimestampProvider = timestampProvider != null ? timestampProvider.GetTimestamp : null;
     }
-    ...
+
+    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        this.Audit(_auditTimestampProvider); // Auto-audit entities.
+        return base.SaveChanges(acceptAllChangesOnSuccess);
+    }
+
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        this.Audit(_auditTimestampProvider); // Auto-audit entities.
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
 }
 ```
 
-Then override `OnModelCreating()` method and use `ApplyEntityConfiguration()`, `ApplyValueObjectConfiguration()` and/or `ApplyAuditableConfiguration()`.
+Now if you add a new instance of `Issue` to `DbSet<Issue>` and call `SaveChanges()` or `SaveChangesAsync()` method, the `DateCreated` property will be filled in automatically.
+
+### Auto-configure entity types
+
+Create your own `DbContext` class implementation and override `OnModelCreating()` method with calling `ApplyEntityConfiguration()`, `ApplyValueObjectConfiguration()` and/or `ApplyAuditableConfiguration()` methods.
 
 ```csharp
 public class DataContext : DbContext
 {
-...
+    public DataContext(DbContextOptions<DataContext> options) 
+    : base(options)
+    {}
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyEntityConfiguration();
         builder.ApplyValueObjectConfiguration();
         builder.ApplyAuditableConfiguration();
     }
-...
 }
 ```
 
-Finally override `SaveChanges()` and `SaveChangesAsync()` methods and use `Audit()` extension method for `DbContext`.
+`ModelBuilder` extension methods list:
+
+| Method name | Description |
+| --- | --- |
+| ApplyEntityConfiguration | Applies the default configuration for all classes inherited from the `Entity<TEntity, TKey>`. Automatically configures PK for entities with `HasKey()` method. | 
+| ApplyValueObjectConfiguration | Applies the default configuration for all classes inherited from the `ValueObject<TValueObject>`. |
+| ApplyAuditableConfiguration | Applies the default configuration for all classes that implement the `IAuditable`. |
+
+You can configure options when applies entity types default configurations.
+For example, configure PK column name for all domain entities:
 
 ```csharp
-public class DataContext : DbContext
+protected override void OnModelCreating(ModelBuilder builder)
 {
-...
-    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    builder.ApplyEntityConfiguration(options =>
     {
-        this.Audit(_auditTimestampProvider, _auditSignProvider);
-        return base.SaveChanges(acceptAllChangesOnSuccess);
-    }
-
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
-    {
-        this.Audit(_auditTimestampProvider, _auditSignProvider);
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-    }
-}
-```
-
-Now if you add a new instance of `Foo` to `DbSet<Foo>` and call `SaveChanges()` or `SaveChangesAsync()`, the `DateCreated` and `CreatedBy` instance properties will be filled in automatically.
-
-## Options
-
-You can use `EntityConfigurationOptions` or `ValueObjectConfigurationOptions` to configure all descendants of `Entity<TEntity, TKey>` or `ValueObject<TValueObject>`, for example, you can add prefix for all names of value object properties.
-
-```csharp
-builder.ApplyValueObjectConfiguration(options =>
-{
-    options.Configure = (entityType, navigationName, builder) =>
-    {
-        foreach (var property in entityType.GetProperties())
+        options.Configure = (entityType, builder) =>
         {
-            property.SetColumnName("prefix_" + property.Name);
-        }
-    };
-});
+            builder.Property("Id")
+                .HasColumnName($"{entityType.ClrType.Name}ID");
+        };
+    });
+}
 ```
 
-You can use `AuditableConfigurationOptions` to configure signed properties for auditable entities, for example:
+`EntityConfigurationOptions` properties:
+
+| Property name | Property type | Description |
+| --- | --- | --- |
+| Configure | `Action<IMutableEntityType, EntityTypeBuilder>` | Delegate for configuring Entities.. Default value is `null`. |
+
+Configure name strategy for all properties of value objects:
 
 ```csharp
-builder.ApplyAuditableConfiguration(options =>
+protected override void OnModelCreating(ModelBuilder builder)
 {
-    options.SignedColumnIsRequired = true;
-    options.SignedColumnMaxLength = 100;
-});
+    builder.ApplyValueObjectConfiguration(options =>
+    {
+        options.Configure = (entityType, navigationName, builder) =>
+        {
+            foreach (var property in entityType.GetProperties().Where(x => x.IsPrimaryKey() == false))
+            {
+                property.SetColumnName(navigationName + "_" + property.Name);
+            }
+        };
+    });
+}
 ```
+
+`ValueObjectConfigurationOptions` properties:
+
+| Property name | Property type | Description |
+| --- | --- | --- |
+| Configure | `Action<IMutableEntityType, string, OwnedNavigationBuilder>` | Delegate for configuring Value Objects. Default value is `null`. |
+
+Configure signed properties for auditable entities:
+
+```csharp
+protected override void OnModelCreating(ModelBuilder builder)
+{
+    builder.ApplyAuditableConfiguration(options =>
+    {
+        options.SignedColumnIsRequired = true;
+        options.SignedColumnMaxLength = 100;
+    });
+}
+```
+
+`AuditableConfigurationOptions` properties:
+
+| Property name | Property type | Description |
+| --- | --- | --- |
+| SignedColumnMaxLength | `int` | Defines the maximum size of a signed column (`CreatedBy`, `ModifiedBy`, `DeletedBy`). Default value is `50`. |
+| SignedColumnIsRequired | `bool` | Defines if a signed column (`CreatedBy`, `ModifiedBy`, `DeletedBy`) is required. Default value is `false`. |
+
+### Pagination
+
+Use `.ToPagedList()` and `.ToPagedListAsync()` extension methods for `IQueryable<T>` to paginate result of entities query:
+
+```csharp
+PagedList<Issue> issues = _dbContext.Issues
+    .OrderByDescending(x => x.DateCreated)
+    .ToPagedList(pageNumber: 1, pageSize: 10); // Returns only top 10 of latest issues.
+```
+
+If you call `ToPagedList()` method with `pageSize` parameter equals `-1` that returns all entities from `DbContext` without limitation. 

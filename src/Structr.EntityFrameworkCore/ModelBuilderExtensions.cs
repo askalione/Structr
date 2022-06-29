@@ -112,7 +112,7 @@ namespace Structr.EntityFrameworkCore
 
         /// <summary>
         /// Applies the default configuration for all classes that implement the <see cref="IAuditable"/>
-        /// except those inherited from the <see cref="ValueObject{TValueObject}"/>.
+        /// except inherited from the <see cref="ValueObject{TValueObject}"/>.
         /// </summary>
         /// <param name="builder">The <see cref="ModelBuilder"/>.</param>
         /// <param name="configureOptions">Delegate for additional configure options.</param>

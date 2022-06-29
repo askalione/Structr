@@ -31,7 +31,7 @@ namespace Structr.EntityFrameworkCore
 
             var extension = builder.Options.FindExtension<CoreOptionsExtension>();
             var loggerFactory = extension?.LoggerFactory;
-            if (extension.LoggerFactory != null)
+            if (loggerFactory != null)
             {
                 loggerFactory.AddProvider(provider);
             }
