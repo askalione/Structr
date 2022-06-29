@@ -9,7 +9,8 @@ namespace Structr.AspNetCore.Http
     public static class QueryCollectionExtensions
     {
         /// <summary>
-        /// Creates an instance of <see cref="RouteValueDictionary"/> containing key-value pairs form specified <see cref="IQueryCollection"/>. 
+        /// Creates an instance of <see cref="RouteValueDictionary"/> containing key-value pairs form
+        /// specified <see cref="IQueryCollection"/>.
         /// </summary>
         /// <param name="collection">The <see cref="IQueryCollection"/>.</param>
         /// <returns>The <see cref="RouteValueDictionary"/> object.</returns>
@@ -24,8 +25,8 @@ namespace Structr.AspNetCore.Http
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="RouteValueDictionary"/> containing key-value pairs form specified <see cref="IQueryCollection"/>
-        /// and append new value with specified key.
+        /// Creates an instance of <see cref="RouteValueDictionary"/> containing key-value pairs form
+        /// specified <see cref="IQueryCollection"/> and append new value with specified key.
         /// </summary>
         /// <param name="collection">The <see cref="IQueryCollection"/>.</param>
         /// <param name="newKey">A key to append to.</param>
@@ -33,14 +34,14 @@ namespace Structr.AspNetCore.Http
         /// <returns>The <see cref="RouteValueDictionary"/> object.</returns>
         public static RouteValueDictionary ToRouteValueDictionary(this IQueryCollection collection, string newKey, object newValue)
         {
+            // TODO: Fix somehow or refactor
             RouteValueDictionary routeValues = collection.ToRouteValueDictionary();
-            string value = newValue?.ToString();                      
 
             routeValues.Remove(newKey);
 
-            if (string.IsNullOrEmpty(value) == false)
+            if (newValue != null && string.IsNullOrEmpty(newValue.ToString()) == false)
             {
-                routeValues[newKey] = value;
+                routeValues[newKey] = newValue;
             }
 
             return routeValues;

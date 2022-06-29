@@ -139,22 +139,22 @@ namespace Structr.AspNetCore.TagHelpers
         public PageSizeDropdownMenuAlign DropdownMenuAlign { get; set; }
 
         /// <summary>
-        /// ???
+        /// Css class for controls container.
         /// </summary>
         public string ContainerCssClass { get; set; }
 
         /// <summary>
-        /// ???
+        /// Css class for div container of dropdown defining count of elements on page.
         /// </summary>
         public string DropdownCssClass { get; set; }
 
         /// <summary>
-        /// ???
+        /// Css class for buttom of dropdown defining count of elements on page.
         /// </summary>
         public string DropdownToggleCssClass { get; set; }
 
         /// <summary>
-        /// ???
+        /// Name of html-attribute to identify a dropdown.
         /// </summary>
         public string DropdownToggleAttribute { get; set; }
 

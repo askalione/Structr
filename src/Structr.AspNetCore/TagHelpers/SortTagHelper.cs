@@ -18,19 +18,19 @@ namespace Structr.AspNetCore.TagHelpers
     public class SortTagHelper : TagHelper
     {
         /// <summary>
-        /// ???
+        /// Name of Model field to sort by. When value of field equals <see cref="DefaultSort"/> then sorting will be performed.
         /// </summary>
         [HtmlAttributeName("asp-sort")]
         public string Sort { get; set; }
 
         /// <summary>
-        /// Field to be used for sorting by default.
+        /// Value of field to sort by, taken from query (url). For example <c>@Model.Query.Sort</c>.
         /// </summary>
         [HtmlAttributeName("asp-default-sort")]
         public string DefaultSort { get; set; }
 
         /// <summary>
-        /// Sort order to be used by default.
+        /// Sort order to be used, taken from query (url). For example <c>@Model.Query.Order</c>.
         /// </summary>
         [HtmlAttributeName("asp-default-order")]
         public SortOrder? DefaultOrder { get; set; }
@@ -178,12 +178,12 @@ namespace Structr.AspNetCore.TagHelpers
     public class SortOptions
     {
         /// <summary>
-        /// ???
+        /// Css class for links.
         /// </summary>
         public string LinkCssCLass { get; set; }
 
         /// <summary>
-        /// ???
+        /// Css class for active element.
         /// </summary>
         public string ActiveCssClass { get; set; }
 

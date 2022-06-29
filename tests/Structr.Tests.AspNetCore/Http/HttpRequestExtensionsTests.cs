@@ -26,7 +26,6 @@ namespace Structr.Tests.AspNetCore.Http
         [Fact]
         public void GetAbsoluteUri()
         {
-            // ???: or use integration test with test request object builded natively.
             // Arrange
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Scheme = "http";

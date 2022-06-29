@@ -183,7 +183,7 @@ namespace Structr.Abstractions.Extensions
             Type delegateType = typeof(Func<,>).MakeGenericType(typeof(T), type);
             LambdaExpression lambda = Expression.Lambda(delegateType, expression, arg);
 
-            // TODO make same as in EnumerableExtensions with more presice properties checking
+            // TODO: make same as in EnumerableExtensions with more presice properties checking
             MethodInfo orderingMethod = typeof(Queryable)
                 .GetMethods()
                 .SingleOrDefault(m

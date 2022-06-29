@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Http;
 using System;
 using Xunit;
 using FluentAssertions;
-using Structr.AspNetCore.JavaScript;
 using Moq;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Collections.Generic;
 using Structr.AspNetCore.Client.Options;
+using Structr.Tests.AspNetCore.TestUtils;
 
 namespace Structr.Tests.AspNetCore.Client.Options
 {
@@ -145,6 +145,18 @@ namespace Structr.Tests.AspNetCore.Client.Options
             act.Should().ThrowExactly<ArgumentNullException>();
         }
 
-        // TODO: Test BuildClientOptionsKey(RouteData routeData)
+        [Fact]
+        public void BuildClientOptionsKey()
+        {
+            // Arrange
+            var controller = ControllerFactory.CreateController(out var httpContext);
+            var optionsProvider = GetClientOptionProvider(httpContext);
+
+            // Act
+            var result = optionsProvider.BuildClientOptionsKey(controller.RouteData);
+
+            // Assert
+            result.Should().Be("admin.test.test-action");
+        }
     }
 }

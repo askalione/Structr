@@ -292,9 +292,6 @@ namespace Structr.AspNetCore.TagHelpers
         /// </summary>
         public Func<int, string> PageUrlGenerator { get; set; }
 
-        /// <summary>
-        /// ???
-        /// </summary>
         public IEnumerable<string> ContainerCssClasses { get; set; }
         public IEnumerable<string> UlElementCssClasses { get; set; }
         public IEnumerable<string> LiElementCssClasses { get; set; }
@@ -309,22 +306,22 @@ namespace Structr.AspNetCore.TagHelpers
         public PaginationDisplayMode Display { get; set; }
 
         /// <summary>
-        /// Determines display mode for first-page button.
+        /// Determines display mode for first-page button. Default value is <see cref="PaginationDisplayMode.IfNeeded"/>.
         /// </summary>
         public PaginationDisplayMode DisplayLinkToFirstPage { get; set; }
 
         /// <summary>
-        /// Determines display mode for last-page button.
+        /// Determines display mode for last-page button. Default value is <see cref="PaginationDisplayMode.IfNeeded"/>.
         /// </summary>
         public PaginationDisplayMode DisplayLinkToLastPage { get; set; }
 
         /// <summary>
-        /// Determines display mode for previous-page button.
+        /// Determines display mode for previous-page button. Default value is <see cref="PaginationDisplayMode.Never"/>.
         /// </summary>
         public PaginationDisplayMode DisplayLinkToPreviousPage { get; set; }
 
         /// <summary>
-        /// Determines display mode for next-page button.
+        /// Determines display mode for next-page button. Default value is <see cref="PaginationDisplayMode.Never"/>.
         /// </summary>
         public PaginationDisplayMode DisplayLinkToNextPage { get; set; }
 
@@ -334,7 +331,7 @@ namespace Structr.AspNetCore.TagHelpers
         public bool DisplayLinkToIndividualPages { get; set; }
 
         /// <summary>
-        /// Maximum count of buttons with page numbers to display.
+        /// Maximum count of buttons with page numbers to display. Default value is <с>3</с>.
         /// </summary>
         public int? MaximumPageNumbersToDisplay { get; set; }
 
@@ -374,17 +371,17 @@ namespace Structr.AspNetCore.TagHelpers
         public string LinkToLastPageFormat { get; set; }
 
         /// <summary>
-        /// ???
+        /// Allows to transform output of page numbers allowing build for example something like "First", "Second", etc.
         /// </summary>
         public Func<int, string> FunctionToDisplayEachPageNumber { get; set; }
 
         /// <summary>
-        /// ???
+        /// Delimiter strings to place between page numbers.
         /// </summary>
         public string DelimiterBetweenPageNumbers { get; set; }
 
         /// <summary>
-        /// ???
+        /// Method allowing to format HTML for <li> and <a> inside of paging controls, using TagBuilders.
         /// </summary>
         public Func<TagBuilder, TagBuilder, TagBuilder> FunctionToTransformEachPageLink { get; set; }
 

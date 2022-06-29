@@ -14,8 +14,8 @@ namespace Structr.Tests.AspNetCore.Http
         {
             // Arrange
             var dict = new Dictionary<string, StringValues> {
-                { "Key1", new StringValues(new [] { "Value11", "Value12" }) },
-                { "Key2", new StringValues(new [] { "Value2" }) }
+                { "Key1", "Value1" },
+                { "Key2", "Value2" }
             };
 
             // Act
@@ -25,6 +25,24 @@ namespace Structr.Tests.AspNetCore.Http
             result.Should().BeEquivalentTo(dict);
         }
 
-        // TODO: Test ToRouteValueDictionary(string, string)
+        [Fact]
+        public void ToRouteValueDictionary_with_new_values()
+        {
+            // Arrange
+            var dict = new Dictionary<string, StringValues> {
+                { "Key1", "Value1" },
+                { "Key2", "Value2" }
+            };
+
+            // Act
+            var result = new QueryCollection(dict).ToRouteValueDictionary("Key3", "Value3");
+
+            // Assert
+            result.Should().BeEquivalentTo(new Dictionary<string, StringValues> {
+                { "Key1", "Value1" },
+                { "Key2", "Value2" },
+                { "Key3", "Value3" }
+            });
+        }
     }
 }
