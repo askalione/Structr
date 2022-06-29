@@ -27,7 +27,12 @@ namespace Structr.IO
         /// </summary>
         /// <param name="existingFileName">Name of existing file.</param>
         public static string NewFileName(string existingFileName)
-            => NewFileNameWithExtension(Path.GetExtension(existingFileName));
+        {
+            string extension = Path.GetExtension(existingFileName);
+            return string.IsNullOrWhiteSpace(extension) == false
+                ? NewFileNameWithExtension(extension)
+                : NewFileName();
+        }
 
         /// <summary>
         /// Generate new sequntial filename based on guid and time stamp segments

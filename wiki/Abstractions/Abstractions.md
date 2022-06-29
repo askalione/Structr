@@ -23,6 +23,9 @@ dotnet add package Structr.Abstractions
 * [Money](Abstractions-Money.md)
 * [SequentialGuid](Abstractions-SequentialGuid.md)
 * [HierarchyId](Abstractions-HierarchyId.md)
+* Providers
+    * [TimestampProvider](Providers/Abstractions-TimestampProvider.md)
+    * [SequentialGuidProvider](Providers/Abstractions-SequentialGuidProvider.md)
 * Extensions
     * [DateTime](Extensions/Abstractions-DateTimeExtensions.md)
     * [Dictionary](Extensions/Abstractions-DictionaryExtensions.md)

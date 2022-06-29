@@ -1,6 +1,6 @@
 using System;
 
-namespace Structr.Abstractions.Providers
+namespace Structr.Abstractions.Providers.Timestamp
 {
     /// <summary>
     /// Simple timestamp returning current UTC date and time value.
