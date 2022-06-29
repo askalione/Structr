@@ -1,4 +1,4 @@
-![Structr](assets/logo/logo_128x128.png)
+![Structr](assets/logo/logo_100x100.png)
 
 # Structr
 
