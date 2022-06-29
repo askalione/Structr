@@ -18,14 +18,14 @@ EntityFrameworkCore package have a reference to [Structr.Domain](Domain/Domain.m
 
 Auto-auditing - it's entity change auditing for Entity Framework Core entities. The basic process for auditing is to override the `SaveChanges()` method on the `DbContext` and plug in some logic to filling and tracking auditable properties (e.g. `DateCreated` or `CreatedBy`) automatically.
 
-For example, create some entity that inherits `Entity<TEntity,TKey>` class and `ISignedCreatable` interface.
+For example, create some entity that inherits `Entity<TEntity,TKey>` class and `ICreatable` interface.
 
 ```csharp
 public class Issue : Entity<Issue, int>, ICreatable
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public DateTime DateCreated { get; set; } // It's an auditable property from "ISignedCreatable".
+    public DateTime DateCreated { get; set; } // It's an auditable property from "ICreatable".
 }
 ```
 
@@ -38,9 +38,8 @@ public class DataContext : DbContext
 
     private readonly AuditTimestampProvider? _auditTimestampProvider;
 
-    public DataContext(DbContextOptions<DataContext> options, 
-        ITimestampProvider? timestampProvider = null,
-        IPrincipal? principal) : base(options)
+    public DataContext(DbContextOptions<DataContext> options, ITimestampProvider? timestampProvider = null) 
+        : base(options)
     {
         _auditTimestampProvider = timestampProvider != null ? timestampProvider.GetTimestamp : null;
     }
