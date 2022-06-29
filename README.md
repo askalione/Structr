@@ -1,6 +1,7 @@
 # Structr
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/askalione/structr?branch=master&svg=true)](https://ci.appveyor.com/project/askalione/structr) 
-[![GitHub license](https://img.shields.io/github/license/askalione/structr)](https://github.com/askalione/Structr/blob/master/LICENSE)  
+[![GitHub license](https://img.shields.io/github/license/askalione/structr)](https://github.com/askalione/Structr/blob/master/LICENSE)
+[![Join the chat at https://gitter.im/Structr-dotnet/community](https://badges.gitter.im/Structr-dotnet/community.svg)](https://gitter.im/Structr-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  
 
 Structr is a framework for development cross platform apps on .NET.
 
