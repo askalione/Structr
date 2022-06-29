@@ -17,7 +17,9 @@ namespace Structr.SqlServer
         public static void EnsureDeleted(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString))
+            {
                 throw new ArgumentNullException(connectionString);
+            }               
 
             var builder = new SqlConnectionStringBuilder(connectionString);
             var database = builder.GetDatabase();
@@ -26,15 +28,19 @@ namespace Structr.SqlServer
                 $@"IF EXISTS(SELECT * FROM sys.databases WHERE NAME='{database}')
                         DROP DATABASE [{database}]");
 
-            if (!string.IsNullOrEmpty(builder.AttachDBFilename))
+            if (string.IsNullOrEmpty(builder.AttachDBFilename) == false)
             {
                 var databaseFilename = builder.AttachDBFilename;
                 var logFilename = builder.GetAttachDBLogFilename();
 
                 if (File.Exists(logFilename))
+                {
                     File.Delete(logFilename);
+                }                    
                 if (File.Exists(databaseFilename))
+                {
                     File.Delete(databaseFilename);
+                }                   
             }
         }
 
@@ -47,7 +53,10 @@ namespace Structr.SqlServer
         public static void EnsureCreated(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString))
+            {
                 throw new ArgumentNullException(connectionString);
+            }
+                
 
             var builder = new SqlConnectionStringBuilder(connectionString);
             var database = builder.GetDatabase();
@@ -55,7 +64,7 @@ namespace Structr.SqlServer
             var statement = $@"IF NOT EXISTS(SELECT * FROM sys.databases WHERE NAME='{database}')
                         CREATE DATABASE [{database}]";
 
-            if (!string.IsNullOrEmpty(builder.AttachDBFilename))
+            if (string.IsNullOrEmpty(builder.AttachDBFilename) == false)
             {
                 var databaseFilename = builder.AttachDBFilename;
                 var logFilename = builder.GetAttachDBLogFilename();
@@ -83,15 +92,17 @@ namespace Structr.SqlServer
 
         private static string GetDatabase(this SqlConnectionStringBuilder builder)
         {
-            return !string.IsNullOrWhiteSpace(builder.InitialCatalog)
+            return string.IsNullOrWhiteSpace(builder.InitialCatalog) == false
                 ? builder.InitialCatalog
-                : (!string.IsNullOrEmpty(builder.AttachDBFilename) ? Path.GetFileNameWithoutExtension(builder.AttachDBFilename) : "");
+                : (string.IsNullOrEmpty(builder.AttachDBFilename) == false ? Path.GetFileNameWithoutExtension(builder.AttachDBFilename) : "");
         }
 
         private static string GetAttachDBLogFilename(this SqlConnectionStringBuilder builder)
         {
             if (string.IsNullOrEmpty(builder.AttachDBFilename))
+            {
                 return null;
+            }               
 
             var databaseFilename = builder.AttachDBFilename;
             var log = builder.GetDatabase() + "_log";

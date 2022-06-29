@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Structr.SqlServer\Structr.SqlServer.csproj" />
+  </ItemGroup>
+
 </Project>
