@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Structr.Abstractions.Extensions;
-using Structr.Abstractions.Providers;
+using Structr.Abstractions.Providers.Timestamp;
 using Structr.Samples.EntityFrameworkCore.DataAccess;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
 using Structr.Samples.IO;

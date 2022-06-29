@@ -23,8 +23,6 @@ namespace Structr.EntityFramework
 
             configureOptions?.Invoke(options);
 
-            var test = builder.Types();
-
             builder.Types().Where(x => typeof(Entity<,>).IsAssignableFromGenericType(x)).Configure(x =>
             {
                 x.HasKey(nameof(Entity.Id));
@@ -82,16 +80,18 @@ namespace Structr.EntityFramework
 
             builder.Types().Where(x => typeof(IAuditable).IsAssignableFrom(x)).Configure(x =>
             {
-                var entityClrType = x.ClrType;
+                Type entityClrType = x.ClrType;
 
                 if (typeof(ICreatable).IsAssignableFrom(entityClrType))
                 {
                     x.Property(AuditableProperties.DateCreated)
                         .IsRequired();
                     if (typeof(ISignedCreatable).IsAssignableFrom(entityClrType))
+                    {
                         x.Property(AuditableProperties.CreatedBy)
                             .IsRequired(options.SignedColumnIsRequired)
                             .HasMaxLength(options.SignedColumnMaxLength);
+                    }
                 }
 
                 if (typeof(IModifiable).IsAssignableFrom(entityClrType))
@@ -99,9 +99,11 @@ namespace Structr.EntityFramework
                     x.Property(AuditableProperties.DateModified)
                         .IsRequired(true);
                     if (typeof(ISignedModifiable).IsAssignableFrom(entityClrType))
+                    {
                         x.Property(AuditableProperties.ModifiedBy)
                             .IsRequired(options.SignedColumnIsRequired)
                             .HasMaxLength(options.SignedColumnMaxLength);
+                    }
                 }
 
                 if (typeof(ISoftDeletable).IsAssignableFrom(entityClrType))
@@ -109,9 +111,11 @@ namespace Structr.EntityFramework
                     x.Property(AuditableProperties.DateDeleted)
                         .IsRequired(false);
                     if (typeof(ISignedSoftDeletable).IsAssignableFrom(entityClrType))
+                    {
                         x.Property(AuditableProperties.DeletedBy)
-                            .IsRequired(options.SignedColumnIsRequired)
+                            .IsRequired(false)
                             .HasMaxLength(options.SignedColumnMaxLength);
+                    }
                 }
             });
 

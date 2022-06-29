@@ -16,14 +16,14 @@ namespace Structr.EntityFramework
                 throw new ArgumentNullException(nameof(source));
             }
 
-            var totalItems = source.Count();
+            int totalItems = source.Count();
             if (totalItems == 0)
             {
                 return new PagedList<TSource>();
             }
 
-            var skip = pageNumber > 0 && pageSize > 0 ? (pageNumber - 1) * pageSize : 0;
-            var take = pageSize > 0 ? pageSize : 0;
+            int skip = pageNumber > 0 && pageSize > 0 ? (pageNumber - 1) * pageSize : 0;
+            int take = pageSize > 0 ? pageSize : 0;
 
             if (skip > 0)
             {
@@ -45,15 +45,14 @@ namespace Structr.EntityFramework
                 throw new ArgumentNullException(nameof(source));
             }
 
-            var totalItems = await source.CountAsync(cancellationToken).ConfigureAwait(false);
+            int totalItems = await source.CountAsync(cancellationToken).ConfigureAwait(false);
             if (totalItems == 0)
             {
                 return new PagedList<TSource>();
             }
 
-
-            var skip = pageNumber > 0 && pageSize > 0 ? (pageNumber - 1) * pageSize : 0;
-            var take = pageSize > 0 ? pageSize : 0;
+            int skip = pageNumber > 0 && pageSize > 0 ? (pageNumber - 1) * pageSize : 0;
+            int take = pageSize > 0 ? pageSize : 0;
 
             if (skip > 0)
             {
@@ -65,7 +64,7 @@ namespace Structr.EntityFramework
             }
 
             return new PagedList<TSource>(await source.ToListAsync(cancellationToken).ConfigureAwait(false),
-            totalItems, pageNumber, pageSize > 0 ? pageSize : totalItems);
+                totalItems, pageNumber, pageSize > 0 ? pageSize : totalItems);
         }
     }
 }

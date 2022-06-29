@@ -33,10 +33,10 @@ namespace Structr.EntityFramework
                     switch (entry.State)
                     {
                         case EntityState.Added:
-                            OnAdded(context, entry, timestamp, sign);
+                            OnAdded(entry, timestamp, sign);
                             break;
                         case EntityState.Modified:
-                            OnModified(context, entry, timestamp, sign);
+                            OnModified(entry, timestamp, sign);
                             break;
                         case EntityState.Deleted:
                             OnDeleted(context, entry, timestamp, sign);
@@ -48,36 +48,37 @@ namespace Structr.EntityFramework
             return context;
         }
 
-        private static void OnAdded(DbContext context,
-            DbEntityEntry entry,
-            DateTime timestamp, string sign)
+        private static void OnAdded(DbEntityEntry entry, DateTime timestamp, string sign)
         {
             if (entry.Entity is ICreatable)
             {
                 entry.Property(AuditableProperties.DateCreated).CurrentValue = timestamp;
                 if (entry.Entity is ISignedCreatable)
+                {
                     entry.Property(AuditableProperties.CreatedBy).CurrentValue = sign;
+                }
             }
 
             if (entry.Entity is IModifiable)
             {
                 entry.Property(AuditableProperties.DateModified).CurrentValue = timestamp;
                 if (entry.Entity is ISignedModifiable)
+                {
                     entry.Property(AuditableProperties.ModifiedBy).CurrentValue = sign;
+                }
             }
 
             if (entry.Entity is ISoftDeletable)
             {
                 entry.Property(AuditableProperties.DateDeleted).CurrentValue = null;
                 if (entry.Entity is ISignedSoftDeletable)
+                {
                     entry.Property(AuditableProperties.DeletedBy).CurrentValue = null;
+                }
             }
         }
 
-        private static void OnModified(DbContext context,
-            DbEntityEntry entry,
-            DateTime timestamp,
-            string sign)
+        private static void OnModified(DbEntityEntry entry, DateTime timestamp, string sign)
         {
             if (entry.Entity is ICreatable)
             {
@@ -103,14 +104,18 @@ namespace Structr.EntityFramework
             {
                 entry.Property(AuditableProperties.DateCreated).IsModified = false;
                 if (entry.Entity is ISignedCreatable)
+                {
                     entry.Property(AuditableProperties.CreatedBy).IsModified = false;
+                }
             }
 
             if (entry.Entity is IModifiable)
             {
                 entry.Property(AuditableProperties.DateModified).IsModified = false;
                 if (entry.Entity is ISignedModifiable)
+                {
                     entry.Property(AuditableProperties.ModifiedBy).IsModified = false;
+                }
             }
 
             if (entry.Entity is IUndeletable)
@@ -121,20 +126,20 @@ namespace Structr.EntityFramework
 
                     var entitySet = ((IObjectContextAdapter)context).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity).EntitySet;
                     IEnumerable<string> keyNames = entitySet.ElementType.KeyMembers.Select(x => x.Name).ToList();
-                    foreach (var propName in entry.OriginalValues.PropertyNames)
+                    foreach (string propName in entry.OriginalValues.PropertyNames)
                     {
-                        if (!keyNames.Contains(propName))
+                        if (keyNames.Contains(propName) == false)
+                        {
                             entry.Property(propName).IsModified = false;
+                        }
                     }
 
-                    var entityPropName = AuditableProperties.DateDeleted;
-                    entry.Property(entityPropName).IsModified = true;
-                    entry.Property(entityPropName).CurrentValue = timestamp;
+                    entry.Property(AuditableProperties.DateDeleted).IsModified = true;
+                    entry.Property(AuditableProperties.DateDeleted).CurrentValue = timestamp;
                     if (entry.Entity is ISignedSoftDeletable)
                     {
-                        entityPropName = AuditableProperties.DeletedBy;
-                        entry.Property(entityPropName).IsModified = true;
-                        entry.Property(entityPropName).CurrentValue = sign;
+                        entry.Property(AuditableProperties.DeletedBy).IsModified = true;
+                        entry.Property(AuditableProperties.DeletedBy).CurrentValue = sign;
                     }
                 }
                 else

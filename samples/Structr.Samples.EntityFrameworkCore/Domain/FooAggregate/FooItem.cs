@@ -1,4 +1,5 @@
 using Structr.Abstractions;
+using Structr.Abstractions.Providers.SequentialGuid;
 using Structr.Domain;
 using System;
 
@@ -16,7 +17,8 @@ namespace Structr.Samples.EntityFrameworkCore.Domain.FooAggregate
         {
             Ensure.NotEmpty(name, nameof(name));
 
-            Id = SequentialGuid.NewGuid();
+            var sequentialGuidProvider = new SequentialGuidProvider(Guid.NewGuid, () => DateTime.UtcNow);
+            Id = sequentialGuidProvider.GetSequentialGuid();
             Name = name;
         }
     }

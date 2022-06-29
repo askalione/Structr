@@ -13,9 +13,13 @@ namespace Structr.EntityFramework
             }
 
             if (required)
+            {
                 configuration.IsRequired();
+            }
             else
+            {
                 configuration.IsOptional();
+            }
 
             return configuration;
         }
