@@ -22,7 +22,7 @@ namespace Structr.SqlServer
             }               
 
             var builder = new SqlConnectionStringBuilder(connectionString);
-            var database = builder.GetDatabase();
+            var database = builder.GetDatabase();            
 
             ExecuteStatement(builder,
                 $@"IF EXISTS(SELECT * FROM sys.databases WHERE NAME='{database}')
@@ -36,7 +36,7 @@ namespace Structr.SqlServer
                 if (File.Exists(logFilename))
                 {
                     File.Delete(logFilename);
-                }                    
+                }
                 if (File.Exists(databaseFilename))
                 {
                     File.Delete(databaseFilename);
@@ -62,10 +62,13 @@ namespace Structr.SqlServer
             var database = builder.GetDatabase();
 
             var statement = $@"IF NOT EXISTS(SELECT * FROM sys.databases WHERE NAME='{database}')
-                        CREATE DATABASE [{database}]";
+                        CREATE DATABASE [{database}]";            
 
             if (string.IsNullOrEmpty(builder.AttachDBFilename) == false)
             {
+                statement = $@"IF NOT EXISTS(SELECT * FROM sys.databases WHERE NAME='{builder.AttachDBFilename}')
+                        CREATE DATABASE [{builder.AttachDBFilename}]";
+
                 var databaseFilename = builder.AttachDBFilename;
                 var logFilename = builder.GetAttachDBLogFilename();
                 var log = Path.GetFileNameWithoutExtension(logFilename);
@@ -85,18 +88,18 @@ namespace Structr.SqlServer
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = statement;
-                    command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();                    
                 }
 
-                connection.Close();
+               // connection.Close();
             }
         }
 
         private static string GetDatabase(this SqlConnectionStringBuilder builder)
         {
-            return string.IsNullOrWhiteSpace(builder.InitialCatalog) == false
+            return !string.IsNullOrWhiteSpace(builder.InitialCatalog)
                 ? builder.InitialCatalog
-                : (string.IsNullOrEmpty(builder.AttachDBFilename) == false ? Path.GetFileNameWithoutExtension(builder.AttachDBFilename) : "");
+                : (!string.IsNullOrEmpty(builder.AttachDBFilename) ? Path.GetFileNameWithoutExtension(builder.AttachDBFilename) : "");
         }
 
         private static string GetAttachDBLogFilename(this SqlConnectionStringBuilder builder)

@@ -8,20 +8,26 @@ namespace Structr.Tests.SqlServer
     public class DatabaseTests
     {
         public const string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=tests_structr_sqlserver;Trusted_Connection=True;Encrypt=false;";
+        public const string ConnectionString2 = @"Data Source=.\SQLEXPRESS;Initial Catalog=tests_sqlserver;Trusted_Connection=True;Encrypt=false;";
         //public static string dbPath = TestDataPath.Combine("tests_structr_sqlserver.mdf");
-        //public static string ConnectionStringMdf = @$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath};Integrated Security=True;Encrypt=false;"; // tests_structr_sqlserver
-        public static string ConnectionStringMdf = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\СЕРГЕЙ\DOCUMENTS\TESTS_STRUCTR_SQLSERVER.MDF;Integrated Security=True;Encrypt=false;";
-        //public const string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=tests_sqlserver; Trusted_Connection=True;Encrypt=false;";
+        public static string dbPath = @"F:\Dev\Structr\tests\Structr.Tests.SqlServer\TestData\tests_structr_sqlserver.mdf";
+        public static string dbPath2 = @"F:\Dev\Structr\tests\Structr.Tests.SqlServer\TestData\tests_structr_sqlserver.mdf";
+        public static string ConnectionStringMdf2 = @$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath};Integrated Security=True;"; // tests_structr_sqlserver
+       // public static string ConnectionStringMdf = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\СЕРГЕЙ\DOCUMENTS\TESTS_STRUCTR_SQLSERVER.MDF;Integrated Security=True;";
+        public static string ConnectionStringMdf = @$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath2};Integrated Security=True;";
+        //public static string ConnectionStringMdf2 = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\СЕРГЕЙ\DOCUMENTS\tests_sqlserver_new.MDF;Integrated Security=True;Encrypt=false;";
+        //public const string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=tests_sqlserver; Trusted_Connection=True;Encrypt=false;"; tests_sqlserver_new
         [Fact]
         public void EnsureDeleted()
         {
+            var builder = new SqlConnectionStringBuilder(ConnectionString2);           
+
             // Arrange
-            Database.EnsureDeleted(ConnectionString);
+            Database.EnsureDeleted(ConnectionString2);
            // Database.EnsureDeleted(ConnectionStringMdf);
+           
 
-            var builder = new SqlConnectionStringBuilder(ConnectionString);
-
-            var statement = $@"SELECT * FROM sys.databases WHERE NAME='tests_structr_sqlserver'";
+            var statement = $@"SELECT * FROM sys.databases WHERE NAME='tests_sqlserver'";
 
 
             int rows = 0;
@@ -33,6 +39,7 @@ namespace Structr.Tests.SqlServer
                 {
                     command.CommandText = statement;
                     rows = command.ExecuteNonQuery();
+                    command.Dispose();
                 }
 
                 connection.Close();
@@ -51,10 +58,9 @@ namespace Structr.Tests.SqlServer
            // Database.EnsureDeleted(ConnectionString);
             Database.EnsureDeleted(ConnectionStringMdf);
 
-            var builder = new SqlConnectionStringBuilder(ConnectionStringMdf);
+            var builder = new SqlConnectionStringBuilder(ConnectionStringMdf);            
 
-            var statement = $@"SELECT * FROM sys.databases WHERE NAME='C:\USERS\СЕРГЕЙ\DOCUMENTS\TESTS_STRUCTR_SQLSERVER.MDF'";
-
+            var statement = $@"SELECT * FROM sys.databases WHERE NAME='F:\Dev\Structr\tests\Structr.Tests.SqlServer\TestData\tests_structr_sqlserver.mdf'";            
 
             int rows = 0;
             using (var connection = new SqlConnection(builder.ConnectionString))
@@ -80,8 +86,7 @@ namespace Structr.Tests.SqlServer
         public void EnsureCreated()
         {
             // Arrange
-            Database.EnsureCreated(ConnectionString);
-            //Database.EnsureCreated(ConnectionStringMdf);
+            Database.EnsureCreated(ConnectionString);            
 
             var builder = new SqlConnectionStringBuilder(ConnectionString);
 
@@ -97,6 +102,7 @@ namespace Structr.Tests.SqlServer
                 {
                     command.CommandText = statement;
                     rows = command.ExecuteNonQuery();
+                    command.Dispose();
                 }
 
                 connection.Close();
@@ -113,11 +119,13 @@ namespace Structr.Tests.SqlServer
         {
             // Arrange
             //Database.EnsureCreated(ConnectionString);
-            Database.EnsureCreated(ConnectionStringMdf);
+            Database.EnsureCreated(ConnectionStringMdf2);
 
-            var builder = new SqlConnectionStringBuilder(ConnectionStringMdf);
+            var builder = new SqlConnectionStringBuilder(ConnectionStringMdf2);
+            var databaseFilename = builder.AttachDBFilename;
 
-            var statement = $@"SELECT * FROM sys.databases WHERE NAME='C:\USERS\СЕРГЕЙ\DOCUMENTS\TESTS_STRUCTR_SQLSERVER.MDF'";
+            // не работает!!!
+            var statement = $@"SELECT * FROM sys.databases WHERE NAME='{databaseFilename}'";
 
 
             int rows = 0;
@@ -134,9 +142,9 @@ namespace Structr.Tests.SqlServer
                 connection.Close();
             }
 
-            // Act
+            //Act
 
-            // Assert
+            //Assert
             rows.Should().NotBe(0);
         }
     }
