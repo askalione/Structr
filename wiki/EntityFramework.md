@@ -96,10 +96,10 @@ protected override void OnModelCreating(ModelBuilder builder)
 {
     builder.ApplyEntityConfiguration(options =>
     {
-        options.Configure = (entityType, builder) =>
+        options.Configure = (typeConfiguration) =>
         {
-            builder.Property("Id")
-                .HasColumnName($"{entityType.ClrType.Name}ID");
+            typeConfiguration.Property("Id")
+                .HasColumnName($"{typeConfiguration.ClrType.Name}ID");
         };
     });
 }
