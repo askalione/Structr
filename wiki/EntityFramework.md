@@ -154,6 +154,7 @@ protected override void OnModelCreating(ModelBuilder builder)
 | --- | --- | --- |
 | SignedColumnMaxLength | `int` | Defines the maximum size of a signed column (`CreatedBy`, `ModifiedBy`, `DeletedBy`). Default value is `50`. |
 | SignedColumnIsRequired | `bool` | Defines if a signed column (`CreatedBy`, `ModifiedBy`, `DeletedBy`) is required. Default value is `false`. |
+| SoftDeletableFilterName | string | Defines the name of soft deletable filter. |
 
 ### Pagination
 
