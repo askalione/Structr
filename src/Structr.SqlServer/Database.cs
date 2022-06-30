@@ -78,7 +78,7 @@ namespace Structr.SqlServer
 
         private static void ExecuteStatement(SqlConnectionStringBuilder builder, string statement)
         {
-            using (var connection = new SqlConnection($"Data Source={builder.DataSource}"))
+            using (var connection = new SqlConnection(builder.ConnectionString))
             {
                 connection.Open();
 
@@ -87,6 +87,8 @@ namespace Structr.SqlServer
                     command.CommandText = statement;
                     command.ExecuteNonQuery();
                 }
+
+                connection.Close();
             }
         }
 
