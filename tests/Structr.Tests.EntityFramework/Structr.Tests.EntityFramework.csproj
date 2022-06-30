@@ -25,6 +25,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Structr.Abstractions\Structr.Abstractions.csproj" />
+        <ProjectReference Include="..\..\src\Structr.Collections\Structr.Collections.csproj" />
+        <ProjectReference Include="..\..\src\Structr.Domain\Structr.Domain.csproj" />
         <ProjectReference Include="..\..\src\Structr.EntityFramework\Structr.EntityFramework.csproj" />
         <Using Include="Xunit" />
         <Using Include="FluentAssertions" />

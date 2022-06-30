@@ -40,6 +40,7 @@ namespace Structr.Tests.EntityFramework
 
             protected override void OnModelCreating(DbModelBuilder builder)
             {
+                builder.Configurations.AddFromAssembly(GetType().Assembly);
                 builder.ApplyEntityConfiguration();
                 builder.ApplyValueObjectConfiguration(options =>
                 {
@@ -56,8 +57,6 @@ namespace Structr.Tests.EntityFramework
                     options.SignedColumnIsRequired = _signedColumnIsRequired;
                     options.SignedColumnMaxLength = _signedColumnMaxLength;
                 });
-
-                builder.Configurations.AddFromAssembly(GetType().Assembly);
             }
         }
 
@@ -87,7 +86,6 @@ namespace Structr.Tests.EntityFramework
 
             // Assert
             EntityType fooType = context.GetEntityType(typeof(Foo));
-
             // TODO: check that all properties of Boo start with "prefix_"
         }
 
