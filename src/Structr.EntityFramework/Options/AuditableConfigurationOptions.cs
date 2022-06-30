@@ -18,7 +18,7 @@ namespace Structr.EntityFramework.Options
         /// <summary>
         /// Name of soft deletable filter.
         /// </summary>
-        public string SoftDeletableFilterName { get; set; }
+        internal string SoftDeletableFilterName { get; set; }
 
         /// <summary>
         /// Initializes an instance of <see cref="AuditableConfigurationOptions"/> with default values.

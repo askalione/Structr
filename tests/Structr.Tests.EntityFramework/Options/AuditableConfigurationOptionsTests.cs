@@ -13,7 +13,6 @@ namespace Structr.Tests.EntityFramework.Options
             // Assert
             result.SignedColumnMaxLength.Should().Be(50);
             result.SignedColumnIsRequired.Should().BeFalse();
-            result.SoftDeletableFilterName.Should().Be("SoftDeletable");
         }
     }
 }
