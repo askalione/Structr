@@ -142,14 +142,12 @@ namespace Structr.EntityFrameworkCore
 
                 if (entry.Entity is ISoftDeletable)
                 {
-                    var entityPropName = AuditableProperties.DateDeleted;
-                    entry.Property(entityPropName).IsModified = true;
-                    entry.Property(entityPropName).CurrentValue = timestamp;
+                    entry.Property(AuditableProperties.DateDeleted).IsModified = true;
+                    entry.Property(AuditableProperties.DateDeleted).CurrentValue = timestamp;
                     if (entry.Entity is ISignedSoftDeletable)
                     {
-                        entityPropName = AuditableProperties.DeletedBy;
-                        entry.Property(entityPropName).IsModified = true;
-                        entry.Property(entityPropName).CurrentValue = sign;
+                        entry.Property(AuditableProperties.DeletedBy).IsModified = true;
+                        entry.Property(AuditableProperties.DeletedBy).CurrentValue = sign;
                     }
                 }
             }

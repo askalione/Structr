@@ -11,7 +11,7 @@ namespace Structr.EntityFrameworkCore.Options
         public int SignedColumnMaxLength { get; set; }
 
         /// <summary>
-        /// Defines if a signed column (CreatedBy, ModifiedBy, DeletedBy) is required.
+        /// Defines if a signed column (CreatedBy, ModifiedBy) is required.
         /// </summary>
         public bool SignedColumnIsRequired { get; set; }
 
