@@ -7,11 +7,22 @@ using System.Data.Entity;
 
 namespace Structr.EntityFramework
 {
+    /// <summary>
+    /// Extensions for the <see cref="DbModelBuilder"/>.
+    /// </summary>
     public static class DbModelBuilderExtensions
     {
+        /// <inheritdoc cref="ApplyEntityConfiguration(DbModelBuilder, Action{EntityConfigurationOptions})"/>
         public static DbModelBuilder ApplyEntityConfiguration(this DbModelBuilder builder)
             => ApplyEntityConfiguration(builder, null);
 
+        /// <summary>
+        /// Applies the default configuration for all classes inherited from the <see cref="Entity{TEntity, TKey}"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="DbModelBuilder"/>.</param>
+        /// <param name="configureOptions">Delegate for additional configure options.</param>
+        /// <returns>The <see cref="DbModelBuilder"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="builder"/> is <see langword="null"/>.</exception>
         public static DbModelBuilder ApplyEntityConfiguration(this DbModelBuilder builder, Action<EntityConfigurationOptions> configureOptions)
         {
             if (builder == null)
@@ -39,9 +50,17 @@ namespace Structr.EntityFramework
             return builder;
         }
 
+        /// <inheritdoc cref="ApplyValueObjectConfiguration(DbModelBuilder, Action{ValueObjectConfigurationOptions})"/>
         public static DbModelBuilder ApplyValueObjectConfiguration(this DbModelBuilder builder)
             => ApplyValueObjectConfiguration(builder, null);
 
+        /// <summary>
+        /// Applies the default configuration for all classes inherited from the <see cref="ValueObject{TValueObject}"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="DbModelBuilder"/>.</param>
+        /// <param name="configureOptions">Delegate for additional configure options.</param>
+        /// <returns>The <see cref="DbModelBuilder"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="builder"/> is <see langword="null"/>.</exception>
         public static DbModelBuilder ApplyValueObjectConfiguration(this DbModelBuilder builder, Action<ValueObjectConfigurationOptions> configureOptions)
         {
             if (builder == null)
@@ -64,9 +83,18 @@ namespace Structr.EntityFramework
             return builder;
         }
 
+        /// <inheritdoc cref="ApplyAuditableConfiguration(DbModelBuilder, Action{AuditableConfigurationOptions})"/>
         public static DbModelBuilder ApplyAuditableConfiguration(this DbModelBuilder builder)
             => ApplyAuditableConfiguration(builder, null);
 
+        /// <summary>
+        /// Applies the default configuration for all classes that implement the <see cref="IAuditable"/>
+        /// except inherited from the <see cref="ValueObject{TValueObject}"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="DbModelBuilder"/>.</param>
+        /// <param name="configureOptions">Delegate for additional configure options.</param>
+        /// <returns>The <see cref="DbModelBuilder"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="builder"/> is <see langword="null"/>.</exception>
         public static DbModelBuilder ApplyAuditableConfiguration(this DbModelBuilder builder, Action<AuditableConfigurationOptions> configureOptions)
         {
             if (builder == null)

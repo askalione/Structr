@@ -7,8 +7,26 @@ using System.Linq;
 
 namespace Structr.EntityFramework
 {
+    /// <summary>
+    /// Extensions methods for the <see cref="DbContext"/>.
+    /// </summary>
     public static class DbContextExtensions
     {
+        /// <summary>
+        /// Controls operations on entities. Records who and when creates, modifies, or deletes an entity.
+        /// Records
+        /// DateCreated for <see cref="ICreatable"/>,
+        /// CreatedBy for <see cref="ISignedCreatable"/>,
+        /// DateModified for <see cref="IModifiable"/>,
+        /// ModifiedBy for <see cref="ISignedModifiable"/>,
+        /// DateDeleted for <see cref="ISoftDeletable"/>,
+        /// DeletedBy for <see cref="ISignedSoftDeletable"/> entity.
+        /// </summary>
+        /// <param name="context">The <see cref="DbContext"/>.</param>
+        /// <param name="timestampProvider">The <see cref="AuditTimestampProvider"/>.</param>
+        /// <param name="signProvider">The <see cref="AuditSignProvider"/>.</param>
+        /// <returns>The <see cref="DbContext"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="context"/> is <see langword="null"/>.</exception>
         public static DbContext Audit(this DbContext context,
             AuditTimestampProvider timestampProvider = null,
             AuditSignProvider signProvider = null)

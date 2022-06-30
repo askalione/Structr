@@ -4,8 +4,17 @@ using System.Reflection;
 
 namespace Structr.EntityFramework
 {
+    /// <summary>
+    /// Extensions methods for the <see cref="DbSet{TEntity}"/>.
+    /// </summary>
     public static class DbSetExtensions
     {
+        /// <summary>
+        /// Returns <see cref="DbContext"/> for the <see cref="DbSet{TEntity}"/>.
+        /// </summary>
+        /// <typeparam name="TEntity">Some entity type.</typeparam>
+        /// <param name="entry">The <see cref="DbSet{TEntity}"/>.</param>
+        /// <returns>The <see cref="DbContext"/>.</returns>
         public static DbContext GetContext<TEntity>(this DbSet<TEntity> entry) where TEntity : class
         {
             object internalSet = entry
@@ -23,6 +32,14 @@ namespace Structr.EntityFramework
                 .GetValue(internalContext, null);
         }
 
+        /// <summary>
+        /// Sets the <see cref="EntityState.Modified"/> state to an <paramref name="entity"/>.
+        /// </summary>
+        /// <typeparam name="TEntity">Some entity type.</typeparam>
+        /// <param name="entry">The <see cref="DbSet{TEntity}"/>.</param>
+        /// <param name="entity">The entity.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="entry"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="entity"/> is <see langword="null"/>.</exception>
         public static void Update<TEntity>(this DbSet<TEntity> entry, TEntity entity) where TEntity : class
         {
             if (entry == null)
