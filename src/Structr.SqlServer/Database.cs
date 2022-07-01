@@ -22,12 +22,16 @@ namespace Structr.SqlServer
             }               
 
             var builder = new SqlConnectionStringBuilder(connectionString);
-            var database = builder.GetDatabase();            
+            var database = builder.GetDatabase();
+            if (string.IsNullOrEmpty(builder.AttachDBFilename) == false)
+            {
+                database = builder.AttachDBFilename;
+            }
 
             ExecuteStatement(builder,
-                $@"IF EXISTS(SELECT * FROM sys.databases WHERE NAME='{database}')
+                $@"IF EXISTS(SELECT * FROM sys.databases WHERE NAME='{database}')                       
                         DROP DATABASE [{database}]");
-
+            
             if (string.IsNullOrEmpty(builder.AttachDBFilename) == false)
             {
                 var databaseFilename = builder.AttachDBFilename;
@@ -89,9 +93,11 @@ namespace Structr.SqlServer
                 {
                     command.CommandText = statement;
                     command.ExecuteNonQuery();                    
+                    command.Dispose();                    
                 }
 
-               // connection.Close();
+                connection.Dispose();
+                connection.Close();
             }
         }
 
