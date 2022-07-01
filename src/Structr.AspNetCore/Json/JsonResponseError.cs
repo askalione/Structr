@@ -8,12 +8,12 @@ namespace Structr.AspNetCore.Json
     public class JsonResponseError
     {
         /// <summary>
-        /// Key corresponding to error.
+        /// Key corresponding to an error.
         /// </summary>
         public string Key { get; }
 
         /// <summary>
-        /// Message corresponding to error.
+        /// Message corresponding to an error.
         /// </summary>
         public string Message { get; }
 

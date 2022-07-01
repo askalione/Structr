@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Structr.AspNetCore.JavaScript
 {
     /// <summary>
-    /// Represents the implimentation of <see cref="RedirectResult"/> that checks request has ajax nature
+    /// Represents the implementation of <see cref="RedirectResult"/> that checks that request has ajax nature
     /// and performs redirect to Url via ajax instead of normal redirecting. In case of normal request
     /// the standard redirecting procedure will be performed.
     /// </summary>

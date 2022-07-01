@@ -12,37 +12,32 @@ AspNetCore package is available on [NuGet](https://www.nuget.org/packages/Struct
 dotnet add package Structr.AspNetCore
 ```
 
+## Setup
+
+There are different ways to configure Structr.AspNetCore services and most common of them is adding: 
+
+```csharp
+services.AddAspNetCore();
+```
+
+This will add all tools described in [contents](#contents) section below.
+But if you need only some of tools then these extension methods for IServiceCollection could be used:
+
+| Method name | Return type | Description |
+| --- | --- | --- |
+| AddClientAlerts | `IServiceCollection` | Add services assisting in transferring alerts from server side to client. |
+| AddClientOptions | `IServiceCollection` | Add services assisting in passing data represented by dictionary via `Microsoft.AspNetCore.Http.HttpContext.Items` |
+| AddActionContextAccessor | `IServiceCollection` | Add [`IActionContextAccessor`](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.infrastructure.iactioncontextaccessor?view=aspnetcore-6.0) service. |
+| AddUrlHelper | `IServiceCollection` | Add [`Microsoft.AspNetCore.Mvc.IUrlHelper`](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.iurlhelper?view=aspnetcore-6.0) service. |
+
 ## Contents
 
-* [HttpContextExtensions](AspNetCore#HttpContextExtensions.md)
-* [JavaScript](AspNetCore-JavaScript.md)
-* [Mvc](AspNetCore-Mvc.md)
-* [Rewrite](AspNetCore#Rewrite.md)
-* [Routing](AspNetCore-Routing.md)
-* [TagHelpers](AspNetCore-TagHelpers.md)
-
-## HttpContextExtensions
-
-| Method name | Return type | Description |
-| --- | --- | --- |
-| GetIpAddress | `string` | Gets IP-address common human-readable representation for remote target.
-| GetAuthenticationSchemesAsync | `Task<IEnumerable<AuthenticationScheme>>` | Gets available authentication schemes.
-| IsSupportedAuthenticationSchemeAsync | `bool` | Determines whenever specified authentication scheme is available in current context.
-
-## Rewrite
-
-This section contains rewrite rules (implementing `IRule`) and extensions for `RewriteOptions` that could help in managing request routings and redirects.
-
-| Rule name | Description | Example |
-| --- | --- | --- |
-| RedirectToLowercaseRule | Rule performing redirect for GET requests to lower case url in case any upper characters are present | http://localhost:5001/Home/Index => http://localhost:5001/home/index |
-| RedirectToTrailingSlashRule | Rule performing redirect for GET requests by adding a trailing slash. | http://localhost:5001/Home/Index?search=hello => http://localhost:5001/Home/Index/?search=hello |
-| RedirectToLowercaseTrailingSlashRule | Rule performing redirect for GET requests to lower case url in case any upper characters are present, while adding trailing slash. | http://localhost:5001/Home/Index?search=hello => http://localhost:5001/home/index/?search=hello |
-
-Corresponding extensions are:
-
-| Method name | Return type | Description |
-| --- | --- | --- |
-| AddRedirectToLowercase | `RewriteOptions` | Define rule performing redirect with status 301 for GET requests to lower case url in case any upper characters are present. |
-| AddRedirectToTrailingSlash | `RewriteOptions` | Define rule performing redirect with status 301 for GET requests by adding a trailing slash. |
-| AddRedirectToLowercaseTrailingSlash | `RewriteOptions` | Define rule performing redirect with status 301 for GET requests to lower case url in case any upper characters are present, while adding trailing slash. |
+* [Client](AspNetCore-Client.md) - methods providing functionality for interacting with app's client-side;
+* [Http](AspNetCore-Http.md) - extension methods for http-related stuff such as HttpContext and HttpRequest;
+* [JavaScript](AspNetCore-JavaScript.md) - provides IActionResults and extension methods related to JavaScript and client-side things;
+* [Json](AspNetCore-Json.md) - Json-related controller extensions and actions results;
+* [Mvc](AspNetCore-Mvc.md) - methods for working with ViewEngine and other common MVC stuff;
+* [Referrer](AspNetCore-Referrer.md) - provides tools for working with HTTP referer and other related things;
+* [Rewrite](AspNetCore-Rewrite.md) - extensions and IRule implementations related to modifying url;
+* [Routing](AspNetCore-Routing.md) - extensions and classes for working with routing;
+* [TagHelpers](AspNetCore-TagHelpers.md).

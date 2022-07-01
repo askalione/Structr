@@ -47,7 +47,7 @@ namespace Structr.Tests.AspNetCore.Client.Alerts
             context.RequestServices = serviceCollection.BuildServiceProvider();
 
             // Act
-            await javaScriptAlertResult.ExecuteResultAsync(new ActionContext(context, new RouteData(), new ActionDescriptor())); ;
+            await javaScriptAlertResult.ExecuteResultAsync(new ActionContext(context, new RouteData(), new ActionDescriptor()));
 
             // Assert
             alertProvider.GetAllClientAlerts().Should().BeEquivalentTo(new[] { alert });

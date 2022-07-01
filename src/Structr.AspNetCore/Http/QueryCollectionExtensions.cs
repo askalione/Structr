@@ -26,7 +26,7 @@ namespace Structr.AspNetCore.Http
 
         /// <summary>
         /// Creates an instance of <see cref="RouteValueDictionary"/> containing key-value pairs form
-        /// specified <see cref="IQueryCollection"/> and append new value with specified key.
+        /// specified <see cref="IQueryCollection"/> and appends new value with specified key.
         /// </summary>
         /// <param name="collection">The <see cref="IQueryCollection"/>.</param>
         /// <param name="newKey">A key to append to.</param>

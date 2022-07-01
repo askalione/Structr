@@ -8,7 +8,7 @@ namespace Structr.AspNetCore.Client.Alerts
     public interface IClientAlertProvider
     {
         /// <summary>
-        /// Adds alert to transfer to client.
+        /// Adds alert to be transferred to client.
         /// </summary>
         /// <param name="alert">Alert to send.</param>
         void AddClientAlert(ClientAlert alert);
