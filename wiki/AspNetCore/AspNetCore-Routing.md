@@ -1,6 +1,6 @@
 # AspNetCore Referrer
 
-This part extensions and classes for working with routing.
+This part contains extensions and classes for working with routing.
 
 ## SlugifyParameterTransformer
 

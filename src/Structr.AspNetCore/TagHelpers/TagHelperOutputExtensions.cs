@@ -13,7 +13,7 @@ namespace Structr.AspNetCore.TagHelpers
         private static readonly HtmlEncoder _encoder = HtmlEncoder.Default;
 
         /// <summary>
-        /// Adds specified class to TagHelper output.
+        /// Adds specified class to TagHelper output using built-in instance of the System.Text.Encodings.Web.HtmlEncoder.
         /// </summary>
         /// <param name="tagHelperOutput">The <see cref="TagHelperOutput"/>.</param>
         /// <param name="classValue">Css class to add.</param>
@@ -32,7 +32,7 @@ namespace Structr.AspNetCore.TagHelpers
         }
 
         /// <summary>
-        /// Removes specified class from TagHelper output.
+        /// Removes specified class from TagHelper output using built-in instance of the System.Text.Encodings.Web.HtmlEncoder.
         /// </summary>
         /// <param name="tagHelperOutput">The <see cref="TagHelperOutput"/>.</param>
         /// <param name="classValue">Css class to remove.</param>

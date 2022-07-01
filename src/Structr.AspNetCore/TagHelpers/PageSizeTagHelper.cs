@@ -16,7 +16,7 @@ namespace Structr.AspNetCore.TagHelpers
     public class PageSizeTagHelper : TagHelper
     {
         /// <summary>
-        /// Options influating appearance of dropdown menu.
+        /// Options influencing appearance of dropdown menu.
         /// </summary>
         [HtmlAttributeName("asp-options")]
         public PageSizeOptions Options { get; set; }
@@ -129,12 +129,12 @@ namespace Structr.AspNetCore.TagHelpers
     public class PageSizeOptions
     {
         /// <summary>
-        /// A text to show for menu element corresponding to visualising of all items.
+        /// A text to show for menu element corresponding to visualizing of all items.
         /// </summary>
         public string AllItemsFormat { get; set; }
 
         /// <summary>
-        /// Allign of dropdown menu elements.
+        /// Align of dropdown menu elements.
         /// </summary>
         public PageSizeDropdownMenuAlign DropdownMenuAlign { get; set; }
 
@@ -149,7 +149,7 @@ namespace Structr.AspNetCore.TagHelpers
         public string DropdownCssClass { get; set; }
 
         /// <summary>
-        /// Css class for buttom of dropdown defining count of elements on page.
+        /// Css class for button of dropdown defining count of elements on page.
         /// </summary>
         public string DropdownToggleCssClass { get; set; }
 

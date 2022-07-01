@@ -36,7 +36,7 @@ namespace Structr.AspNetCore.TagHelpers
         public SortOrder? DefaultOrder { get; set; }
 
         /// <summary>
-        /// Options influating appearance of sorting controls.
+        /// Options influencing appearance of sorting controls.
         /// </summary>
         [HtmlAttributeName("asp-options")]
         public SortOptions Options { get; set; }
@@ -178,12 +178,12 @@ namespace Structr.AspNetCore.TagHelpers
     public class SortOptions
     {
         /// <summary>
-        /// Css class for links.
+        /// Css class for links. Default value is '<c>sort</c>'.
         /// </summary>
         public string LinkCssCLass { get; set; }
 
         /// <summary>
-        /// Css class for active element.
+        /// Css class for active element. Default value is '<c>active</c>'.
         /// </summary>
         public string ActiveCssClass { get; set; }
 

@@ -17,7 +17,7 @@ namespace Structr.AspNetCore.TagHelpers
     public class PaginationTagHelper : TagHelper
     {
         /// <summary>
-        /// Options influating appearance of UI pagination controls.
+        /// Options influencing appearance of UI pagination controls.
         /// </summary>
         [HtmlAttributeName("asp-options")]
         public PaginationOptions Options { get; set; }
@@ -371,7 +371,7 @@ namespace Structr.AspNetCore.TagHelpers
         public string LinkToLastPageFormat { get; set; }
 
         /// <summary>
-        /// Allows to transform output of page numbers allowing build for example something like "First", "Second", etc.
+        /// Allows to transform output of page numbers allowing to build for example something like "First", "Second", etc.
         /// </summary>
         public Func<int, string> FunctionToDisplayEachPageNumber { get; set; }
 
