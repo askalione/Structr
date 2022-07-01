@@ -8,7 +8,7 @@ This part contains number of tag-helpers that could be used in many different si
 * [AppendClassTagHelper](#appendclasstaghelper) - add needed css-classes to target element dynamically regarding provided condition;
 * [PageInfoTagHelper](#pageinfotaghelper) - organize info-text about items lists pagination;
 * [PageSizeTagHelper](#pagesizetaghelper) - create dropdown with possible number of pages on list;
-* [PaginationTagHelper](#paginationtaghelper) - create pagination controls;
+* [PaginationTagHelper](#paginationtaghelper) - create pagination controls simply;
 * [SortTagHelper](#sorttaghelper) - organize items list sorting;
 * [TagHelperOutputExtensions](#taghelperoutputextensions) - some extension methods for `TagHelperOutput` class.
 
@@ -136,7 +136,7 @@ The `PaginationOptions` are:
 | DisplayLinkToIndividualPages | `bool` | Determines whenever buttons to specific pages should be displayed or not. Default value is `true`. |
 | MaximumPageNumbersToDisplay | `bool` | Maximum count of buttons with page numbers to display. Default value is 3. |
 | DisplayEllipsesWhenNotShowingAllPageNumbers | `bool` | Determines whenever to display ellipses between sets of buttons or not. |
-| EllipsesFormat | `string` | Format of ellipsis displayed between sets of page buttons.  Default value is `...`. |
+| EllipsesFormat | `string` | Format of ellipsis displayed between sets of page buttons.  Default value is "`...`". |
 | LinkToFirstPageFormat, etc. | `string` | Format of buttons redirecting to first and other pages respectively. Default values are `««`, `«`, etc. |
 | FunctionToDisplayEachPageNumber | `Func<int, string>` | Allows to transform output of page numbers allowing to build for example something like "First", "Second", etc. |
 | DelimiterBetweenPageNumbers | `string` | Delimiter strings to place between page numbers. |
