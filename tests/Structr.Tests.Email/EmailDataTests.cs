@@ -26,7 +26,7 @@ namespace Structr.Tests.Email
             Action act = () => new CustomEmailData(address);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>();
+            act.Should().ThrowExactly<ArgumentNullException>();
         }
     }
 }

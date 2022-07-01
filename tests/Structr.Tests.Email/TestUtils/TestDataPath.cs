@@ -6,7 +6,7 @@ namespace Structr.Tests.Email.TestUtils
             Directory.GetParent(Directory.GetCurrentDirectory())!.Parent!.Parent!.FullName,
             "TestData");
 
-        public static string Combine(string fileName)
-            => Path.Combine(ContentRootPath, fileName);
+        public static string Combine(string path)
+            => Path.Combine(ContentRootPath, path);
     }
 }

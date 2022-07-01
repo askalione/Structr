@@ -25,7 +25,7 @@ namespace Structr.Tests.Email
             Action act = () => new EmailOptions(from);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>();
+            act.Should().ThrowExactly<ArgumentNullException>();
         }
     }
 }

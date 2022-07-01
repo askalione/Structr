@@ -26,7 +26,7 @@ namespace Structr.Tests.Email
             Action act = () => new EmailAttachment(fileName);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>();
+            act.Should().ThrowExactly<ArgumentNullException>();
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace Structr.Tests.Email
             Action act = () => new EmailAttachment("Letter of Tatyana to Onegin.txt", contentType);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>();
+            act.Should().ThrowExactly<ArgumentNullException>();
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace Structr.Tests.Email
             Action act = () => new EmailAttachment(content, "Letter of Tatyana to Onegin.txt", "text/plain");
 
             // Assert
-            act.Should().Throw<ArgumentNullException>();
+            act.Should().ThrowExactly<ArgumentNullException>();
         }
     }
 }

@@ -1,6 +1,5 @@
 using Structr.Email;
 using Structr.Tests.Email.TestUtils;
-using Structr.Tests.Email.TestUtils.Extensions;
 
 namespace Structr.Tests.Email
 {
@@ -16,7 +15,9 @@ namespace Structr.Tests.Email
             var result = new EmailTemplateMessage("eugene@onegin.name", "Letter of {{From}} to {{To}}.", model);
 
             // Assert
-            result.ShouldBeValid();
+            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.Template.Should().Be("Letter of {{From}} to {{To}}.");
+            result.Model.Should().Be(model);
         }
 
         [Theory]
@@ -47,20 +48,6 @@ namespace Structr.Tests.Email
         }
 
         [Fact]
-        public void Ctor_with_list_of_strings()
-        {
-            // Arrange
-            var address = "eugene@onegin.name";
-            var model = new CustomModel();
-
-            // Act
-            var result = new EmailTemplateMessage(address, "Letter of {{From}} to {{To}}.", model);
-
-            // Assert
-            result.ShouldBeValid();
-        }
-
-        [Fact]
         public void Ctor_with_list_of_emails()
         {
             // Arrange
@@ -71,7 +58,9 @@ namespace Structr.Tests.Email
             var result = new EmailTemplateMessage(address, "Letter of {{From}} to {{To}}.", model);
 
             // Assert
-            result.ShouldBeValid();
+            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.Template.Should().Be("Letter of {{From}} to {{To}}.");
+            result.Model.Should().Be(model);
         }
 
         [Fact]
@@ -84,7 +73,9 @@ namespace Structr.Tests.Email
             var result = new CustomEmailTemplateMessage("eugene@onegin.name", model);
 
             // Assert
-            result.ShouldBeValid();
+            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.Template.Should().Be("Letter of {{From}} to {{To}}.");
+            result.Model.Should().Be(model);
         }
 
         [Fact]
@@ -98,7 +89,9 @@ namespace Structr.Tests.Email
             var result = new CustomEmailTemplateMessage(address, model);
 
             // Assert
-            result.ShouldBeValid();
+            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.Template.Should().Be("Letter of {{From}} to {{To}}.");
+            result.Model.Should().Be(model);
         }
     }
 }

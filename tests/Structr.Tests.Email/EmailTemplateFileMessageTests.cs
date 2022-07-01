@@ -1,6 +1,5 @@
 using Structr.Email;
 using Structr.Tests.Email.TestUtils;
-using Structr.Tests.Email.TestUtils.Extensions;
 
 namespace Structr.Tests.Email
 {
@@ -16,7 +15,9 @@ namespace Structr.Tests.Email
             var result = new EmailTemplateFileMessage("eugene@onegin.name", TestDataPath.ContentRootPath, model);
 
             // Assert
-            result.ShouldBeValid();
+            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.TemplatePath.Should().Be(TestDataPath.ContentRootPath);
+            result.Model.Should().Be(model);
         }
 
         [Theory]
@@ -57,7 +58,9 @@ namespace Structr.Tests.Email
             var result = new EmailTemplateFileMessage(address, TestDataPath.ContentRootPath, model);
 
             // Assert
-            result.ShouldBeValid();
+            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.TemplatePath.Should().Be(TestDataPath.ContentRootPath);
+            result.Model.Should().Be(model);
         }
 
         [Fact]
@@ -71,7 +74,9 @@ namespace Structr.Tests.Email
             var result = new EmailTemplateFileMessage(address, TestDataPath.ContentRootPath, model);
 
             // Assert
-            result.ShouldBeValid();
+            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.TemplatePath.Should().Be(TestDataPath.ContentRootPath);
+            result.Model.Should().Be(model);
         }
 
         [Fact]
@@ -84,7 +89,9 @@ namespace Structr.Tests.Email
             var result = new CustomEmailTemplateFileMessage("eugene@onegin.name", model);
 
             // Assert
-            result.ShouldBeValid();
+            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.TemplatePath.Should().Be(TestDataPath.ContentRootPath);
+            result.Model.Should().Be(model);
         }
 
         [Fact]
@@ -98,7 +105,9 @@ namespace Structr.Tests.Email
             var result = new CustomEmailTemplateFileMessage(address, model);
 
             // Assert
-            result.ShouldBeValid();
+            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.TemplatePath.Should().Be(TestDataPath.ContentRootPath);
+            result.Model.Should().Be(model);
         }
     }
 }

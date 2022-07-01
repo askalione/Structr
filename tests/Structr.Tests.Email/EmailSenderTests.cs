@@ -6,14 +6,14 @@ namespace Structr.Tests.Email
 {
     public class EmailSenderTests : IDisposable
     {
-        private string _tempDirPath;
-        private IEmailClient _emailClient;
-        private string _from;
-        private string _to;
-        private string _subject;
-        private string _message;
-        private string _template;
-        private string _templatePath;
+        private readonly string _tempDirPath;
+        private readonly IEmailClient _emailClient;
+        private readonly string _from;
+        private readonly string _to;
+        private readonly string _subject;
+        private readonly string _message;
+        private readonly string _template;
+        private readonly string _templatePath;
 
         public EmailSenderTests()
         {
