@@ -1,4 +1,5 @@
 using Structr.Email;
+using Structr.Tests.Email.TestUtils.Extensions;
 
 namespace Structr.Tests.Email
 {
@@ -11,8 +12,7 @@ namespace Structr.Tests.Email
             var result = new EmailMessage("eugene@onegin.name", "I write this to you - what more can be said?");
 
             // Assert
-            result.Message.Should().Be("I write this to you - what more can be said?");
-            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.Should().HaveMessageAndReceiver("I write this to you - what more can be said?", "eugene@onegin.name");
         }
 
         [Theory]
@@ -38,8 +38,7 @@ namespace Structr.Tests.Email
             var result = new EmailMessage(address, "I write this to you - what more can be said?");
 
             // Assert
-            result.Message.Should().Be("I write this to you - what more can be said?");
-            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.Should().HaveMessageAndReceiver("I write this to you - what more can be said?", "eugene@onegin.name");
         }
 
         [Fact]
@@ -52,8 +51,7 @@ namespace Structr.Tests.Email
             var result = new EmailMessage(address, "I write this to you - what more can be said?");
 
             // Assert
-            result.Message.Should().Be("I write this to you - what more can be said?");
-            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
+            result.Should().HaveMessageAndReceiver("I write this to you - what more can be said?", "eugene@onegin.name");
         }
     }
 }

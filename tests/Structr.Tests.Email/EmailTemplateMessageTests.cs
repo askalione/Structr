@@ -1,5 +1,6 @@
 using Structr.Email;
 using Structr.Tests.Email.TestUtils;
+using Structr.Tests.Email.TestUtils.Extensions;
 
 namespace Structr.Tests.Email
 {
@@ -15,9 +16,7 @@ namespace Structr.Tests.Email
             var result = new EmailTemplateMessage("eugene@onegin.name", "Letter of {{From}} to {{To}}.", model);
 
             // Assert
-            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
-            result.Template.Should().Be("Letter of {{From}} to {{To}}.");
-            result.Model.Should().Be(model);
+            result.Should().HaveTemplateReceiverAndModel("Letter of {{From}} to {{To}}.", "eugene@onegin.name", model);
         }
 
         [Theory]
@@ -58,9 +57,7 @@ namespace Structr.Tests.Email
             var result = new EmailTemplateMessage(address, "Letter of {{From}} to {{To}}.", model);
 
             // Assert
-            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
-            result.Template.Should().Be("Letter of {{From}} to {{To}}.");
-            result.Model.Should().Be(model);
+            result.Should().HaveTemplateReceiverAndModel("Letter of {{From}} to {{To}}.", "eugene@onegin.name", model);
         }
 
         [Fact]
@@ -73,9 +70,7 @@ namespace Structr.Tests.Email
             var result = new CustomEmailTemplateMessage("eugene@onegin.name", model);
 
             // Assert
-            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
-            result.Template.Should().Be("Letter of {{From}} to {{To}}.");
-            result.Model.Should().Be(model);
+            result.Should().HaveTemplateReceiverAndModel("Letter of {{From}} to {{To}}.", "eugene@onegin.name", model);
         }
 
         [Fact]
@@ -89,9 +84,7 @@ namespace Structr.Tests.Email
             var result = new CustomEmailTemplateMessage(address, model);
 
             // Assert
-            result.To.Should().BeEquivalentTo(new EmailAddress("eugene@onegin.name"));
-            result.Template.Should().Be("Letter of {{From}} to {{To}}.");
-            result.Model.Should().Be(model);
+            result.Should().HaveTemplateReceiverAndModel("Letter of {{From}} to {{To}}.", "eugene@onegin.name", model);
         }
     }
 }
