@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Structr.Email.Clients.Smtp
 {
     /// <summary>
-    /// Provides functionality for sending emails.
+    /// Provides functionality for sending emails using SMTP-protocol.
     /// </summary>
     public interface ISmtpClient : IDisposable
     {

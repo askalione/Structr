@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Structr.Email
 {
     /// <summary>
-    /// Provides functionality for sending an emails.
+    /// Provides functionality for sending emails.
     /// </summary>
     public interface IEmailSender
     {

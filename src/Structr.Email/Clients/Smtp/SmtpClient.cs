@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Structr.Email.Clients.Smtp
 {
+    /// <inheritdoc cref="ISmtpClient"/>
     internal class SmtpClient : ISmtpClient
     {
         private System.Net.Mail.SmtpClient _smtpClient;

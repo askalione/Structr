@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace Structr.Email
 {
     /// <summary>
-    /// Provides functionality for sending an emails.
+    /// Provides functionality for sending emails.
     /// </summary>
-    public interface IEmailClient
+    public interface IEmailClient // TODO: make internal
     {
         /// <summary>
         /// Sends the email.

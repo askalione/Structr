@@ -36,10 +36,10 @@ namespace Structr.Tests.Email
             var options = new EmailOptions(new EmailAddress(_from));
 
             // Act
-            var result = new EmailSender(options, _emailClient);
+            Action act = () => new EmailSender(options, _emailClient);
 
             // Assert
-            result.Should().NotBeNull();
+            act.Should().NotThrow();
         }
 
         [Theory]
@@ -68,7 +68,7 @@ namespace Structr.Tests.Email
         }
 
         [Fact]
-        public async Task SendEmailAsync_with_emailMassage()
+        public async Task SendEmailAsync_with_emailMessage()
         {
             // Arrange
             var emailMessage = new EmailMessage(_to, _message);

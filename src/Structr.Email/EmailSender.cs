@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Structr.Email
 {
     /// <inheritdoc cref="IEmailSender"/>
-    public class EmailSender : IEmailSender
+    public class EmailSender : IEmailSender // ???: make internal?
     {
         private readonly EmailOptions _options;
         private readonly IEmailClient _client;

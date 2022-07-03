@@ -19,7 +19,10 @@ namespace Structr.Tests.Email
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            serviceProvider.GetService<IEmailSender>().Should().BeOfType<EmailSender>();
+
+            var sender1 = serviceProvider.GetService<IEmailSender>();
+            var sender2 = serviceProvider.GetService<IEmailSender>();
+            sender1.Should().BeOfType<EmailSender>().And.Be(sender2);
         }
     }
 }

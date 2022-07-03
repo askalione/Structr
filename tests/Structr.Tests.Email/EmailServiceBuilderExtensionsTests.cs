@@ -21,7 +21,9 @@ namespace Structr.Tests.Email
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            serviceProvider.GetService<IEmailClient>().Should().BeOfType<FileEmailClient>();
+            var client1 = serviceProvider.GetService<IEmailClient>();
+            var client2 = serviceProvider.GetService<IEmailClient>();
+            client1.Should().BeOfType<FileEmailClient>().And.Be(client2);
         }
 
         [Fact]
@@ -37,8 +39,10 @@ namespace Structr.Tests.Email
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            serviceProvider.GetService<ISmtpClientFactory>().Should().NotBeNull();
-            serviceProvider.GetService<IEmailClient>().Should().BeOfType<SmtpEmailClient>();
+
+            var client1 = serviceProvider.GetService<IEmailClient>();
+            var client2 = serviceProvider.GetService<IEmailClient>();
+            client1.Should().BeOfType<SmtpEmailClient>().And.Be(client2);
         }
 
         [Fact]
@@ -57,8 +61,13 @@ namespace Structr.Tests.Email
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            serviceProvider.GetService<ISmtpClientFactory>().Should().NotBeNull();
-            serviceProvider.GetService<IEmailClient>().Should().BeOfType<SmtpEmailClient>();
+
+            var client1 = serviceProvider.GetService<IEmailClient>();
+            var client2 = serviceProvider.GetService<IEmailClient>();
+            client1.Should().BeOfType<SmtpEmailClient>().And.Be(client2);
+
+            var opts = serviceProvider.GetRequiredService<SmtpOptions>();
+            opts.IsSslEnabled.Should().BeTrue();
         }
 
         [Fact]
@@ -78,8 +87,14 @@ namespace Structr.Tests.Email
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            serviceProvider.GetService<ISmtpClientFactory>().Should().NotBeNull();
-            serviceProvider.GetService<IEmailClient>().Should().BeOfType<SmtpEmailClient>();
+
+            var client1 = serviceProvider.GetService<IEmailClient>();
+            var client2 = serviceProvider.GetService<IEmailClient>();
+            client1.Should().BeOfType<SmtpEmailClient>().And.Be(client2);
+
+            var opts = serviceProvider.GetRequiredService<SmtpOptions>();
+            opts.User.Should().Be("Admin");
+            opts.Password.Should().Be("Qwerty");
         }
     }
 }

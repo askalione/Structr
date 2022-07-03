@@ -14,7 +14,8 @@ namespace Structr.Tests.Email
             var result = new EmailOptions(from);
 
             // Assert
-            result.Should().NotBeNull();
+            result.From.Should().Be(from);
+            result.TemplateRootPath.Should().BeNull();
         }
 
         [Theory]

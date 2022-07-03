@@ -9,7 +9,7 @@ namespace Structr.Email.Clients
     /// <summary>
     /// Provides functionality for writing an email to a file.
     /// </summary>
-    public class FileEmailClient : IEmailClient
+    public class FileEmailClient : IEmailClient // TODO: make internal
     {
         private readonly string _path;
 
