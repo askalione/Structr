@@ -22,7 +22,6 @@ namespace Structr.Tests.EntityFrameworkCore
         }
 
         private readonly TestDbContext _context;
-        private readonly IEnumerable<Foo> _expected;
 
         public QueryableExtensionsTests()
         {
@@ -37,12 +36,10 @@ namespace Structr.Tests.EntityFrameworkCore
 
             if (_context.Foos.Any() == false)
             {
-                var list = new List<string>() { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+                var list = new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
                 _context.Foos.AddRange(list.Select(x => new Foo { Name = x }));
                 _context.SaveChanges();
             }
-
-            _expected = _context.Foos.Skip(5).ToList();
         }
 
         [Fact]
@@ -55,13 +52,15 @@ namespace Structr.Tests.EntityFrameworkCore
             PagedList<Foo> result = source.ToPagedList(2, 5);
 
             // Assert
-            result.Should().BeEquivalentTo(_expected);
+            result.Select(x => x.Name).Should().BeEquivalentTo(new List<string> { "5", "6", "7", "8", "9" });
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void ToPagedList_throws_when_source_is_null(IQueryable<string> source)
+        [Fact]
+        public void ToPagedList_throws_when_source_is_null()
         {
+            // Arrange
+            IQueryable<string> source = null!;
+
             // Act
             Action act = () => source.ToPagedList(2, 5);
 
@@ -79,13 +78,15 @@ namespace Structr.Tests.EntityFrameworkCore
             PagedList<Foo> result = await source.ToPagedListAsync(2, 5);
 
             // Assert
-            result.Should().BeEquivalentTo(_expected);
+            result.Select(x => x.Name).Should().BeEquivalentTo(new List<string> { "5", "6", "7", "8", "9" });
         }
 
-        [Theory]
-        [InlineData(null)]
-        public async Task ToPagedListAsync_throws_when_source_is_null(IQueryable<string> source)
+        [Fact]
+        public async Task ToPagedListAsync_throws_when_source_is_null()
         {
+            // Arrange
+            IQueryable<string> source = null!;
+
             // Act
             Func<Task> act = async () => await source.ToPagedListAsync(2, 5);
 

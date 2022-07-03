@@ -73,9 +73,9 @@ namespace Structr.Tests.EntityFrameworkCore
             // Assert
             TestDbContext dbContext = serviceProvider.GetRequiredService<TestDbContext>();
 #pragma warning disable EF1001 // Internal EF Core API usage.
-            ILoggerFactory loggerFactory = dbContext.GetService<IDbContextServices>().ContextOptions
-                !.FindExtension<CoreOptionsExtension>()
-                !.LoggerFactory!;
+            ILoggerFactory loggerFactory = dbContext.GetService<IDbContextServices>().ContextOptions!
+                .FindExtension<CoreOptionsExtension>()!
+                .LoggerFactory!;
 #pragma warning restore EF1001 // Internal EF Core API usage.
             ILogger logger = loggerFactory.CreateLogger(typeof(TestDbContext));
             logger.LogError("Some error");
