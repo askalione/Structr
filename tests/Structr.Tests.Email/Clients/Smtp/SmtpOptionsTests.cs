@@ -8,11 +8,11 @@ namespace Structr.Tests.Email.Clients.Smtp
         public void Ctor()
         {
             // Act
-            var result = new SmtpOptions("127.0.0.1", 25);
+            var result = new SmtpOptions("127.0.0.1", 1025);
 
             // Assert
             result.Host.Should().Be("127.0.0.1");
-            result.Port.Should().Be(25);
+            result.Port.Should().Be(1025);
         }
 
         [Theory]
@@ -28,14 +28,11 @@ namespace Structr.Tests.Email.Clients.Smtp
             act.Should().ThrowExactly<ArgumentNullException>();
         }
 
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(-55)]
-        [InlineData(-100)]
-        public void Ctor_throws_when_port_less_than_zero(int port)
+        [Fact]
+        public void Ctor_throws_when_port_less_than_zero()
         {
             // Act
-            Action act = () => new SmtpOptions("127.0.0.1", port);
+            Action act = () => new SmtpOptions("127.0.0.1", -1);
 
             // Assert
             act.Should().ThrowExactly<ArgumentOutOfRangeException>();

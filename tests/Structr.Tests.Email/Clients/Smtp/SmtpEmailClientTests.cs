@@ -21,18 +21,17 @@ namespace Structr.Tests.Email.Clients.Smtp
             var smtpClientFactory = new FakeSmtpClientFactory(_tempDirPath);
 
             // Act
-            var result = new SmtpEmailClient(smtpClientFactory);
+            Action act = () => new SmtpEmailClient(smtpClientFactory);
 
             // Assert
-            result.Should().NotBeNull();
+            act.Should().NotThrow();
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void Ctor_throws_when_options_is_null(FakeSmtpClientFactory smtpClientFactory)
+        [Fact]
+        public void Ctor_throws_when_options_is_null()
         {
             // Act
-            Action act = () => new SmtpEmailClient(smtpClientFactory);
+            Action act = () => new SmtpEmailClient(null!);
 
             // Assert
             act.Should().Throw<ArgumentNullException>();

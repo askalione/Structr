@@ -42,26 +42,24 @@ namespace Structr.Tests.Email
             act.Should().NotThrow();
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void Ctor_throws_if_options_is_null(EmailOptions options)
+        [Fact]
+        public void Ctor_throws_if_options_is_null()
         {
             // Act
-            Action act = () => new EmailSender(options, _emailClient);
+            Action act = () => new EmailSender(null!, _emailClient);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void Ctor_throws_if_emailClient_is_null(IEmailClient emailClient)
+        [Fact]
+        public void Ctor_throws_if_emailClient_is_null()
         {
             // Arrange
             var options = new EmailOptions(new EmailAddress(_from));
 
             // Act
-            Action act = () => new EmailSender(options, emailClient);
+            Action act = () => new EmailSender(options, null!);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
