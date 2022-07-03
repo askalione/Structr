@@ -14,18 +14,17 @@ namespace Structr.Tests.Email.Razor
             options.TemplateRootPath = TestDataPath.ContentRootPath;
 
             // Act
-            var result = new RazorEmailTemplateRenderer(options);
+            Action act = () => new RazorEmailTemplateRenderer(options);
 
             // Assert
-            result.Should().NotBeNull();
+            act.Should().NotThrow();
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void Ctor_throws_when_options_is_null(EmailOptions options)
+        [Fact]
+        public void Ctor_throws_when_options_is_null()
         {
             // Act
-            Action act = () => new RazorEmailTemplateRenderer(options);
+            Action act = () => new RazorEmailTemplateRenderer(null!);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
