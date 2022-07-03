@@ -54,12 +54,11 @@ namespace Structr.Tests.EntityFramework
             _context.Entry(foo).State.Should().Be(EntityState.Modified);
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void Update_throws_then_entity_is_null(Foo foo)
+        [Fact]
+        public void Update_throws_then_entity_is_null()
         {
             // Act
-            Action act = () => _context.Foos.Update(foo);
+            Action act = () => _context.Foos.Update(null!);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();

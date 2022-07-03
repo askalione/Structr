@@ -22,7 +22,6 @@ namespace Structr.Tests.EntityFramework
         }
 
         private readonly TestDbContext _context;
-        private readonly IEnumerable<Foo> _expected;
 
         public QueryableExtensionsTests()
         {
@@ -35,8 +34,6 @@ namespace Structr.Tests.EntityFramework
                 _context.Foos.AddRange(list.Select(x => new Foo { Name = x }));
                 _context.SaveChanges();
             }
-
-            _expected = _context.Foos.OrderBy(x => x.Name).Skip(5).ToList();
         }
 
         [Fact]
@@ -48,14 +45,16 @@ namespace Structr.Tests.EntityFramework
             // Act
             PagedList<Foo> result = source.ToPagedList(2, 5);
 
-            // Assert
-            result.Should().BeEquivalentTo(_expected);
+            // Assert 
+            result.Select(x => x.Name).Should().BeEquivalentTo(new List<string> { "5", "6", "7", "8", "9" });
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void ToPagedList_throws_when_source_is_null(IQueryable<string> source)
+        [Fact]
+        public void ToPagedList_throws_when_source_is_null()
         {
+            // Arrange
+            IQueryable<string> source = null!;
+
             // Act
             Action act = () => source.ToPagedList(2, 5);
 
@@ -72,14 +71,16 @@ namespace Structr.Tests.EntityFramework
             // Act
             PagedList<Foo> result = await source.ToPagedListAsync(2, 5);
 
-            // Assert
-            result.Should().BeEquivalentTo(_expected);
+            // Assert 
+            result.Select(x => x.Name).Should().BeEquivalentTo(new List<string> { "5", "6", "7", "8", "9" });
         }
 
-        [Theory]
-        [InlineData(null)]
-        public async Task ToPagedListAsync_throws_when_source_is_null(IQueryable<string> source)
+        [Fact]
+        public async Task ToPagedListAsync_throws_when_source_is_null()
         {
+            // Arrange
+            IQueryable<string> source = null!;
+
             // Act
             Func<Task> act = async () => await source.ToPagedListAsync(2, 5);
 
