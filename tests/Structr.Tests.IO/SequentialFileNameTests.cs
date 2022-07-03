@@ -42,6 +42,16 @@ namespace Structr.Tests.IO
         }
 
         [Fact]
+        public void NewFileName_from_existing_file_name_no_extension()
+        {
+            // Act
+            var result = SequentialFileName.NewFileName("readme");
+
+            // Assert
+            result.Should().HaveLength(47);
+        }
+
+        [Fact]
         public void NewFileNameWithMimeType()
         {
             // Act
