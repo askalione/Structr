@@ -1,153 +1,89 @@
 using FluentAssertions;
 using Structr.SqlServer;
 using System.Data.SqlClient;
+using System.IO;
 using Xunit;
 
 namespace Structr.Tests.SqlServer
 {
     public class DatabaseTests
     {
-        public const string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=tests_structr_sqlserver;Trusted_Connection=True;Encrypt=false;";
-        public const string ConnectionString2 = @"Data Source=.\SQLEXPRESS;Initial Catalog=tests_sqlserver;Trusted_Connection=True;Encrypt=false;";
-        public static string dbPath = TestDataPath.Combine("tests_structr_sqlserver.mdf").Replace("/", @"\");
-        //public static string dbPath = @"F:\Dev\Structr\tests\Structr.Tests.SqlServer\TestData\tests_structr_sqlserver.mdf";
-        //public static string dbPath2 = @"F:\Dev\Structr\tests\Structr.Tests.SqlServer\TestData\tests_structr_sqlserver.mdf";
-        public static string dbPath2 = TestDataPath.Combine("tests_structr_sqlserver.mdf").Replace("/", @"\");
-        public static string ConnectionStringMdf2 = @$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath};Integrated Security=True;";     
-        public static string ConnectionStringMdf = @$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath2};Integrated Security=True;";
-        //public static string ConnectionStringMdf2 = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\СЕРГЕЙ\DOCUMENTS\tests_sqlserver_new.MDF;Integrated Security=True;Encrypt=false;";
-        //public const string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=tests_sqlserver; Trusted_Connection=True;Encrypt=false;"; tests_sqlserver_new
-        [Fact]
-        public void EnsureDeleted()
-        {
-            var builder = new SqlConnectionStringBuilder(ConnectionString2);           
-
-            // Arrange
-            Database.EnsureDeleted(ConnectionString2);
-           // Database.EnsureDeleted(ConnectionStringMdf);
-           
-
-            var statement = $@"SELECT * FROM sys.databases WHERE NAME='tests_sqlserver'";
-
-
-            int rows = -1;
-            using (var connection = new SqlConnection(builder.ConnectionString))
-            {
-                connection.Open();
-
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = statement;
-                    rows = command.ExecuteNonQuery();
-                    command.Dispose();
-                }
-
-                connection.Close();
-            }
-
-            // Act
-
-            // Assert
-            rows.Should().Be(-1);
-        }
-
-        [Fact]
-        public void EnsureDeletedMdf()
-        {
-            // Arrange          
-            Database.EnsureDeleted(ConnectionStringMdf);
-
-            var builder = new SqlConnectionStringBuilder(ConnectionStringMdf);                    
-
-            int rows = -1;
-            using (var connection = new SqlConnection(builder.ConnectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand($@"SELECT * FROM sys.databases WHERE NAME='{builder.AttachDBFilename}'", connection);
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        rows++;
-                    }
-
-                    reader.Close();
-                }
-            }
-
-            // Act
-
-            // Assert
-            rows.Should().Be(-1);
-        }
-
-        [Fact]
+        public const string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=tests_structr_sqlserver;Integrated Security=True";
+        public static string ConnectionStringMdf = @$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={TestDataPath.Combine("tests_structr_sqlserver.mdf")};Integrated Security=True;";     
+        
+        [Fact(Skip = "The test is not complete. Needed clean up after executing.")]
         public void EnsureCreated()
         {
-            // Arrange
-            Database.EnsureCreated(ConnectionString);            
-
-            var builder = new SqlConnectionStringBuilder(ConnectionString);          
-
-            int rows = -1;
-            using (var connection = new SqlConnection(builder.ConnectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand($@"SELECT * FROM sys.databases WHERE NAME='{builder.InitialCatalog}'", connection);
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                       rows++;
-                    }
-
-                    reader.Close();
-                }
-
-                connection.Close();
-                connection.Dispose();
-            }
-
             // Act
+            Database.EnsureCreated(ConnectionString);
 
             // Assert
-            rows.Should().Be(0);
+            bool databaseExists = DatabaseExists(ConnectionString);
+            databaseExists.Should().Be(true);
         }
 
-        [Fact]
-        public void EnsureCreatedMdf()
+        [Fact(Skip = "The test is not complete. Needed clean up after executing.")]
+        public void EnsureDeleted()
         {
             // Arrange
-            //Database.EnsureCreated(ConnectionString);
-            Database.EnsureCreated(ConnectionStringMdf2);
+            Database.EnsureCreated(ConnectionString);
 
-            var builder = new SqlConnectionStringBuilder(ConnectionStringMdf2);
-            var databaseFilename = builder.AttachDBFilename;          
-           
+            // Act
+            Database.EnsureDeleted(ConnectionString);
 
-            int rows = -1;
-            using (var connection = new SqlConnection(builder.ConnectionString))
-            {
-                connection.Open();
+            // Assert
+            bool databaseExists = DatabaseExists(ConnectionString);
+            databaseExists.Should().Be(false);
+        }
 
-                SqlCommand command = new SqlCommand($@"SELECT * FROM sys.databases WHERE NAME='{databaseFilename}'", connection);
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        rows++;
-                    }
-
-                    reader.Close();
-                }
-            }
-
+        [Fact(Skip = "The test is not complete. Needed clean up after executing.")]
+        public void EnsureCreatedMdf()
+        {
             //Act
+            Database.EnsureCreated(ConnectionStringMdf);
 
             //Assert
-            rows.Should().NotBe(-1);
+            bool databaseExists = DatabaseExists(ConnectionStringMdf);
+            databaseExists.Should().Be(true);
+        }
+
+        [Fact(Skip = "The test is not complete. Needed clean up after executing.")]
+        public void EnsureDeletedMdf()
+        {
+            // Arrange
+            Database.EnsureCreated(ConnectionStringMdf);
+
+            //Act
+            Database.EnsureDeleted(ConnectionStringMdf);
+
+            //Assert
+            bool databaseExists = DatabaseExists(ConnectionStringMdf);
+            databaseExists.Should().Be(false);
+        }
+
+        private bool DatabaseExists(string connectionString)
+        {
+            var builder = new SqlConnectionStringBuilder(connectionString);
+            bool hasAttachDBFilename = string.IsNullOrWhiteSpace(builder.AttachDBFilename) == false;
+            string database = hasAttachDBFilename ? builder.AttachDBFilename : GetDatabase(builder);  
+            builder.InitialCatalog = "";
+            using (var connection = new SqlConnection(hasAttachDBFilename ? $"Data Source={builder.DataSource}" : builder.ConnectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(
+                    $@"SELECT * FROM sys.databases WHERE NAME='{database}'", connection);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    return reader.HasRows;
+                }
+            }
+        }
+
+        private string GetDatabase(SqlConnectionStringBuilder builder)
+        {
+            return string.IsNullOrWhiteSpace(builder.InitialCatalog) == false
+                ? builder.InitialCatalog
+                : (string.IsNullOrWhiteSpace(builder.AttachDBFilename) ? Path.GetFileNameWithoutExtension(builder.AttachDBFilename) : "");
         }
     }
 }
