@@ -6,7 +6,7 @@ namespace Structr.Email
     /// <summary>
     /// Provides functionality for sending emails.
     /// </summary>
-    public interface IEmailClient // TODO: make internal
+    public interface IEmailClient
     {
         /// <summary>
         /// Sends the email.

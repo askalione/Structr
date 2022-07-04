@@ -1,4 +1,6 @@
 using System;
+using System.Net.Mail;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,8 +32,49 @@ namespace Structr.Email.Clients.Smtp
         {
             using (ISmtpClient smtpClient = _smtpClientFactory.CreateSmtpClient())
             {
-                await smtpClient.SendAsync(emailData, body, cancellationToken);
+                MailMessage message = CreateMessage(emailData, body);
+                await smtpClient.SendAsync(message, cancellationToken);
             }
+        }
+
+        private MailMessage CreateMessage(EmailData emailData, string body)
+        {
+            var message = new MailMessage
+            {
+                Subject = emailData.Subject,
+                Body = body,
+                IsBodyHtml = emailData.IsHtml,
+                BodyEncoding = Encoding.UTF8,
+                SubjectEncoding = Encoding.UTF8
+            };
+
+            if (emailData.From != null)
+            {
+                message.From = new MailAddress(emailData.From.Address, emailData.From.Name);
+            }
+
+            message.To.Add(new MailAddress(emailData.To.Address, emailData.To.Name));
+
+            if (emailData.Attachments != null)
+            {
+                foreach (var attachment in emailData.Attachments)
+                {
+                    Attachment mailAttachment;
+
+                    if (attachment.Content == null)
+                    {
+                        mailAttachment = new Attachment(attachment.FileName, attachment.ContentType);
+                    }
+                    else
+                    {
+                        mailAttachment = new Attachment(attachment.Content, attachment.FileName, attachment.ContentType);
+                    }
+
+                    message.Attachments.Add(mailAttachment);
+                };
+            }
+
+            return message;
         }
     }
 }

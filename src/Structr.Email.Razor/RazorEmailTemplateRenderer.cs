@@ -10,7 +10,7 @@ namespace Structr.Email.Razor
     /// <summary>
     /// Provides functionality for rendering an email model into a template with Razor rendering.
     /// </summary>
-    public class RazorEmailTemplateRenderer : IEmailTemplateRenderer // TODO: make internal
+    public class RazorEmailTemplateRenderer : IEmailTemplateRenderer
     {
         private readonly RazorLightEngine _engine;
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Structr.Email
 {
     /// <inheritdoc cref="IEmailSender"/>
-    public class EmailSender : IEmailSender // TODO: make internal
+    public class EmailSender : IEmailSender
     {
         private readonly EmailOptions _options;
         private readonly IEmailClient _client;
@@ -38,19 +38,86 @@ namespace Structr.Email
         }
 
         public Task SendEmailAsync(EmailMessage email, CancellationToken cancellationToken = default)
-            => SendEmailAsync(email, email.Message, cancellationToken);
+        {
+            if (email == null)
+            {
+                throw new ArgumentException(nameof(email));
+            }
+
+            return SendEmailAsync(email, email.Message, cancellationToken);
+        }
 
         public Task SendEmailAsync(EmailTemplateMessage email, CancellationToken cancellationToken = default)
-            => SendEmailTemplateAsync(email, email.Template, email.Model, cancellationToken);
+        {
+            if (email == null)
+            {
+                throw new ArgumentException(nameof(email));
+            }
+            if (string.IsNullOrWhiteSpace(email.Template))
+            {
+                throw new InvalidOperationException("Template is required.");
+            }
+            if (email.Model == null)
+            {
+                throw new InvalidOperationException("Model is required.");
+            }
+
+            return SendEmailTemplateAsync(email, email.Template, email.Model, cancellationToken);
+        }
 
         public Task SendEmailAsync<TModel>(EmailTemplateMessage<TModel> email, CancellationToken cancellationToken = default)
-            => SendEmailTemplateAsync(email, email.Template, email.Model!, cancellationToken);
+        {
+            if (email == null)
+            {
+                throw new ArgumentException(nameof(email));
+            }
+            if (string.IsNullOrWhiteSpace(email.Template))
+            {
+                throw new InvalidOperationException("Template is required.");
+            }
+            if (email.Model == null)
+            {
+                throw new InvalidOperationException("Model is required.");
+            }
+
+            return SendEmailTemplateAsync(email, email.Template, email.Model, cancellationToken);
+        }
 
         public Task SendEmailAsync(EmailTemplateFileMessage email, CancellationToken cancellationToken = default)
-            => SendEmailTemplateFileAsync(email, email.TemplatePath, email.Model!, cancellationToken);
+        {
+            if (email == null)
+            {
+                throw new ArgumentException(nameof(email));
+            }
+            if (string.IsNullOrWhiteSpace(email.TemplatePath))
+            {
+                throw new InvalidOperationException("TemplatePath is required.");
+            }
+            if (email.Model == null)
+            {
+                throw new InvalidOperationException("Model is required.");
+            }
+
+            return SendEmailTemplateFileAsync(email, email.TemplatePath, email.Model, cancellationToken);
+        }
 
         public Task SendEmailAsync<TModel>(EmailTemplateFileMessage<TModel> email, CancellationToken cancellationToken = default)
-            => SendEmailTemplateFileAsync(email, email.TemplatePath, email.Model!, cancellationToken);
+        {
+            if (email == null)
+            {
+                throw new ArgumentException(nameof(email));
+            }
+            if (string.IsNullOrWhiteSpace(email.TemplatePath))
+            {
+                throw new InvalidOperationException("TemplatePath is required.");
+            }
+            if (email.Model == null)
+            {
+                throw new InvalidOperationException("Model is required.");
+            }
+
+            return SendEmailTemplateFileAsync(email, email.TemplatePath, email.Model, cancellationToken);
+        }
 
         private Task SendEmailTemplateFileAsync(EmailData emailData, string templatePath, object model, CancellationToken cancellationToken)
         {

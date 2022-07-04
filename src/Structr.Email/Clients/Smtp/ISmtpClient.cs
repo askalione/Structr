@@ -1,4 +1,5 @@
 using System;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,9 +13,8 @@ namespace Structr.Email.Clients.Smtp
         /// <summary>
         /// Sends email.
         /// </summary>
-        /// <param name="emailData">The <see cref="EmailData"/>.</param>
-        /// <param name="body">The message body.</param>
+        /// <param name="message">The <see cref="MailMessage"/>.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
-        Task SendAsync(EmailData emailData, string body, CancellationToken cancellationToken);
+        Task SendAsync(MailMessage message, CancellationToken cancellationToken);
     }
 }

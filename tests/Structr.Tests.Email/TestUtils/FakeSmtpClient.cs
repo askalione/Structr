@@ -1,5 +1,5 @@
-using Structr.Email;
 using Structr.Email.Clients.Smtp;
+using System.Net.Mail;
 
 namespace Structr.Tests.Email.TestUtils
 {
@@ -10,16 +10,16 @@ namespace Structr.Tests.Email.TestUtils
         public FakeSmtpClient(string path)
             => _path = path;
 
-        public async Task SendAsync(EmailData emailData, string body, CancellationToken cancellationToken)
+        public async Task SendAsync(MailMessage message, CancellationToken cancellationToken)
         {
             var filePath = Path.Combine(_path, NewFileName());
             var content =
-                $"From: {emailData.From}{Environment.NewLine}" +
-                $"To: {emailData.To}{Environment.NewLine}" +
-                $"Subject: {emailData.Subject}{Environment.NewLine}" +
-                $"{(emailData.Attachments?.Any() == true ? $"Attachments: {string.Join(";", emailData.Attachments.Select(x => x.FileName))}{Environment.NewLine}" : "")}" +
+                $"From: {message.From}{Environment.NewLine}" +
+                $"To: {string.Join(";", message.To)}{Environment.NewLine}" +
+                $"Subject: {message.Subject}{Environment.NewLine}" +
+                $"{(message.Attachments?.Any() == true ? $"Attachments: {string.Join(";", message.Attachments.Select(x => x.Name))}{Environment.NewLine}" : "")}" +
                 $"{Environment.NewLine}" +
-                $"{body}";
+                $"{message.Body}";
             if (File.Exists(_path) == false)
             {
                 Directory.CreateDirectory(_path);
