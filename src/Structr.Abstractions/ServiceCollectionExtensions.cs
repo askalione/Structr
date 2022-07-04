@@ -1,12 +1,14 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Structr.Abstractions;
-using Structr.Abstractions.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// <see cref="ServiceCollection"/> extension methods.
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
         /// <summary>
@@ -21,14 +23,15 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public static IServiceCollection AddFactory<TKey, TValue>(this IServiceCollection services, Dictionary<TKey, Type> index)
+        public static IServiceCollection AddFactory<TKey, TValue>(this IServiceCollection services, IReadOnlyDictionary<TKey, Type> index)
         {
             Ensure.NotNull(services, nameof(services));
             Ensure.NotNull(index, nameof(index));
 
             if (index.Any() == false)
             {
-                throw new ArgumentException("Items on index not found. At least one item for configured factory is required.");
+                throw new ArgumentException(
+                    "Items on index not found. At least one item for configured factory is required.");
             }
 
             var valueType = typeof(TValue);
@@ -57,32 +60,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     }
                 };
             });
-
-            return services;
-        }
-
-        /// <summary>
-        /// Adds a singleton timestamp provider service, which implements <see cref="ITimestampProvider"/> interface.
-        /// </summary>
-        /// <typeparam name="T">Implementation of <see cref="ITimestampProvider"/></typeparam>
-        /// <param name="services"></param>
-        /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddTimestampProvider<T>(this IServiceCollection services) where T : ITimestampProvider
-            => AddTimestampProvider<T>(services, ServiceLifetime.Singleton);
-
-        /// <summary>
-        /// Adds a timestamp provider service, which implements <see cref="ITimestampProvider"/> interface.
-        /// </summary>
-        /// <typeparam name="T">Implementation of <see cref="ITimestampProvider"/></typeparam>
-        /// <param name="services"></param>
-        /// <param name="lifetime">ServiceLifetime value.</param>
-        /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddTimestampProvider<T>(this IServiceCollection services, ServiceLifetime lifetime)
-            where T : ITimestampProvider
-        {
-            Ensure.NotNull(services, nameof(services));
-
-            services.TryAdd(new ServiceDescriptor(typeof(ITimestampProvider), typeof(T), lifetime));
 
             return services;
         }

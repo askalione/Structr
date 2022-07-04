@@ -1,6 +1,6 @@
 using System;
 
-namespace Structr.Abstractions.Providers
+namespace Structr.Abstractions.Providers.Timestamp
 {
     /// <summary>
     /// Simple DateTime provider service intended to generate timestamp.
