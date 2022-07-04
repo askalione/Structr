@@ -15,9 +15,9 @@ This part provides json-related controller extensions and actions results.
 
 The class has different constructors allowing to specify this properties in different combinations.
 
-Working with class is performed by using controller extension [methods](#javascriptcontrollerextensions) that wrap instances of `JsonResponse` with `JsonResult`.
+Working with class is performed by using controller extension [methods](#javascriptcontroller-extensions) that wrap instances of `JsonResponse` with `JsonResult`.
 
-## JsonResponseError
+### JsonResponseError
 
 This class represents an error to be transferred to a client.
 
@@ -26,7 +26,7 @@ This class represents an error to be transferred to a client.
 | Key | `string` | Key corresponding to an error. |
 | Message | `string` | Message corresponding to an error. |
 
-## JavaScriptControllerExtensions
+## JavaScriptController extensions
 
 These extension methods provide possibilities of sending `JsonResponse` wrapped in `JsonResult`:
 

@@ -21,11 +21,9 @@ An `AnchorTagHelper` implementation that adds CSS class to target `<a>` element 
 | MatchClass | `string` | A CSS class to add to html element. |
 
 ```html
-
 <a asp-action="Details" asp-route-id="@user.Id" asp-match-class="active" class="nav-link">Details</a>
 <a asp-action="Contracts" asp-route-id="@user.Id" asp-match-class="active" class="nav-link">Contracts</a>
 <a asp-action="Statistics" asp-route-id="@user.Id" asp-match-class="active" class="nav-link">Statistics</a>
-
 ```
 
 Each of links above will be highlighted by adding `active` css class only when user currently located on corresponding page (which means required area, controller and action).
@@ -40,9 +38,7 @@ A `TagHelper` implementation that adds CSS class to target element when "asp-app
 | Class | `bool` | A CSS class to add to html element. |
 
 ```html
-
 <a asp-action="Index" asp-controller="Departments" asp-append-if='@(controller == "Departments")' asp-append-class="active" class="dropdown-item">Departments list</a>
-
 ```
 
 ## PageInfoTagHelper
@@ -61,17 +57,13 @@ The `PageInfoOptions` are:
 | Format | `string` | Info-text format string. It uses string-interpolation with following 5 parameters: 0 - page number, 1 - total pages, 2 - first item on page, 3 - last item on page, 4 - total items. |
 
 ```html
-
 <page-info asp-options='new PageInfoOptions { PagedList = Model.Items, Format = "Page {0} of {1}. Showing items {2} through {3} of {4}." }' />
-
 ```
 
 After rendering it will give:
 
 ```html
-
 <div class="page-info">Page 7 of 12. Showing items 61 through 70 of 116.</div>
-
 ```
 
 ## PageSizeTagHelper
@@ -97,15 +89,12 @@ The `PageSizeOptions` are:
 | DefaultPageSize | `int` | Page size by default. |
 
 ```html
-
 <page-size asp-options='@(new PageSizeOptions { ItemsPerPage = Model.Query.ItemsPerPage, DefaultPageSize = Model.Query.PageSize, AllItemsFormat = "Show all", DropdownToggleCssClass = "btn btn-outline-secondary bd bd-grey-300" })' />
-
 ```
 
 After rendering it will give:
 
 ```html
-
 <div class="page-size dropdown dropup">
     <button class="btn btn-outline-secondary bd bd-grey-300 dropdown-toggle" data-toggle="dropdown" type="button">25</button>
     <div class="dropdown-menu-right dropdown-menu">
@@ -114,7 +103,6 @@ After rendering it will give:
         <a class="dropdown-item" href="/ru/admin/bundles/?pagesize=100">100</a>
     </div>
 </div>
-
 ```
 
 ## PaginationTagHelper
@@ -144,20 +132,17 @@ The `PaginationOptions` are:
 | PageNumberRouteParamName | `string` | Route parameter name for page number. Default value is `page`. |
 
 ```html
-
 <pagination asp-options='@(new PaginationOptions {
     PagedList = Model.Items,
     UlElementCssClasses = new[] { "pagination", "pagination-basic", "pagination-primary", "mg-b-0" },
     LinkToFirstPageFormat = "«",
     LinkToLastPageFormat = "»"
 })' />
-
 ```
 
 After rendering it will give:
 
 ```html
-
 <div class="pagination-container">
     <ul class="mg-b-0 pagination-primary pagination-basic pagination">
         <li class="page-item first pagination-first"><a class="page-link" href="/admin/users/?page=1">«</a></li>
@@ -169,7 +154,6 @@ After rendering it will give:
         <li class="page-item last pagination-last"><a class="page-link" href="/admin/users/?page=256">»</a></li>
     </ul>
 </div>
-
 ```
 
 ## SortTagHelper
@@ -193,24 +177,20 @@ The `SortOptions` are:
 | OrderRouteParamName | `string` | Route parameter name for sort order. Default value is `order`. |
 
 ```html
-
 <li class="list-sort-item list-inline-item"
     asp-sort="Year"
     asp-default-sort="@Model.Query.Sort"
     asp-default-order="@Model.Query.Order">
     Sort by year
 </li>
-
 ```
 
 After rendering it will give:
 
 ```html
-
 <li class="list-sort-item list-inline-item">
     <a class="sort" href="/Books/?sort=Year&order=Asc">Sort by year</a>
 </li>
-
 ```
 
 ## TagHelperOutputExtensions

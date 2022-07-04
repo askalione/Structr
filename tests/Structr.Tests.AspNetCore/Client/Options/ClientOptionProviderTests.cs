@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Http;
-using System;
-using Xunit;
 using FluentAssertions;
-using Moq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System.Collections.Generic;
+using Moq;
 using Structr.AspNetCore.Client.Options;
 using Structr.Tests.AspNetCore.TestUtils;
+using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace Structr.Tests.AspNetCore.Client.Options
 {

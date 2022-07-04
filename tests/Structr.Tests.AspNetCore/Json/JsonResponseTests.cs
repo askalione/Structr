@@ -153,10 +153,12 @@ namespace Structr.Tests.AspNetCore.Json
             result.Message.Should().Be("Message2");
             result.Data.Should().BeNull();
             result.Errors.Should().SatisfyRespectively(
-                x => {
+                x =>
+                {
                     x.Message.Should().Be("Message2");
                 },
-                x => {
+                x =>
+                {
                     x.Message.Should().Be("Message3");
                 }
             );
@@ -199,10 +201,12 @@ namespace Structr.Tests.AspNetCore.Json
             result.Message.Should().Be("Message2");
             result.Data.Should().Be(new DateTime(2018, 01, 18));
             result.Errors.Should().SatisfyRespectively(
-                x => {
+                x =>
+                {
                     x.Message.Should().Be("Message2");
                 },
-                x => {
+                x =>
+                {
                     x.Message.Should().Be("Message3");
                 }
             );

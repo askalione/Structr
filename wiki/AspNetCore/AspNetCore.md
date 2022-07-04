@@ -35,7 +35,7 @@ But if you need only some of tools then these extension methods for IServiceColl
 * [Client](AspNetCore-Client.md) - methods providing functionality for interacting with app's client-side;
 * [Http](AspNetCore-Http.md) - extension methods for http-related stuff such as HttpContext and HttpRequest;
 * [JavaScript](AspNetCore-JavaScript.md) - provides IActionResults and extension methods related to JavaScript and client-side things;
-* [Json](AspNetCore-Json.md) - Json-related controller extensions and actions results;
+* [Json](AspNetCore-Json.md) - JSON-related controller extensions and actions results;
 * [Mvc](AspNetCore-Mvc.md) - methods for working with ViewEngine and other common MVC stuff;
 * [Referrer](AspNetCore-Referrer.md) - provides tools for working with HTTP referer and other related things;
 * [Rewrite](AspNetCore-Rewrite.md) - extensions and IRule implementations related to modifying url;

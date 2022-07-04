@@ -2,7 +2,7 @@
 
 This part provides extension methods for http-related stuff such as HttpContext and HttpRequest.
 
-## HttpContextExtensions
+## HttpContext extensions
 
 | Method name | Return type | Description |
 | --- | --- | --- |
@@ -10,14 +10,14 @@ This part provides extension methods for http-related stuff such as HttpContext 
 | GetAuthenticationSchemesAsync | `Task<IEnumerable<AuthenticationScheme>>` | Gets available authentication schemes. |
 | IsSupportedAuthenticationSchemeAsync | `Task<bool>` | Determines whenever specified authentication scheme is available in current context. |
 
-## HttpRequestExtensions
+## HttpRequest extensions
 
 | Method name | Return type | Description |
 | --- | --- | --- |
 | IsAjaxRequest | `bool` | Determines if request has ajax nature. |
 | GetAbsoluteUri | `string` | Gets an absolute Uri of request, combined from scheme, host name, port, path and query. |
 
-## QueryCollectionExtensions
+## QueryCollection extensions
 
 | Method name | Return type | Description |
 | --- | --- | --- |

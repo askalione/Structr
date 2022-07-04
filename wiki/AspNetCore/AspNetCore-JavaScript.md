@@ -10,7 +10,7 @@ This part provides IActionResults and extension methods related to JavaScript an
 
 This class represents the implementation of `RedirectResult` that checks that request has ajax nature and performs redirect to Url via ajax instead of normal redirecting. In case of normal request the standard redirecting procedure will be performed.
 
-## JavaScriptControllerExtensions
+## JavaScriptController extensions
 
 | Method name | Return type | Description |
 | --- | --- | --- |

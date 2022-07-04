@@ -85,7 +85,8 @@ namespace Structr.Tests.AspNetCore.Referrer
 
             // Assert
             output.Attributes.Should().SatisfyRespectively(
-            x => {
+            x =>
+            {
                 x.Name.Should().Be("href");
                 x.Value.Should().Be(expected);
             });

@@ -34,7 +34,6 @@ namespace Structr.AspNetCore.Http
         /// <returns>The <see cref="RouteValueDictionary"/> object.</returns>
         public static RouteValueDictionary ToRouteValueDictionary(this IQueryCollection collection, string newKey, object newValue)
         {
-            // TODO: Fix somehow or refactor
             RouteValueDictionary routeValues = collection.ToRouteValueDictionary();
 
             routeValues.Remove(newKey);

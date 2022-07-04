@@ -22,7 +22,8 @@ namespace Structr.Tests.AspNetCore.TagHelpers
 
             // Assert
             tagHelperOutput.Attributes.Should().SatisfyRespectively(
-                x => {
+                x =>
+                {
                     x.Name.Should().Be("class");
                     x.Value.Should().BeEquivalentTo(new HtmlString("test-css-class test-css-class-2"));
                 });

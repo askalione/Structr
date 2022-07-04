@@ -6,7 +6,7 @@ This part provides methods for working with ViewEngine and other common MVC stuf
 
 `AjaxAttribute` allows to block non-ajax requests to marked controllers or actions.
 
-## PartialViewControllerExtensions
+## Controller extensions
 
 | Method name | Return type | Description |
 | --- | --- | --- |
@@ -19,14 +19,14 @@ Sample usage is provided below:
 
 public async Task<IActionResult> DoSomething(int id, string name)
 {
-    var model = new MyViewModel { Id = id, Name = name };
-    var result = await this.RenderPartialViewAsync("_MyPartialView", model);
+    var model = new CustomViewModel { Id = id, Name = name };
+    var result = await this.RenderPartialViewAsync("_CustomPartialView", model);
     return Content(result); // This returns string with rendered partial view.
 }
 
 ```
 
-## TempDataDictionaryExtensions
+## ITempDataDictionary extensions
 
 This extension methods help to work with `ITempDataDictionary`:
 
