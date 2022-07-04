@@ -18,9 +18,13 @@ namespace Structr.Samples.EntityFrameworkCore
         public App(DataContext dataContext, IStringWriter writer, ITimestampProvider timestampProvider)
         {
             if (dataContext == null)
+            {
                 throw new ArgumentNullException(nameof(dataContext));
+            }
             if (writer == null)
+            {
                 throw new ArgumentNullException(nameof(writer));
+            }
 
             _dataContext = dataContext;
             _writer = writer;

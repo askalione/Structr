@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.Mvc;
+using Structr.AspNetCore.Http;
 using System;
 using System.Linq;
 using System.Text.Encodings.Web;
@@ -11,18 +11,33 @@ using System.Threading.Tasks;
 
 namespace Structr.AspNetCore.TagHelpers
 {
+    /// <summary>
+    /// A <see cref="TagHelper"/> creating sorting controls for UI.
+    /// </summary>
     [HtmlTargetElement(Attributes = "asp-sort")]
     public class SortTagHelper : TagHelper
     {
+        /// <summary>
+        /// Name of Model field to sort by. When value of field equals <see cref="DefaultSort"/> then sorting will be performed.
+        /// </summary>
         [HtmlAttributeName("asp-sort")]
         public string Sort { get; set; }
 
+        /// <summary>
+        /// Value of field to sort by, taken from query (url). For example <c>@Model.Query.Sort</c>.
+        /// </summary>
         [HtmlAttributeName("asp-default-sort")]
         public string DefaultSort { get; set; }
 
+        /// <summary>
+        /// Sort order to be used, taken from query (url). For example <c>@Model.Query.Order</c>.
+        /// </summary>
         [HtmlAttributeName("asp-default-order")]
         public SortOrder? DefaultOrder { get; set; }
 
+        /// <summary>
+        /// Options influencing appearance of sorting controls.
+        /// </summary>
         [HtmlAttributeName("asp-options")]
         public SortOptions Options { get; set; }
 
@@ -32,10 +47,17 @@ namespace Structr.AspNetCore.TagHelpers
 
         private readonly IUrlHelper _urlHelper;
 
+        /// <summary>
+        /// Initializes an instance of <see cref="SortTagHelper"/>.
+        /// </summary>
+        /// <param name="urlHelper"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public SortTagHelper(IUrlHelper urlHelper)
         {
             if (urlHelper == null)
+            {
                 throw new ArgumentNullException(nameof(urlHelper));
+            }
 
             _urlHelper = urlHelper;
         }
@@ -44,7 +66,7 @@ namespace Structr.AspNetCore.TagHelpers
         {
             if (string.IsNullOrWhiteSpace(Sort))
             {
-                throw new InvalidOperationException("Sort must be not null");
+                throw new InvalidOperationException("Sort must be not null.");
             }
 
             if (Options == null)
@@ -150,11 +172,29 @@ namespace Structr.AspNetCore.TagHelpers
         }
     }
 
+    /// <summary>
+    /// Defines parameters influating appearance of UI sorting controls.
+    /// </summary>
     public class SortOptions
     {
+        /// <summary>
+        /// Css class for links. Default value is '<c>sort</c>'.
+        /// </summary>
         public string LinkCssCLass { get; set; }
+
+        /// <summary>
+        /// Css class for active element. Default value is '<c>active</c>'.
+        /// </summary>
         public string ActiveCssClass { get; set; }
+
+        /// <summary>
+        /// Name of route parameter containing name of field to sort by. Default value is '<c>sort</c>'.
+        /// </summary>
         public string SortRouteParamName { get; set; }
+
+        /// <summary>
+        /// Route parameter name for sort order. Default value is '<c>order</c>'.
+        /// </summary>
         public string OrderRouteParamName { get; set; }
 
         public SortOptions()
@@ -166,6 +206,9 @@ namespace Structr.AspNetCore.TagHelpers
         }
     }
 
+    /// <summary>
+    /// Possible sort orders.
+    /// </summary>
     public enum SortOrder
     {
         Asc,

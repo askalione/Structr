@@ -1,18 +1,22 @@
+![Structr](assets/logo/logo_100x100.png)
+
 # Structr
+
+**Structr** is a framework composed of several components for development of cross-platform applications on .NET by following the software development best practices and patterns. Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) as a target framework which allows you to use them in .NET Framework and any new .NET projects. All Structr components have few or no external dependencies.
+
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/askalione/structr?branch=master&svg=true)](https://ci.appveyor.com/project/askalione/structr) 
 [![GitHub license](https://img.shields.io/github/license/askalione/structr)](https://github.com/askalione/Structr/blob/master/LICENSE)
 [![Join the chat at https://gitter.im/Structr-dotnet/community](https://badges.gitter.im/Structr-dotnet/community.svg)](https://gitter.im/Structr-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  
 
-Structr is a framework for development cross platform apps on .NET.
+## Packages
 
-## Core
-
-| Component name | NuGet | Downloads |
+| Package name | NuGet | Downloads |
 | --- | --- | --- |
 | Structr.Abstractions | [![NuGet Structr.Abstractions](https://img.shields.io/nuget/v/Structr.Abstractions)](https://www.nuget.org/packages/Structr.Abstractions/) | [![Downloads Structr.Abstractions](https://img.shields.io/nuget/dt/Structr.Abstractions)](https://www.nuget.org/stats/packages/Structr.Abstractions?groupby=Version) |
 | Structr.AspNetCore | [![NuGet Structr.AspNetCore](https://img.shields.io/nuget/v/Structr.AspNetCore)](https://www.nuget.org/packages/Structr.AspNetCore/) | [![Downloads Structr.AspNetCore](https://img.shields.io/nuget/dt/Structr.AspNetCore)](https://www.nuget.org/stats/packages/Structr.AspNetCore?groupby=Version) |
 | Structr.AspNetCore.Validation | [![NuGet Structr.AspNetCore.Validation](https://img.shields.io/nuget/v/Structr.AspNetCore.Validation)](https://www.nuget.org/packages/Structr.AspNetCore.Validation/) | [![Downloads Structr.AspNetCore.Validation](https://img.shields.io/nuget/dt/Structr.AspNetCore.Validation)](https://www.nuget.org/stats/packages/Structr.AspNetCore.Validation?groupby=Version) |
 | Structr.Collections | [![NuGet Structr.Collections](https://img.shields.io/nuget/v/Structr.Collections)](https://www.nuget.org/packages/Structr.Collections/) | [![Downloads Structr.Collections](https://img.shields.io/nuget/dt/Structr.Collections)](https://www.nuget.org/stats/packages/Structr.Collections?groupby=Version) |
+| Structr.Collections.Extensions.AutoMapper | [![NuGet Structr.Collections.Extensions.AutoMapper](https://img.shields.io/nuget/v/Structr.Collections.Extensions.AutoMapper)](https://www.nuget.org/packages/Structr.Collections.Extensions.AutoMapper/) | [![Downloads Structr.Collections.Extensions.AutoMapper](https://img.shields.io/nuget/dt/Structr.Collections.Extensions.AutoMapper)](https://www.nuget.org/stats/packages/Structr.Collections.Extensions.AutoMapper?groupby=Version) |
 | Structr.Configuration | [![NuGet Structr.Configuration](https://img.shields.io/nuget/v/Structr.Configuration)](https://www.nuget.org/packages/Structr.Configuration/) | [![Downloads Structr.Configuration](https://img.shields.io/nuget/dt/Structr.Configuration)](https://www.nuget.org/stats/packages/Structr.Configuration?groupby=Version) |
 | Structr.Domain | [![NuGet Structr.Domain](https://img.shields.io/nuget/v/Structr.Domain)](https://www.nuget.org/packages/Structr.Domain/) | [![Downloads Structr.Domain](https://img.shields.io/nuget/dt/Structr.Domain)](https://www.nuget.org/stats/packages/Structr.Domain?groupby=Version) |
 | Structr.Email | [![NuGet Structr.Email](https://img.shields.io/nuget/v/Structr.Email)](https://www.nuget.org/packages/Structr.Email/) | [![Downloads Structr.Email](https://img.shields.io/nuget/dt/Structr.Email)](https://www.nuget.org/stats/packages/Structr.Email?groupby=Version) |
@@ -28,12 +32,6 @@ Structr is a framework for development cross platform apps on .NET.
 | Structr.SqlServer | [![NuGet Structr.SqlServer](https://img.shields.io/nuget/v/Structr.SqlServer)](https://www.nuget.org/packages/Structr.SqlServer/) | [![Downloads Structr.SqlServer](https://img.shields.io/nuget/dt/Structr.SqlServer)](https://www.nuget.org/stats/packages/Structr.SqlServer?groupby=Version) |
 | Structr.Stateflows | [![NuGet Structr.Stateflows](https://img.shields.io/nuget/v/Structr.Stateflows)](https://www.nuget.org/packages/Structr.Stateflows/) | [![Downloads Structr.Stateflows](https://img.shields.io/nuget/dt/Structr.Stateflows)](https://www.nuget.org/stats/packages/Structr.Stateflows?groupby=Version) |
 | Structr.Validation | [![NuGet Structr.Validation](https://img.shields.io/nuget/v/Structr.Validation)](https://www.nuget.org/packages/Structr.Validation/) | [![Downloads Structr.Validation](https://img.shields.io/nuget/dt/Structr.Validation)](https://www.nuget.org/stats/packages/Structr.Validation?groupby=Version) |
-
-## Extensions
-
-| Component name | NuGet | Downloads |
-| --- | --- | --- |
-| Structr.Collections.Extensions.AutoMapper | [![NuGet Structr.Collections.Extensions.AutoMapper](https://img.shields.io/nuget/v/Structr.Collections.Extensions.AutoMapper)](https://www.nuget.org/packages/Structr.Collections.Extensions.AutoMapper/) | [![Downloads Structr.Collections.Extensions.AutoMapper](https://img.shields.io/nuget/dt/Structr.Collections.Extensions.AutoMapper)](https://www.nuget.org/stats/packages/Structr.Collections.Extensions.AutoMapper?groupby=Version) |
 
 ## License
 Structr is open source, licensed under the [MIT License](https://github.com/askalione/Structr/blob/master/LICENSE).

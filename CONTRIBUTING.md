@@ -35,7 +35,7 @@ If you want to ask a question, please read [Documentation](https://structr.dev) 
 
 Before you ask a question, it is best to search for existing [Issues](https://github.com/askalione/Structr/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
 
-If you then still feel the need to ask a question and need clarification, follow  the recommendations:
+If you then still feel the need to ask a question and need clarification, follow the recommendations:
 
 * Open an [Issue](https://github.com/askalione/Structr/issues/new).
 * Provide as much context as you can about what you're running into.
