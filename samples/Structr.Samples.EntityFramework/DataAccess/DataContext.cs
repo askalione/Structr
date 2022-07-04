@@ -38,7 +38,14 @@ namespace Structr.Samples.EntityFramework.DataAccess
 
         protected override void OnModelCreating(DbModelBuilder builder)
         {
-            builder.ApplyEntityConfiguration();
+            builder.ApplyEntityConfiguration(options =>
+            {
+                options.Configure = (typeConfiguration) =>
+                {
+                    typeConfiguration.Property("Id")
+                        .HasColumnName($"{typeConfiguration.ClrType.Name}ID");
+                };
+            });
             builder.ApplyValueObjectConfiguration(options =>
             {
                 options.Configure = (typeConfiguration) =>
@@ -49,7 +56,11 @@ namespace Structr.Samples.EntityFramework.DataAccess
                     }
                 };
             });
-            builder.ApplyAuditableConfiguration();
+            builder.ApplyAuditableConfiguration(options =>
+            {
+                options.SignedColumnIsRequired = true;
+                options.SignedColumnMaxLength = 100;
+            });
 
             builder.Conventions.Remove<PluralizingTableNameConvention>();
             builder.Conventions.Remove<PluralizingEntitySetNameConvention>();
