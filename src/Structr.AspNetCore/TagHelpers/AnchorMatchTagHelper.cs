@@ -1,21 +1,31 @@
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
 namespace Structr.AspNetCore.TagHelpers
 {
+    /// <summary>
+    /// An <see cref="AnchorTagHelper"/> adding CSS class to target &lt;a&gt; element when
+    /// current Area, Controller and Action RouteData values correspond to specified ones.
+    /// </summary>
     [HtmlTargetElement("a", Attributes = "asp-match-class")]
     public class AnchorMatchTagHelper : AnchorTagHelper
     {
+        /// <summary>
+        /// A CSS class to add to html element.
+        /// </summary>
         [HtmlAttributeName("asp-match-class")]
         public string MatchClass { get; set; }
 
-        public AnchorMatchTagHelper(IHtmlGenerator generator) : base(generator)
-        {
-        }
+        /// <summary>
+        /// Creates a new <see cref="AnchorMatchTagHelper"/>.
+        /// </summary>
+        /// <param name="generator">The <see cref="IHtmlGenerator"/>.</param>
+        public AnchorMatchTagHelper(IHtmlGenerator generator)
+            : base(generator)
+        { }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -66,8 +76,8 @@ namespace Structr.AspNetCore.TagHelpers
 
                 foreach (var routeValueKey in RouteValues.Keys)
                 {
-                    if (!routeValues.TryGetValue(routeValueKey, out string routeValue)
-                        || !routeValue.Equals(RouteValues[routeValueKey], StringComparison.OrdinalIgnoreCase))
+                    if (routeValues.TryGetValue(routeValueKey, out string routeValue) == false
+                        || routeValue.Equals(RouteValues[routeValueKey], StringComparison.OrdinalIgnoreCase) == false)
                     {
                         return false;
                     }

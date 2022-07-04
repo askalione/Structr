@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Structr.AspNetCore.JavaScript;
+using Structr.AspNetCore.Json;
 using Structr.AspNetCore.Mvc;
-using Structr.AspNetCore.Mvc.Attributes;
+using Structr.AspNetCore.Referrer;
 using Structr.Samples.AspNetCore.Extensions;
 using Structr.Samples.AspNetCore.Models;
 using System.Threading.Tasks;
@@ -12,31 +14,31 @@ namespace Structr.Samples.AspNetCore.Controllers
         public IActionResult Index()
         {
             // Add javascript options
-            // NOTE: Use IJavaScriptOptionProvider to get options. For example in TagHelper
-            this.AddJavaScriptOptions(new
+            // NOTE: Use IClientOptionProvider to get options. For example in TagHelper
+            this.AddClientOptions(new
             {
                 option1 = "value"
             });
 
             // Return alert with type Success
-            // NOTE: Use IJavaScriptAlertProvider to get alerts. For example in TagHelper
+            // NOTE: Use IClientAlertProvider to get alerts. For example in TagHelper
             return View()
                 .Success("Done");
         }
 
         // Permit ajax only request
-        [AjaxOnly]
+        [Ajax]
         public IActionResult JsonIndex()
         {
-            // Use JsonResult(), JsonSuccess() and JsonError()
+            // Use JsonResponse(), JsonSuccess() and JsonError()
             return this.JsonSuccess("Foo message"); // Return { 'ok': true, 'message': 'Foo message' }
         }
 
         // Redirect ajax request
         public IActionResult RedirectAjaxIndex()
         {
-            // If local redirect use LocalRedirectAjax(Url.Action("Index")) instead
-            return this.RedirectAjax("http://google.com");
+            // If local redirect use AjaxLocalRedirect(Url.Action("Index")) instead
+            return this.AjaxRedirect("http://google.com");
         }
 
         // Redirect to referrer
@@ -46,12 +48,12 @@ namespace Structr.Samples.AspNetCore.Controllers
         }
 
         // Permit ajax only request
-        [AjaxOnly]
+        [Ajax]
         public async Task<IActionResult> JsonPartialIndex()
         {
-            // Use JsonResult(), JsonSuccess() and JsonError()
+            // Use JsonResponse(), JsonSuccess() and JsonError()
             var renderedPartialView = await this.RenderPartialViewAsync("Partial", new ViewModel());
-            return this.JsonData(renderedPartialView); // Return { 'ok': true, 'data': '</>' }
+            return this.JsonResponse(ok: true, data: renderedPartialView); // Return { 'ok': true, 'data': '</>' }
         }
     }
 }

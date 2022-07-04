@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Structr.AspNetCore.JavaScript;
+using Structr.AspNetCore.Client.Options;
 using System;
 using System.Linq;
 
@@ -10,22 +10,22 @@ namespace Structr.Samples.AspNetCore.TagHelpers
     [HtmlTargetElement("options", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class OptionsTagHelper : TagHelper
     {
-        private readonly IJavaScriptOptionProvider _optionProvider;
+        private readonly IClientOptionProvider _clientOptionProvider;
 
-        public OptionsTagHelper(IJavaScriptOptionProvider optionProvider)
+        public OptionsTagHelper(IClientOptionProvider optionProvider)
         {
             if (optionProvider == null)
             {
                 throw new ArgumentNullException(nameof(optionProvider));
             }
 
-            _optionProvider = optionProvider;
+            _clientOptionProvider = optionProvider;
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            // Get options, which was added in action (this.AddJavaScriptOptions({}))
-            var options = _optionProvider.GetOptions();
+            // Get options, which was added in action (this.GetAllClientOptions({}))
+            var options = _clientOptionProvider.GetAllClientOptions();
 
             if (options.Any() == false)
             {

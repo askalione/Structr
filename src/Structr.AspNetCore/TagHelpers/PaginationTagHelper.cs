@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.Mvc;
+using Structr.AspNetCore.Http;
 using Structr.Collections;
 using System;
 using System.Collections.Generic;
@@ -10,22 +10,38 @@ using System.Linq;
 
 namespace Structr.AspNetCore.TagHelpers
 {
+    /// <summary>
+    /// A <see cref="TagHelper"/> creating array of buttons and other elements forming UI pagination controls.
+    /// </summary>
     [HtmlTargetElement("pagination", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class PaginationTagHelper : TagHelper
     {
+        /// <summary>
+        /// Options influencing appearance of UI pagination controls.
+        /// </summary>
         [HtmlAttributeName("asp-options")]
         public PaginationOptions Options { get; set; }
 
+        /// <summary>
+        /// An actual instance of <see cref="Microsoft.AspNetCore.Mvc.Rendering.ViewContext"/>.
+        /// </summary>
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
         private readonly IUrlHelper _urlHelper;
 
+        /// <summary>
+        /// Initializes an instance of <see cref="PaginationTagHelper"/>.
+        /// </summary>
+        /// <param name="urlHelper"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public PaginationTagHelper(IUrlHelper urlHelper)
         {
             if (urlHelper == null)
+            {
                 throw new ArgumentNullException(nameof(urlHelper));
+            }
 
             _urlHelper = urlHelper;
         }
@@ -238,17 +254,44 @@ namespace Structr.AspNetCore.TagHelpers
         }
     }
 
+    /// <summary>
+    /// Display mode of pagination UI controls.
+    /// </summary>
     public enum PaginationDisplayMode
     {
+        /// <summary>
+        /// Display even if control couldn't be used. For example forward button will still be
+        /// displayed even on the last page though it'll be disabled.
+        /// </summary>
         Always,
+
+        /// <summary>
+        /// Never display.
+        /// </summary>
         Never,
+
+        /// <summary>
+        /// Display only when control could be used. For example forward button will be
+        /// displayed on every page except the last one.
+        /// </summary>
         IfNeeded
     }
 
+    /// <summary>
+    /// Defines parameters influating appearance of UI pagination controls.
+    /// </summary>
     public class PaginationOptions
     {
+        /// <summary>
+        /// An instance of <see cref="IPagedList"/> to get information about pagination from.
+        /// </summary>
         public IPagedList PagedList { get; set; }
+
+        /// <summary>
+        /// Factory intended for generation of urls to different pages.
+        /// </summary>
         public Func<int, string> PageUrlGenerator { get; set; }
+
         public IEnumerable<string> ContainerCssClasses { get; set; }
         public IEnumerable<string> UlElementCssClasses { get; set; }
         public IEnumerable<string> LiElementCssClasses { get; set; }
@@ -256,23 +299,95 @@ namespace Structr.AspNetCore.TagHelpers
         public string LastListItemCssClass { get; set; }
         public string LiElementActiveCssClass { get; set; }
         public string LiElementDisabledCssClass { get; set; }
+
+        /// <summary>
+        /// Determines display mode for all pagination controls.
+        /// </summary>
         public PaginationDisplayMode Display { get; set; }
+
+        /// <summary>
+        /// Determines display mode for first-page button. Default value is <see cref="PaginationDisplayMode.IfNeeded"/>.
+        /// </summary>
         public PaginationDisplayMode DisplayLinkToFirstPage { get; set; }
+
+        /// <summary>
+        /// Determines display mode for last-page button. Default value is <see cref="PaginationDisplayMode.IfNeeded"/>.
+        /// </summary>
         public PaginationDisplayMode DisplayLinkToLastPage { get; set; }
+
+        /// <summary>
+        /// Determines display mode for previous-page button. Default value is <see cref="PaginationDisplayMode.Never"/>.
+        /// </summary>
         public PaginationDisplayMode DisplayLinkToPreviousPage { get; set; }
+
+        /// <summary>
+        /// Determines display mode for next-page button. Default value is <see cref="PaginationDisplayMode.Never"/>.
+        /// </summary>
         public PaginationDisplayMode DisplayLinkToNextPage { get; set; }
+
+        /// <summary>
+        /// Determines whenever buttons to specific pages should be displayed or not. Default value is <see langword="true"/>.
+        /// </summary>
         public bool DisplayLinkToIndividualPages { get; set; }
+
+        /// <summary>
+        /// Maximum count of buttons with page numbers to display. Default value is <с>3</с>.
+        /// </summary>
         public int? MaximumPageNumbersToDisplay { get; set; }
+
+        /// <summary>
+        /// Determines whenever to display ellipses between sets of buttons or not. Default value is <see langword="true"/>.
+        /// </summary>
         public bool DisplayEllipsesWhenNotShowingAllPageNumbers { get; set; }
+
+        /// <summary>
+        /// Format of ellipsis displayed between sets of page buttons. Default value is '<c>...</c>'
+        /// </summary>
         public string EllipsesFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to first page. Default value is '<c>««</c>'.
+        /// </summary>
         public string LinkToFirstPageFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to previous page. Default value is '<c>«</c>'.
+        /// </summary>
         public string LinkToPreviousPageFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to specific page. Default value is '<c>{0}</c>' with placeholder for number. 
+        /// </summary>
         public string LinkToIndividualPageFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to next page. Default value is '<c>»</c>'.
+        /// </summary>
         public string LinkToNextPageFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to last page. Default value is '<c>»»</c>'.
+        /// </summary>
         public string LinkToLastPageFormat { get; set; }
+
+        /// <summary>
+        /// Allows to transform output of page numbers allowing to build for example something like "First", "Second", etc.
+        /// </summary>
         public Func<int, string> FunctionToDisplayEachPageNumber { get; set; }
+
+        /// <summary>
+        /// Delimiter strings to place between page numbers.
+        /// </summary>
         public string DelimiterBetweenPageNumbers { get; set; }
+
+        /// <summary>
+        /// Method allowing to format HTML for <li> and <a> inside of paging controls, using TagBuilders.
+        /// </summary>
         public Func<TagBuilder, TagBuilder, TagBuilder> FunctionToTransformEachPageLink { get; set; }
+
+        /// <summary>
+        /// Route parameter name for page number. Default value is '<c>page</c>'.
+        /// </summary>
         public string PageNumberRouteParamName { get; set; }
 
         public PaginationOptions()
