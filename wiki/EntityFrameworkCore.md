@@ -1,6 +1,6 @@
 # EntityFrameworkCore
 
-**Structr.EntityFrameworkCore** package provides methods to easy implement auto-auditing in [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) `DbContext`, `ModelBuilder` extensions which applies the entity type default configuration and `IQueryable<T>` extensions to paginate through a list of entities.
+**Structr.EntityFrameworkCore** package provides methods to easily implement auto-auditing in [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) `DbContext`, `ModelBuilder` extensions which applies the entity type default configuration and `IQueryable<T>` extensions to paginate through a list of entities.
 
 ## Installation
 
@@ -16,16 +16,16 @@ EntityFrameworkCore package have a reference to [Structr.Domain](Domain/Domain.m
 
 ### Auto-auditing
 
-Auto-auditing - it's entity change auditing for Entity Framework Core entities. The basic process for auditing is to override the `SaveChanges()` method on the `DbContext` and plug in some logic to filling and tracking auditable properties (e.g. `DateCreated` or `CreatedBy`) automatically.
+Auto-auditing - it's entity change auditing for Entity Framework Core entities. The basic way to add auditing is to override the `SaveChanges()` method of the `DbContext` and plug in some logic for filling and tracking auditable properties (e.g. `DateCreated` or `CreatedBy`) automatically.
 
-For example, create some entity that inherits `Entity<TEntity,TKey>` class and `ISignedCreatable` interface.
+For example, create some entity that inherits `Entity<TEntity,TKey>` class and `ICreatable` interface.
 
 ```csharp
 public class Issue : Entity<Issue, int>, ICreatable
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public DateTime DateCreated { get; set; } // It's an auditable property from "ISignedCreatable".
+    public DateTime DateCreated { get; set; } // It's an auditable property from "ICreatable".
 }
 ```
 
@@ -38,9 +38,8 @@ public class DataContext : DbContext
 
     private readonly AuditTimestampProvider? _auditTimestampProvider;
 
-    public DataContext(DbContextOptions<DataContext> options, 
-        ITimestampProvider? timestampProvider = null,
-        IPrincipal? principal) : base(options)
+    public DataContext(DbContextOptions<DataContext> options, ITimestampProvider? timestampProvider = null) 
+        : base(options)
     {
         _auditTimestampProvider = timestampProvider != null ? timestampProvider.GetTimestamp : null;
     }
@@ -89,7 +88,7 @@ public class DataContext : DbContext
 | ApplyValueObjectConfiguration | Applies the default configuration for all classes inherited from the `ValueObject<TValueObject>`. |
 | ApplyAuditableConfiguration | Applies the default configuration for all classes that implement the `IAuditable`. |
 
-You can configure options when applies entity types default configurations.
+You can configure options when applying entity types default configurations.
 For example, configure PK column name for all domain entities:
 
 ```csharp
@@ -110,7 +109,7 @@ protected override void OnModelCreating(ModelBuilder builder)
 
 | Property name | Property type | Description |
 | --- | --- | --- |
-| Configure | `Action<IMutableEntityType, EntityTypeBuilder>` | Delegate for configuring Entities.. Default value is `null`. |
+| Configure | `Action<IMutableEntityType, EntityTypeBuilder>` | Delegate for configuring Entities. Default value is `null`. |
 
 Configure name strategy for all properties of value objects:
 

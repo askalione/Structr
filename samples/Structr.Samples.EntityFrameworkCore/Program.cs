@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Debug;
 using Structr.Abstractions.Extensions;
 using Structr.Abstractions.Providers;
+using Structr.Abstractions.Providers.Timestamp;
 using Structr.EntityFrameworkCore;
 using Structr.Samples.EntityFrameworkCore.DataAccess;
 using System.Collections.Generic;

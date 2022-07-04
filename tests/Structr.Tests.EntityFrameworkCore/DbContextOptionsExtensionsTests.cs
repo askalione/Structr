@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Structr.Abstractions.Providers;
+using Structr.Abstractions.Providers.Timestamp;
 using Structr.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -46,7 +46,9 @@ namespace Structr.Tests.EntityFrameworkCore
 
             // Assert
             dbContext.TimestampProvider.Should().BeOfType<LocalTimestampProvider>();
-            dbContext.Principal.Should().BeOfType<ClaimsPrincipal>();
+            dbContext.Principal.Should().BeOfType<ClaimsPrincipal>()
+                .Subject.Identity.Should().BeOfType<ClaimsIdentity>()
+                .Subject.Name.Should().Be("User-1");
         }
     }
 }

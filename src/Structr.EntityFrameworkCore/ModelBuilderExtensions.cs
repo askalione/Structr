@@ -193,7 +193,7 @@ namespace Structr.EntityFrameworkCore
             => GetEntityTypes(builder, type, null);
 
         /// <summary>
-        /// Returns entity types that implements or inherits the <paramref name="type"/>.
+        /// Returns entity types that implement or inherit the <paramref name="type"/>.
         /// </summary>
         /// <param name="builder">The <see cref="ModelBuilder"/>.</param>
         /// <param name="type">The generic or non-generic parent <see cref="Type"/>.</param>

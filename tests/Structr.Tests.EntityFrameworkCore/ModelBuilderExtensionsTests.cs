@@ -194,12 +194,14 @@ namespace Structr.Tests.EntityFrameworkCore
             );
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void GetEntityTypes_throws_when_modelBuilder_is_null(ModelBuilder modelBuilder)
+        [Fact]
+        public void GetEntityTypes_throws_when_modelBuilder_is_null()
         {
+            // Arrange
+            ModelBuilder modelBuilder = null!;
+
             // Act
-            Action act = () => modelBuilder.GetEntityTypes(null);
+            Action act = () => modelBuilder.GetEntityTypes(typeof(Entity<>));
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();

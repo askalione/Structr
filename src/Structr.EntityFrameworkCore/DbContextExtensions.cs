@@ -12,14 +12,14 @@ namespace Structr.EntityFrameworkCore
     public static class DbContextExtensions
     {
         /// <summary>
-        /// Controls operations on entities. Records who and when creates, modifies, or deletes an entity.
-        /// Records
-        /// DateCreated for <see cref="ICreatable"/>,
-        /// CreatedBy for <see cref="ISignedCreatable"/>,
-        /// DateModified for <see cref="IModifiable"/>,
-        /// ModifiedBy for <see cref="ISignedModifiable"/>,
-        /// DateDeleted for <see cref="ISoftDeletable"/>,
-        /// DeletedBy for <see cref="ISignedSoftDeletable"/> entity.
+        /// Controls operations on entities. Records who and when created, modified, or deleted an entity.
+        /// <br/>Records:
+        /// <br/>DateCreated for <see cref="ICreatable"/>,
+        /// <br/>CreatedBy for <see cref="ISignedCreatable"/>,
+        /// <br/>DateModified for <see cref="IModifiable"/>,
+        /// <br/>ModifiedBy for <see cref="ISignedModifiable"/>,
+        /// <br/>DateDeleted for <see cref="ISoftDeletable"/>,
+        /// <br/>DeletedBy for <see cref="ISignedSoftDeletable"/> entity.
         /// </summary>
         /// <param name="context">The <see cref="DbContext"/>.</param>
         /// <param name="timestampProvider">The <see cref="AuditTimestampProvider"/>.</param>
