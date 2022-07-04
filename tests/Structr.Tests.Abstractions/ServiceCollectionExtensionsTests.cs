@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Structr.Abstractions.Providers;
+using Structr.Abstractions.Providers.Timestamp;
 using System;
 using System.Collections.Generic;
 using Xunit;

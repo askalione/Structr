@@ -7,11 +7,21 @@ using System.Text.RegularExpressions;
 
 namespace Structr.AspNetCore.Rewrite
 {
+    /// <summary>
+    /// Rule performing redirect for GET requests by adding a trailing slash.
+    /// </summary>
+    /// <remarks>Example: <c>http://localhost:5001/Home/Index?search=hello => http://localhost:5001/Home/Index/?search=hello</c></remarks>
     public class RedirectToTrailingSlashRule : IRule
     {
         private readonly int _statusCode;
         private readonly Func<HttpRequest, bool> _filter;
 
+        /// <summary>
+        /// Creates an instance of <see cref="RedirectToTrailingSlashRule"/>
+        /// </summary>
+        /// <param name="filter">Function that determines if rule should be applied.</param>
+        /// <param name="statusCode">Status code to redirect with.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="filter"/> is null.</exception>
         public RedirectToTrailingSlashRule(Func<HttpRequest, bool> filter, int statusCode)
         {
             if (filter == null)
@@ -41,7 +51,7 @@ namespace Structr.AspNetCore.Rewrite
                 return;
             }
 
-            var shouldUseTrailingSlash = Regex.IsMatch(request.Path.Value, RedirectToTrailingSlashDefaults.MatchPattern);
+            var shouldUseTrailingSlash = Regex.IsMatch(request.Path.Value, RedirectDefaults.TrailingSlashMatchPattern);
 
             if (shouldUseTrailingSlash == false)
             {
