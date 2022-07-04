@@ -1,4 +1,3 @@
-using Structr.Abstractions.Providers;
 using Structr.Abstractions.Providers.Timestamp;
 using Structr.EntityFramework;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;

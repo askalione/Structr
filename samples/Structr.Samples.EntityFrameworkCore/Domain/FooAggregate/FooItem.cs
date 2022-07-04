@@ -16,7 +16,7 @@ namespace Structr.Samples.EntityFrameworkCore.Domain.FooAggregate
         public FooItem(string name) : this()
         {
             Ensure.NotEmpty(name, nameof(name));
-            
+
             var sequentialGuidProvider = new SequentialGuidProvider(Guid.NewGuid, () => DateTime.UtcNow);
             Id = sequentialGuidProvider.GetSequentialGuid();
             Name = name;
