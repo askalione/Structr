@@ -116,3 +116,23 @@ public class FooViewModel
 ```
 
 This one will validate `Foo` property to match `[A-Z][a-z]\d` expression only if `Bar` property will be `true`.
+
+## Client
+
+Use AspNetCore.Validation JavaScript files on client side with [jQuery validation plugin](https://github.com/jquery-validation/jquery-validation):
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Some HTML here -->
+    <!-- jQuery.Validation -->
+    <script src="/assets/js/jquery.validation/jquery.validate.js"></script>
+    <script src="/assets/js/jquery.validation/jquery.validate.unobtrusive.js"></script>
+    <!-- AspNetCore.Validation -->
+    <script src="/assets/js/aspnetcore.validation/aspnetcore.validation.js"></script>    
+    <script src="/assets/js/aspnetcore.validation/aspnetcore.jquery.validation.js"></script>
+    <script src="/assets/js/aspnetcore.validation/aspnetcore.validation.unobtrusive.js"></script>
+</body>
+</html>
+```

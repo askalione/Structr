@@ -120,11 +120,11 @@ public class ClientAlertsTagHelper : TagHelper
 
 Use `ClientAlertsTagHelper` in `_Layout.cshtml` to send `ClientAlert` to client side:
 
-```csharp
+```html
 <!DOCTYPE html>
 <html>
 <head>
-    /* Some HTML here */
+    <!-- Some HTML here -->
     <client-alerts/>
 </body>
 </html>
@@ -219,11 +219,11 @@ public class ClientOptionsTagHelper : TagHelper
 
 Use `ClientOptionsTagHelper` in `_Layout.cshtml` to send `ClientOption` to client side:
 
-```csharp
+```html
 <!DOCTYPE html>
 <html>
 <head>
-    /* Some HTML here */
+    <!-- Some HTML here -->
     <client-options/>
 </body>
 </html>
