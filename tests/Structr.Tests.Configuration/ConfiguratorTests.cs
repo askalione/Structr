@@ -12,46 +12,28 @@ namespace Structr.Tests.Configuration
     public class ConfiguratorTests
     {
         [Fact]
-        public void Ctor()
+        public async Task Ctor()
         {
             // Arrange
-            var serviceProvider = new ServiceCollection()
-                .AddConfiguration()
-                .AddJson<TestSettings>("Some path")
-                .Services
-                .BuildServiceProvider();
+            var provider = await TestDataManager.GetSettingsJsonProviderAsync(nameof(ConfigurationTests) + nameof(Ctor), true,
+                ("FilePath", @"""X:\\readme.txt"""));
+            var options = new ConfigurationOptions<TestSettings>(provider);
 
             // Act
-            Action act = () => new Configurator<TestSettings>(serviceProvider);
+            Action act = () => new Configurator<TestSettings>(options);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void Ctor_throws_when_serviceProvider_is_null()
+        public void Ctor_throws_when_options_are_null()
         {
             // Act
             Action act = () => new Configurator<TestSettings>(null);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void Ctor_throws_if_configuration_service_is_not_configured()
-        {
-            // Arrange
-            var serviceProvider = new ServiceCollection()
-                .AddConfiguration()
-                .Services
-                .BuildServiceProvider();
-
-            // Act
-            Action act = () => new Configurator<TestSettings>(serviceProvider);
-
-            // Assert
-            act.Should().ThrowExactly<InvalidOperationException>();
         }
 
         [Fact]

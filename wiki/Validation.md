@@ -29,8 +29,8 @@ Additionally configure `IValidationProvider` service by specifying it's type and
 
 | Property name | Property type | Description |
 | --- | --- | --- |
-| ProviderType | `Type` | Changes standard implementation of `IValidationProvider` to specified one, default is `typeof(ValidationProvider)`. | 
-| Lifetime | `ServiceLifetime` | Specifies the lifetime of an `IValidationProvider` service, default is `Scoped`. |
+| ProviderServiceType | `Type` | Changes standard implementation of `IValidationProvider` to specified one, default is `typeof(ValidationProvider)`. | 
+| ProviderServiceLifetime | `ServiceLifetime` | Specifies the lifetime of an `IValidationProvider` service, default is `Transient`. |
 
 ## Usage
 

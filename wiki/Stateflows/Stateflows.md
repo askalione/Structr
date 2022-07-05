@@ -32,8 +32,8 @@ Additionally configure `IStateMachineProvider` service by specifying it's type a
 
 | Property name | Property type | Description |
 | --- | --- | --- |
-| ProviderType | `Type` | Changes standard implementation of `IStateMachineProvider` to specified one. Default value is `typeof(StateMachineProvider)`. | 
-| ProviderServiceLifetime | `ServiceLifetime` | Specifies the lifetime of an `IStateMachineProvider` service. Default value is `Scoped`. |
+| ProviderServiceType | `Type` | Changes standard implementation of `IStateMachineProvider` to specified one. Default value is `typeof(StateMachineProvider)`. | 
+| ProviderServiceLifetime | `ServiceLifetime` | Specifies the lifetime of an `IStateMachineProvider` service. Default value is `Transient`. |
 
 ## Usage
 

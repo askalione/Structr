@@ -30,8 +30,8 @@ Additionally configure `INoticePublisher` service by specifying it's type and li
 
 | Property name | Property type | Description |
 | --- | --- | --- |
-| PublisherType | `Type` | Changes standard implementation of `INoticePublisher` to specified one. Default value is `typeof(NoticePublisher)`. | 
-| PublisherServiceLifetime | `ServiceLifetime` | Specifies the lifetime of an `INoticePublisher` service. Default value is `Scoped`. |
+| PublisherServiceType | `Type` | Changes standard implementation of `INoticePublisher` to specified one. Default value is `typeof(NoticePublisher)`. | 
+| PublisherServiceLifetime | `ServiceLifetime` | Specifies the lifetime of an `INoticePublisher` service. Default value is `Transient`. |
 
 ## Usage
 

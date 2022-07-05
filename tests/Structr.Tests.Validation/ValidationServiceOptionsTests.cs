@@ -12,8 +12,8 @@ namespace Structr.Tests.Validation
             var result = new ValidationServiceOptions();
 
             // Assert
-            result.ProviderType.Should().Be(typeof(ValidationProvider));
-            result.Lifetime.Should().Be(ServiceLifetime.Scoped);
+            result.ProviderServiceType.Should().Be(typeof(ValidationProvider));
+            result.ProviderServiceLifetime.Should().Be(ServiceLifetime.Transient);
         }
     }
 }

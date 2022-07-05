@@ -11,7 +11,7 @@ namespace Structr.Stateflows
         /// <summary>
         /// Changes standard implementation of <see cref="IStateMachineProvider"/> to specified one.
         /// </summary>
-        public Type ProviderType { get; set; }
+        public Type ProviderServiceType { get; set; }
 
         /// <summary>
         /// Specifies the lifetime of an <see cref="IStateMachineProvider"/> service.
@@ -23,8 +23,8 @@ namespace Structr.Stateflows
         /// </summary>
         public StateflowServiceOptions()
         {
-            ProviderType = typeof(StateMachineProvider);
-            ProviderServiceLifetime = ServiceLifetime.Scoped;
+            ProviderServiceType = typeof(StateMachineProvider);
+            ProviderServiceLifetime = ServiceLifetime.Transient;
         }
     }
 }

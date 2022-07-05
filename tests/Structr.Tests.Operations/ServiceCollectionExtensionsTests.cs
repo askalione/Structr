@@ -63,7 +63,7 @@ namespace Structr.Tests.Operations
             var servicesProvider = serviceCollection
                 .AddOperations(x =>
                 {
-                    x.ExecutorType = typeof(FakeExecutor);
+                    x.ExecutorServiceType = typeof(FakeExecutor);
                 }, this.GetType().Assembly)
                 .BuildServiceProvider();
 

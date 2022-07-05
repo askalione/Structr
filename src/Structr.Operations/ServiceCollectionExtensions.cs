@@ -37,7 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             configureOptions?.Invoke(options);
 
-            services.TryAdd(new ServiceDescriptor(typeof(IOperationExecutor), options.ExecutorType, options.ExecutorServiceLifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IOperationExecutor), options.ExecutorServiceType, options.ExecutorServiceLifetime));
 
             services.AddHandlerClasses(assembliesToScan);
 
