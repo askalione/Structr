@@ -107,15 +107,15 @@ namespace Structr.Tests.Configuration.Providers
                 ("FilePath", @"X:\readme.txt"));
             var path = settingsProvider.GetPath();
 
-            settingsProvider.GetSettings();
-            var firstAccessTime = File.GetLastAccessTime(path);
+            TestSettings settings1 = settingsProvider.GetSettings();
+            await TestDataManager.ReplaceFileAsync(path,
+                () => TestDataManager.GenerateXmlFileAsync(Path.GetFileNameWithoutExtension(path), ("FilePath", @"Y:\readme.txt")));
 
             // Act
-            settingsProvider.GetSettings();
+            TestSettings settings2 = settingsProvider.GetSettings();
 
             // Assert
-            var secondAccessTime = File.GetLastAccessTime(path);
-            secondAccessTime.Should().Be(firstAccessTime);
+            settings2.FilePath.Should().Be(settings1.FilePath);
         }
 
         [Fact]
@@ -126,16 +126,15 @@ namespace Structr.Tests.Configuration.Providers
                 ("FilePath", @"X:\readme.txt"));
             var path = settingsProvider.GetPath();
 
-            settingsProvider.GetSettings();
-            //var firstAccessTime = File.GetLastAccessTime(path);
+            TestSettings settings1 = settingsProvider.GetSettings();
+            await TestDataManager.ReplaceFileAsync(path,
+                () => TestDataManager.GenerateXmlFileAsync(Path.GetFileNameWithoutExtension(path), ("FilePath", @"Y:\readme.txt")));
 
-            //// Act
-            //settingsProvider.GetSettings();
+            // Act
+            TestSettings settings2 = settingsProvider.GetSettings();
 
-            //// Assert
-            //var secondAccessTime = File.GetLastAccessTime(path);
-            //secondAccessTime.Should().BeAfter(firstAccessTime);
-            true.Should().BeTrue();
+            // Assert
+            settings2.FilePath.Should().NotBe(settings1.FilePath);
         }
 
         [Fact]
