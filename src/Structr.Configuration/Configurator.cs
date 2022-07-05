@@ -3,21 +3,22 @@ using System;
 
 namespace Structr.Configuration
 {
+    /// <inheritdoc cref="IConfigurator{TSettings}"/>
     public class Configurator<TSettings> : IConfigurator<TSettings> where TSettings : class, new()
     {
         private readonly ConfigurationOptions<TSettings> _options;
 
-        public Configurator(IServiceProvider serviceProvider)
+        /// <summary>
+        /// Initializes an instance of <see cref="Configurator{TSettings}"/>.
+        /// </summary>
+        /// <param name="options">The <see cref="ConfigurationOptions{TSettings}"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="serviceProvider"/> is <see langword="null"/>.</exception>
+        /// <exception cref="InvalidOperationException">If <paramref name="serviceProvider"/> does not contain <see cref="ConfigurationOptions{TSettings}"/> service.</exception>
+        public Configurator(ConfigurationOptions<TSettings> options)
         {
-            if (serviceProvider == null)
-            {
-                throw new ArgumentNullException(nameof(serviceProvider));
-            }
-
-            var options = serviceProvider.GetService<ConfigurationOptions<TSettings>>();
             if (options == null)
             {
-                throw new InvalidOperationException($"Settings of type \"{typeof(TSettings).Name}\" not configured.");
+                throw new ArgumentNullException(nameof(options));
             }
 
             _options = options;

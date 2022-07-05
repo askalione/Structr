@@ -5,11 +5,17 @@ using System.Collections.Generic;
 
 namespace Structr.Navigation
 {
+    /// <inheritdoc cref="INavigationCache"/>
     public class NavigationCache : INavigationCache
     {
         private static readonly Type _key = typeof(NavigationCache);
         private readonly IMemoryCache _cache;
 
+        /// <summary>
+        /// Initializes an instance of <see cref="NavigationCache"/>.
+        /// </summary>
+        /// <param name="cache">The <see cref="IMemoryCache"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="cache"/> is <see langword="null"/>.</exception>
         public NavigationCache(IMemoryCache cache)
         {
             if (cache == null)

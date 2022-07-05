@@ -24,7 +24,9 @@ namespace Structr.Specifications.Internal
         protected override Expression VisitParameter(ParameterExpression p)
         {
             if (_map.TryGetValue(p, out ParameterExpression replacement))
+            {
                 p = replacement;
+            }
             return base.VisitParameter(p);
         }
     }

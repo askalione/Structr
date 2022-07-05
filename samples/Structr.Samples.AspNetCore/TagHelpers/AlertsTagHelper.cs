@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.JavaScript;
+using Structr.AspNetCore.Client.Alerts;
 using System;
 using System.Linq;
 
@@ -8,22 +8,22 @@ namespace Structr.Samples.AspNetCore.TagHelpers
     [HtmlTargetElement("alerts", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class AlertsTagHelper : TagHelper
     {
-        private readonly IJavaScriptAlertProvider _alertProvider;
+        private readonly IClientAlertProvider _clientAlertProvider;
 
-        public AlertsTagHelper(IJavaScriptAlertProvider alertProvider)
+        public AlertsTagHelper(IClientAlertProvider alertProvider)
         {
             if (alertProvider == null)
             {
                 throw new ArgumentNullException(nameof(alertProvider));
             }
 
-            _alertProvider = alertProvider;
+            _clientAlertProvider = alertProvider;
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             // Get alerts, which was added in action (View.Success("Message"))
-            var alerts = _alertProvider.GetAlerts();
+            var alerts = _clientAlertProvider.GetAllClientAlerts();
 
             if (alerts.Any() == false)
             {

@@ -1,0 +1,8 @@
+@using Structr.AspNetCore.TagHelpers
+@model FooPagedListVm
+<page-size asp-options="@(new PageSizeOptions {
+    ItemsPerPage = Model.Query.ItemsPerPage,
+    DefaultPageSize = Model.Query.PageSize,
+    AllItemsFormat = "Show all",
+    DropdownToggleCssClass = "test-dropdown-toggle-css-class"
+})"/>

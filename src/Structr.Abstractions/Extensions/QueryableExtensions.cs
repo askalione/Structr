@@ -7,25 +7,29 @@ using System.Reflection;
 
 namespace Structr.Abstractions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="IQueryable{T}"/>.
+    /// </summary>
     public static class QueryableExtensions
     {
         /// <summary>
-        /// Pagination query by skip and take variables. 
+        /// Applies pagination to <see cref="IQueryable"/> instance skipping and taking specified number of elements.
         /// </summary>
         /// <typeparam name="T">Type of queryable objects.</typeparam>
         /// <param name="query">Query.</param>
-        /// <param name="skip">Number on elements wich must be skipped. Must be greater or equal 0.</param>
+        /// <param name="skip">Number of elements which must be skipped. Must be greater or equal 0.</param>
         /// <param name="take">Number of elements which must be taken. Must be greater or equal 1.</param>
         /// <returns>
-        /// Paged query.
+        /// An <see cref="IQueryable{out T}"/> that contains specified number of elements that occur after the
+        /// specified index in the input sequence.
         /// </returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static IQueryable<T> PageBy<T>(this IQueryable<T> query, int skip, int take)
         {
             Ensure.NotNull(query, nameof(query));
-            if (skip < 0)
-                throw new ArgumentOutOfRangeException(nameof(skip), skip, "Skip must be greater or equal 0");
-            if (take < 1)
-                throw new ArgumentOutOfRangeException(nameof(take), take, "Take must be greater or equal 1");
+            Ensure.GreaterThan(skip, 0, nameof(skip));
+            Ensure.GreaterThan(take, 1, nameof(take));
 
             return query
                 .Skip(skip)
@@ -33,26 +37,30 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Sort query by dictionary of properties names.
+        /// Sorts the elements of a sequence in order and by properties provided via dictionary.
         /// </summary>
-        /// <typeparam name="T">Type of queryable objects.</typeparam>
-        /// <param name="query">Query.</param>
-        /// <param name="sort">Dictionary of properties names and ascending sort flags.</param>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="query">A sequence of values to order.</param>
+        /// <param name="sort">Dictionary with property names and correspounding orders to sort by.</param>
         /// <returns>
-        /// Ordered query (IOrderedQueryable).
+        /// Sorted <see cref="IQueryable{out T}"/>.
         /// </returns>
-        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, IReadOnlyDictionary<string, Order> sort)
+        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, IReadOnlyDictionary<string, SortOrder> sort)
         {
             Ensure.NotNull(query, nameof(query));
             Ensure.NotNull(sort, nameof(sort));
 
             if (sort.Count == 0)
+            {
                 return (IOrderedQueryable<T>)query;
+            }
 
             foreach (string propertyName in sort.Keys)
             {
                 if (string.IsNullOrWhiteSpace(propertyName))
+                {
                     throw new InvalidOperationException("Invalid property name to sort");
+                }
 
                 query = propertyName == sort.Keys.First()
                     ? query.OrderBy(propertyName, sort[propertyName])
@@ -63,28 +71,26 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Sort query by specified property name and ascending flag.
+        /// Sorts the elements of a sequence by specified property name and order.
         /// </summary>
-        /// <typeparam name="T">Type of queryable objects.</typeparam>
-        /// <param name="query">Query.</param>
-        /// <param name="propertyName">Name of property for sorting.</param>
-        /// <param name="ascending">Ascending flag.</param>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="query">A sequence of values to order.</param>
+        /// <param name="order">Ascending flag.</param>
         /// <returns>
-        /// Ordered query (IOrderedQueryable).
+        /// Sorted <see cref="IQueryable{out T}"/>.
         /// </returns>
-        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, string propertyName, Order order)
+        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, string propertyName, SortOrder order)
         {
-            return Order(query, propertyName, order == Abstractions.Order.Asc ? OrderMethod.OrderBy : OrderMethod.OrderByDescending);
+            return Order(query, propertyName, order == Abstractions.SortOrder.Asc ? OrderMethod.OrderBy : OrderMethod.OrderByDescending);
         }
 
         /// <summary>
-        /// Ascending sort query by specified property name.
+        /// Sorts the elements of a sequence by specified property name.
         /// </summary>
-        /// <typeparam name="T">Type of queryable objects.</typeparam>
-        /// <param name="query">Query.</param>
-        /// <param name="propertyName">Name of property for sorting.</param>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="query">A sequence of values to order.</param>
         /// <returns>
-        /// Ordered query (IOrderedQueryable).
+        /// Sorted <see cref="IQueryable{out T}"/>.
         /// </returns>
         public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, string propertyName)
         {
@@ -92,13 +98,12 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Descending sort query by specified property name.
+        /// Sorts the elements of a sequence in descending order by specified property name.
         /// </summary>
-        /// <typeparam name="T">Type of queryable objects.</typeparam>
-        /// <param name="query">Query.</param>
-        /// <param name="propertyName">Name of property for sorting.</param>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="query">A sequence of values to order.</param>
         /// <returns>
-        /// Ordered query (IOrderedQueryable).
+        /// Sorted <see cref="IQueryable{out T}"/>.
         /// </returns>
         public static IOrderedQueryable<T> OrderByDescending<T>(this IQueryable<T> query, string propertyName)
         {
@@ -106,28 +111,26 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Subsequent sort query by specified property name and ascending flag.
+        /// Performs a subsequent ordering of the elements in a sequence by specified property name and order.
         /// </summary>
-        /// <typeparam name="T">Type of queryable objects.</typeparam>
-        /// <param name="query">Query.</param>
-        /// <param name="propertyName">Name of property for sorting.</param>
-        /// <param name="ascending">Ascending flag.</param>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="query">A sequence of values to order.</param>
+        /// <param name="order">Ascending flag.</param>
         /// <returns>
-        /// Ordered query (IOrderedQueryable).
+        /// Sorted <see cref="IQueryable{out T}"/>.
         /// </returns>
-        public static IOrderedQueryable<T> ThenBy<T>(this IQueryable<T> query, string propertyName, Order order)
+        public static IOrderedQueryable<T> ThenBy<T>(this IQueryable<T> query, string propertyName, SortOrder order)
         {
-            return Order(query, propertyName, order == Abstractions.Order.Asc ? OrderMethod.ThenBy : OrderMethod.ThenByDescending);
+            return Order(query, propertyName, order == Abstractions.SortOrder.Asc ? OrderMethod.ThenBy : OrderMethod.ThenByDescending);
         }
 
         /// <summary>
-        /// Subsequent ascending sort query by specified property name.
+        /// Performs a subsequent ordering of the elements in a sequence by specified property name.
         /// </summary>
-        /// <typeparam name="T">Type of queryable objects.</typeparam>
-        /// <param name="query">Query.</param>
-        /// <param name="propertyName">Name of property for sorting.</param>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="query">A sequence of values to order.</param>
         /// <returns>
-        /// Ordered query (IOrderedQueryable).
+        /// Sorted <see cref="IQueryable{out T}"/>.
         /// </returns>
         public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> query, string propertyName)
         {
@@ -135,13 +138,12 @@ namespace Structr.Abstractions.Extensions
         }
 
         /// <summary>
-        /// Subsequent descending sort query by specified property name.
+        /// Performs a subsequent ordering of the elements in a sequence in descending order by specified property name.
         /// </summary>
-        /// <typeparam name="T">Type of queryable objects.</typeparam>
-        /// <param name="query">Query.</param>
-        /// <param name="propertyName">Name of property for sorting.</param>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="query">A sequence of values to order.</param>
         /// <returns>
-        /// Ordered query (IOrderedQueryable).
+        /// Sorted <see cref="IQueryable{out T}"/>.
         /// </returns>
         public static IOrderedQueryable<T> ThenByDescending<T>(this IOrderedQueryable<T> query, string propertyName)
         {
@@ -156,10 +158,10 @@ namespace Structr.Abstractions.Extensions
         /// <param name="propertyName">Name of property.</param>
         /// <param name="method">Flag of order method.</param>
         /// <returns>
-        /// Ordered queryable object (IOrderedQueryable).
+        /// Sorted <see cref="IQueryable{out T}"/>.
         /// </returns>
         /// <remarks>
-        /// Use reflection (not ComponentModel) to mirror LINQ.
+        /// Using reflection (not ComponentModel) to mirror LINQ.
         /// </remarks>
         private static IOrderedQueryable<T> Order<T>(IQueryable<T> query, string propertyName, OrderMethod method)
         {
@@ -181,13 +183,22 @@ namespace Structr.Abstractions.Extensions
             Type delegateType = typeof(Func<,>).MakeGenericType(typeof(T), type);
             LambdaExpression lambda = Expression.Lambda(delegateType, expression, arg);
 
-            object result = typeof(Queryable).GetMethods().Single(
-                    m => m.Name == method.ToString()
-                            && m.IsGenericMethodDefinition
-                            && m.GetGenericArguments().Length == 2
-                            && m.GetParameters().Length == 2)
-                    .MakeGenericMethod(typeof(T), type)
-                    .Invoke(null, new object[] { query, lambda });
+            // TODO: make same as in EnumerableExtensions with more presice properties checking
+            MethodInfo orderingMethod = typeof(Queryable)
+                .GetMethods()
+                .SingleOrDefault(m
+                    => m.Name == method.ToString()
+                    && m.IsGenericMethodDefinition
+                    && m.GetGenericArguments().Length == 2
+                    && m.GetParameters().Length == 2)?
+                .MakeGenericMethod(typeof(T), type);
+
+            if (orderingMethod == null)
+            {
+                throw new InvalidOperationException($"Ordering method \"{method}\" not found.");
+            }
+
+            object result = orderingMethod.Invoke(null, new object[] { query, lambda });
 
             return (IOrderedQueryable<T>)result;
         }

@@ -7,11 +7,21 @@ using System.Linq;
 
 namespace Structr.AspNetCore.Rewrite
 {
+    /// <summary>
+    /// Rule performing redirect for GET requests to lower case url in case any upper characters are present.
+    /// </summary>
+    /// <remarks>Example: <c>http://localhost:5001/Home/Index => http://localhost:5001/home/index</c></remarks>
     public class RedirectToLowercaseRule : IRule
     {
         private readonly int _statusCode;
         private readonly Func<HttpRequest, bool> _filter;
 
+        /// <summary>
+        /// Creates an instance of <see cref="RedirectToLowercaseRule"/>
+        /// </summary>
+        /// <param name="filter">Function that determines if rule should be applied.</param>
+        /// <param name="statusCode">Status code to redirect with.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="filter"/> is null.</exception>
         public RedirectToLowercaseRule(Func<HttpRequest, bool> filter, int statusCode)
         {
             if (filter == null)

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Structr.AspNetCore.Mvc;
+using Structr.AspNetCore.Http;
 using Structr.Collections;
 using System;
 using System.Collections.Generic;
@@ -10,22 +10,38 @@ using System.Linq;
 
 namespace Structr.AspNetCore.TagHelpers
 {
+    /// <summary>
+    /// A <see cref="TagHelper"/> creating array of buttons and other elements forming UI pagination controls.
+    /// </summary>
     [HtmlTargetElement("pagination", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class PaginationTagHelper : TagHelper
     {
+        /// <summary>
+        /// Options influencing appearance of UI pagination controls.
+        /// </summary>
         [HtmlAttributeName("asp-options")]
         public PaginationOptions Options { get; set; }
 
+        /// <summary>
+        /// An actual instance of <see cref="Microsoft.AspNetCore.Mvc.Rendering.ViewContext"/>.
+        /// </summary>
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
         private readonly IUrlHelper _urlHelper;
 
+        /// <summary>
+        /// Initializes an instance of <see cref="PaginationTagHelper"/>.
+        /// </summary>
+        /// <param name="urlHelper"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public PaginationTagHelper(IUrlHelper urlHelper)
         {
             if (urlHelper == null)
+            {
                 throw new ArgumentNullException(nameof(urlHelper));
+            }
 
             _urlHelper = urlHelper;
         }
@@ -37,7 +53,7 @@ namespace Structr.AspNetCore.TagHelpers
                 Options = new PaginationOptions();
             }
 
-            var pagedList = Options.PagedList;
+            var pagedList = Options.PagedEnumerable;
 
             if (pagedList == null)
             {
@@ -160,34 +176,38 @@ namespace Structr.AspNetCore.TagHelpers
             return li;
         }
 
-        public static TagBuilder First(IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder First(IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
             const int targetPageNumber = 1;
             var first = new TagBuilder("a");
             first.InnerHtml.Append(string.Format(options.LinkToFirstPageFormat, targetPageNumber));
 
-            if (pageData.IsFirstPage)
+            if (pagedEnumerable.IsFirstPage)
+            {
                 return WrapInListItem(first, options, "pagination-first", options.LiElementDisabledCssClass);
+            }
 
             first.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(first, options, "pagination-first");
         }
 
-        public static TagBuilder Previous(IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder Previous(IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
-            var targetPageNumber = pageData.PageNumber - 1;
+            var targetPageNumber = pagedEnumerable.PageNumber - 1;
             var previous = new TagBuilder("a");
             previous.InnerHtml.Append(string.Format(options.LinkToPreviousPageFormat, targetPageNumber));
             previous.Attributes["rel"] = "prev";
 
-            if (!pageData.HasPreviousPage)
+            if (pagedEnumerable.HasPreviousPage == false)
+            {
                 return WrapInListItem(previous, options, "pagination-previous", options.LiElementDisabledCssClass);
+            }
 
             previous.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(previous, options, "pagination-previous");
         }
 
-        public static TagBuilder Page(int i, IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder Page(int i, IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
             var format = options.FunctionToDisplayEachPageNumber
                 ?? (pageNumber => string.Format(options.LinkToIndividualPageFormat, pageNumber));
@@ -195,35 +215,41 @@ namespace Structr.AspNetCore.TagHelpers
             var page = new TagBuilder("a");
             page.InnerHtml.Append(format(targetPageNumber));
 
-            if (i == pageData.PageNumber)
+            if (i == pagedEnumerable.PageNumber)
+            {
                 return WrapInListItem(page, options, options.LiElementActiveCssClass);
+            }
 
             page.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(page, options);
         }
 
-        public static TagBuilder Next(IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder Next(IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
-            var targetPageNumber = pageData.PageNumber + 1;
+            var targetPageNumber = pagedEnumerable.PageNumber + 1;
             var next = new TagBuilder("a");
             next.InnerHtml.Append(string.Format(options.LinkToNextPageFormat, targetPageNumber));
             next.Attributes["rel"] = "next";
 
-            if (!pageData.HasNextPage)
+            if (pagedEnumerable.HasNextPage == false)
+            {
                 return WrapInListItem(next, options, "pagination-next", options.LiElementDisabledCssClass);
+            }
 
             next.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(next, options, "pagination-next");
         }
 
-        public static TagBuilder Last(IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder Last(IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
-            var targetPageNumber = pageData.TotalPages;
+            var targetPageNumber = pagedEnumerable.TotalPages;
             var last = new TagBuilder("a");
             last.InnerHtml.Append(string.Format(options.LinkToLastPageFormat, targetPageNumber));
 
-            if (pageData.IsLastPage)
+            if (pagedEnumerable.IsLastPage)
+            {
                 return WrapInListItem(last, options, "pagination-last", options.LiElementDisabledCssClass);
+            }
 
             last.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(last, options, "pagination-last");
@@ -238,17 +264,44 @@ namespace Structr.AspNetCore.TagHelpers
         }
     }
 
+    /// <summary>
+    /// Display mode of pagination UI controls.
+    /// </summary>
     public enum PaginationDisplayMode
     {
+        /// <summary>
+        /// Display even if control couldn't be used. For example forward button will still be
+        /// displayed even on the last page though it'll be disabled.
+        /// </summary>
         Always,
+
+        /// <summary>
+        /// Never display.
+        /// </summary>
         Never,
+
+        /// <summary>
+        /// Display only when control could be used. For example forward button will be
+        /// displayed on every page except the last one.
+        /// </summary>
         IfNeeded
     }
 
+    /// <summary>
+    /// Defines parameters influating appearance of UI pagination controls.
+    /// </summary>
     public class PaginationOptions
     {
-        public IPagedList PagedList { get; set; }
+        /// <summary>
+        /// An instance of <see cref="IPagedList"/> to get information about pagination from.
+        /// </summary>
+        public IPagedEnumerable PagedEnumerable { get; set; }
+
+        /// <summary>
+        /// Factory intended for generation of urls to different pages.
+        /// </summary>
         public Func<int, string> PageUrlGenerator { get; set; }
+
         public IEnumerable<string> ContainerCssClasses { get; set; }
         public IEnumerable<string> UlElementCssClasses { get; set; }
         public IEnumerable<string> LiElementCssClasses { get; set; }
@@ -256,23 +309,95 @@ namespace Structr.AspNetCore.TagHelpers
         public string LastListItemCssClass { get; set; }
         public string LiElementActiveCssClass { get; set; }
         public string LiElementDisabledCssClass { get; set; }
+
+        /// <summary>
+        /// Determines display mode for all pagination controls.
+        /// </summary>
         public PaginationDisplayMode Display { get; set; }
+
+        /// <summary>
+        /// Determines display mode for first-page button. Default value is <see cref="PaginationDisplayMode.IfNeeded"/>.
+        /// </summary>
         public PaginationDisplayMode DisplayLinkToFirstPage { get; set; }
+
+        /// <summary>
+        /// Determines display mode for last-page button. Default value is <see cref="PaginationDisplayMode.IfNeeded"/>.
+        /// </summary>
         public PaginationDisplayMode DisplayLinkToLastPage { get; set; }
+
+        /// <summary>
+        /// Determines display mode for previous-page button. Default value is <see cref="PaginationDisplayMode.Never"/>.
+        /// </summary>
         public PaginationDisplayMode DisplayLinkToPreviousPage { get; set; }
+
+        /// <summary>
+        /// Determines display mode for next-page button. Default value is <see cref="PaginationDisplayMode.Never"/>.
+        /// </summary>
         public PaginationDisplayMode DisplayLinkToNextPage { get; set; }
+
+        /// <summary>
+        /// Determines whenever buttons to specific pages should be displayed or not. Default value is <see langword="true"/>.
+        /// </summary>
         public bool DisplayLinkToIndividualPages { get; set; }
+
+        /// <summary>
+        /// Maximum count of buttons with page numbers to display. Default value is <с>3</с>.
+        /// </summary>
         public int? MaximumPageNumbersToDisplay { get; set; }
+
+        /// <summary>
+        /// Determines whenever to display ellipses between sets of buttons or not. Default value is <see langword="true"/>.
+        /// </summary>
         public bool DisplayEllipsesWhenNotShowingAllPageNumbers { get; set; }
+
+        /// <summary>
+        /// Format of ellipsis displayed between sets of page buttons. Default value is '<c>...</c>'
+        /// </summary>
         public string EllipsesFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to first page. Default value is '<c>««</c>'.
+        /// </summary>
         public string LinkToFirstPageFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to previous page. Default value is '<c>«</c>'.
+        /// </summary>
         public string LinkToPreviousPageFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to specific page. Default value is '<c>{0}</c>' with placeholder for number. 
+        /// </summary>
         public string LinkToIndividualPageFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to next page. Default value is '<c>»</c>'.
+        /// </summary>
         public string LinkToNextPageFormat { get; set; }
+
+        /// <summary>
+        /// Format of button redirecting to last page. Default value is '<c>»»</c>'.
+        /// </summary>
         public string LinkToLastPageFormat { get; set; }
+
+        /// <summary>
+        /// Allows to transform output of page numbers allowing to build for example something like "First", "Second", etc.
+        /// </summary>
         public Func<int, string> FunctionToDisplayEachPageNumber { get; set; }
+
+        /// <summary>
+        /// Delimiter strings to place between page numbers.
+        /// </summary>
         public string DelimiterBetweenPageNumbers { get; set; }
+
+        /// <summary>
+        /// Method allowing to format HTML for <li> and <a> inside of paging controls, using TagBuilders.
+        /// </summary>
         public Func<TagBuilder, TagBuilder, TagBuilder> FunctionToTransformEachPageLink { get; set; }
+
+        /// <summary>
+        /// Route parameter name for page number. Default value is '<c>page</c>'.
+        /// </summary>
         public string PageNumberRouteParamName { get; set; }
 
         public PaginationOptions()

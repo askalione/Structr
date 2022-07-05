@@ -10,9 +10,9 @@
     <Copyright>Copyright 2019 Alexey Drapash</Copyright>
     <RepositoryUrl>https://github.com/askalione/Structr</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>http://src.creacode.ru/structr</PackageProjectUrl>
+    <PackageProjectUrl>https://structr.dev</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>      
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>      
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <None Include="..\..\assets\logo\logo_128x128.png" Pack="true" Visible="false" PackagePath="icon.png" />
-    <None Include="..\..\LICENSE.txt" Pack="true" Visible="false" PackagePath="LICENSE.txt" />
+    <None Include="..\..\LICENSE" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
 </Project>

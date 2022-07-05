@@ -1,4 +1,4 @@
-using Structr.Abstractions.Providers;
+using Structr.Abstractions.Providers.Timestamp;
 using Structr.EntityFramework;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
 using System.Data.Entity;
@@ -20,6 +20,9 @@ namespace Structr.Samples.EntityFramework.DataAccess
         public AuditTimestampProvider AuditTimestampProvider => _timestampProvider != null
             ? _timestampProvider.GetTimestamp
             : null;
+        public AuditSignProvider AuditSignProvider => _principal != null
+                ? () => _principal.Identity.Name
+                : null;
 
         public DataContext(string nameOrConnectionString, ITimestampProvider timestampProvider, IPrincipal principal)
             : base(nameOrConnectionString)
@@ -34,7 +37,14 @@ namespace Structr.Samples.EntityFramework.DataAccess
 
         protected override void OnModelCreating(DbModelBuilder builder)
         {
-            builder.ApplyEntityConfiguration();
+            builder.ApplyEntityConfiguration(options =>
+            {
+                options.Configure = (typeConfiguration) =>
+                {
+                    typeConfiguration.Property("Id")
+                        .HasColumnName($"{typeConfiguration.ClrType.Name}ID");
+                };
+            });
             builder.ApplyValueObjectConfiguration(options =>
             {
                 options.Configure = (typeConfiguration) =>
@@ -45,7 +55,11 @@ namespace Structr.Samples.EntityFramework.DataAccess
                     }
                 };
             });
-            builder.ApplyAuditableConfiguration();
+            builder.ApplyAuditableConfiguration(options =>
+            {
+                options.SignedColumnIsRequired = true;
+                options.SignedColumnMaxLength = 100;
+            });
 
             builder.Conventions.Remove<PluralizingTableNameConvention>();
             builder.Conventions.Remove<PluralizingEntitySetNameConvention>();
@@ -57,13 +71,13 @@ namespace Structr.Samples.EntityFramework.DataAccess
 
         public override int SaveChanges()
         {
-            this.Audit(AuditTimestampProvider, _principal);
+            this.Audit(AuditTimestampProvider, AuditSignProvider);
             return base.SaveChanges();
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
-            this.Audit(AuditTimestampProvider, _principal);
+            this.Audit(AuditTimestampProvider, AuditSignProvider);
             return base.SaveChangesAsync(cancellationToken);
         }
     }

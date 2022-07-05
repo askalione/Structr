@@ -3,15 +3,28 @@ using System;
 
 namespace Structr.Stateflows
 {
+    /// <summary>
+    /// Allows to configure stateflow service.
+    /// </summary>
     public class StateflowServiceOptions
     {
-        public Type ProviderType { get; set; }
-        public ServiceLifetime ProviderTypeServiceLifetime { get; set; }
+        /// <summary>
+        /// Changes standard implementation of <see cref="IStateMachineProvider"/> to specified one.
+        /// </summary>
+        public Type ProviderServiceType { get; set; }
 
+        /// <summary>
+        /// Specifies the lifetime of an <see cref="IStateMachineProvider"/> service.
+        /// </summary>
+        public ServiceLifetime ProviderServiceLifetime { get; set; }
+
+        /// <summary>
+        /// Creates an instance of <see cref="StateflowServiceOptions"/> with the default values.
+        /// </summary>
         public StateflowServiceOptions()
         {
-            ProviderType = typeof(StateMachineProvider);
-            ProviderTypeServiceLifetime = ServiceLifetime.Scoped;
+            ProviderServiceType = typeof(StateMachineProvider);
+            ProviderServiceLifetime = ServiceLifetime.Transient;
         }
     }
 }
