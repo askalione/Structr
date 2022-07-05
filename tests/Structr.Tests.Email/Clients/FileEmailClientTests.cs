@@ -17,10 +17,10 @@ namespace Structr.Tests.Email.Clients
         public void Ctor()
         {
             // Act
-            var result = new FileEmailClient(TestDataPath.ContentRootPath);
+            Action act = () => new FileEmailClient(TestDataPath.ContentRootPath);
 
             // Assert
-            result.Should().NotBeNull();
+            act.Should().NotThrow();
         }
 
         [Theory]
@@ -45,10 +45,9 @@ namespace Structr.Tests.Email.Clients
             emailData.From = new EmailAddress("tatyana@larina.name");
 
             // Act
-            Func<Task> act = () => fileEmailClient.SendAsync(emailData, "I write this to you - what more can be said?", default(CancellationToken));
+            await fileEmailClient.SendAsync(emailData, "I write this to you - what more can be said?", default(CancellationToken));
 
             // Assert
-            await act.Should().NotThrowAsync();
             Directory.EnumerateFiles(_tempDirPath).Should().ContainSingle();
         }
 

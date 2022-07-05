@@ -75,11 +75,25 @@ namespace Structr.Tests.Email
             var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
 
             // Act
+            await emailSender.SendEmailAsync(emailMessage, default(CancellationToken));
+
+            // Assert
+            GetResultFromFile().Should()
+                .StartWith(string.Join(Environment.NewLine, $"From: {_from}", $"To: {_to}", $"Subject: {_subject}", "", _message));
+        }
+
+        [Fact]
+        public async Task SendEmailAsync_with_emailMessage_throws_when_email_is_null()
+        {
+            // Arrange
+            EmailMessage emailMessage = null!;
+            var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
+
+            // Act
             Func<Task> act = () => emailSender.SendEmailAsync(emailMessage, default(CancellationToken));
 
             // Assert
-            await act.Should().NotThrowAsync();
-            FileShouldBeValid();
+            await act.Should().ThrowExactlyAsync<ArgumentException>();
         }
 
         [Fact]
@@ -92,11 +106,56 @@ namespace Structr.Tests.Email
             var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
 
             // Act
+            await emailSender.SendEmailAsync(emailTemplateMessage, default(CancellationToken));
+
+            // Assert
+            GetResultFromFile().Should()
+                .StartWith(string.Join(Environment.NewLine, $"From: {_from}", $"To: {_to}", $"Subject: {_subject}", "", _message));
+        }
+
+        [Fact]
+        public async Task SendEmailAsync_with_emailTemplateMessage_throws_when_email_is_null()
+        {
+            // Arrange
+            EmailTemplateMessage emailTemplateMessage = null!;
+            var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
+
+            // Act
             Func<Task> act = () => emailSender.SendEmailAsync(emailTemplateMessage, default(CancellationToken));
 
             // Assert
-            await act.Should().NotThrowAsync();
-            FileShouldBeValid();
+            await act.Should().ThrowExactlyAsync<ArgumentException>();
+        }
+
+        [Fact]
+        public async Task SendEmailAsync_generic_with_emailTemplateMessage()
+        {
+            // Arrange
+            var emailTemplateMessage = new CustomEmailTemplateMessage(_to, new CustomModel());
+            emailTemplateMessage.Subject = _subject;
+
+            var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
+
+            // Act
+            await emailSender.SendEmailAsync(emailTemplateMessage, default(CancellationToken));
+
+            // Assert
+            GetResultFromFile().Should()
+                .Be(string.Join(Environment.NewLine, $"From: {_from}", $"To: {_to}", $"Subject: {_subject}", "", "Letter of Tatyana to Onegin."));
+        }
+
+        [Fact]
+        public async Task SendEmailAsync_generic_with_emailTemplateMessage_throws_when_email_is_null()
+        {
+            // Arrange
+            CustomEmailTemplateMessage emailTemplateMessage = null!;
+            var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
+
+            // Act
+            Func<Task> act = () => emailSender.SendEmailAsync(emailTemplateMessage, default(CancellationToken));
+
+            // Assert
+            await act.Should().ThrowExactlyAsync<ArgumentException>();
         }
 
         [Fact]
@@ -109,18 +168,16 @@ namespace Structr.Tests.Email
             var emailSender = new EmailSender(new EmailOptions(new EmailAddress(_from)), _emailClient);
 
             // Act
-            Func<Task> act = () => emailSender.SendEmailAsync(emailTemplateFileMessage, default(CancellationToken));
+            await emailSender.SendEmailAsync(emailTemplateFileMessage, default(CancellationToken));
 
-            // Assert
-            await act.Should().NotThrowAsync();
-            FileShouldBeValid();
+            // Assert            
+            GetResultFromFile().Should()
+                .StartWith(string.Join(Environment.NewLine, $"From: {_from}", $"To: {_to}", $"Subject: {_subject}", "", _message));
         }
 
-        private void FileShouldBeValid()
+        private string GetResultFromFile()
         {
-            string filePath = Directory.EnumerateFiles(_tempDirPath).Single();
-            string content = File.ReadAllText(filePath);
-            content.Should().StartWith(string.Join(Environment.NewLine, $"From: {_from}", $"To: {_to}", $"Subject: {_subject}", "", _message));
+            return File.ReadAllText(Directory.EnumerateFiles(_tempDirPath).Single());
         }
 
         public void Dispose()

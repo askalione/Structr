@@ -18,12 +18,11 @@ namespace Structr.Tests.Email
             result.To.Should().BeEquivalentTo(address);
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void Ctor_throws_when_addresses_is_null(EmailAddress address)
+        [Fact]
+        public void Ctor_throws_when_addresses_is_null()
         {
             // Act
-            Action act = () => new CustomEmailData(address);
+            Action act = () => new CustomEmailData(null!);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();

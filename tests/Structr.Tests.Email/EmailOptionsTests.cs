@@ -18,12 +18,11 @@ namespace Structr.Tests.Email
             result.TemplateRootPath.Should().BeNull();
         }
 
-        [Theory]
-        [InlineData(null)]
-        public void Ctor_throws_when_from_is_null(EmailAddress from)
+        [Fact]
+        public void Ctor_throws_when_from_is_null()
         {
             // Act
-            Action act = () => new EmailOptions(from);
+            Action act = () => new EmailOptions(null!);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>();
