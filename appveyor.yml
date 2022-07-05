@@ -11,9 +11,17 @@ skip_commits:
   - CODE_OF_CONDUCT.md
   - CONTRIBUTING.md
 image: Visual Studio 2022
+artifacts:
+- path: build\artifacts\*.nupkg
+- path: build\artifacts\*.snupkg
 before_build:
 - choco install opencover.portable
 - choco install codecov
+build_script:
+- ps: >-
+          cd build
+
+          .\build.ps1
 test_script:
-- OpenCover.Console.exe -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:test -register:user -filter:"+[Structr*]* -[Structr*]Internal.* -[Structr.SqlServer]* -[Structr.EntityFramework]* -[Structr.Tests*]* -[Structr.Samples*]*" -output:".\coverage.xml" -oldstyle
+- OpenCover.Console.exe -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:test -register:user -filter:"+[Structr*]* -[Structr*]*.Internal -[Structr.SqlServer]* -[Structr.EntityFramework]* -[Structr.Tests*]* -[Structr.Samples*]*" -output:".\coverage.xml" -oldstyle
 - codecov -f "coverage.xml
