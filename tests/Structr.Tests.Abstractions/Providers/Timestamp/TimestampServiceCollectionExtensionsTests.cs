@@ -32,7 +32,5 @@ namespace Structr.Tests.Abstractions.Providers.Timestamp
             serviceProvider.GetService<ITimestampProvider>()
                 .Should().BeOfType<UtcTimestampProvider>();
         }
-
-
     }
 }

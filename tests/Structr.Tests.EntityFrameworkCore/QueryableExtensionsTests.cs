@@ -4,7 +4,6 @@ using Structr.Collections;
 using Structr.Domain;
 using Structr.EntityFrameworkCore;
 
-
 namespace Structr.Tests.EntityFrameworkCore
 {
     public class QueryableExtensionsTests

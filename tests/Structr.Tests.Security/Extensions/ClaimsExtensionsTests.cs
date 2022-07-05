@@ -58,7 +58,6 @@ namespace Structr.Tests.Security.Extensions
             act.Should().Throw<ArgumentNullException>().WithMessage("*type*");
         }
 
-
         [Theory]
         [InlineData("Type_2", "Value_21")]
         [InlineData("tYPE_2", "Value_21")]

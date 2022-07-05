@@ -109,7 +109,6 @@ namespace Structr.AspNetCore.Json
             Data = data;
         }
 
-
         /// <summary>
         /// Creates an instance of <see cref="JsonResponse"/> with specified error messages.
         /// </summary>

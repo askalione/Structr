@@ -44,6 +44,5 @@ namespace Structr.AspNetCore.JavaScript
         /// <returns>An instace of <see cref="RedirectResult"/>.</returns>
         public static AjaxRedirectResult AjaxRedirect(this Controller controller, string url)
             => new AjaxRedirectResult(url);
-
     }
 }

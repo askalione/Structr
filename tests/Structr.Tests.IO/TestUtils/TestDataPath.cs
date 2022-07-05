@@ -16,7 +16,5 @@ namespace Structr.Tests.IO.TestUtils
 
         public static string Combine(string fileName)
             => System.IO.Path.Combine(ContentRootPath, fileName);
-
-
     }
 }

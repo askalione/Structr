@@ -52,7 +52,6 @@ namespace Structr.Tests.EntityFrameworkCore
             }
         }
 
-
         [Fact]
         public void UseLoggerProvider()
         {

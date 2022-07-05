@@ -41,7 +41,5 @@ namespace Structr.Tests.Security
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage("*passphrase*");
         }
-
-
     }
 }

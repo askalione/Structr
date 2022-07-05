@@ -59,7 +59,6 @@ namespace Structr.Abstractions.Extensions
             dictionary.ForEach(x => source.Add(x.Key, x.Value));
         }
 
-
         /// <summary>
         /// Checks if at least one key from provided list exists in source dictionary.
         /// </summary>

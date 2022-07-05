@@ -77,7 +77,6 @@ namespace Structr.AspNetCore.Mvc
             else
             {
                 return viewEngine.FindView(controller.ControllerContext, viewName, !isPartial);
-
             }
         }
     }

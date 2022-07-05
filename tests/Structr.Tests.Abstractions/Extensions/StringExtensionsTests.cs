@@ -79,7 +79,7 @@ namespace Structr.Tests.Abstractions.Extensions
         }
 
         [Theory]
-        [InlineData("123,45", typeof(float), 123.45F)]
+        [InlineData("123", typeof(int), 123)]
         [InlineData("Foo", typeof(FooBarBaz), FooBarBaz.Foo)]
         [InlineData("Bar", typeof(FooBarBaz?), FooBarBaz.Bar)]
         [InlineData("", typeof(int?), null)]
@@ -96,18 +96,18 @@ namespace Structr.Tests.Abstractions.Extensions
         public void Cast_with_generic_parameter()
         {
             // Act
-            var result = "123,45".Cast<float>(true);
+            var result = "123".Cast<int>(true);
 
             // Assert
-            result.Should().Be(123.45F);
+            result.Should().Be(123);
         }
 
         [Fact]
         public void Cast_throws_if_asked_when_cast_fails()
         {
             // Arrange
-            var value = "123.45";
-            var type = typeof(int);
+            var value = "123";
+            var type = typeof(bool);
 
             // Act
             Action act = () => value.Cast(type, true);
@@ -121,8 +121,8 @@ namespace Structr.Tests.Abstractions.Extensions
         public void Cast_doesnt_throw_if_not_asked_and_returns_null()
         {
             // Arrange
-            var value = "123.45";
-            var type = typeof(int);
+            var value = "123";
+            var type = typeof(bool);
 
             // Act
             var result = value.Cast(type);

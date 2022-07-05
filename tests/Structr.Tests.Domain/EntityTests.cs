@@ -108,7 +108,6 @@ namespace Structr.Tests.Domain
                 Add(user1, user1, true);
                 Add(user1, user2, false);
                 Add(user1, role, false);
-
             }
         }
 

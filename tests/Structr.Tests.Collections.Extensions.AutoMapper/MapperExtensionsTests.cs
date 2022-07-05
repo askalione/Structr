@@ -70,7 +70,7 @@ namespace Structr.Tests.Collections.Extensions.AutoMapper
             {
                  new FooDto { Id = 1, Name = "Bar"},
                  new FooDto { Id = 2, Name = "Baz"}
-            }.ToPagedList(10, 3, 2); ;
+            }.ToPagedList(10, 3, 2);
             result.Should().BeEquivalentTo(expected);
         }
     }

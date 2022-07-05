@@ -25,7 +25,6 @@ namespace Structr.Tests.EntityFramework
 
         public QueryableExtensionsTests()
         {
-
             EffortConnection connection = Effort.DbConnectionFactory.CreateTransient();
             _context = new TestDbContext(connection);
             if (_context.Foos.Any() == false)

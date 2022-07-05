@@ -39,7 +39,6 @@ namespace Structr.Tests.Abstractions.Providers.SequentialGuid
             act.Should().Throw<ArgumentNullException>();
         }
 
-
         [InlineData(SequentialGuidType.String)]
         [InlineData(SequentialGuidType.Binary)]
         [InlineData(SequentialGuidType.Ending)]
