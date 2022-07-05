@@ -25,8 +25,9 @@ namespace Structr.Tests.Configuration.TestUtils
         public static async Task<string> GenerateJsonFileAsync(string fileName, params (string Name, string Value)[] data)
         {
             fileName = TestDataPath.CombineWithTemp(fileName + (string.IsNullOrEmpty(Path.GetExtension(fileName)) ? ".json" : ""));
-            var result = "{" + string.Join(",", data.Select(x => $"\"{x.Name}\": {x.Value}")) + "}";
+            var result = "{" + string.Join(",", data.Select(x => $"\"{x.Name}\": {x.Value}")) + "}";            
             await File.WriteAllTextAsync(fileName, result);
+            File.SetLastWriteTime(fileName, DateTime.Now.AddSeconds(1));
             return fileName;
         }
 
@@ -51,6 +52,7 @@ namespace Structr.Tests.Configuration.TestUtils
                 + string.Join("", data.Select(x => $"<{x.Name}>{x.Value}</{x.Name}>"))
                 + "</settings>";
             await File.WriteAllTextAsync(fileName, result);
+            File.SetLastWriteTime(fileName, DateTime.Now.AddSeconds(1));
             return fileName;
         }
 

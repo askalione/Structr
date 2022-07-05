@@ -4,7 +4,7 @@
 
 ## Contents
 
-* ASP.NET Core
+* [ASP.NET Core](AspNetCore/AspNetCore.md)
     * [Validation](AspNetCore/AspNetCore.Validation.md)
 * [Collections](Collections/Collections.md)
     * [AutoMapper extensions](Collections/Collections-Automapper-extensions.md)
@@ -39,8 +39,8 @@
 * [Domain](Domain/Domain.md)
     * [Entities](Domain/Domain-Entities.md)
     * [Value objects](Domain/Domain-ValueObjects.md)
-* Entity Framework 6
-* Entity Framework Core
+* [Entity Framework 6](EntityFramework.md)
+* [Entity Framework Core](EntityFrameworkCore.md)
 * [IO](IO/IO.md)
     * [FileHelper](IO/IO-FileHelper.md)
     * [MimeTypeHelper](IO/IO-MimeTypeHelper.md)
@@ -55,7 +55,6 @@
     * [Decoration](Operations/Operations-Decoration.md)
 * [Security](Security.md)
 * [Specifications](Specifications.md)
-* SqlServer
 * [Stateflows](Stateflows/Stateflows.md)
     * [StateMachine](Stateflows/Stateflows-StateMachine.md)
     * [Configurations](Stateflows/Stateflows-Configurations.md)
