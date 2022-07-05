@@ -57,7 +57,7 @@ namespace Structr.Domain
 
             foreach (PropertyInfo property in compositeIdType.GetProperties())
             {
-                hash = (hash * 23) + property.GetValue(compositeId, null)?.GetHashCode() ?? 0;
+                hash = (hash * 23) + (property.GetValue(compositeId, null)?.GetHashCode() ?? 0);
             }
 
             return hash;

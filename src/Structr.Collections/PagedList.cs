@@ -85,7 +85,7 @@ namespace Structr.Collections
             PageNumber = pageNumber;
             PageSize = pageSize;
 
-            TotalPages = TotalItems > 0 ? (int)(Math.Ceiling(TotalItems / (double)PageSize)) : 0;
+            TotalPages = TotalItems > 0 && PageSize > 0 ? (int)(Math.Ceiling(TotalItems / (double)PageSize)) : 0;
             HasPreviousPage = PageNumber > 1 && PageNumber <= TotalPages;
             HasNextPage = PageNumber < TotalPages;
             IsFirstPage = TotalPages > 0 && PageNumber == 1;

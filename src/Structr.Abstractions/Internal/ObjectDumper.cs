@@ -107,7 +107,9 @@ namespace Structr.Abstractions
                             var propertyInfo = memberInfo as PropertyInfo;
 
                             if (fieldInfo == null && (propertyInfo == null || !propertyInfo.CanRead || propertyInfo.GetIndexParameters().Length > 0))
+                            {
                                 continue;
+                            }
 
                             var type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
                             object value;

@@ -167,7 +167,7 @@ namespace Structr.AspNetCore.TagHelpers
             if ((sort1 != null && sort2 == null) || (sort1 == null && sort2 != null))
                 return false;
 
-            return sort1.Trim().Equals(sort2.Trim(), StringComparison.OrdinalIgnoreCase);
+            return string.Equals(sort1?.Trim(), sort2?.Trim(), StringComparison.OrdinalIgnoreCase);
         }
     }
 
