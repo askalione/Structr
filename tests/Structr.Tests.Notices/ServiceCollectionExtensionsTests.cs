@@ -20,13 +20,10 @@ namespace Structr.Tests.Notices
                 .BuildServiceProvider();
 
             // Assert
-            serviceProvider.GetService<INoticePublisher>().Should().NotBeNull();
+            INoticePublisher publisher = serviceProvider.GetService<INoticePublisher>();
+            publisher.Should().BeOfType<NoticePublisher>();
             serviceProvider.GetService<INoticeHandler<CustomNotice>>()
                 .Should().BeOfType<CustomNoticeHandler>();
-
-            var publisher1 = serviceProvider.GetService<INoticePublisher>();
-            var publisher2 = serviceProvider.GetService<INoticePublisher>();
-            publisher1.Equals(publisher2).Should().BeTrue();
         }
 
         [Fact]
@@ -45,13 +42,10 @@ namespace Structr.Tests.Notices
                 .BuildServiceProvider();
 
             // Assert
-            serviceProvider.GetService<INoticePublisher>().Should().NotBeNull();
+            INoticePublisher publisher = serviceProvider.GetService<INoticePublisher>();
+            publisher.Should().BeOfType<NoticePublisher>();
             serviceProvider.GetService<INoticeHandler<CustomNotice>>()
                 .Should().BeOfType<CustomNoticeHandler>();
-
-            var publisher1 = serviceProvider.GetService<INoticePublisher>();
-            var publisher2 = serviceProvider.GetService<INoticePublisher>();
-            publisher1.Equals(publisher2).Should().BeFalse();
         }
     }
 }
