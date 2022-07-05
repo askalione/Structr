@@ -16,8 +16,7 @@ namespace Structr.Email
         /// <inheritdoc cref="EmailMessage(EmailAddress, string)"/>
         public EmailMessage(string to, string message)
             : this(new EmailAddress(to), message)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailMessage"/> class.

@@ -25,8 +25,7 @@ namespace Structr.Email
             : this(new EmailAddress(to),
                  template,
                  model)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailTemplateMessage"/> class.
