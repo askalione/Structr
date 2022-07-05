@@ -12,7 +12,7 @@
 ## Packages
 
 | Package name | NuGet | Downloads | Docs |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | Structr.Abstractions | [![NuGet Structr.Abstractions](https://img.shields.io/nuget/v/Structr.Abstractions)](https://www.nuget.org/packages/Structr.Abstractions/) | [![Downloads Structr.Abstractions](https://img.shields.io/nuget/dt/Structr.Abstractions)](https://www.nuget.org/stats/packages/Structr.Abstractions?groupby=Version) | [![Documentation Structr.Abstractions](https://img.shields.io/badge/%20-docs-blue)](https://github.com/askalione/Structr/blob/master/docs/Abstractions/Abstractions.md) |
 | Structr.AspNetCore | [![NuGet Structr.AspNetCore](https://img.shields.io/nuget/v/Structr.AspNetCore)](https://www.nuget.org/packages/Structr.AspNetCore/) | [![Downloads Structr.AspNetCore](https://img.shields.io/nuget/dt/Structr.AspNetCore)](https://www.nuget.org/stats/packages/Structr.AspNetCore?groupby=Version) | [![Documentation Structr.AspNetCore](https://img.shields.io/badge/%20-docs-blue)](https://github.com/askalione/Structr/blob/master/docs/AspNetCore/AspNetCore.md) |
 | Structr.AspNetCore.Validation | [![NuGet Structr.AspNetCore.Validation](https://img.shields.io/nuget/v/Structr.AspNetCore.Validation)](https://www.nuget.org/packages/Structr.AspNetCore.Validation/) | [![Downloads Structr.AspNetCore.Validation](https://img.shields.io/nuget/dt/Structr.AspNetCore.Validation)](https://www.nuget.org/stats/packages/Structr.AspNetCore.Validation?groupby=Version) | [![Documentation Structr.AspNetCore.Validation](https://img.shields.io/badge/%20-docs-blue)](https://github.com/askalione/Structr/blob/master/docs/AspNetCore/AspNetCore.Validation.md) |
@@ -36,62 +36,7 @@
 
 ## Documentation
 
-* [ASP.NET Core](docs/AspNetCore/AspNetCore.md)
-    * [Validation](docs/AspNetCore/AspNetCore.Validation.md)
-* [Collections](docs/Collections/Collections.md)
-    * [AutoMapper extensions](docs/Collections/Collections-Automapper-extensions.md)
-* [Email](docs/Email/Email.md)
-    * [Razor](docs/Email/Email-Razor.md)
-* [Abstractions](vAbstractions/Abstractions.md)
-    * [Check](docs/Abstractions/Abstractions-Check.md)
-    * [Ensure](docs/Abstractions/Abstractions-Ensure.md)
-    * [HierarchyId](docs/Abstractions/Abstractions-HierarchyId.md)
-    * [Money](docs/Abstractions/Abstractions-Money.md)
-    * [SequentialGuid](docs/Abstractions/Abstractions-SequentialGuid.md)
-    * Extensions
-        * [DateTime](docs/Abstractions/Extensions/Abstractions-DateTimeExtensions.md)
-        * [Dictionary](docs/Abstractions/Extensions/Abstractions-DictionaryExtensions.md)
-        * [DirectoryInfo](docs/Abstractions/Extensions/Abstractions-DirectoryInfoExtensions.md)
-        * [Enumerable](docs/Abstractions/Extensions/Abstractions-EnumerableExtensions.md)
-        * [Enum](docs/Abstractions/Extensions/Abstractions-EnumExtensions.md)
-        * [Expression](docs/Abstractions/Extensions/Abstractions-ExpressionExtensions.md)
-        * [Long](docs/Abstractions/Extensions/Abstractions-LongExtensions.md)
-        * [MemberInfo](docs/Abstractions/Extensions/Abstractions-MemberInfoExtensions.md)
-        * [Object](docs/Abstractions/Extensions/Abstractions-ObjectExtensions.md)
-        * [Queryable](docs/Abstractions/Extensions/Abstractions-QueryableExtensions.md)
-        * [ServiceCollection](docs/Abstractions/Extensions/Abstractions-ServiceCollectionExtensions.md)
-        * [String](docs/Abstractions/Extensions/Abstractions-StringExtensions.md)
-        * [Type](docs/Abstractions/Extensions/Abstractions-TypeExtensions.md)
-    * Helpers
-        * [AsyncHelper](docs/Abstractions/Helpers/Abstractions-AsyncHelper.md)
-        * [BindHelper](docs/Abstractions/Helpers/Abstractions-BindHelper.md)
-* [Configuration](docs/Configuration/Configuration.md)
-    * [Get settings](docs/Configuration/Configuration-Get-settings.md.md)
-    * [Set settings](docs/Configuration/Configuration-Set-settings.md.md)
-    * [Customization](docs/Configuration/Configuration-Customization.md.md)
-* [Domain](docs/Domain/Domain.md)
-    * [Entities](docs/Domain/Domain-Entities.md)
-    * [Value objects](docs/Domain/Domain-ValueObjects.md)
-* [Entity Framework 6](docs/EntityFramework.md)
-* [Entity Framework Core](docs/EntityFrameworkCore.md)
-* [IO](docs/IO/IO.md)
-    * [FileHelper](docs/IO/IO-FileHelper.md)
-    * [MimeTypeHelper](docs/IO/IO-MimeTypeHelper.md)
-    * [PathHelper](docs/IO/IO-PathHelper.md)
-    * [SequentialFileName](docs/IO/IO-SequentialFileName.md)
-* [Navigation](docs/Navigation/Navigation.md)
-    * [Menu](docs/Navigation/Navigation-Menu.md)
-    * [Breadcrumbs](docs/Navigation/Navigation-Breadcrumbs.md)
-* [Notices](docs/Notices.md)
-* [Operations](docs/Operations/Operations.md)
-    * [Filtering](docs/Operations/Operations-Filtering.md)
-    * [Decoration](docs/Operations/Operations-Decoration.md)
-* [Security](docs/Security.md)
-* [Specifications](docs/Specifications.md)
-* [Stateflows](docs/Stateflows/Stateflows.md)
-    * [StateMachine](docs/Stateflows/Stateflows-StateMachine.md)
-    * [Configurations](docs/Stateflows/Stateflows-Configurations.md)
-* [Validation](docs/Validation.md)
+See detailed [documentation](https://github.com/askalione/Structr/blob/master/docs/README.md)
 
 ## License
 
