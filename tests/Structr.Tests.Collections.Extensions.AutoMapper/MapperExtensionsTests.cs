@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentAssertions;
 using Structr.Collections;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -48,6 +49,24 @@ namespace Structr.Tests.Collections.Extensions.AutoMapper
         }
 
         [Fact]
+        public void MapList_throws_when_source_is_null()
+        {
+            // Arrange
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Foo, FooDto>();
+            });
+            var mapper = configuration.CreateMapper();
+            IEnumerable<Foo> source = null!;
+
+            // Act
+            Action act = () => mapper.MapList<FooDto>(source);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>();
+        }
+
+        [Fact]
         public void MapPagedList()
         {
             // Arrange
@@ -63,7 +82,7 @@ namespace Structr.Tests.Collections.Extensions.AutoMapper
             }.ToPagedList(10, 3, 2);
 
             // Act
-            var result = mapper.MapList<FooDto>(list);
+            var result = mapper.MapPagedList<FooDto>(list);
 
             // Assert
             var expected = new List<FooDto>
@@ -72,6 +91,24 @@ namespace Structr.Tests.Collections.Extensions.AutoMapper
                  new FooDto { Id = 2, Name = "Baz"}
             }.ToPagedList(10, 3, 2);
             result.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void MapPagedList_throws_when_source_is_null()
+        {
+            // Arrange
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Foo, FooDto>();
+            });
+            var mapper = configuration.CreateMapper();
+            PagedList<Foo> source = null!;
+
+            // Act
+            Action act = () => mapper.MapPagedList<FooDto>(source);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>();
         }
     }
 }

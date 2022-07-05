@@ -17,10 +17,6 @@ namespace AutoMapper
         /// <exception cref="ArgumentNullException"></exception>
         public static IEnumerable<TDestination> MapList<TDestination>(this IMapper mapper, IEnumerable collection)
         {
-            if (mapper == null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
             if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));
@@ -39,10 +35,6 @@ namespace AutoMapper
         /// <exception cref="ArgumentNullException"></exception>
         public static PagedList<TDestination> MapPagedList<TDestination>(this IMapper mapper, IPagedEnumerable collection)
         {
-            if (mapper == null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
             if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));
