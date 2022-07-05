@@ -6,8 +6,17 @@ using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// Extension methods for <see cref="EmailServiceBuilder"/>.
+    /// </summary>
     public static class EmailServiceBuilderExtensions
     {
+        /// <summary>
+        /// Adds <see cref="FileEmailClient"/> and related services to the <see cref="EmailServiceBuilder"/>.<see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="EmailServiceBuilder"/>.</param>
+        /// <param name="path">Absolute path to the email directory.</param>
+        /// <returns>The <see cref="EmailServiceBuilder"/>.</returns>
         public static EmailServiceBuilder AddFileClient(this EmailServiceBuilder builder, string path)
         {
             builder.Services.TryAddSingleton<IEmailClient>(_ => new FileEmailClient(path));
@@ -15,20 +24,50 @@ namespace Microsoft.Extensions.DependencyInjection
             return builder;
         }
 
-        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, string host, int port = 25)
-            => AddSmtpClient(builder, _ => new SmtpOptions(host, port));
+        /// <inheritdoc cref="AddSmtpClient(EmailServiceBuilder, string, int, Action{SmtpOptions})"/>
+        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, string host, Action<SmtpOptions>? configure = null)
+            => AddSmtpClient(builder, host, 25, configure);
 
-        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, SmtpOptions options)
-            => AddSmtpClient(builder, _ => options);
+        /// <inheritdoc cref="AddSmtpClient(EmailServiceBuilder, string, int, Action{IServiceProvider, SmtpOptions})"/>
+        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, string host, int port, Action<SmtpOptions>? configure = null)
+            => AddSmtpClient(builder, host, port, (_, options) => configure?.Invoke(options));
 
-        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder, Func<IServiceProvider, SmtpOptions> optionsFactory)
+        /// <summary>
+        /// Adds <see cref="SmtpEmailClient"/> and related services to the <see cref="EmailServiceBuilder"/>.<see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="EmailServiceBuilder"/>.</param>
+        /// <param name="host">The name or IP address of the host used for SMTP transactions.</param>
+        /// <param name="port">The port used for SMTP transactions. The default value is 25.</param>
+        /// <param name="configure">Delegate to configure the <see cref="SmtpOptions"/>.</param>
+        /// <returns>The <see cref="EmailServiceBuilder"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="host"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="port"/> is less or equal then zero.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="configure"/> is <see langword="null"/>.</exception>
+        public static EmailServiceBuilder AddSmtpClient(this EmailServiceBuilder builder,
+            string host,
+            int port,
+            Action<IServiceProvider, SmtpOptions> configure)
         {
-            if (optionsFactory == null)
+            if (string.IsNullOrWhiteSpace(host))
             {
-                throw new ArgumentNullException(nameof(optionsFactory));
+                throw new ArgumentNullException(nameof(host));
+            }
+            if (port <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(port), port, "Port must be greater then zero.");
+            }
+            if (configure == null)
+            {
+                throw new ArgumentNullException(nameof(configure));
             }
 
-            builder.Services.TryAddSingleton(serviceProvider => optionsFactory.Invoke(serviceProvider));
+            builder.Services.TryAddSingleton(serviceProvider =>
+            {
+                var options = new SmtpOptions(host, port);
+                configure.Invoke(serviceProvider, options);
+                return options;
+            });
+            builder.Services.TryAddSingleton<ISmtpClientFactory, SmtpClientFactory>();
             builder.Services.TryAddSingleton<IEmailClient, SmtpEmailClient>();
 
             return builder;

@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading;
@@ -7,44 +6,35 @@ using System.Threading.Tasks;
 
 namespace Structr.Email.Clients.Smtp
 {
+    /// <summary>
+    /// Provides functionality for sending emails using SMTP.
+    /// </summary>
     public class SmtpEmailClient : IEmailClient
     {
-        private readonly SmtpOptions _options;
+        private readonly ISmtpClientFactory _smtpClientFactory;
 
-        public SmtpEmailClient(SmtpOptions options)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SmtpEmailClient"/> class.
+        /// </summary>
+        /// <param name="smtpClientFactory">The <see cref="ISmtpClientFactory"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
+        public SmtpEmailClient(ISmtpClientFactory smtpClientFactory)
         {
-            if (options == null)
+            if (smtpClientFactory == null)
             {
-                throw new ArgumentNullException(nameof(options));
+                throw new ArgumentNullException(nameof(smtpClientFactory));
             }
 
-            _options = options;
+            _smtpClientFactory = smtpClientFactory;
         }
 
-        public async Task<bool> SendAsync(EmailData emailData, string body, CancellationToken cancellationToken = default)
+        public async Task SendAsync(EmailData emailData, string body, CancellationToken cancellationToken = default)
         {
-            var message = CreateMessage(emailData, body);
-
-            using (var smtpClient = CreateCmtpClient())
+            using (ISmtpClient smtpClient = _smtpClientFactory.CreateSmtpClient())
             {
-                await smtpClient.SendMailExAsync(message, cancellationToken);
+                MailMessage message = CreateMessage(emailData, body);
+                await smtpClient.SendAsync(message, cancellationToken);
             }
-
-            return true;
-        }
-
-        private SmtpClient CreateCmtpClient()
-        {
-            var smtpClient = new SmtpClient(_options.Host, _options.Port);
-
-            smtpClient.EnableSsl = _options.IsSslEnabled;
-            if (string.IsNullOrEmpty(_options.User) == false)
-            {
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential(_options.User, _options.Password);
-            }
-
-            return smtpClient;
         }
 
         private MailMessage CreateMessage(EmailData emailData, string body)
@@ -63,10 +53,7 @@ namespace Structr.Email.Clients.Smtp
                 message.From = new MailAddress(emailData.From.Address, emailData.From.Name);
             }
 
-            foreach (var to in emailData.To)
-            {
-                message.To.Add(new MailAddress(to.Address, to.Name));
-            }
+            message.To.Add(new MailAddress(emailData.To.Address, emailData.To.Name));
 
             if (emailData.Attachments != null)
             {
@@ -88,60 +75,6 @@ namespace Structr.Email.Clients.Smtp
             }
 
             return message;
-        }
-    }
-
-    // Taken from: https://stackoverflow.com/a/28445791
-    internal static class SmtpClientExtensions
-    {
-        public static Task SendMailExAsync(this SmtpClient smtpClient,
-            MailMessage message,
-            CancellationToken token = default(CancellationToken))
-        {
-            // use Task.Run to negate SynchronizationContext
-            return Task.Run(() => SendMailExImplAsync(smtpClient, message, token));
-        }
-
-        private static async Task SendMailExImplAsync(SmtpClient smtpClient,
-            MailMessage message,
-            CancellationToken token)
-        {
-            token.ThrowIfCancellationRequested();
-
-            var tcs = new TaskCompletionSource<bool>();
-            SendCompletedEventHandler? handler = null;
-            Action unsubscribe = () => smtpClient.SendCompleted -= handler;
-
-            handler = async (s, e) =>
-            {
-                unsubscribe();
-
-                // a hack to complete the handler asynchronously
-                await Task.Yield();
-
-                if (e.UserState != tcs)
-                    tcs.TrySetException(new InvalidOperationException("Unexpected UserState"));
-                else if (e.Cancelled)
-                    tcs.TrySetCanceled();
-                else if (e.Error != null)
-                    tcs.TrySetException(e.Error);
-                else
-                    tcs.TrySetResult(true);
-            };
-
-            smtpClient.SendCompleted += handler;
-            try
-            {
-                smtpClient.SendAsync(message, tcs);
-                using (token.Register(() => smtpClient.SendAsyncCancel(), useSynchronizationContext: false))
-                {
-                    await tcs.Task;
-                }
-            }
-            finally
-            {
-                unsubscribe();
-            }
         }
     }
 }

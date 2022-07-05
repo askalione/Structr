@@ -1,37 +1,46 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Structr.Email
 {
+    /// <summary>
+    /// Represents an object containing data about an email generated from template file with some model.
+    /// </summary>
     public class EmailTemplateFileMessage : EmailData
     {
+        /// <summary>
+        /// Absolute path to a template.
+        /// </summary>
         public string TemplatePath { get; }
+
+        /// <summary>
+        /// Model to render into a template.
+        /// </summary>
         public object Model { get; }
 
+        /// <param name="to">The email address of a recipient.</param>
+        /// <inheritdoc cref="EmailTemplateFileMessage(EmailAddress,string,object)"/>
         public EmailTemplateFileMessage(string to,
             string templatePath,
             object model)
-            : this(new[] { to },
-                 templatePath,
-                 model)
-        {
-        }
-
-        public EmailTemplateFileMessage(IEnumerable<string> to,
-            string templatePath,
-            object model)
-            : this(to.Select(x => new EmailAddress(x)),
+            : this(new EmailAddress(to),
                  templatePath,
                  model)
         { }
 
-        public EmailTemplateFileMessage(IEnumerable<EmailAddress> to,
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmailTemplateFileMessage"/> class.
+        /// </summary>
+        /// <param name="to">The <see cref="EmailAddress"/> of a recipient.</param>
+        /// <param name="templatePath">The absolute path to the template.</param>
+        /// <param name="model">The model to render into the template.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="templatePath"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="model"/> is <see langword="null"/>.</exception>
+        public EmailTemplateFileMessage(EmailAddress to,
             string templatePath,
             object model)
             : base(to)
         {
-            if (string.IsNullOrEmpty(templatePath))
+            if (string.IsNullOrWhiteSpace(templatePath))
             {
                 throw new ArgumentNullException(nameof(templatePath));
             }
@@ -45,22 +54,29 @@ namespace Structr.Email
         }
     }
 
+    /// <summary>
+    /// Represents an object containing data about an email generated from template file with <see cref="TModel"/>.
+    /// </summary>
+    /// <typeparam name="TModel">Model type.</typeparam>
     public abstract class EmailTemplateFileMessage<TModel> : EmailData
     {
+        /// <summary>
+        /// Absolute path to a template.
+        /// </summary>
         public abstract string TemplatePath { get; }
+
+        /// <summary>
+        /// Model to render into a template.
+        /// </summary>
         public TModel Model { get; }
 
-        public EmailTemplateFileMessage(string to, TModel model)
-            : this(new[] { to }, model)
-        {
-        }
-
-        public EmailTemplateFileMessage(IEnumerable<string> to, TModel model)
-            : this(to.Select(x => new EmailAddress(x)), model)
-        {
-        }
-
-        public EmailTemplateFileMessage(IEnumerable<EmailAddress> to, TModel model)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmailTemplateFileMessage{TModel}"/> class.
+        /// </summary>
+        /// <param name="to">The <see cref="EmailAddress"/> of a recipient.</param>
+        /// <param name="model">The model to render into the template.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="model"/> is <see langword="null"/>.</exception>
+        public EmailTemplateFileMessage(EmailAddress to, TModel model)
             : base(to)
         {
             if (model == null)
