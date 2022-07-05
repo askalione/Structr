@@ -117,7 +117,6 @@ namespace Structr.AspNetCore.TagHelpers
                             order = routeOrderValue;
                         }
                     }
-
                 }
             }
             else

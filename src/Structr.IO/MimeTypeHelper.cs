@@ -18,9 +18,7 @@ namespace Structr.IO
         private static IDictionary<string, string> BuildMappings()
         {
             var mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-
-                #region Big freaking list of mime types
-            
+                #region Big freaking list of mime types            
                 // maps both ways,
                 // extension -> mime type
                 //   and
@@ -642,7 +640,6 @@ namespace Structr.IO
                 {".xwd", "image/x-xwindowdump"},
                 {".z", "application/x-compress"},
                 {".zip", "application/zip"},
-
                 {"application/fsharp-script", ".fsx"},
                 {"application/msaccess", ".adp"},
                 {"application/msword", ".doc"},
@@ -691,9 +688,7 @@ namespace Structr.IO
                 {"video/x-la-asf", ".lsf"},
                 {"video/x-ms-asf", ".asf"},
                 {"x-world/x-vrml", ".xof"},
-
                 #endregion
-
             };
 
             var cache = mappings.ToList(); // Need ToList() to avoid modifying while still enumerating.

@@ -90,7 +90,7 @@ namespace Structr.Collections
             HasNextPage = PageNumber < TotalPages;
             IsFirstPage = TotalPages > 0 && PageNumber == 1;
             IsLastPage = TotalPages > 0 && PageNumber == TotalPages;
-            FirstItemOnPage = TotalPages > 0 ? (PageNumber - 1) * PageSize + 1 : 0;
+            FirstItemOnPage = TotalPages > 0 ? ((PageNumber - 1) * PageSize) + 1 : 0;
 
             int lastItemOnPage = FirstItemOnPage + PageSize - 1;
             LastItemOnPage = TotalPages > 0

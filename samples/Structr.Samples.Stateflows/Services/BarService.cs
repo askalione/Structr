@@ -41,7 +41,6 @@ namespace Structr.Samples.Stateflows.Services
             return FireAsync(BarAction.Close, id, cancellationToken);
         }
 
-
         public Task ArchiveAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return FireAsync(BarAction.Archive, id, cancellationToken);

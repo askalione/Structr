@@ -24,9 +24,7 @@ namespace Structr.Email
             : this(to.Select(x => new EmailAddress(x)),
                  templatePath,
                  model)
-        {
-
-        }
+        { }
 
         public EmailTemplateFileMessage(IEnumerable<EmailAddress> to,
             string templatePath,

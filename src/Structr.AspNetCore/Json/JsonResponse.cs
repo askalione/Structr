@@ -98,7 +98,6 @@ namespace Structr.AspNetCore.Json
             _errors = errors.ToList();
         }
 
-
         /// <summary>
         /// Creates an instance of <see cref="JsonResponse"/> with specified errors and attached data.
         /// </summary>

@@ -67,7 +67,6 @@ namespace Structr.AspNetCore.TagHelpers
                 return;
             }
 
-
             Func<int, string> pageUrlGenerator = Options.PageUrlGenerator ?? (pageNumber => AppendPageNumberToPageUrl(pageNumber));
 
             var listItemLinks = new List<TagBuilder>();
@@ -78,7 +77,7 @@ namespace Structr.AspNetCore.TagHelpers
             if (Options.MaximumPageNumbersToDisplay.HasValue && pagedList.TotalPages > Options.MaximumPageNumbersToDisplay)
             {
                 var maxPageNumbersToDisplay = Options.MaximumPageNumbersToDisplay.Value;
-                firstPageToDisplay = pagedList.PageNumber - maxPageNumbersToDisplay / 2;
+                firstPageToDisplay = pagedList.PageNumber - (maxPageNumbersToDisplay / 2);
                 if (firstPageToDisplay < 1)
                     firstPageToDisplay = 1;
                 pageNumbersToDisplay = maxPageNumbersToDisplay;

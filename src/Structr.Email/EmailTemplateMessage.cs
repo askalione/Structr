@@ -15,8 +15,7 @@ namespace Structr.Email
             : this(new[] { to },
                  template,
                  model)
-        {
-        }
+        { }
 
         public EmailTemplateMessage(IEnumerable<string> to,
             string template,
@@ -24,8 +23,7 @@ namespace Structr.Email
             : this(to.Select(x => new EmailAddress(x)),
                  template,
                  model)
-        {
-        }
+        { }
 
         public EmailTemplateMessage(IEnumerable<EmailAddress> to,
             string template,
@@ -53,13 +51,11 @@ namespace Structr.Email
 
         public EmailTemplateMessage(string to, TModel model)
             : this(new[] { to }, model)
-        {
-        }
+        { }
 
         public EmailTemplateMessage(IEnumerable<string> to, TModel model)
             : this(to.Select(x => new EmailAddress(x)), model)
-        {
-        }
+        { }
 
         public EmailTemplateMessage(IEnumerable<EmailAddress> to, TModel model)
             : base(to)

@@ -17,8 +17,6 @@ namespace Structr.EntityFramework.Options
         /// Initializes an instance of <see cref="EntityConfigurationOptions"/> with default values.
         /// </summary>
         public EntityConfigurationOptions()
-        {
-
-        }
+        { }
     }
 }

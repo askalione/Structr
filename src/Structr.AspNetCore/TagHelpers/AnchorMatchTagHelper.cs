@@ -82,7 +82,6 @@ namespace Structr.AspNetCore.TagHelpers
                         return false;
                     }
                 }
-
             }
 
             return true;

@@ -29,8 +29,8 @@ namespace Structr.Samples.Domain.BatAggregate
             unchecked
             {
                 int hash = 17;
-                hash = hash * 31 + Id1.GetHashCode();
-                hash = hash * 31 + Id2.GetHashCode();
+                hash = (hash * 31) + Id1.GetHashCode();
+                hash = (hash * 31) + Id2.GetHashCode();
                 return hash;
             }
         }
