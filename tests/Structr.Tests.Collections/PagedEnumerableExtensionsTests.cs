@@ -6,10 +6,10 @@ using Xunit;
 
 namespace Structr.Tests.Collections
 {
-    public class PagedListExtensionsTests
+    public class PagedEnumerableExtensionsTests
     {
         [Fact]
-        public void ToSerializablePagedList()
+        public void ToPagedList()
         {
             // Arrange
             var totalItems = 10;
@@ -19,26 +19,36 @@ namespace Structr.Tests.Collections
                 totalItems: totalItems,
                 pageNumber: pageNumber,
                 pageSize: pageSize);
+            var destinationCollection = new List<int> { 4, 5, 6 };
 
             // Act
-            var result = sourcePageList.ToSerializablePagedList();
+            var result = sourcePageList.ToPagedList(destinationCollection);
 
             // Assert
             result.Should().NotBeNull();
-            result.Items.Should().BeEquivalentTo((IEnumerable<int>)sourcePageList);
             result.TotalItems.Should().Be(totalItems);
             result.PageNumber.Should().Be(pageNumber);
             result.PageSize.Should().Be(pageSize);
+            result.TotalPages.Should().Be(4); // 10/3
+            result.HasPreviousPage.Should().BeTrue();
+            result.HasNextPage.Should().BeTrue();
+            result.IsFirstPage.Should().BeFalse();
+            result.IsLastPage.Should().BeFalse();
+            result.FirstItemOnPage.Should().Be(4);
+            result.LastItemOnPage.Should().Be(6);
+            result.Should().BeEquivalentTo(destinationCollection);
+            result.Count.Should().Be(destinationCollection.Count);
         }
 
         [Fact]
-        public void ToSerializablePagedList_throws_when_source_is_null()
+        public void ToPagedList_throws_when_source_is_null()
         {
             // Arrange
             PagedList<int> sourcePageList = null!;
+            var destinationCollection = new List<int> { 4, 5, 6 };
 
             // Act
-            Action act = () => sourcePageList.ToSerializablePagedList();
+            Action act = () => sourcePageList.ToPagedList(destinationCollection);
 
             // Assert
             act.Should().Throw<ArgumentNullException>();

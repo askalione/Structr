@@ -12,8 +12,8 @@ namespace Structr.Collections
         /// Initializes a new instance of the <see cref="PagedList{T}"/> class based on source collection.
         /// TotalItems property will be automaticaly set to provided 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection">Source colleciton of elements. For example: part of search results to be displayed.</param>
+        /// <typeparam name="T">Type of items in list.</typeparam>
+        /// <param name="collection">Source collection of elements. For example: part of search results to be displayed.</param>
         /// <param name="pageNumber">Number of current page.</param>
         /// <param name="pageSize">Count of items to be dislpayed on page.</param>
         /// <returns>Instance of the <see cref="PagedList{T}"/> class.</returns>
@@ -25,8 +25,8 @@ namespace Structr.Collections
         /// <summary>
         /// Initializes a new instance of the <see cref="PagedList{T}"/> class based on source collection.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection">Source colleciton of elements. For example: part of search results to be displayed.</param>
+        /// <typeparam name="T">Type of items in list.</typeparam>
+        /// <param name="collection">Source collection of elements. For example: part of search results to be displayed.</param>
         /// <param name="totalItems">Total count of items in superset. For example: total count of search results.</param>
         /// <param name="pageNumber">Number of current page.</param>
         /// <param name="pageSize">Count of items to be dislpayed on page.</param>
