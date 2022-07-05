@@ -2,12 +2,17 @@
 
 # Structr
 
-**Structr** is a framework composed of several components for development of cross-platform applications on .NET by following the software development best practices and patterns. Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) as a target framework which allows you to use them in .NET Framework and any new .NET projects. All Structr components have few or no external dependencies.
-
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/askalione/structr?branch=master&svg=true)](https://ci.appveyor.com/project/askalione/structr)
 [![CodeFactor](https://www.codefactor.io/repository/github/askalione/structr/badge)](https://www.codefactor.io/repository/github/askalione/structr) 
+[![codecov](https://codecov.io/gh/askalione/Structr/branch/master/graph/badge.svg?token=8H40BVH0ZC)](https://codecov.io/gh/askalione/Structr)
 [![GitHub license](https://img.shields.io/github/license/askalione/structr)](https://github.com/askalione/Structr/blob/master/LICENSE)
 [![Join the chat at https://gitter.im/Structr-dotnet/community](https://badges.gitter.im/Structr-dotnet/community.svg)](https://gitter.im/Structr-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  
+
+**Structr** is a framework composed of several components for development of cross-platform applications on .NET by following the software development best practices and patterns. Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) as a target framework which allows you to use them in .NET Framework and any new .NET projects. All Structr components have few or no external dependencies.
+
+## Documentation
+
+See detailed [documentation](https://github.com/askalione/Structr/blob/master/docs/README.md).
 
 ## Packages
 
@@ -33,10 +38,6 @@
 | Structr.SqlServer | [![NuGet Structr.SqlServer](https://img.shields.io/nuget/v/Structr.SqlServer)](https://www.nuget.org/packages/Structr.SqlServer/) | [![Downloads Structr.SqlServer](https://img.shields.io/nuget/dt/Structr.SqlServer)](https://www.nuget.org/stats/packages/Structr.SqlServer?groupby=Version) | ![Documentation Structr.SqlServer](https://img.shields.io/badge/%20-docs-gray) |
 | Structr.Stateflows | [![NuGet Structr.Stateflows](https://img.shields.io/nuget/v/Structr.Stateflows)](https://www.nuget.org/packages/Structr.Stateflows/) | [![Downloads Structr.Stateflows](https://img.shields.io/nuget/dt/Structr.Stateflows)](https://www.nuget.org/stats/packages/Structr.Stateflows?groupby=Version) | [![Documentation Structr.Stateflows](https://img.shields.io/badge/%20-docs-blue)](https://github.com/askalione/Structr/blob/master/docs/Stateflows/Stateflows.md) |
 | Structr.Validation | [![NuGet Structr.Validation](https://img.shields.io/nuget/v/Structr.Validation)](https://www.nuget.org/packages/Structr.Validation/) | [![Downloads Structr.Validation](https://img.shields.io/nuget/dt/Structr.Validation)](https://www.nuget.org/stats/packages/Structr.Validation?groupby=Version) | [![Documentation Structr.Validation](https://img.shields.io/badge/%20-docs-blue)](https://github.com/askalione/Structr/blob/master/docs/Stateflows/Validation.md) |
-
-## Documentation
-
-See detailed [documentation](https://github.com/askalione/Structr/blob/master/docs/README.md)
 
 ## License
 

@@ -16,5 +16,5 @@ before_build:
 - choco install opencover.portable
 - choco install codecov
 test_script:
-- OpenCover.Console.exe -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:test -register:user -filter:"+[Structr*]* -[Structr.Tests*]* -[Structr.Samples*]*" -output:".\coverage.xml"
+- OpenCover.Console.exe -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:test -register:user -filter:"+[Structr*]* -[Structr.Tests*]* -[Structr.Samples*]* -[Structr.SqlServer]* -[Structr.EntityFramework]*" -output:".\coverage.xml"
 - codecov -f "coverage.xml
