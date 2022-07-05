@@ -14,16 +14,15 @@ image: Visual Studio 2022
 artifacts:
 - path: build\artifacts\*.nupkg
 - path: build\artifacts\*.snupkg
-test_script:
- - cmd: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --test-adapter-path:. --logger:Appveyor" -filter:"+[Structr*]* -[Structr.Tests*]* -[Structr.Samples*]*" -output:".\coverage.xml" -oldstyle
-after_test:
-  - ps: |
-      codecov -f "coverage.xml"
 before_build:
- - choco install opencover.portable
- - choco install codecov
+- nuget restore
+- choco install opencover.portable
+- choco install codecov
 build_script:
 - ps: >-
           cd build
 
           .\build.ps1
+test_script:
+- OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:"test" -filter:"+[Structr*]* -[Structr.Tests*]* -[Structr.Samples*]*" -output:".\coverage.xml"
+- codecov -f "coverage.xml

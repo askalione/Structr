@@ -8,7 +8,8 @@
     * [Validation](AspNetCore/AspNetCore.Validation.md)
 * [Collections](Collections/Collections.md)
     * [AutoMapper extensions](Collections/Collections-Automapper-extensions.md)
-* Email
+* [Email](Email/Email.md)
+    * [Razor](Email/Email-Razor.md)
 * [Abstractions](Abstractions/Abstractions.md)
     * [Check](Abstractions/Abstractions-Check.md)
     * [Ensure](Abstractions/Abstractions-Ensure.md)
