@@ -14,19 +14,16 @@ image: Visual Studio 2022
 artifacts:
 - path: build\artifacts\*.nupkg
 - path: build\artifacts\*.snupkg
+test_script:
+ - cmd: OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --test-adapter-path:. --logger:Appveyor" -filter:"+[Structr*]* -[Structr.Tests*]* -[Structr.Samples*]*" -output:".\coverage.xml" -oldstyle
+after_test:
+  - ps: |
+      codecov -f "coverage.xml"
+before_build:
+ - choco install opencover.portable
+ - choco install codecov
 build_script:
 - ps: >-
           cd build
 
           .\build.ps1
-deploy:
-- provider: NuGet
-  api_key:
-    secure: lQM279fi+lh4DZd/iCmrYa3PD8xsoeeNxKXBEHplISwclBXE/cHMeS6rpeGESY9b
-  artifact: /build\/artifacts\/.*(\.|\.s)nupkg/
-  on:
-    branch: master
-notifications:
-- provider: Slack
-  incoming_webhook:
-    secure: iQhP2sBChMIv2mwDSfrFtlUimerfOO54+puQJtyMenYAGjO38aU2PyT+nReK//+FRipmxKJYGvQb2DaXGln0mD6EtHGaKxRv6cHzauuOilM=
