@@ -15,14 +15,14 @@ namespace Structr.Tests.Configuration
         {
             // Arrange
             var provider = await TestDataManager.GetSettingsJsonProviderAsync(nameof(ConfigurationTests) + nameof(Ctor), true,
-                ("FilePath", @"""X:\\readme.txt"""));
+                ("FileName", @"""readme.txt"""));
             var options = new ConfigurationOptions<TestSettings>(provider);
 
             // Act
             var result = new Configuration<TestSettings>(options);
 
             // Assert
-            result.Settings.FilePath.Should().Be(@"X:\readme.txt");
+            result.Settings.FileName.Should().Be(@"readme.txt");
         }
 
         [Fact]

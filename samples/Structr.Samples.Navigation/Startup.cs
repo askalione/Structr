@@ -65,7 +65,6 @@ namespace Structr.Samples.Navigation
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-
             });
         }
     }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,5 +10,23 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="StaticFiles\aspnetcore.jquery.validation.js">
+            <Pack>true</Pack>
+            <PackagePath>contentFiles\any\any\ClientApp\assets\js\aspnetcore.validation\aspnetcore.jquery.validation.js</PackagePath>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="StaticFiles\aspnetcore.validation.js">
+            <Pack>true</Pack>
+            <PackagePath>contentFiles\any\any\ClientApp\assets\js\aspnetcore.validation\aspnetcore.validation.js</PackagePath>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="StaticFiles\aspnetcore.validation.unobtrusive.js">
+            <Pack>true</Pack>
+            <PackagePath>contentFiles\any\any\ClientApp\assets\js\aspnetcore.validation\aspnetcore.validation.unobtrusive.js</PackagePath>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
     </ItemGroup>
 </Project>

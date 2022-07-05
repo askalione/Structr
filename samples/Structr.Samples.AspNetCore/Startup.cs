@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace Structr.Samples.AspNetCore
@@ -18,11 +16,7 @@ namespace Structr.Samples.AspNetCore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJavaScriptAlerts();
-            services.AddJavaScriptOptions();
-
-            services.AddHttpContextAccessor();
-            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddAspNetCore();
             var mvcBuilder = services.AddControllersWithViews();
 #if DEBUG
             if (Env.IsDevelopment())
@@ -47,7 +41,6 @@ namespace Structr.Samples.AspNetCore
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-
             });
         }
     }

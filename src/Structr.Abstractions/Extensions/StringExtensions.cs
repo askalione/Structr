@@ -205,7 +205,7 @@ namespace Structr.Abstractions.Extensions
             }
 
             var result = value;
-            if (string.IsNullOrEmpty(result) == false && result.Length > 1)
+            if (result.Length > 1)
             {
                 result = char.ToLowerInvariant(result[0]) + result.Substring(1);
             }

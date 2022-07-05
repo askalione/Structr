@@ -37,7 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<IServiceProvider, NavigationOptions<TNavigationItem>> configure)
             where TNavigationItem : NavigationItem<TNavigationItem>, new()
         {
-            builder.Services.TryAddScoped(typeof(INavigationProvider<TNavigationItem>), serviceProvider => provider);
+            builder.Services.TryAddSingleton(typeof(INavigationProvider<TNavigationItem>), serviceProvider => provider);
             builder.Services.TryAddScoped(typeof(NavigationOptions<TNavigationItem>), serviceProvider =>
             {
                 var options = new NavigationOptions<TNavigationItem>();

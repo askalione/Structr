@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Abstractions.Extensions;
-using Structr.Abstractions.Providers;
+using Structr.Abstractions.Providers.Timestamp;
 using Structr.Samples.EntityFramework.DataAccess;
 using System.Collections.Generic;
 using System.IO;

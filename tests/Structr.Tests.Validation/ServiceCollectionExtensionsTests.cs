@@ -24,7 +24,7 @@ namespace Structr.Tests.Validation
         }
 
         [Fact]
-        public void AddValidation_adds_scoped_provider()
+        public void AddValidation_adds_transient_provider()
         {
             // Act
             var serviceProvider = new ServiceCollection()
@@ -34,7 +34,7 @@ namespace Structr.Tests.Validation
             // Assert
             var validationProvider1 = serviceProvider.GetRequiredService<IValidationProvider>();
             var validationProvider2 = serviceProvider.GetRequiredService<IValidationProvider>();
-            validationProvider1.Should().Be(validationProvider2);
+            validationProvider1.Should().NotBe(validationProvider2);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace Structr.Tests.Validation
             var serviceProvider = new ServiceCollection()
                 .AddValidation(options =>
                 {
-                    options.ProviderType = typeof(CustomValidationProvider);
+                    options.ProviderServiceType = typeof(CustomValidationProvider);
                 },
                 typeof(Document).Assembly)
                 .BuildServiceProvider();
@@ -61,7 +61,7 @@ namespace Structr.Tests.Validation
             var serviceProvider = new ServiceCollection()
                 .AddValidation(options =>
                 {
-                    options.Lifetime = ServiceLifetime.Transient;
+                    options.ProviderServiceLifetime = ServiceLifetime.Singleton;
                 },
                 typeof(Document).Assembly)
                 .BuildServiceProvider();
@@ -69,7 +69,7 @@ namespace Structr.Tests.Validation
             // Assert
             var validationProvider1 = serviceProvider.GetRequiredService<IValidationProvider>();
             var validationProvider2 = serviceProvider.GetRequiredService<IValidationProvider>();
-            validationProvider1.Should().NotBe(validationProvider2);
+            validationProvider1.Should().Be(validationProvider2);
         }
     }
 }

@@ -60,7 +60,7 @@ Based on such `result` you can successfully create user interface or provide inf
 
 | Method name | Return type | Description |
 | --- | --- | --- |
-| Empty | `IPagedList<T>` | Creates an empty paged list. |
+| Empty | `PagedList<T>` | Creates an empty paged list. |
 
 ## Extensions
 
@@ -78,7 +78,7 @@ It is very common to convert an existing paged list of items of one type (Entiti
 
 ```csharp
 // Paged list of entities
-var entities = new PagedList<Fruit>(
+IPagedEnumerable entities = new PagedList<Fruit>(
      new List<Fruit> {
           new Fruit("orange"),
           new Fruit("mandarin"),
@@ -92,3 +92,37 @@ var dto = entities.ToPagedList(_mapper.Map<FruitDto>(entities));
 ```
 
 For such conversion it is best to use [AutoMapper extensions](Collections-Automapper-extensions.md).
+
+Use `SerializablePagedList` class with `ToSerializablePagedList()` and `ToPagedList()` methods if you need serialize and deserialize a paged list (to JSON for example):
+
+```csharp
+var pagedList = new PagedList<FruitDto>(
+     new List<FruitDto> {
+          new FruitDto("orange"),
+          new FruitDto("mandarin"),
+          new FruitDto("plum")
+     }, 
+     totalItems: 13, 
+     pageNumber: 2,
+     pageSize: 3);
+
+// Serialize
+SerializablePagedList<FruitDto> serializablePagedList = pagedList.ToSerializablePagedList();
+string json = JsonSerializer.Serialize(serializablePagedList);
+
+// json:
+//{
+//  "Items": [
+//    { "Name": "orange" },
+//    { "Name": "mandarin" },
+//    { "Name": "plum" }
+//  ],
+//  "TotalItems": 13,
+//  "PageNumber": 2,
+//  "PageSize": 3
+//}
+
+// Deserialize
+serializablePagedList = JsonSerializer.Deserialize<SerializablePagedList<FruitDto>>(json);
+pagedList = serializablePagedList.ToPagedList();
+```

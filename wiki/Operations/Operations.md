@@ -29,8 +29,8 @@ Additionally configure `IOperationExecutor` service by specifying it's type and 
 
 | Property name | Property type | Description |
 | --- | --- | --- |
-| ExecutorType | `Type` | Changes standard implementation of `IOperationExecutor` to specified one, default is `typeof(OperationExecutor)`. | 
-| ExecutorServiceLifetime | `ServiceLifetime` | Specifies the lifetime of an `IOperationExecutor` service, default is `Scoped`. |
+| ExecutorServiceType | `Type` | Changes standard implementation of `IOperationExecutor` to specified one, default is `typeof(OperationExecutor)`. | 
+| ExecutorServiceLifetime | `ServiceLifetime` | Specifies the lifetime of an `IOperationExecutor` service, default is `Transient`. |
 
 ## Usage
 

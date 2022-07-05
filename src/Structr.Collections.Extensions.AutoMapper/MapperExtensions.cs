@@ -17,10 +17,6 @@ namespace AutoMapper
         /// <exception cref="ArgumentNullException"></exception>
         public static IEnumerable<TDestination> MapList<TDestination>(this IMapper mapper, IEnumerable collection)
         {
-            if (mapper == null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
             if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));
@@ -37,12 +33,8 @@ namespace AutoMapper
         /// <param name="collection">Source collection to map from.</param>
         /// <returns>Result collection with elements got by mapping elements from source collection.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IPagedList<TDestination> MapPagedList<TDestination>(this IMapper mapper, IPagedList collection)
+        public static PagedList<TDestination> MapPagedList<TDestination>(this IMapper mapper, IPagedEnumerable collection)
         {
-            if (mapper == null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
             if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));

@@ -1,5 +1,6 @@
 using Structr.Configuration;
 using Structr.Configuration.Providers;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,9 +24,10 @@ namespace Structr.Tests.Configuration.TestUtils
 
         public static async Task<string> GenerateJsonFileAsync(string fileName, params (string Name, string Value)[] data)
         {
-            fileName = TestDataPath.CombineWithTemp(fileName + ".json");
-            var result = "{" + string.Join(",", data.Select(x => $"\"{x.Name}\": {x.Value}")) + "}";
+            fileName = TestDataPath.CombineWithTemp(fileName + (string.IsNullOrEmpty(Path.GetExtension(fileName)) ? ".json" : ""));
+            var result = "{" + string.Join(",", data.Select(x => $"\"{x.Name}\": {x.Value}")) + "}";            
             await File.WriteAllTextAsync(fileName, result);
+            File.SetLastWriteTime(fileName, DateTime.Now.AddSeconds(1));
             return fileName;
         }
 
@@ -44,13 +46,25 @@ namespace Structr.Tests.Configuration.TestUtils
 
         public static async Task<string> GenerateXmlFileAsync(string fileName, params (string Name, string Value)[] data)
         {
-            fileName = TestDataPath.CombineWithTemp(fileName + ".json");
+            fileName = TestDataPath.CombineWithTemp(fileName + (string.IsNullOrEmpty(Path.GetExtension(fileName)) ? ".xml" : ""));
             var result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                 + "<settings>"
                 + string.Join("", data.Select(x => $"<{x.Name}>{x.Value}</{x.Name}>"))
                 + "</settings>";
             await File.WriteAllTextAsync(fileName, result);
+            File.SetLastWriteTime(fileName, DateTime.Now.AddSeconds(1));
             return fileName;
+        }
+
+        public static async Task ReplaceFileAsync(string filePath, Func<Task<string>> generateFile)
+        {
+            var lastAccessTime = File.GetLastAccessTime(filePath);
+            var lastWriteTime = File.GetLastWriteTime(filePath);
+
+            await generateFile();
+
+            File.SetLastAccessTime(filePath, lastAccessTime);
+            File.SetLastWriteTime(filePath, lastWriteTime);
         }
     }
 }

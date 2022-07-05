@@ -11,7 +11,7 @@ namespace Structr.Operations
         /// <summary>
         /// Changes standard implementation of <see cref="IOperationExecutor"/> to specified one.
         /// </summary>
-        public Type ExecutorType { get; set; }
+        public Type ExecutorServiceType { get; set; }
 
         /// <summary>
         /// Specifies the lifetime of an <see cref="IOperationExecutor"/> service.
@@ -20,7 +20,7 @@ namespace Structr.Operations
 
         public OperationServiceOptions()
         {
-            ExecutorType = typeof(OperationExecutor);
+            ExecutorServiceType = typeof(OperationExecutor);
             ExecutorServiceLifetime = ServiceLifetime.Transient;
         }
     }

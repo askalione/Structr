@@ -76,7 +76,6 @@ namespace Structr.Domain
             {
                 return false;
             }
-
         }
 
         public override int GetHashCode()
@@ -96,7 +95,7 @@ namespace Structr.Domain
 
                     if (value != null)
                     {
-                        hashCode = hashCode * ((changeMultiplier) ? 59 : 114) + value.GetHashCode();
+                        hashCode = (hashCode * ((changeMultiplier) ? 59 : 114)) + value.GetHashCode();
 
                         changeMultiplier = !changeMultiplier;
                     }

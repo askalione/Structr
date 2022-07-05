@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Structr.Abstractions.Extensions;
-using Structr.Abstractions.Providers;
+using Structr.Abstractions.Providers.Timestamp;
 using Structr.Samples.EntityFrameworkCore.DataAccess;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
 using Structr.Samples.IO;
@@ -18,9 +18,13 @@ namespace Structr.Samples.EntityFrameworkCore
         public App(DataContext dataContext, IStringWriter writer, ITimestampProvider timestampProvider)
         {
             if (dataContext == null)
+            {
                 throw new ArgumentNullException(nameof(dataContext));
+            }
             if (writer == null)
+            {
                 throw new ArgumentNullException(nameof(writer));
+            }
 
             _dataContext = dataContext;
             _writer = writer;

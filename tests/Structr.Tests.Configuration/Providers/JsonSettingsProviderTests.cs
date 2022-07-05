@@ -48,13 +48,13 @@ namespace Structr.Tests.Configuration.Providers
         {
             // Arrange
             var settingsProvider = await GetSettingsProviderAsync(nameof(GetSettings_normal),
-                ("FilePath", @"""X:\\readme.txt"""));
+                ("FileName", @"""readme.txt"""));
 
             // Act
             var settings = settingsProvider.GetSettings();
 
             // Assert
-            settings.FilePath.Should().Be(@"X:\readme.txt");
+            settings.FileName.Should().Be(@"readme.txt");
         }
 
         [Fact]
@@ -104,18 +104,18 @@ namespace Structr.Tests.Configuration.Providers
         {
             // Arrange
             var settingsProvider = await GetSettingsProviderAsync(nameof(GetSettings_doesnt_access_file_when_cache_turned_on),
-                ("FilePath", @"""X:\\readme.txt"""));
+                ("FileName", @"""readme.txt"""));
             var path = settingsProvider.GetPath();
 
-            settingsProvider.GetSettings();
-            var firstAccessTime = File.GetLastAccessTime(path);
+            TestSettings settings1 = settingsProvider.GetSettings();
+            await TestDataManager.ReplaceFileAsync(path,
+                () => TestDataManager.GenerateJsonFileAsync(Path.GetFileNameWithoutExtension(path), ("FileName", @"""readme_changed.txt""")));
 
             // Act
-            settingsProvider.GetSettings();
+            TestSettings settings2 = settingsProvider.GetSettings();
 
             // Assert
-            var secondAccessTime = File.GetLastAccessTime(path);
-            secondAccessTime.Should().Be(firstAccessTime);
+            settings2.FileName.Should().Be(settings1.FileName);
         }
 
         [Fact]
@@ -123,18 +123,18 @@ namespace Structr.Tests.Configuration.Providers
         {
             // Arrange
             var settingsProvider = await GetSettingsProviderNoCacheAsync(nameof(GetSettings_does_access_file_when_cache_turned_off),
-                ("FilePath", @"""X:\\readme.txt"""));
+                ("FileName", @"""readme.txt"""));
             var path = settingsProvider.GetPath();
 
-            settingsProvider.GetSettings();
-            var firstAccessTime = File.GetLastAccessTime(path);
+            TestSettings settings1 = settingsProvider.GetSettings();
+            await TestDataManager.ReplaceFileAsync(path,
+                () => TestDataManager.GenerateJsonFileAsync(Path.GetFileNameWithoutExtension(path), ("FileName", @"""readme_changed.txt""")));
 
             // Act
-            settingsProvider.GetSettings();
+            TestSettings settings2 = settingsProvider.GetSettings();
 
             // Assert
-            var secondAccessTime = File.GetLastAccessTime(path);
-            secondAccessTime.Should().BeAfter(firstAccessTime);
+            settings2.FileName.Should().NotBe(settings1.FileName);
         }
 
         [Fact]
@@ -142,19 +142,19 @@ namespace Structr.Tests.Configuration.Providers
         {
             // Arrange
             var settingsProvider = await GetSettingsProviderAsync(nameof(GetSettings_tracks_modification_despite_cache_turned_on),
-                ("FilePath", @"""X:\\readme.txt"""));
+                ("FileName", @"""readme.txt"""));
             var fileName = Path.GetFileNameWithoutExtension(settingsProvider.GetPath());
 
-            settingsProvider.GetSettings();
+            TestSettings settingsBeforeChanges = settingsProvider.GetSettings();
 
             await TestDataManager.GenerateJsonFileAsync(fileName,
-                ("FilePath", @"""X:\\readme_changed.txt"""));
+                ("FileName", @"""readme_changed.txt"""));
 
             // Act
-            var settingsAfterChanges = settingsProvider.GetSettings();
+            TestSettings settingsAfterChanges = settingsProvider.GetSettings();
 
             // Assert
-            settingsAfterChanges.FilePath.Should().Be(@"X:\readme_changed.txt");
+            settingsAfterChanges.FileName.Should().Be(@"readme_changed.txt");
         }
 
         [Fact]
@@ -165,11 +165,11 @@ namespace Structr.Tests.Configuration.Providers
             var path = settingsProvider.GetPath();
 
             // Act
-            settingsProvider.SetSettings(new TestSettings { FilePath = "X:\\readme123.txt" });
+            settingsProvider.SetSettings(new TestSettings { FileName = "readme123.txt" });
 
             // Assert
             var json = await TestDataManager.GetJsonAsync(path);
-            json.Should().Contain(@"""FilePath"": ""X:\\readme123.txt""");
+            json.Should().Contain(@"""FileName"": ""readme123.txt""");
         }
 
         [Fact]

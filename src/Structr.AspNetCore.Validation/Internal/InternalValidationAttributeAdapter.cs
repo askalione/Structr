@@ -50,7 +50,6 @@ namespace Structr.AspNetCore.Validation.Internal
             return GetErrorMessage(validationContext.ModelMetadata, validationContext.ModelMetadata.GetDisplayName());
         }
 
-
         private string GetAttributeDisplayName(PropertyInfo property)
         {
             var atts = property.GetCustomAttributes(typeof(DisplayAttribute), true);

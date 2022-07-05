@@ -71,7 +71,7 @@ namespace Structr.Email.Clients.Smtp
                     }
 
                     message.Attachments.Add(mailAttachment);
-                };
+                }
             }
 
             return message;

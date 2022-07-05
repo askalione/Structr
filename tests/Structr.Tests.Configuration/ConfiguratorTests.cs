@@ -12,24 +12,22 @@ namespace Structr.Tests.Configuration
     public class ConfiguratorTests
     {
         [Fact]
-        public void Ctor()
+        public async Task Ctor()
         {
             // Arrange
-            var serviceProvider = new ServiceCollection()
-                .AddConfiguration()
-                .AddJson<TestSettings>("Some path")
-                .Services
-                .BuildServiceProvider();
+            var provider = await TestDataManager.GetSettingsJsonProviderAsync(nameof(ConfigurationTests) + nameof(Ctor), true,
+                ("FileName", @"""readme.txt"""));
+            var options = new ConfigurationOptions<TestSettings>(provider);
 
             // Act
-            Action act = () => new Configurator<TestSettings>(serviceProvider);
+            Action act = () => new Configurator<TestSettings>(options);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void Ctor_throws_when_serviceProvider_is_null()
+        public void Ctor_throws_when_options_are_null()
         {
             // Act
             Action act = () => new Configurator<TestSettings>(null);
@@ -39,27 +37,11 @@ namespace Structr.Tests.Configuration
         }
 
         [Fact]
-        public void Ctor_throws_if_configuration_service_is_not_configured()
-        {
-            // Arrange
-            var serviceProvider = new ServiceCollection()
-                .AddConfiguration()
-                .Services
-                .BuildServiceProvider();
-
-            // Act
-            Action act = () => new Configurator<TestSettings>(serviceProvider);
-
-            // Assert
-            act.Should().ThrowExactly<InvalidOperationException>();
-        }
-
-        [Fact]
         public async Task Configure()
         {
             // Arrange
             var path = await TestDataManager.GenerateJsonFileAsync(nameof(ConfigurationTests) + nameof(Configure),
-                ("FilePath", @"""X:\\SomeOtherFile.txt"""));
+                ("FileName", @"""SomeOtherFile.txt"""));
             var serviceProvider = new ServiceCollection()
                 .AddConfiguration()
                 .AddJson<TestSettings>(path)
@@ -68,12 +50,12 @@ namespace Structr.Tests.Configuration
             var configurator = serviceProvider.GetRequiredService<IConfigurator<TestSettings>>();
 
             // Act
-            configurator.Configure(settings => settings.FilePath = "X:\\readme.txt");
+            configurator.Configure(settings => settings.FileName = "readme.txt");
 
             // Assert
             var configuration = serviceProvider.GetRequiredService<IConfiguration<TestSettings>>();
             var settings = configuration.Settings;
-            settings.FilePath.Should().Be("X:\\readme.txt");
+            settings.FileName.Should().Be("readme.txt");
         }
 
         [Fact]

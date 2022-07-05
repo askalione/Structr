@@ -11,7 +11,7 @@ namespace Structr.Notices
         /// <summary>
         /// Determines a type of notice publisher. The <see cref="NoticePublisher"/> by default.
         /// </summary>
-        public Type PublisherType { get; set; }
+        public Type PublisherServiceType { get; set; }
 
         /// <summary>
         /// Specifies the lifetime of a notice service in an <see cref="IServiceCollection"/>. The <see cref="ServiceLifetime.Scoped"/> by default.
@@ -23,8 +23,8 @@ namespace Structr.Notices
         /// </summary>
         public NoticeServiceOptions()
         {
-            PublisherType = typeof(NoticePublisher);
-            PublisherServiceLifetime = ServiceLifetime.Scoped;
+            PublisherServiceType = typeof(NoticePublisher);
+            PublisherServiceLifetime = ServiceLifetime.Transient;
         }
     }
 }

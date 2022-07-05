@@ -37,7 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             configureOptions?.Invoke(options);
 
-            services.TryAdd(new ServiceDescriptor(typeof(IValidationProvider), options.ProviderType, options.Lifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IValidationProvider), options.ProviderServiceType, options.ProviderServiceLifetime));
 
             services.AddClasses(assembliesToScan);
 
