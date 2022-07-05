@@ -16,7 +16,7 @@ namespace Structr.Tests.Configuration
         {
             // Arrange
             var provider = await TestDataManager.GetSettingsJsonProviderAsync(nameof(ConfigurationTests) + nameof(Ctor), true,
-                ("FilePath", @"""X:\\readme.txt"""));
+                ("FileName", @"""readme.txt"""));
             var options = new ConfigurationOptions<TestSettings>(provider);
 
             // Act
@@ -41,7 +41,7 @@ namespace Structr.Tests.Configuration
         {
             // Arrange
             var path = await TestDataManager.GenerateJsonFileAsync(nameof(ConfigurationTests) + nameof(Configure),
-                ("FilePath", @"""X:\\SomeOtherFile.txt"""));
+                ("FileName", @"""SomeOtherFile.txt"""));
             var serviceProvider = new ServiceCollection()
                 .AddConfiguration()
                 .AddJson<TestSettings>(path)
@@ -50,12 +50,12 @@ namespace Structr.Tests.Configuration
             var configurator = serviceProvider.GetRequiredService<IConfigurator<TestSettings>>();
 
             // Act
-            configurator.Configure(settings => settings.FilePath = "X:\\readme.txt");
+            configurator.Configure(settings => settings.FileName = "readme.txt");
 
             // Assert
             var configuration = serviceProvider.GetRequiredService<IConfiguration<TestSettings>>();
             var settings = configuration.Settings;
-            settings.FilePath.Should().Be("X:\\readme.txt");
+            settings.FileName.Should().Be("readme.txt");
         }
 
         [Fact]

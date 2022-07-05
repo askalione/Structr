@@ -5,7 +5,7 @@ var target = Argument("target", "Default");
 var configuration = 
     HasArgument("Configuration") 
         ? Argument<string>("Configuration") 
-        : EnvironmentVariable("Configuration") ?? "Debug";
+        : EnvironmentVariable("Configuration") ?? "Release";
 
 var buildNumber =
     HasArgument("BuildNumber") ? Argument<int>("BuildNumber") :

@@ -4,7 +4,7 @@ namespace Structr.Tests.Configuration.TestUtils
 {
     public class TestSettings
     {
-        public string FilePath { get; set; }
+        public string FileName { get; set; }
 
         [Option(Alias = "SomeOwnerNameAlias")]
         public string OwnerName { get; set; }

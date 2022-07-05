@@ -4,7 +4,8 @@
 
 **Structr** is a framework composed of several components for development of cross-platform applications on .NET by following the software development best practices and patterns. Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) as a target framework which allows you to use them in .NET Framework and any new .NET projects. All Structr components have few or no external dependencies.
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/askalione/structr?branch=master&svg=true)](https://ci.appveyor.com/project/askalione/structr) 
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/askalione/structr?branch=master&svg=true)](https://ci.appveyor.com/project/askalione/structr)
+[![CodeFactor](https://www.codefactor.io/repository/github/askalione/structr/badge)](https://www.codefactor.io/repository/github/askalione/structr) 
 [![GitHub license](https://img.shields.io/github/license/askalione/structr)](https://github.com/askalione/Structr/blob/master/LICENSE)
 [![Join the chat at https://gitter.im/Structr-dotnet/community](https://badges.gitter.im/Structr-dotnet/community.svg)](https://gitter.im/Structr-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  
 
