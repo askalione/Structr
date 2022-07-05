@@ -8,6 +8,8 @@ skip_commits:
   - assets/*
   - LICENSE
   - README.md
+  - CODE_OF_CONDUCT.md
+  - CONTRIBUTING.md
 image: Visual Studio 2022
 artifacts:
 - path: build\artifacts\*.nupkg
