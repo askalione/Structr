@@ -12,9 +12,8 @@ skip_commits:
   - CONTRIBUTING.md
 image: Visual Studio 2022
 before_build:
-- nuget restore
 - choco install opencover.portable
 - choco install codecov
 test_script:
-- OpenCover.Console.exe -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:test -register:user -filter:"+[Structr*]* -[Structr*]*.Internal -[Structr.SqlServer]* -[Structr.EntityFramework]* -[Structr.Tests*]* -[Structr.Samples*]*" -output:".\coverage.xml" -oldstyle
+- OpenCover.Console.exe -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:test -register:user -filter:"+[Structr*]* -[Structr*]Internal.* -[Structr.SqlServer]* -[Structr.EntityFramework]* -[Structr.Tests*]* -[Structr.Samples*]*" -output:".\coverage.xml" -oldstyle
 - codecov -f "coverage.xml
