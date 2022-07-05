@@ -12,7 +12,7 @@
 
 ## Documentation
 
-See detailed [documentation](https://github.com/askalione/Structr/blob/master/docs/README.md).
+See [Documentation](https://github.com/askalione/Structr/blob/master/docs/README.md).
 
 ## Packages
 
@@ -38,6 +38,10 @@ See detailed [documentation](https://github.com/askalione/Structr/blob/master/do
 | Structr.SqlServer | [![NuGet Structr.SqlServer](https://img.shields.io/nuget/v/Structr.SqlServer)](https://www.nuget.org/packages/Structr.SqlServer/) | [![Downloads Structr.SqlServer](https://img.shields.io/nuget/dt/Structr.SqlServer)](https://www.nuget.org/stats/packages/Structr.SqlServer?groupby=Version) | ![Documentation Structr.SqlServer](https://img.shields.io/badge/%20-docs-gray) |
 | Structr.Stateflows | [![NuGet Structr.Stateflows](https://img.shields.io/nuget/v/Structr.Stateflows)](https://www.nuget.org/packages/Structr.Stateflows/) | [![Downloads Structr.Stateflows](https://img.shields.io/nuget/dt/Structr.Stateflows)](https://www.nuget.org/stats/packages/Structr.Stateflows?groupby=Version) | [![Documentation Structr.Stateflows](https://img.shields.io/badge/%20-docs-blue)](https://github.com/askalione/Structr/blob/master/docs/Stateflows/Stateflows.md) |
 | Structr.Validation | [![NuGet Structr.Validation](https://img.shields.io/nuget/v/Structr.Validation)](https://www.nuget.org/packages/Structr.Validation/) | [![Downloads Structr.Validation](https://img.shields.io/nuget/dt/Structr.Validation)](https://www.nuget.org/stats/packages/Structr.Validation?groupby=Version) | [![Documentation Structr.Validation](https://img.shields.io/badge/%20-docs-blue)](https://github.com/askalione/Structr/blob/master/docs/Stateflows/Validation.md) |
+
+## Contributing
+
+See [Contributor Guide](CONTRIBUTING.md).
 
 ## License
 

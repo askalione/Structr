@@ -112,8 +112,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Operations", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Tests.Configuration", "tests\Structr.Tests.Configuration\Structr.Tests.Configuration.csproj", "{E2339FA6-DA07-4DDC-92C9-47A94E9011B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Configuration", "tests\Structr.Tests.Configuration\Structr.Tests.Configuration.csproj", "{E2339FA6-DA07-4DDC-92C9-47A94E9011B7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Collections", "tests\Structr.Tests.Collections\Structr.Tests.Collections.csproj", "{EB0959EF-6926-4326-AF97-3DEF5EE6869A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Collections.Extensions.AutoMapper", "tests\Structr.Tests.Collections.Extensions.AutoMapper\Structr.Tests.Collections.Extensions.AutoMapper.csproj", "{0F2FCE30-CE76-4EB1-A63A-5C18F5B64AE0}"
@@ -133,8 +131,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Notices", "tests\Structr.Tests.Notices\Structr.Tests.Notices.csproj", "{92300E0C-E8B4-497D-A5B0-C737E904AEB6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.Validation", "tests\Structr.Tests.Validation\Structr.Tests.Validation.csproj", "{44DEAE03-3A2D-47D8-8807-5B2D9BCED8DA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structr.Tests.AspNetCore.Validation", "tests\Structr.Tests.AspNetCore.Validation\Structr.Tests.AspNetCore.Validation.csproj", "{86C1C954-4948-4ED9-9514-6DDC28BBD677}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structr.Tests.SqlServer", "tests\Structr.Tests.SqlServer\Structr.Tests.SqlServer.csproj", "{7FB3AE5D-CC52-498A-929D-A68B2F64D30C}"
 EndProject

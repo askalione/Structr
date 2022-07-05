@@ -28,23 +28,22 @@ namespace Structr.Tests.Specifications
             result.Should().BeEmpty();
         }
 
-        private class EqualsTestTheoryData : TheoryData<object, bool>
+        private class EqualsTestTheoryData : TheoryData<NoneSpecification<string>, object, bool>
         {
             public EqualsTestTheoryData()
             {
-                Add(null, false);                
-                Add(new NoneSpecification<string>(), true);
-                Add(new AnySpecification<string>(), false);
+                Add(new NoneSpecification<string>(), null, false);
+                Add(new NoneSpecification<string>(), new NoneSpecification<string>(), true);
+                Add(new NoneSpecification<string>(), new AnySpecification<string>(), false);
+                var spec = new NoneSpecification<string>();
+                Add(spec, spec, true);
             }
         }
 
         [Theory]
         [ClassData(typeof(EqualsTestTheoryData))]
-        public void EqualsTest(object spec2, bool expected)
+        public void EqualsTest(NoneSpecification<string> spec1, object spec2, bool expected)
         {
-            // Arrange
-            var spec1 = new NoneSpecification<string>();
-
             // Act
             var result = spec1.Equals(spec2);
 
