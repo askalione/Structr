@@ -177,7 +177,8 @@ namespace Structr.Tests.Email
 
         private string GetResultFromFile()
         {
-            return File.ReadAllText(Directory.EnumerateFiles(_tempDirPath).Single());
+            return File.ReadAllText(Directory.EnumerateFiles(_tempDirPath).Single())
+                .Replace("\r\n", Environment.NewLine);
         }
 
         public void Dispose()
