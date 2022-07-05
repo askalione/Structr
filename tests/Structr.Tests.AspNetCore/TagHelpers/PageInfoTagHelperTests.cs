@@ -21,7 +21,7 @@ namespace Structr.Tests.AspNetCore.TagHelpers
             {
                 Options = new PageInfoOptions
                 {
-                    PagedList = new PagedList<string>(new[] { "Five", "Six", "Seven", "Eight" }, 12, 2, 4),
+                    PagedEnumerable = new PagedList<string>(new[] { "Five", "Six", "Seven", "Eight" }, 12, 2, 4),
                     Format = "Test Page {0} of {1}. Showing items {2} through {3} of {4}."
                 }
             };

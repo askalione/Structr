@@ -22,7 +22,7 @@ namespace Structr.AspNetCore.TagHelpers
                 Options = new PageInfoOptions();
             }
 
-            var pagedList = Options.PagedList;
+            var pagedList = Options.PagedEnumerable;
             if (pagedList == null)
             {
                 output.SuppressOutput();
@@ -49,20 +49,20 @@ namespace Structr.AspNetCore.TagHelpers
     public class PageInfoOptions
     {
         /// <summary>
-        /// An instance of <see cref="IPagedList"/> to get information about pagination from.
+        /// An instance of <see cref="IPagedEnumerable"/> to get information about pagination from.
         /// </summary>
-        public IPagedList PagedList { get; set; }
+        public IPagedEnumerable PagedEnumerable { get; set; }
 
         /// <summary>
         /// Info-text format string.
         /// </summary>
         /// <remarks>
         /// It uses string-interpolation with following 5 parameters:
-        /// <br/>0 - <see cref="IPagedList.PageNumber"/>
-        /// <br/>1 - <see cref="IPagedList.TotalPages"/>
-        /// <br/>2 - <see cref="IPagedList.FirstItemOnPage"/>
-        /// <br/>3 - <see cref="IPagedList.LastItemOnPage"/>
-        /// <br/>4 - <see cref="IPagedList.TotalItems"/>
+        /// <br/>0 - <see cref="IPagedEnumerable.PageNumber"/>
+        /// <br/>1 - <see cref="IPagedEnumerable.TotalPages"/>
+        /// <br/>2 - <see cref="IPagedEnumerable.FirstItemOnPage"/>
+        /// <br/>3 - <see cref="IPagedEnumerable.LastItemOnPage"/>
+        /// <br/>4 - <see cref="IPagedEnumerable.TotalItems"/>
         /// </remarks>
         public string Format { get; set; }
 

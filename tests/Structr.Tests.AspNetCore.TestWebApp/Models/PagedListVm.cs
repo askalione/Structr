@@ -5,9 +5,9 @@ namespace Structr.Tests.AspNetCore.TestWebApp.Models
     public class PagedListVm
     {
         public PagedListQueryVm Query { get; }
-        public IPagedList Items { get; }
+        public IPagedEnumerable Items { get; }
 
-        protected PagedListVm(PagedListQueryVm query, IPagedList items)
+        protected PagedListVm(PagedListQueryVm query, IPagedEnumerable items)
         {
             Query = query;
             Items = items;

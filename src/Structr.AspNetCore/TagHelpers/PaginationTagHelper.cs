@@ -53,7 +53,7 @@ namespace Structr.AspNetCore.TagHelpers
                 Options = new PaginationOptions();
             }
 
-            var pagedList = Options.PagedList;
+            var pagedList = Options.PagedEnumerable;
 
             if (pagedList == null)
             {
@@ -176,34 +176,38 @@ namespace Structr.AspNetCore.TagHelpers
             return li;
         }
 
-        public static TagBuilder First(IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder First(IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
             const int targetPageNumber = 1;
             var first = new TagBuilder("a");
             first.InnerHtml.Append(string.Format(options.LinkToFirstPageFormat, targetPageNumber));
 
-            if (pageData.IsFirstPage)
+            if (pagedEnumerable.IsFirstPage)
+            {
                 return WrapInListItem(first, options, "pagination-first", options.LiElementDisabledCssClass);
+            }
 
             first.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(first, options, "pagination-first");
         }
 
-        public static TagBuilder Previous(IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder Previous(IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
-            var targetPageNumber = pageData.PageNumber - 1;
+            var targetPageNumber = pagedEnumerable.PageNumber - 1;
             var previous = new TagBuilder("a");
             previous.InnerHtml.Append(string.Format(options.LinkToPreviousPageFormat, targetPageNumber));
             previous.Attributes["rel"] = "prev";
 
-            if (!pageData.HasPreviousPage)
+            if (pagedEnumerable.HasPreviousPage == false)
+            {
                 return WrapInListItem(previous, options, "pagination-previous", options.LiElementDisabledCssClass);
+            }
 
             previous.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(previous, options, "pagination-previous");
         }
 
-        public static TagBuilder Page(int i, IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder Page(int i, IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
             var format = options.FunctionToDisplayEachPageNumber
                 ?? (pageNumber => string.Format(options.LinkToIndividualPageFormat, pageNumber));
@@ -211,35 +215,41 @@ namespace Structr.AspNetCore.TagHelpers
             var page = new TagBuilder("a");
             page.InnerHtml.Append(format(targetPageNumber));
 
-            if (i == pageData.PageNumber)
+            if (i == pagedEnumerable.PageNumber)
+            {
                 return WrapInListItem(page, options, options.LiElementActiveCssClass);
+            }
 
             page.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(page, options);
         }
 
-        public static TagBuilder Next(IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder Next(IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
-            var targetPageNumber = pageData.PageNumber + 1;
+            var targetPageNumber = pagedEnumerable.PageNumber + 1;
             var next = new TagBuilder("a");
             next.InnerHtml.Append(string.Format(options.LinkToNextPageFormat, targetPageNumber));
             next.Attributes["rel"] = "next";
 
-            if (!pageData.HasNextPage)
+            if (pagedEnumerable.HasNextPage == false)
+            {
                 return WrapInListItem(next, options, "pagination-next", options.LiElementDisabledCssClass);
+            }
 
             next.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(next, options, "pagination-next");
         }
 
-        public static TagBuilder Last(IPagedList pageData, Func<int, string> generatePageUrl, PaginationOptions options)
+        public static TagBuilder Last(IPagedEnumerable pagedEnumerable, Func<int, string> generatePageUrl, PaginationOptions options)
         {
-            var targetPageNumber = pageData.TotalPages;
+            var targetPageNumber = pagedEnumerable.TotalPages;
             var last = new TagBuilder("a");
             last.InnerHtml.Append(string.Format(options.LinkToLastPageFormat, targetPageNumber));
 
-            if (pageData.IsLastPage)
+            if (pagedEnumerable.IsLastPage)
+            {
                 return WrapInListItem(last, options, "pagination-last", options.LiElementDisabledCssClass);
+            }
 
             last.Attributes["href"] = generatePageUrl(targetPageNumber);
             return WrapInListItem(last, options, "pagination-last");
@@ -285,7 +295,7 @@ namespace Structr.AspNetCore.TagHelpers
         /// <summary>
         /// An instance of <see cref="IPagedList"/> to get information about pagination from.
         /// </summary>
-        public IPagedList PagedList { get; set; }
+        public IPagedEnumerable PagedEnumerable { get; set; }
 
         /// <summary>
         /// Factory intended for generation of urls to different pages.
