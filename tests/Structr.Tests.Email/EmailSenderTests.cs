@@ -23,8 +23,8 @@ namespace Structr.Tests.Email
             _from = "tatyana@larina.name";
             _to = "eugene@onegin.name";
             _subject = "Letter of Tatyana to Onegin.";
-            _message = string.Join(Environment.NewLine, "Letter of Tatyana to Onegin.", "I write this to you - what more can be said?");
-            _template = string.Join(Environment.NewLine, "Letter of {{From}} to {{To}}.", "I write this to you - what more can be said?");
+            _message = string.Join(" ", "Letter of Tatyana to Onegin.", "I write this to you - what more can be said?");
+            _template = string.Join(" ", "Letter of {{From}} to {{To}}.", "I write this to you - what more can be said?");
 
             _templatePath = TestDataPath.Combine("Letter of Tatyana to Onegin Template.txt");
         }
@@ -177,8 +177,7 @@ namespace Structr.Tests.Email
 
         private string GetResultFromFile()
         {
-            return File.ReadAllText(Directory.EnumerateFiles(_tempDirPath).Single())
-                .Replace("\r\n", Environment.NewLine);
+            return File.ReadAllText(Directory.EnumerateFiles(_tempDirPath).Single());
         }
 
         public void Dispose()
