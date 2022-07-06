@@ -16,7 +16,6 @@
     * [Check](Abstractions/Abstractions-Check.md)
     * [Ensure](Abstractions/Abstractions-Ensure.md)
     * [Money](Abstractions/Abstractions-Money.md)
-    * [SequentialGuid](Abstractions/Abstractions-SequentialGuid.md)
     * [HierarchyId](Abstractions/Abstractions-HierarchyId.md)
     * [Providers](Abstractions/Abstractions-Providers.md)
         * [TimestampProvider](Abstractions/Providers/Abstractions-TimestampProvider.md)
