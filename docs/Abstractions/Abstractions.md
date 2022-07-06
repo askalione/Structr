@@ -23,10 +23,10 @@ dotnet add package Structr.Abstractions
 * [Money](Abstractions-Money.md)
 * [SequentialGuid](Abstractions-SequentialGuid.md)
 * [HierarchyId](Abstractions-HierarchyId.md)
-* Providers
+* [Providers](Abstractions-Providers.md)
     * [TimestampProvider](Providers/Abstractions-TimestampProvider.md)
     * [SequentialGuidProvider](Providers/Abstractions-SequentialGuidProvider.md)
-* Extensions
+* [Extensions](Abstractions-Extensions.md)
     * [DateTime](Extensions/Abstractions-DateTimeExtensions.md)
     * [Dictionary](Extensions/Abstractions-DictionaryExtensions.md)
     * [DirectoryInfo](Extensions/Abstractions-DirectoryInfoExtensions.md)
@@ -40,7 +40,7 @@ dotnet add package Structr.Abstractions
     * [ServiceCollection](Extensions/Abstractions-ServiceCollectionExtensions.md)
     * [String](Extensions/Abstractions-StringExtensions.md)
     * [Type](Extensions/Abstractions-TypeExtensions.md)
-* Helpers
+* [Helpers](Abstractions-Helpers.md)
     * [AsyncHelper](Helpers/Abstractions-AsyncHelper.md)
     * [BindHelper](Helpers/Abstractions-BindHelper.md)
 

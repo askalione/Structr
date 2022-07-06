@@ -12,7 +12,7 @@
 
 ## Documentation
 
-See [Documentation](https://github.com/askalione/Structr/blob/master/docs/README.md).
+See [Documentation](https://docs.structr.dev).
 
 ## Packages
 

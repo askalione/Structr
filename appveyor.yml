@@ -10,6 +10,7 @@ skip_commits:
   - README.md
   - CODE_OF_CONDUCT.md
   - CONTRIBUTING.md
+  - .gitbook.yaml
 image: Visual Studio 2022
 artifacts:
 - path: build\artifacts\*.nupkg
