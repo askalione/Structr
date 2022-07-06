@@ -2,15 +2,9 @@ version: '{build}'
 branches:
   only:
   - master
-skip_commits:
+only_commits:
   files:
-  - docs/*
-  - assets/*
-  - LICENSE
-  - README.md
-  - CODE_OF_CONDUCT.md
-  - CONTRIBUTING.md
-  - .gitbook.yaml
+  - src/
 image: Visual Studio 2022
 artifacts:
 - path: build\artifacts\*.nupkg
