@@ -1,6 +1,6 @@
 # Decoration
 
-Using abilities of Microsoft's (and not only theirs) DI-container you could decorate your operations handlers with additional logic which will be applied in processing pipeline. This really almost the same functionality as with [Filters](Operations-Filtering.md) but in some cases it could have it's own place. In example below we will add some decorators to process our [queries and commands](Operations-Filtering.md#special-filters).
+Using abilities of Microsoft's (and not only theirs) DI-container you could decorate your operations handlers with additional logic which will be applied in processing pipeline. This really almost the same functionality as with [Filters](Filtering.md) but in some cases it could have it's own place. In example below we will add some decorators to process our [queries and commands](Filtering.md#special-filters).
 
 ```csharp
 // Define interface for all decorators.

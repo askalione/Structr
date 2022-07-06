@@ -175,4 +175,4 @@ var message = new RecipientEmailTemplateMessage("to@example.com", model);
 await _emailSender.SendEmailAsync(message);
 ```
 
-See example of using template file in [Razor](Email-Razor.md) section.
+See example of using template file in [Razor](Razor.md) section.

@@ -77,7 +77,7 @@ public class FooController : Controller
 }
 ```
 
-That's it! Simple use is really simple but there are more cool stuff which can be done with `Structr.Operations` such as: [operations filtering](Operations-Filtering.md) and [handlers decoration](Operations-Decoration.md).
+That's it! Simple use is really simple but there are more cool stuff which can be done with `Structr.Operations` such as: [operations filtering](Filtering.md) and [handlers decoration](Decoration.md).
 
 ### Operations
 

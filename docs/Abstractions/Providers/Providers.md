@@ -4,5 +4,5 @@
 
 ## Contents
 
-* [TimestampProvider](Providers/Abstractions-TimestampProvider.md)
-* [SequentialGuidProvider](Providers/Abstractions-SequentialGuidProvider.md)
+* [TimestampProvider](TimestampProvider.md)
+* [SequentialGuidProvider](SequentialGuidProvider.md)

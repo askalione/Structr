@@ -12,7 +12,7 @@ dotnet add package Structr.IO
 
 ## Contents
 
-* [FileHelper](IO-FileHelper.md)
-* [MimeTypeHelper](IO-MimeTypeHelper.md)
-* [PathHelper](IO-PathHelper.md)
-* [SequentialFileName](IO-SequentialFileName.md)
+* [FileHelper](FileHelper.md)
+* [MimeTypeHelper](MimeTypeHelper.md)
+* [PathHelper](PathHelper.md)
+* [SequentialFileName](SequentialFileName.md)

@@ -124,6 +124,6 @@ If `Cache` options was setting up to `true` then settings provider return cached
 
 ## Usage
 
-Structr.Configuration provides separate services for the [get](/Configuration-Read-settings.md) and [set](/Configuration-Write-settings.md) settings.
+Structr.Configuration provides separate services for the [get](Get-settings.md) and [set](Set-settings.md) settings.
 
-Also you can [customize](/Configuration-Customization.md) the settings members with special attribute.
+Also you can [customize](Customization.md) the settings members with special attribute.

@@ -1,6 +1,6 @@
 # SequentialFileName
 
-`SequentialFileName` class provides methods for generating new sequntial filename based on guid and time stamp segments using different params, e.g. existing file, MIME type or file extension.
+`SequentialFileName` class provides methods for generating new sequential filename based on guid and time stamp segments using different params, e.g. existing file, MIME type or file extension.
 
 ## NewFileName()
 

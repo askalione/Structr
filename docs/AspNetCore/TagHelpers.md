@@ -4,7 +4,7 @@ This part contains number of tag-helpers that could be used in many different si
 
 ## Contents
 
-* [AnchorMatchTagHelper](#anchormatchtaghelper.md) - add needed css-classes to target anchor depending on current url;
+* [AnchorMatchTagHelper](#anchormatchtaghelper) - add needed css-classes to target anchor depending on current url;
 * [AppendClassTagHelper](#appendclasstaghelper) - add needed css-classes to target element dynamically regarding provided condition;
 * [PageInfoTagHelper](#pageinfotaghelper) - organize info-text about items lists pagination;
 * [PageSizeTagHelper](#pagesizetaghelper) - create dropdown with possible number of pages on list;

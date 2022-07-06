@@ -91,7 +91,7 @@ IPagedEnumerable entities = new PagedList<Fruit>(
 var dto = entities.ToPagedList(_mapper.Map<FruitDto>(entities));
 ```
 
-For such conversion it is best to use [AutoMapper extensions](Collections-Automapper-extensions.md).
+For such conversion it is best to use [AutoMapper extensions](Automapper-extensions.md).
 
 Use `SerializablePagedList` class with `ToSerializablePagedList()` and `ToPagedList()` methods if you need serialize and deserialize a paged list (to JSON for example):
 
