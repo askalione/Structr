@@ -1,4 +1,4 @@
-# Welcome
+# Welcome to Structr’s documentation!
 
 ![Structr](../assets/logo/logo_100x100.png)
 
