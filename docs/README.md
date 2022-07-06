@@ -1,5 +1,3 @@
-![Structr](../assets/logo/logo_100x100.png)
-
 # Welcome to Structr’s documentation!
 
 **Structr** is a framework composed of several components for development of cross-platform applications on .NET by following the software development best practices and patterns. Most of components have [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) as a target framework which allows you to use them in .NET Framework and any new .NET projects. All Structr components have few or no external dependencies.
