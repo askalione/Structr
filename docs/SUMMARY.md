@@ -3,9 +3,9 @@
 ## Utilities
 
 * [Abstractions](Abstractions/Abstractions.md)
-    * [Providers](Abstractions-Providers.md)
-    * [Extensions](Abstractions-Extensions.md)
-    * [Helpers](Abstractions-Helpers.md)
+    * [Providers](Abstractions/Abstractions-Providers.md)
+    * [Extensions](Abstractions/Abstractions-Extensions.md)
+    * [Helpers](Abstractions/Abstractions-Helpers.md)
 * [Collections](Collections/Collections.md)
     * [AutoMapper extensions](Collections/Collections-Automapper-extensions.md)
 * [IO](IO/IO.md)
