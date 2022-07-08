@@ -88,6 +88,19 @@ namespace Structr.Tests.IO
             result.Should().Be(ContentDirectoryDefaults.Data + "\\foo\\bar\\baz.txt");
         }
 
+        [Fact]
+        public void Format_path_to_network_drive()
+        {
+            // Arrange
+            var path = @"\\server\directory";
+
+            // Act
+            var result = PathHelper.Format(path, ContentDirectory.Data);
+
+            // Assert
+            result.Should().Be(@"\\server\directory");
+        }
+
         [Theory]
         [InlineData(null)]
         [InlineData("")]
