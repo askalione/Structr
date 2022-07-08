@@ -89,7 +89,7 @@ namespace Structr.IO
                 formattedPath = formattedPath.Replace(Options.Template(directory), GetPath(directory), StringComparison.OrdinalIgnoreCase);
             }
 
-            string result = Regex.Replace(formattedPath, "\\\\{2,}", @"\");
+            string result = Regex.Replace(formattedPath, "[^^]\\\\{2,}", @"\");
             return result;
         }
 
