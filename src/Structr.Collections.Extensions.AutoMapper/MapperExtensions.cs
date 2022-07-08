@@ -2,9 +2,13 @@ using Structr.Collections;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AutoMapper
 {
+    /// <summary>
+    /// Extension methods for <see cref="IMapper"/>.
+    /// </summary>
     public static class MapperExtensions
     {
         /// <summary>
@@ -15,14 +19,14 @@ namespace AutoMapper
         /// <param name="collection">Source collection to map from.</param>
         /// <returns>Result collection with elements got by mapping elements from source collection.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IEnumerable<TDestination> MapList<TDestination>(this IMapper mapper, IEnumerable collection)
+        public static List<TDestination> MapList<TDestination>(this IMapper mapper, IEnumerable collection)
         {
             if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            return mapper.Map<IEnumerable<TDestination>>(collection);
+            return mapper.Map<IEnumerable<TDestination>>(collection).ToList();
         }
 
         /// <summary>
