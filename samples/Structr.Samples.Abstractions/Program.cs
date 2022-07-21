@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using Structr.Abstractions.Extensions;
 
 namespace Structr.Samples.Abstractions
 {
@@ -7,6 +8,8 @@ namespace Structr.Samples.Abstractions
     {
         static Task Main(string[] args)
         {
+            var test = 2200.ToKiloFormatString();
+
             var services = new ServiceCollection();
 
             // Add sample app

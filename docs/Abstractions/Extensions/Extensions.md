@@ -10,6 +10,7 @@
 * [Enumerable](Enumerable.md)
 * [Enum](Enum.md)
 * [Expression](Expression.md)
+* [Int](Int.md)
 * [Long](Long.md)
 * [MemberInfo](MemberInfo.md)
 * [Object](Object.md)

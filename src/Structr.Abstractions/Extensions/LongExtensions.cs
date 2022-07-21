@@ -10,7 +10,7 @@ namespace Structr.Abstractions.Extensions
         /// <summary>
         /// Creates a human readable file size string from <see cref="long"/> value.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">Source value.</param>
         /// <returns>String with human readable file size info.</returns>
         public static string ToFileSizeString(this long value)
         {

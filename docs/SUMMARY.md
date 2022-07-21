@@ -19,6 +19,7 @@
         * [Enumerable](Abstractions/Extensions/Enumerable.md)
         * [Enum](Abstractions/Extensions/Enum.md)
         * [Expression](Abstractions/Extensions/Expression.md)
+        * [Int](Abstractions/Extensions/Int.md)
         * [Long](Abstractions/Extensions/Long.md)
         * [MemberInfo](Abstractions/Extensions/MemberInfo.md)
         * [Object](Abstractions/Extensions/Object.md)
