@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Structr.Abstractions;
 using Structr.AspNetCore.Http;
 using System;
 using System.Linq;
@@ -203,14 +204,5 @@ namespace Structr.AspNetCore.TagHelpers
             SortRouteParamName = "sort";
             OrderRouteParamName = "order";
         }
-    }
-
-    /// <summary>
-    /// Possible sort orders.
-    /// </summary>
-    public enum SortOrder
-    {
-        Asc,
-        Desc
     }
 }
