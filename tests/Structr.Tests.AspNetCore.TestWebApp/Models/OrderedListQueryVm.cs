@@ -1,3 +1,4 @@
+using Structr.Abstractions;
 using Structr.AspNetCore.TagHelpers;
 
 namespace Structr.Tests.AspNetCore.TestWebApp.Models
