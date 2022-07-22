@@ -9,11 +9,11 @@ namespace Structr.AspNetCore.Referrer
     public static class ReferrerHttpRequestExtensions
     {
         /// <summary>
-        /// Get a string containing url gotten from <see cref="HttpRequest.Form"/> with <see cref="ReferrerConstants.Key"/> key.
+        /// Get a string containing url gotten from <see cref="HttpRequest.Form"/> with <see cref="ReferrerDefaults.Key"/> key.
         /// If there are no such key then the specified url will be returned instead.
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="defaultReferrer">Fallback url to use in case of lack of <see cref="ReferrerConstants.Key"/> key in <see cref="HttpRequest.Form"/></param>
+        /// <param name="defaultReferrer">Fallback url to use in case of lack of <see cref="ReferrerDefaults.Key"/> key in <see cref="HttpRequest.Form"/></param>
         /// <returns>Referrer or specified url.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <inheritdoc cref="ReferrerControllerExtensions.RedirectToReferrer(Microsoft.AspNetCore.Mvc.Controller, string)"/>

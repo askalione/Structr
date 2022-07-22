@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,27 +6,20 @@
         <Description>Extend the Data Annotation validation provided in ASP.NET Core</Description>
         <PackageTags>Structr;AspNetCore;Mvc;Validation;RequiredIf</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Compile Remove="StaticFiles\**" />
+        <EmbeddedResource Remove="StaticFiles\**" />
+        <None Remove="StaticFiles\**" />
+    </ItemGroup>
+    
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Content Include="StaticFiles\aspnetcore.jquery.validation.js">
-            <Pack>true</Pack>
-            <PackagePath>contentFiles\any\any\ClientApp\assets\js\aspnetcore.validation\aspnetcore.jquery.validation.js</PackagePath>
-            <PackageCopyToOutput>true</PackageCopyToOutput>
-        </Content>
-        <Content Include="StaticFiles\aspnetcore.validation.js">
-            <Pack>true</Pack>
-            <PackagePath>contentFiles\any\any\ClientApp\assets\js\aspnetcore.validation\aspnetcore.validation.js</PackagePath>
-            <PackageCopyToOutput>true</PackageCopyToOutput>
-        </Content>
-        <Content Include="StaticFiles\aspnetcore.validation.unobtrusive.js">
-            <Pack>true</Pack>
-            <PackagePath>contentFiles\any\any\ClientApp\assets\js\aspnetcore.validation\aspnetcore.validation.unobtrusive.js</PackagePath>
-            <PackageCopyToOutput>true</PackageCopyToOutput>
-        </Content>
-    </ItemGroup>
 </Project>

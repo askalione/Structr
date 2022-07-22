@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Structr.Domain
 {
     /// <summary>
-    /// Base class for an entity <see cref="TEntity"/> with composite identifier.
+    /// Base class for an entity <typeparamref name="TEntity"/> with composite identifier.
     /// </summary>
     /// <typeparam name="TEntity">Type of entity.</typeparam>
     public abstract class CompositeEntity<TEntity> : Entity<TEntity>

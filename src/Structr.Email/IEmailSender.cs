@@ -23,7 +23,7 @@ namespace Structr.Email
         Task SendEmailAsync(EmailTemplateMessage email, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Sends an email rendering from a template with model <see cref="{TModel}"/>.
+        /// Sends an email rendering from a template with model <typeparamref name="TModel"/>.
         /// </summary>
         /// <typeparam name="TModel">The model type.</typeparam>
         /// <param name="email">The <see cref="EmailTemplateMessage{TModel}"/>.</param>
@@ -38,7 +38,7 @@ namespace Structr.Email
         Task SendEmailAsync(EmailTemplateFileMessage email, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Sends an email rendering from a template file with model <see cref="{TModel}"/>.
+        /// Sends an email rendering from a template file with model <typeparamref name="TModel"/>.
         /// </summary>
         /// <typeparam name="TModel">The model type.</typeparam>
         /// <param name="email">The <see cref="EmailTemplateFileMessage{TModel}"/>.</param>

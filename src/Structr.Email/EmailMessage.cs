@@ -14,6 +14,7 @@ namespace Structr.Email
 
         /// <param name="to">The email of a recipient.</param>
         /// <inheritdoc cref="EmailMessage(EmailAddress, string)"/>
+        /// <param name="message">The message.</param>
         public EmailMessage(string to, string message)
             : this(new EmailAddress(to), message)
         { }

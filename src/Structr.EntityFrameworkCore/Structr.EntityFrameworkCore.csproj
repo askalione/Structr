@@ -6,6 +6,10 @@
         <Description>Base infrastructure for implement data context using EntityFrameworkCore</Description>
         <PackageTags>Structr;EntityFramework;EntityFrameworkCore;EFCore</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

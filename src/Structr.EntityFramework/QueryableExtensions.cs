@@ -52,6 +52,10 @@ namespace Structr.EntityFramework
         /// <summary>
         /// Asynchronous conversion method from the <see cref="IQueryable{TSource}"/> to the <see cref="PagedList{TSource}"/>.
         /// </summary>
+        /// <typeparam name="TSource">A collection item type.</typeparam>
+        /// <param name="source">The <see cref="IQueryable{TSource}"/>.</param>
+        /// <param name="pageNumber">The number of page.</param>
+        /// <param name="pageSize">The page size.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <inheritdoc cref="ToPagedList{TSource}(IQueryable{TSource}, int, int)"/>
         public static async Task<PagedList<TSource>> ToPagedListAsync<TSource>(this IQueryable<TSource> source,

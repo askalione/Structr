@@ -67,7 +67,6 @@ namespace Structr.AspNetCore.Client.Options
         }
 
         /// <inheritdoc/>
-        /// <exception cref="ArgumentNullException">When <paramref name="key"/> is <see langword="null"/>.</exception>
         public IReadOnlyDictionary<string, IReadOnlyDictionary<string, object>> GetAllClientOptions()
         {
             Dictionary<string, Dictionary<string, object>> allOptionsFromContext = GetOptionsFromContext();

@@ -6,7 +6,7 @@ using System;
 namespace Structr.Configuration.Providers
 {
     /// <summary>
-    /// Provides functionality for access to a JSON file with settings <see cref="TSettings"/>.
+    /// Provides functionality for access to a JSON file with settings <typeparamref name="TSettings"/>.
     /// </summary>
     public class JsonSettingsProvider<TSettings> : FileSettingsProvider<TSettings> where TSettings : class, new()
     {

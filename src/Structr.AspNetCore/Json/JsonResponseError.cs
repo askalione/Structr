@@ -32,8 +32,9 @@ namespace Structr.AspNetCore.Json
             Message = message;
         }
 
-        /// <inheritdoc cref="JsonResponseError.JsonError"/>
+        /// <inheritdoc cref="JsonResponseError"/>
         /// <param name="key">Key corresponding to error.</param>
+        /// <param name="message">Message corresponding to error.</param>
         /// <exception cref="ArgumentNullException">When <paramref name="key"/> is null or white space.</exception>
         public JsonResponseError(string key, string message) : this(message)
         {

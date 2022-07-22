@@ -69,7 +69,7 @@ namespace Structr.Security.Extensions
         }
 
         /// <summary>
-        /// Sets a values for claims with specified type in current identity. If <paramref name="value"/>
+        /// Sets a values for claims with specified type in current identity. If <paramref name="values"/>
         /// is <see langword="null"/> then claim will be removed. If claim not existed then it will be added.
         /// </summary>
         /// <param name="identity">The identity to set claim in.</param>

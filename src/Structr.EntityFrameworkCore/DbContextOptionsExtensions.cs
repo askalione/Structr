@@ -10,7 +10,7 @@ namespace Structr.EntityFrameworkCore
     public static class DbContextOptionsExtensions
     {
         /// <summary>
-        /// Returns service <see cref="{T}"/>.
+        /// Returns service <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">Service type.</typeparam>
         /// <param name="options">The <see cref="DbContextOptions"/>.</param>

@@ -29,6 +29,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
         /// <param name="from">Param to configure the "from" <see cref="EmailAddress"/>.</param>
         /// <inheritdoc cref="AddEmail(IServiceCollection, Func{IServiceProvider, EmailAddress}, Action{IServiceProvider, EmailOptions}?)"/>
+        /// <param name="services">The <see cref="IServiceCollection"/>.</param>
+        /// <param name="configure">Delegate to configure the <see cref="EmailOptions"/>.</param>
         public static EmailServiceBuilder AddEmail(this IServiceCollection services,
             EmailAddress from,
             Action<IServiceProvider, EmailOptions> configure)

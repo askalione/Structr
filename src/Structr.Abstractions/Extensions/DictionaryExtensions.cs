@@ -65,7 +65,7 @@ namespace Structr.Abstractions.Extensions
         /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
         /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
         /// <param name="source"></param>
-        /// <param name="dictionary">Key-value pairs to be added to source dictionary.</param>
+        /// <param name="keys">Key-value pairs to be added to source dictionary.</param>
         public static bool ContainsKeys<TKey, TValue>(this IDictionary<TKey, TValue> source, IEnumerable<TKey> keys)
         {
             Ensure.NotNull(source, nameof(source));

@@ -10,7 +10,7 @@ namespace Structr.Navigation
         where TNavigationItem : NavigationItem<TNavigationItem>, new()
     {
         /// <summary>
-        /// Returns an active breadcrumb item <see cref="TNavigationItem"/>.
+        /// Returns an active breadcrumb item <typeparamref name="TNavigationItem"/>.
         /// </summary>
         TNavigationItem Active { get; }
     }

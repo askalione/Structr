@@ -17,7 +17,7 @@ namespace Structr.Abstractions
         protected Money() { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Money{T}"> class that.
+        /// Initializes a new instance of the <see cref="Money{T}"/> class that.
         /// </summary>
         /// <param name="value">Count of currency units.</param>
         public Money(TValue value) : this()
@@ -76,10 +76,10 @@ namespace Structr.Abstractions
         #region IComparable
 
         /// <summary>
-        /// Performs comparision based on comparision method defined in class <see cref="TValue"/>.
+        /// Performs comparision based on comparision method defined in class <typeparamref name="TValue"/>.
         /// </summary>
         /// <param name="other">Object to compare with.</param>
-        /// <returns>Returns 1 if <paramref name="other"/> equals null, otherwise returns comparision result specific to <see cref="TValue"/> type.</returns>
+        /// <returns>Returns 1 if <paramref name="other"/> equals null, otherwise returns comparision result specific to <typeparamref name="TValue"/> type.</returns>
         public int CompareTo(Money<TValue> other)
         {
             if (ReferenceEquals(null, other))
@@ -91,12 +91,12 @@ namespace Structr.Abstractions
         }
 
         /// <summary>
-        /// Performs comparision based on comparision method defined in class <see cref="TValue"/>.
+        /// Performs comparision based on comparision method defined in class <typeparamref name="TValue"/>.
         /// </summary>
         /// <param name="obj">Object to compare with.</param>
         /// <returns>Returns 1 if <paramref name="obj"/> equals null, returns 0 if current object
         /// ReferenceEquals <paramref name="obj"/>, otherwise returns comparision result specific
-        /// to <see cref="TValue"/> type.</returns>
+        /// to <typeparamref name="TValue"/> type.</returns>
         /// <exception cref="InvalidOperationException"></exception>
         public virtual int CompareTo(object obj)
         {
@@ -194,7 +194,7 @@ namespace Structr.Abstractions
         protected Money() : base() { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Money{TValue, TCurrency}"> class that.
+        /// Initializes a new instance of the <see cref="Money{TValue, TCurrency}"/> class that.
         /// </summary>
         /// <param name="value">Count of currency units.</param>
         /// <param name="currency">Currency of stored money value.</param>
@@ -250,10 +250,10 @@ namespace Structr.Abstractions
         #region IComparable
 
         /// <summary>
-        /// Performs comparision based on comparision method defined in class <see cref="TValue"/>.
+        /// Performs comparision based on comparision method defined in class <typeparamref name="TValue"/>.
         /// </summary>
         /// <param name="other">Object to compare with.</param>
-        /// <returns>Returns 1 if <paramref name="other"/> equals null, otherwise returns comparision result specific to <see cref="TValue"/> type.</returns>
+        /// <returns>Returns 1 if <paramref name="other"/> equals null, otherwise returns comparision result specific to <typeparamref name="TValue"/> type.</returns>
         public int CompareTo(Money<TValue, TCurrency> other)
         {
             if (ReferenceEquals(null, other))

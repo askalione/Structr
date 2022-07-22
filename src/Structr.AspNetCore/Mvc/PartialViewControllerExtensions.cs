@@ -19,7 +19,7 @@ namespace Structr.AspNetCore.Mvc
         /// Render a partial view using provided model.
         /// </summary>
         /// <typeparam name="TModel">Type of model to render view with.</typeparam>
-        /// <param name="controller"></param>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
         /// <param name="viewName">Name of view. If not specified then action name will be taken.</param>
         /// <param name="model">Model to render view with.</param>
         /// <returns>Rendered view as a <see langword="string"/>.</returns>
@@ -31,6 +31,9 @@ namespace Structr.AspNetCore.Mvc
         /// <summary>
         /// Render a view using provided model.
         /// </summary>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
+        /// <param name="viewName">Name of view. If not specified then action name will be taken.</param>
+        /// <param name="model">Model to render view with.</param>
         /// <param name="isPartial">Determines if current view is a partial view.</param>
         /// <inheritdoc cref="RenderPartialViewAsync{TModel}(Controller, string, TModel)"/>
         public static async Task<string> RenderViewAsync<TModel>(this Controller controller, string viewName, TModel model, bool isPartial = false)

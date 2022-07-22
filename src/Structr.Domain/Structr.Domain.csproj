@@ -6,6 +6,10 @@
         <Description>Base abstractions for implement domain driven design</Description>
         <PackageTags>Structr;Domain;DDD;Entity;AggregateRoot;ValueObject</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
 </Project>

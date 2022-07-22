@@ -20,6 +20,8 @@ namespace Structr.AspNetCore.Json
         /// <summary>
         /// Creates a <see cref="JsonResult"/> object, with serialized success marker and message.
         /// </summary>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
+        /// <param name="ok">Success marker.</param>
         /// <param name="message">Message to attach to result.</param>
         /// <inheritdoc cref="JsonResponse(Controller, bool)"/>
         public static JsonResult JsonResponse(this Controller controller, bool ok, string message)
@@ -28,6 +30,9 @@ namespace Structr.AspNetCore.Json
         /// <summary>
         /// Creates a <see cref="JsonResult"/> object, with serialized success marker, message and data.
         /// </summary>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
+        /// <param name="ok">Success marker.</param>
+        /// <param name="message">Message to attach to result.</param>
         /// <param name="data">Data object to append to result.</param>
         /// <inheritdoc cref="JsonResponse(Controller, bool, string)"/>
         public static JsonResult JsonResponse(this Controller controller, bool ok, string message, object data)
@@ -53,6 +58,7 @@ namespace Structr.AspNetCore.Json
         /// Creates a <see cref="JsonResult"/> object representing successful response,
         /// with serialized success marker equals <see langword="true"/> and message.
         /// </summary>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
         /// <param name="message">Message to attach to result.</param>
         /// <inheritdoc cref="JsonSuccess(Controller)"/>
         public static JsonResult JsonSuccess(this Controller controller, string message)
@@ -62,6 +68,8 @@ namespace Structr.AspNetCore.Json
         /// Creates a <see cref="JsonResult"/> object representing successful response,
         /// with serialized success marker equals <see langword="true"/>, message and data.
         /// </summary>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
+        /// <param name="message">Message to attach to result.</param>
         /// <param name="data">Data object to append to result.</param>
         /// <inheritdoc cref="JsonSuccess(Controller, string)"/>
         public static JsonResult JsonSuccess(this Controller controller, string message, object data)
@@ -80,6 +88,7 @@ namespace Structr.AspNetCore.Json
         /// Creates a <see cref="JsonResult"/> object representing failed response,
         /// with serialized success marker equals <see langword="false"/> and message.
         /// </summary>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
         /// <param name="message">Message to attach to result.</param>
         /// <inheritdoc cref="JsonError(Controller)"/>
         public static JsonResult JsonError(this Controller controller, string message)
@@ -89,6 +98,8 @@ namespace Structr.AspNetCore.Json
         /// Creates a <see cref="JsonResult"/> object representing failed response,
         /// with serialized success marker equals <see langword="false"/>, message and data.
         /// </summary>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
+        /// <param name="message">Message to attach to result.</param>
         /// <param name="data">Data object to append to result.</param>
         /// <inheritdoc cref="JsonError(Controller, string)"/>
         public static JsonResult JsonError(this Controller controller, string message, object data)
@@ -108,6 +119,8 @@ namespace Structr.AspNetCore.Json
         /// Creates a <see cref="JsonResult"/> object representing failed response,
         /// with serialized success marker equals <see langword="false"/>, error messages and data.
         /// </summary>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
+        /// <param name="messages">List of error messages.</param>
         /// <param name="data">Data object to append to result.</param>
         /// <inheritdoc cref="JsonError(Controller, IEnumerable{string})"/>
         public static JsonResult JsonError(this Controller controller, IEnumerable<string> messages, object data)
@@ -127,6 +140,8 @@ namespace Structr.AspNetCore.Json
         /// Creates a <see cref="JsonResult"/> object representing failed response,
         /// with serialized success marker equals <see langword="false"/>, errors and data.
         /// </summary>
+        /// <param name="controller">The <see cref="Controller"/></param>
+        /// <param name="errors">List of errors.</param>
         /// <param name="data">Data object to append to result.</param>
         /// <inheritdoc cref="JsonError(Controller, IEnumerable{JsonResponseError})"/>
         public static JsonResult JsonError(this Controller controller, IEnumerable<JsonResponseError> errors, object data)

@@ -6,6 +6,10 @@
         <Description>Base infrastructure for implementing configuration.</Description>
         <PackageTags>Structr;Configuration;Configurator;Settings</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

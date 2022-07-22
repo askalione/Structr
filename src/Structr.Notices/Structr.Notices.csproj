@@ -6,6 +6,10 @@
         <Description>Base infrastructure for publishing and handling notices</Description>
         <PackageTags>Structr;Notices;Notifications;Dispatching;Messaging</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

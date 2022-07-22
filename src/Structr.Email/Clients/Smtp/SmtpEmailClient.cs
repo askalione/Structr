@@ -17,7 +17,7 @@ namespace Structr.Email.Clients.Smtp
         /// Initializes a new instance of the <see cref="SmtpEmailClient"/> class.
         /// </summary>
         /// <param name="smtpClientFactory">The <see cref="ISmtpClientFactory"/>.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="smtpClientFactory"/> is <see langword="null"/>.</exception>
         public SmtpEmailClient(ISmtpClientFactory smtpClientFactory)
         {
             if (smtpClientFactory == null)

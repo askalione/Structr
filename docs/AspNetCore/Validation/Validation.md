@@ -75,15 +75,15 @@ These attributes allow to specify related property which value will be used to c
 
 | Attribute name | Description |
 | --- | --- |
-| `EqualTo` | Specifies that a data field value must be equal to a value of specified related property.
-| `NotEqualTo` | Specifies that a data field value must NOT be equal to a value of specified related property.
-| `GreaterThan` | Specifies that a data field value must be greater than a value of specified related property.
-| `GreaterThanOrEqual` | Specifies that a data field value must be greater or equal to a value of specified related property.
-| `LessThan` | Specifies that a data field value must be less than a value of specified related property.
-| `LessThanOrEqualTo` | Specifies that a data field value must be less or equal to a value of specified related property.
-| `In` | Specifies that a data field value must be contained in value of specified related property. In case of array-type of related property simple inclusion will be checked. If it's not an array-type the equality operator will be used.
-| `NotIn` | Specifies that a data field value must NOT be contained in value of specified related property. In case of array-type of related property simple inclusion will be checked. If it's not an array-type the equality operator will be used.
-| `Is` | The generalized version of those above. Specifies that a data field value must match a value of specified related property. This one needs a matching `Operator` to be specified.
+| `EqualTo` | Specifies that a data field value must be equal to a value of specified related property. |
+| `NotEqualTo` | Specifies that a data field value must NOT be equal to a value of specified related property. |
+| `GreaterThan` | Specifies that a data field value must be greater than a value of specified related property. |
+| `GreaterThanOrEqual` | Specifies that a data field value must be greater or equal to a value of specified related property. |
+| `LessThan` | Specifies that a data field value must be less than a value of specified related property. |
+| `LessThanOrEqualTo` | Specifies that a data field value must be less or equal to a value of specified related property. |
+| `In` | Specifies that a data field value must be contained in value of specified related property. In case of array-type of related property simple inclusion will be checked. If it's not an array-type the equality operator will be used. |
+| `NotIn` | Specifies that a data field value must NOT be contained in value of specified related property. In case of array-type of related property simple inclusion will be checked. If it's not an array-type the equality operator will be used. |
+| `Is` | The generalized version of those above. Specifies that a data field value must match a value of specified related property. This one needs a matching `Operator` to be specified. |
 
 In addition to properties available for all validation attributes, attributes of this type has `PassOnNull`. This property indicates that validation should be passed if value of property to be validated or value of related property equals `null`. In case of both values are `null` then the behavior of validation will depend on type of attribute. `GreaterThan`, `LessThan`, `NotIn` and `NotEqualTo` will fail validation. Others will succeed.
 
@@ -93,13 +93,13 @@ These allow to make marked property requirement as conditional and based on rela
 
 | Attribute name | Description |
 | --- | --- |
-| `RequiredIfEmpty` | Marks property as required when related property is empty.
-| `RequiredIfNotEmpty` | Marks property as required when related property is NOT empty.
-| `RequiredIfTrue` | Marks property as required when related property equals `true`.
-| `RequiredIfFalse` | Marks property as required when related property equals `false`.
-| `RequiredIfRegExMatch` | Marks property as required when related property matches provided regular expression.
-| `RequiredIfNotRegExMatch` | Marks property as required when related property DOESN'T match provided regular expression.
-| `RequiredIf` | The generalized version of attributes above.
+| `RequiredIfEmpty` | Marks property as required when related property is empty. |
+| `RequiredIfNotEmpty` | Marks property as required when related property is NOT empty. |
+| `RequiredIfTrue` | Marks property as required when related property equals `true`. |
+| `RequiredIfFalse` | Marks property as required when related property equals `false`. |
+| `RequiredIfRegExMatch` | Marks property as required when related property matches provided regular expression. |
+| `RequiredIfNotRegExMatch` | Marks property as required when related property DOESN'T match provided regular expression. |
+| `RequiredIf` | The generalized version of attributes above. |
 
 ### Regular expressions
 
@@ -121,6 +121,14 @@ This one will validate `Foo` property to match `[A-Z][a-z]\d` expression only if
 
 Use AspNetCore.Validation JavaScript files on client side with [jQuery validation plugin](https://github.com/jquery-validation/jquery-validation):
 
+Client scripts:
+
+| Script name | Description |
+| --- | --- |
+| [aspnetcore.validation.js](https://github.com/askalione/Structr/blob/master/src/Structr.AspNetCore.Validation/StaticFiles/aspnetcore.validation.js) | Basic client validation functions. |
+| [aspnetcore.jquery.validation.js](https://github.com/askalione/Structr/blob/master/src/Structr.AspNetCore.Validation/StaticFiles/aspnetcore.jquery.validation.js) | Adapters for jQuery validation plugin. |
+| [aspnetcore.validation.unobtrusive.js](https://github.com/askalione/Structr/blob/master/src/Structr.AspNetCore.Validation/StaticFiles/aspnetcore.validation.unobtrusive.js) | Adapters for unobtrusive. |
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -136,3 +144,5 @@ Use AspNetCore.Validation JavaScript files on client side with [jQuery validatio
 </body>
 </html>
 ```
+
+**Important:** Order of includes client scripts is required!

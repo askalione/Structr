@@ -292,7 +292,7 @@ namespace Structr.AspNetCore.TagHelpers
     public class PaginationOptions
     {
         /// <summary>
-        /// An instance of <see cref="IPagedList"/> to get information about pagination from.
+        /// An instance of <see cref="IPagedEnumerable"/> to get information about pagination from.
         /// </summary>
         public IPagedEnumerable PagedEnumerable { get; set; }
 
@@ -390,7 +390,7 @@ namespace Structr.AspNetCore.TagHelpers
         public string DelimiterBetweenPageNumbers { get; set; }
 
         /// <summary>
-        /// Method allowing to format HTML for <li> and <a> inside of paging controls, using TagBuilders.
+        /// Method allowing to format HTML for li and a inside of paging controls, using TagBuilders.
         /// </summary>
         public Func<TagBuilder, TagBuilder, TagBuilder> FunctionToTransformEachPageLink { get; set; }
 

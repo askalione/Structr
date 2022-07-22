@@ -6,6 +6,10 @@
         <Description>Common abstractions, extensions and helpers</Description>
         <PackageTags>Structr;Abstractions;Extensions;Helpers</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

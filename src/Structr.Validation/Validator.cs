@@ -15,9 +15,9 @@ namespace Structr.Validation
         }
 
         /// <summary>
-        /// Synchronously validates instance of <see cref="T"/>.
+        /// Synchronously validates instance of <typeparamref name="T"/>.
         /// </summary>
-        /// <param name="instance">The instance of <see cref="T"/> to be validated.</param>
+        /// <param name="instance">The instance of <typeparamref name="T"/> to be validated.</param>
         /// <returns>The <see cref="ValidationResult"/>.</returns>
         protected abstract ValidationResult Validate(T instance);
     }

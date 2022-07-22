@@ -1,7 +1,7 @@
 namespace Structr.Domain
 {
     /// <summary>
-    /// Base class for a signed auditable entity <see cref="TEntity"/>.
+    /// Base class for a signed auditable entity <typeparamref name="TEntity"/>.
     /// </summary>
     /// <remarks>
     /// Provides DateCreated, DateModified, CreatedBy and ModifiedBy properties.
@@ -17,7 +17,7 @@ namespace Structr.Domain
     }
 
     /// <summary>
-    /// Base class for a signed auditable entity <see cref="TEntity"/> with identifier <see cref="TKey"/>.
+    /// Base class for a signed auditable entity <typeparamref name="TEntity"/> with identifier <typeparamref name="TKey"/>.
     /// </summary>
     /// <remarks>
     /// Provides DateCreated, DateModified, CreatedBy and ModifiedBy properties.

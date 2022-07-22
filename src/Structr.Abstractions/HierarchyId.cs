@@ -14,7 +14,7 @@ namespace Structr.Abstractions
         private const char _separator = '/';
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HierarchyId"> class that holds data about provided nodes ids.
+        /// Initializes a new instance of the <see cref="HierarchyId"/> class that holds data about provided nodes ids.
         /// </summary>
         /// <param name="nodes">Hierarchy nodes ids.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="nodes"/> is <see langword="null"/>.</exception>
@@ -26,9 +26,9 @@ namespace Structr.Abstractions
         }
 
         /// <summary>
-        /// Gets last node in current branch of hierarchy.
+        /// 
         /// </summary>
-        /// <returns>Last node id.</returns>
+        /// <returns></returns>
         public int GetNode()
             => _nodes.Last();
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Structr.Validation
 {
     /// <summary>
-    /// Extensions methods for <see cref="IEnumerable{}"/>.
+    /// Extensions methods for <see cref="IEnumerable{ValidationFailure}"/>.
     /// </summary>
     public static class EnumerableExtensions
     {

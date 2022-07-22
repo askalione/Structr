@@ -30,7 +30,7 @@ namespace Structr.Navigation
         public bool EnableCaching { get; set; }
 
         /// <summary>
-        /// Initializes an instance of <see cref="NavigationOptions"/> with default values.
+        /// Initializes an instance of <see cref="NavigationOptions{TNavigationItem}"/> with default values.
         /// </summary>
         public NavigationOptions()
         {

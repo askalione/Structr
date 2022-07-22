@@ -36,7 +36,6 @@ namespace Structr.Abstractions.Helpers
         /// <summary>
         /// Synchroniously executes provided async method.
         /// </summary>
-        /// <typeparam name="TResult">Type of async metod result.</typeparam>
         /// <param name="func">Async method to execute.</param>
         public static void RunSync(Func<Task> func)
         {

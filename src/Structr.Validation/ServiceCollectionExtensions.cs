@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configureOptions">The <see cref="ValidationServiceOptions"/> to be used by validation service.</param>
-        /// <param name="assembliesToScan">Assembly to search <see cref="IValidator{}"/>.</param>
+        /// <param name="assembliesToScan">Assembly to search <see cref="IValidator{ValidationFailure}"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="services"/> is <see langword="null"/>.</exception>
         public static IServiceCollection AddValidation(this IServiceCollection services,

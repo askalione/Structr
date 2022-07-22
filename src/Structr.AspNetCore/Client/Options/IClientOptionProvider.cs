@@ -32,7 +32,7 @@ namespace Structr.AspNetCore.Client.Options
         /// <summary>
         /// Builds a key for options using <paramref name="routeData"/>.
         /// </summary>
-        /// <param name="routeData">The <see cref="routeData"/>.</param>
+        /// <param name="routeData">The <see cref="RouteData"/>.</param>
         /// <returns>The key for options.</returns>
         string BuildClientOptionsKey(RouteData routeData);
     }

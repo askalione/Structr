@@ -3,7 +3,7 @@ using System;
 namespace Structr.Domain
 {
     /// <summary>
-    /// Base class for an entity <see cref="TEntity"/>.
+    /// Base class for an entity <typeparamref name="TEntity"/>.
     /// </summary>
     /// <remarks>
     /// Provides <see cref="IsTransient"/> and <see cref="Equals(TEntity)"/> methods.
@@ -73,7 +73,7 @@ namespace Structr.Domain
     }
 
     /// <summary>
-    /// Base class for an entity <see cref="TEntity"/> with identifier <see cref="TKey"/>.
+    /// Base class for an entity <typeparamref name="TEntity"/> with identifier <typeparamref name="TKey"/>.
     /// </summary>
     /// <remarks>
     /// Provides <see cref="Id"/> property, <see cref="IsTransient"/> and <see cref="Equals(TEntity)"/> methods.

@@ -44,6 +44,7 @@ namespace Structr.AspNetCore.Json
         /// Creates an instance of <see cref="JsonResponse"/> with specified message.
         /// </summary>
         /// <inheritdoc cref="JsonResponse(bool)"/>
+        /// <param name="ok">Identifies correctness of result. Should be <see langword="true"/> if result has no errors.</param>
         /// <param name="message">Message supplementing the result.</param>
         /// <exception cref="ArgumentNullException">When <paramref name="message"/> is <see langword="null"/> or empty.</exception>
         public JsonResponse(bool ok, string message) : this(ok)
@@ -67,6 +68,7 @@ namespace Structr.AspNetCore.Json
         /// Creates an instance of <see cref="JsonResponse"/> with attached data.
         /// </summary>
         /// <inheritdoc cref="JsonResponse(bool)"/>
+        /// <param name="ok">Identifies correctness of result. Should be <see langword="true"/> if result has no errors.</param>
         /// <param name="data">Attached data.</param>
         public JsonResponse(bool ok, object data) : this(ok)
         {

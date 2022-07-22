@@ -6,6 +6,10 @@
         <Description>Base infrastructure for development application using AspNetCore</Description>
         <PackageTags>Structr;AspNetCore;Mvc</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

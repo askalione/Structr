@@ -14,7 +14,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="T">Implementation of <see cref="ITimestampProvider"/></typeparam>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
-        /// <param name="lifetime">ServiceLifetime value.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddTimestampProvider<T>(this IServiceCollection services)
             where T : class, ITimestampProvider

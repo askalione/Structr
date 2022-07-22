@@ -6,6 +6,10 @@
       <Description>Base infrastructure for validation objects</Description>
       <PackageTags>Structr;Validation;Validator</PackageTags>
       <Authors>Alexey Drapash</Authors>
+      <GenerateDocumentationFile>True</GenerateDocumentationFile>
+      <IncludeSymbols>true</IncludeSymbols>
+      <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+      <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

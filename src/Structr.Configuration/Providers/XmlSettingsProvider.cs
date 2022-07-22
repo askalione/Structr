@@ -6,7 +6,7 @@ using System;
 namespace Structr.Configuration.Providers
 {
     /// <summary>
-    /// Provides functionality for access to a XML file with settings <see cref="TSettings"/>.
+    /// Provides functionality for access to a XML file with settings <typeparamref name="TSettings"/>.
     /// </summary>
     public class XmlSettingsProvider<TSettings> : FileSettingsProvider<TSettings> where TSettings : class, new()
     {

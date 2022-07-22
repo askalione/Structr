@@ -72,8 +72,6 @@ namespace Structr.IO
         /// <returns>A task that represents the asynchronous save operation, which wraps the absolute path to the saved file.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="bytes"/> is <see langword="null"/>.</exception>
-        /// <exception cref="InvalidOperationException">If directory <paramref name="dir"/> was not found and <paramref name="createDirIfNotExists"/> is <see langword="false"/>.</exception>
-        /// <exception cref="InvalidOperationException">If file <paramref name="filePath"/> already exists and <paramref name="useSequentialFileNameIfExists"/> is <see langword="false"/>.</exception>
         public static async Task<string> SaveFileAsync(string path,
             byte[] bytes,
             bool createDirIfNotExists = true,
@@ -156,7 +154,6 @@ namespace Structr.IO
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
         /// <returns>A task that represents the asynchronous read operation, which wraps the byte array containing the contents of the file.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
-        /// <exception cref="InvalidOperationException">If file <paramref name="filePath"/> not exists and <paramref name="throwIfNotExists"/> is <see langword="true"/>.</exception>
         public static async Task<byte[]> ReadFileAsync(string path,
             bool throwIfNotExists = true,
             CancellationToken cancellationToken = default(CancellationToken))

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Structr.AspNetCore.Client.Alerts
 {
     /// <summary>
-    /// An implementation of <see cref="IAlertProvider"/>.
+    /// An implementation of <see cref="IClientAlertProvider"/>.
     /// </summary>
     public class ClientAlertProvider : IClientAlertProvider
     {

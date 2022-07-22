@@ -6,6 +6,10 @@
         <Description>Base infrastructure for working with I/O</Description>
         <PackageTags>Structr;IO;File;Path</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
 </Project>

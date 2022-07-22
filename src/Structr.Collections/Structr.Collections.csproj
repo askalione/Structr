@@ -6,6 +6,10 @@
         <Description>Base collections abstractions</Description>
         <PackageTags>Structr;Collections;Pagination;Paging</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
 </Project>

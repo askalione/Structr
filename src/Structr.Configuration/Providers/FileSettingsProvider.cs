@@ -6,7 +6,7 @@ using System.IO;
 namespace Structr.Configuration.Providers
 {
     /// <summary>
-    /// Provides functionality for access to a file with settings <see cref="TSettings"/>.
+    /// Provides functionality for access to a file with settings <typeparamref name="TSettings"/>.
     /// </summary>
     public abstract class FileSettingsProvider<TSettings> : SettingsProvider<TSettings> where TSettings : class, new()
     {

@@ -14,7 +14,7 @@ namespace Microsoft.AspNetCore.Mvc
         /// <summary>
         /// Adds client options to context associated with controller.
         /// </summary>
-        /// <param name="controller"></param>
+        /// <param name="controller">The <see cref="Controller"/>.</param>
         /// <param name="options">Options to add represented by object.</param>
         public static void AddClientOptions(this Controller controller, object options)
         {
@@ -22,7 +22,9 @@ namespace Microsoft.AspNetCore.Mvc
             AddClientOptions(controller, key, options);
         }
 
+        /// <param name="controller">The <see cref="Controller"/>.</param>
         /// <param name="key">Key to use for storing options.</param>
+        /// <param name="options">Options to add represented by object.</param>
         /// <inheritdoc cref="AddClientOptions(Controller, object)"/>
         public static void AddClientOptions(this Controller controller, string key, object options)
         {
@@ -37,6 +39,7 @@ namespace Microsoft.AspNetCore.Mvc
             AddClientOptions(controller, key, optionsAsDictionary);
         }
 
+        /// <param name="controller">The <see cref="Controller"/>.</param>
         /// <param name="options">Options to add represented by dictionary.</param>
         /// <inheritdoc cref="AddClientOptions(Controller, object)"/>
         public static void AddClientOptions(this Controller controller, Dictionary<string, object> options)

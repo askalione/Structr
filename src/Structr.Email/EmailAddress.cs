@@ -45,7 +45,7 @@ namespace Structr.Email
         }
 
         /// <summary>
-        /// Returns a string that represents the current <see cref="EmailAddress"/> in the format "{Address}" or "{Name}<{Address}>".
+        /// Returns a string that represents the current <see cref="EmailAddress"/> in the format "{Address}" or "{Name} {Address}".
         /// </summary>
         public override string ToString()
         {

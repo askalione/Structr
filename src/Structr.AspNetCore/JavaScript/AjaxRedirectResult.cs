@@ -12,7 +12,7 @@ namespace Structr.AspNetCore.JavaScript
     public class AjaxRedirectResult : RedirectResult
     {
         /// <summary>
-        /// Creates an instance of <see cref="AjaxRedirectResult">
+        /// Creates an instance of <see cref="AjaxRedirectResult"/>
         /// </summary>
         /// <param name="url">Url to redirect to.</param>
         public AjaxRedirectResult(string url)

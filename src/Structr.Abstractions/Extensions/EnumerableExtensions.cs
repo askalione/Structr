@@ -145,6 +145,7 @@ namespace Structr.Abstractions.Extensions
         /// </summary>
         /// <typeparam name="T">The type of the elements of source collection.</typeparam>
         /// <param name="source">A sequence of values to pick from.</param>
+        /// <param name="count">A ount pf items.</param>
         /// <returns>Random number of first elements from source collection.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count)
@@ -173,6 +174,7 @@ namespace Structr.Abstractions.Extensions
         /// </summary>
         /// <typeparam name="T">The type of the elements of source collection.</typeparam>
         /// <param name="source">A sequence of values to shuffle.</param>
+        /// <param name="action">An action for each element of collection.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
@@ -191,6 +193,7 @@ namespace Structr.Abstractions.Extensions
         /// </summary>
         /// <typeparam name="T">The type of the elements of source collection.</typeparam>
         /// <param name="source">A sequence of values to shuffle.</param>
+        /// <param name="func">A function for every element of collection.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public static void ForEachOrBreak<T>(this IEnumerable<T> source, Func<T, bool> func)
         {

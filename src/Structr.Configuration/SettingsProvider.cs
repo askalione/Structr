@@ -4,7 +4,7 @@ using System;
 namespace Structr.Configuration
 {
     /// <summary>
-    /// Provides functionality for access to a settings <see cref="TSettings"/>.
+    /// Provides functionality for access to a settings <typeparamref name="TSettings"/>.
     /// </summary>
     /// <typeparam name="TSettings">Settings class.</typeparam>
     public abstract class SettingsProvider<TSettings> where TSettings : class, new()

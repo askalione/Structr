@@ -6,6 +6,10 @@
         <Description>Base infrastructure for executing and handling operations</Description>
         <PackageTags>Structr;Operations;Dispatching;Messaging</PackageTags>
         <Authors>Alexey Drapash</Authors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

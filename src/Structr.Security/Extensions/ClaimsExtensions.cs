@@ -16,7 +16,7 @@ namespace Structr.Security.Extensions
         /// </summary>
         /// <param name="source">Collection of <see cref="Claim"/> to find claim from.</param>
         /// <param name="type">The claim type to match (case insensitive).</param>
-        /// <returns>The first matching claim or <see cref="null"/> if no match is found.</returns>
+        /// <returns>The first matching claim or <see langword="null"/> if no match is found.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null"/> and <paramref name="type"/> is <see langword="null"/> or empty.</exception>
         public static Claim FindFirst(this IEnumerable<Claim> source, string type)
         {
@@ -38,7 +38,7 @@ namespace Structr.Security.Extensions
         /// </summary>
         /// <param name="source">Collection of <see cref="Claim"/> to find claim from.</param>
         /// <param name="type">The claim type to match.</param>
-        /// <returns>The first matching claim value or <see cref="null"/> if no match is found.</returns>
+        /// <returns>The first matching claim value or <see langword="null"/> if no match is found.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null"/> and <paramref name="type"/> is <see langword="null"/> or empty.</exception>
         public static string FindFirstValue(this IEnumerable<Claim> source, string type)
         {
@@ -172,7 +172,7 @@ namespace Structr.Security.Extensions
         /// </summary>
         /// <param name="source">Collection of <see cref="Claim"/> to find claim from.</param>
         /// <param name="type">The claim type to match.</param>
-        /// <returns><see langword="true"/> if a matching claim exists; otherwise, <see langword="false">.</returns>
+        /// <returns><see langword="true"/> if a matching claim exists; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="type"/> is null.</exception>
         public static bool HasClaim(this IEnumerable<Claim> source, string type)
         {

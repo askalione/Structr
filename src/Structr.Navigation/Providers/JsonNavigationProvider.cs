@@ -8,7 +8,7 @@ using System.IO;
 namespace Structr.Navigation.Providers
 {
     /// <summary>
-    /// Provides functionality for creation list of navigation items <see cref="IEnumerable<TNavigationItem>"/> from JSON file.
+    /// Provides functionality for creation list of navigation items <see cref="IEnumerable{TNavigationItem}"/> from JSON file.
     /// </summary>
     /// <typeparam name="TNavigationItem">An implementation of the abstract class <see cref="NavigationItem{TNavigationItem}"/>.</typeparam>
     public class JsonNavigationProvider<TNavigationItem> : INavigationProvider<TNavigationItem>
@@ -21,7 +21,7 @@ namespace Structr.Navigation.Providers
         };
 
         /// <summary>
-        /// Initializes an instance of <see cref="JsonNavigationProvider"/>.
+        /// Initializes an instance of <see cref="JsonNavigationProvider{TNavigationItem}"/>.
         /// </summary>
         /// <param name="path">Absolute path to JSON file with navigation configuration.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/>.</exception>

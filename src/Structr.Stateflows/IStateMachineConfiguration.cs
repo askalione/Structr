@@ -12,7 +12,7 @@ namespace Structr.Stateflows
     /// <typeparam name="TTrigger">Type representing set of possible triggers.</typeparam>
     /// <remarks>
     /// To use this the <see cref="IStateMachineConfiguration{TEntity, TState, TTrigger}"/> factory like
-    /// <see cref="Func{FooStateEnum, IFooStateMachineConfiguration}"/> should be registred before. Then this
+    /// Func{FooStateEnum, IFooStateMachineConfiguration} should be registred before. Then this
     /// factory should be injected into FooStateMachineConfigurator.
     /// </remarks>
     public interface IStateMachineConfiguration<TEntity, TState, TTrigger>

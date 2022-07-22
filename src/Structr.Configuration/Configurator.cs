@@ -12,8 +12,7 @@ namespace Structr.Configuration
         /// Initializes an instance of <see cref="Configurator{TSettings}"/>.
         /// </summary>
         /// <param name="options">The <see cref="ConfigurationOptions{TSettings}"/>.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="serviceProvider"/> is <see langword="null"/>.</exception>
-        /// <exception cref="InvalidOperationException">If <paramref name="serviceProvider"/> does not contain <see cref="ConfigurationOptions{TSettings}"/> service.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
         public Configurator(ConfigurationOptions<TSettings> options)
         {
             if (options == null)

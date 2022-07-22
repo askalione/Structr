@@ -19,6 +19,8 @@ namespace Structr.Email
 
         /// <param name="to">The email address of a recipient.</param>
         /// <inheritdoc cref="EmailTemplateFileMessage(EmailAddress,string,object)"/>
+        /// <param name="templatePath">The absolute path to the template.</param>
+        /// <param name="model">The model to render into the template.</param>
         public EmailTemplateFileMessage(string to,
             string templatePath,
             object model)
@@ -55,7 +57,7 @@ namespace Structr.Email
     }
 
     /// <summary>
-    /// Represents an object containing data about an email generated from template file with <see cref="TModel"/>.
+    /// Represents an object containing data about an email generated from template file with <typeparamref name="TModel"/>.
     /// </summary>
     /// <typeparam name="TModel">Model type.</typeparam>
     public abstract class EmailTemplateFileMessage<TModel> : EmailData

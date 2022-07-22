@@ -10,7 +10,7 @@ namespace Structr.Stateflows
     public interface IStateMachineProvider
     {
         /// <summary>
-        /// Get an instance of <see cref="IStateMachine"/> that is suitable for modeling entity behavior.
+        /// Get an instance of <see cref="IStateMachine{TState, TTrigger}"/> that is suitable for modeling entity behavior.
         /// </summary>
         /// <typeparam name="TEntity">Type of entity which behavior is modeled.</typeparam>
         /// <typeparam name="TState">Type of object describing entity states.</typeparam>
