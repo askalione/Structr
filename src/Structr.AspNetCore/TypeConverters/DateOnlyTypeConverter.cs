@@ -2,6 +2,7 @@ using System;
 
 namespace Structr.AspNetCore.TypeConverters
 {
+    /// <inheritdoc />
     public sealed class DateOnlyTypeConverter : IsoStringTypeConverter<DateOnly>
     {
         protected override DateOnly Parse(string s) => DateOnly.Parse(s);
