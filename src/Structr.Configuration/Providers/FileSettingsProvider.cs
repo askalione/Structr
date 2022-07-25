@@ -8,7 +8,8 @@ namespace Structr.Configuration.Providers
     /// <summary>
     /// Provides functionality for access to a file with settings <typeparamref name="TSettings"/>.
     /// </summary>
-    public abstract class FileSettingsProvider<TSettings> : SettingsProvider<TSettings> where TSettings : class, new()
+    public abstract class FileSettingsProvider<TSettings> : SettingsProvider<TSettings>
+        where TSettings : class, new()
     {
         protected readonly string Path;
         private DateTime? _lastModifiedTime;
@@ -18,11 +19,11 @@ namespace Structr.Configuration.Providers
         /// <summary>
         /// Initializes a new <see cref="FileSettingsProvider{TSettings}"/> instance.
         /// </summary>
-        /// <param name="options">The options object to make additional configurations.</param>
         /// <param name="path">The path to file with settings.</param>
+        /// <param name="options">The options object to make additional configurations.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
-        public FileSettingsProvider(SettingsProviderOptions options, string path) : base(options)
+        public FileSettingsProvider(string path, SettingsProviderOptions options) : base(options)
         {
             if (string.IsNullOrEmpty(path))
             {

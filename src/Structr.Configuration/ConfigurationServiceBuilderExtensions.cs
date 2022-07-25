@@ -79,7 +79,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 var settingsProviderOptions = new SettingsProviderOptions();
                 configure?.Invoke(serviceProvider, settingsProviderOptions);
-                var provider = new JsonSettingsProvider<TSettings>(settingsProviderOptions, path);
+                var provider = new JsonSettingsProvider<TSettings>(path, settingsProviderOptions);
                 return provider;
             });
 
@@ -113,7 +113,41 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 var settingsProviderOptions = new SettingsProviderOptions();
                 configure?.Invoke(serviceProvider, settingsProviderOptions);
-                var provider = new XmlSettingsProvider<TSettings>(settingsProviderOptions, path);
+                var provider = new XmlSettingsProvider<TSettings>(path, settingsProviderOptions);
+                return provider;
+            });
+
+        /// <summary>
+        /// Adds <see cref="InMemorySettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="TSettings">Settings type.</typeparam>
+        /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
+        /// <param name="settings">Settings class.</param>
+        /// <param name="configure">The options object to make additional configurations.</param>
+        /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
+        public static ConfigurationServiceBuilder AddInMemory<TSettings>(this ConfigurationServiceBuilder builder,
+            TSettings settings,
+            Action<SettingsProviderOptions> configure = null)
+            where TSettings : class, new()
+            => AddInMemory(builder, settings, (_, options) => configure?.Invoke(options));
+
+        /// <summary>
+        /// Adds <see cref="InMemorySettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="TSettings">Settings type.</typeparam>
+        /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
+        /// <param name="settings">Settings class.</param>
+        /// <param name="configure">The options object to make additional configurations.</param>
+        /// <returns>The <see cref="ConfigurationServiceBuilder"/>.</returns>
+        public static ConfigurationServiceBuilder AddInMemory<TSettings>(this ConfigurationServiceBuilder builder,
+            TSettings settings,
+            Action<IServiceProvider, SettingsProviderOptions> configure)
+            where TSettings : class, new()
+            => AddProvider(builder, serviceProvider =>
+            {
+                var settingsProviderOptions = new SettingsProviderOptions();
+                configure?.Invoke(serviceProvider, settingsProviderOptions);
+                var provider = new InMemorySettingsProvider<TSettings>(settings, settingsProviderOptions);
                 return provider;
             });
     }

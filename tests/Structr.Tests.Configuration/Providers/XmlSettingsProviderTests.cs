@@ -17,7 +17,7 @@ namespace Structr.Tests.Configuration.Providers
         public void Ctor()
         {
             // Act
-            Action act = () => new XmlSettingsProvider<TestSettings>(new SettingsProviderOptions(), "SomePath");
+            Action act = () => new XmlSettingsProvider<TestSettings>("SomePath", new SettingsProviderOptions());
 
             // Assert
             act.Should().NotThrow();
@@ -27,7 +27,7 @@ namespace Structr.Tests.Configuration.Providers
         public void Ctor_throws_when_options_are_null()
         {
             // Act
-            Action act = () => new XmlSettingsProvider<TestSettings>(null, "SomePath");
+            Action act = () => new XmlSettingsProvider<TestSettings>("SomePath", null);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>().WithMessage("*options*");
@@ -37,7 +37,7 @@ namespace Structr.Tests.Configuration.Providers
         public void Ctor_throws_when_path_is_empty()
         {
             // Act
-            Action act = () => new XmlSettingsProvider<TestSettings>(new SettingsProviderOptions(), "");
+            Action act = () => new XmlSettingsProvider<TestSettings>("", new SettingsProviderOptions());
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>().WithMessage("*path*");

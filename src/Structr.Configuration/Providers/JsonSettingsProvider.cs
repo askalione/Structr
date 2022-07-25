@@ -8,17 +8,18 @@ namespace Structr.Configuration.Providers
     /// <summary>
     /// Provides functionality for access to a JSON file with settings <typeparamref name="TSettings"/>.
     /// </summary>
-    public class JsonSettingsProvider<TSettings> : FileSettingsProvider<TSettings> where TSettings : class, new()
+    public class JsonSettingsProvider<TSettings> : FileSettingsProvider<TSettings>
+        where TSettings : class, new()
     {
         /// <summary>
         /// Initializes a new <see cref="JsonSettingsProvider{TSettings}"/> instance.
         /// </summary>
-        /// <param name="options">The options object to make additional configurations.</param>
         /// <param name="path">The path to JSON file with settings.</param>
+        /// <param name="options">The options object to make additional configurations.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="options"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="path"/> is <see langword="null"/> or empty.</exception>
-        public JsonSettingsProvider(SettingsProviderOptions options, string path)
-            : base(options, path)
+        public JsonSettingsProvider(string path, SettingsProviderOptions options)
+            : base(path, options)
         {
         }
 

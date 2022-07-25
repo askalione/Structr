@@ -14,7 +14,7 @@ namespace Structr.Tests.Configuration
         public void Ctor()
         {
             // Arrange
-            var provider = new JsonSettingsProvider<TestSettings>(new SettingsProviderOptions(), "Some path");
+            var provider = new JsonSettingsProvider<TestSettings>("Some path", new SettingsProviderOptions());
 
             // Act
             var result = new ConfigurationOptions<TestSettings>(provider);

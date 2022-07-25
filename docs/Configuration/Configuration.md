@@ -48,6 +48,11 @@ public class CustomConfigurationProvider<TSettings> : SettingsProvider<TSettings
     {
         /* Do some logic here */
     }
+
+    protected override void LogFirstAccess()
+    { 
+        /* Do some logic here */
+    }
 }
 ```
 
@@ -55,13 +60,14 @@ And then setup configuration services:
 
 ```csharp
 services.AddConfiguration()
-    .AddProvider(new CustomConfigurationProvider<SmtpEmailSettings>());
+    .AddProvider(new CustomConfigurationProvider<SmtpEmailSettings>(new SettingsProviderOptions()));
 ```
 
 Or you can use one of default implemented configuration provider from list:
 
 * [JSON](#json-provider)
 * [XML](#xml-provider)
+* [InMemory](#inmemory-provider)
 
 ### JSON provider
 
@@ -98,6 +104,18 @@ Setup XML configuration provider:
 ```csharp
 services.AddConfiguration()
     .AddXml<SmtpEmailSettings>("path_to_xml_file");
+```
+
+### InMemory provider
+
+Setup In-Memory configuration provider:
+
+```csharp
+services.AddConfiguration()
+    .AddInMemory<SmtpEmailSettings>(new SmtpEmailSettings {
+        Host = "smtp.example.com",
+        Post = 25
+    });
 ```
 
 ### Options

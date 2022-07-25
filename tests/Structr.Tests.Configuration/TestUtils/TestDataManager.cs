@@ -19,7 +19,7 @@ namespace Structr.Tests.Configuration.TestUtils
             var options = new SettingsProviderOptions();
             options.Cache = cache;
             var path = string.IsNullOrEmpty(fileName) == false ? await GenerateJsonFileAsync(fileName, data) : "null";
-            return new JsonSettingsProvider<TestSettings>(options, path);
+            return new JsonSettingsProvider<TestSettings>(path, options);
         }
 
         public static async Task<string> GenerateJsonFileAsync(string fileName, params (string Name, string Value)[] data)
@@ -41,7 +41,7 @@ namespace Structr.Tests.Configuration.TestUtils
             var options = new SettingsProviderOptions();
             options.Cache = cache;
             var path = string.IsNullOrEmpty(fileName) == false ? await GenerateXmlFileAsync(fileName, data) : "null";
-            return new XmlSettingsProvider<TestSettings>(options, path);
+            return new XmlSettingsProvider<TestSettings>(path, options);
         }
 
         public static async Task<string> GenerateXmlFileAsync(string fileName, params (string Name, string Value)[] data)
