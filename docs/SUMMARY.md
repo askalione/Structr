@@ -33,6 +33,7 @@
     * [JsonConverters](Abstractions/JsonConverters/JsonConverters.md)
         * [DateOnly](Abstractions/JsonConverters/DateOnly.md)
         * [TimeOnly](Abstractions/JsonConverters/TimeOnly.md)
+        * [StringNumber](Abstractions/JsonConverters/StringNumber.md)
 * [Collections](Collections/Collections.md)
     * [AutoMapper extensions](Collections/Automapper-extensions.md)
 * [IO](IO/IO.md)

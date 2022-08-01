@@ -50,6 +50,7 @@
     * [JsonConverters](Abstractions/JsonConverters/JsonConverters.md)
         * [DateOnly](Abstractions/JsonConverters/DateOnly.md)
         * [TimeOnly](Abstractions/JsonConverters/TimeOnly.md)
+        * [StringNumber](Abstractions/JsonConverters/StringNumber.md)
 * [Configuration](Configuration/Configuration.md)
     * [Get settings](Configuration/Get-settings.md)
     * [Set settings](Configuration/Set-settings.md)

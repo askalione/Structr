@@ -45,6 +45,7 @@ dotnet add package Structr.Abstractions
 * [JsonConverters](JsonConverters/JsonConverters.md)
     * [DateOnly](JsonConverters/DateOnly.md)
     * [TimeOnly](JsonConverters/TimeOnly.md)
+    * [StringNumber](JsonConverters/StringNumber.md)
 
 ## Samples for some of methods
 
