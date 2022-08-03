@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Text;
 
 namespace Structr.Abstractions.Extensions
@@ -196,7 +197,7 @@ namespace Structr.Abstractions.Extensions
         /// Formats string value into camel case format. For example "ToCamelCase" will be formated into "toCamelCase".
         /// </summary>
         /// <param name="value">Value to be proccessed.</param>
-        /// <returns>String value formatted in camel case</returns>
+        /// <returns>String value formatted in camel case.</returns>
         public static string ToCamelCase(this string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -204,12 +205,74 @@ namespace Structr.Abstractions.Extensions
                 return value;
             }
 
-            var result = value;
-            if (result.Length > 1)
+            return char.ToLowerInvariant(value[0]) + value.Substring(1);
+        }
+
+        /// <summary>
+        /// Formats string value into snake case format. For example "ToSnakeCase" will be formated into "to_snake_case".
+        /// </summary>
+        /// <param name="value">Value to be proccessed.</param>
+        /// <returns>String value formatted in snake case.</returns>
+        public static string ToSnakeCase(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
             {
-                result = char.ToLowerInvariant(result[0]) + result.Substring(1);
+                return value;
             }
-            return result;
+
+            var builder = new StringBuilder(value.Length + Math.Min(2, value.Length / 5));
+            var previousCategory = default(UnicodeCategory?);
+
+            for (int currentIndex = 0; currentIndex < value.Length; currentIndex++)
+            {
+                char currentChar = value[currentIndex];
+                if (currentChar == '_')
+                {
+                    builder.Append('_');
+                    previousCategory = null;
+                    continue;
+                }
+
+                var currentCategory = char.GetUnicodeCategory(currentChar);
+                switch (currentCategory)
+                {
+                    case UnicodeCategory.UppercaseLetter:
+                    case UnicodeCategory.TitlecaseLetter:
+                        if (previousCategory == UnicodeCategory.SpaceSeparator ||
+                            previousCategory == UnicodeCategory.LowercaseLetter ||
+                            previousCategory != UnicodeCategory.DecimalDigitNumber &&
+                            previousCategory != null &&
+                            currentIndex > 0 &&
+                            currentIndex + 1 < value.Length &&
+                            char.IsLower(value[currentIndex + 1]))
+                        {
+                            builder.Append('_');
+                        }
+
+                        currentChar = char.ToLowerInvariant(currentChar);
+                        break;
+
+                    case UnicodeCategory.LowercaseLetter:
+                    case UnicodeCategory.DecimalDigitNumber:
+                        if (previousCategory == UnicodeCategory.SpaceSeparator)
+                        {
+                            builder.Append('_');
+                        }
+                        break;
+
+                    default:
+                        if (previousCategory != null)
+                        {
+                            previousCategory = UnicodeCategory.SpaceSeparator;
+                        }
+                        continue;
+                }
+
+                builder.Append(currentChar);
+                previousCategory = currentCategory;
+            }
+
+            return builder.ToString();
         }
     }
 }

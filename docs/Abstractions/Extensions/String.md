@@ -43,6 +43,14 @@ Formats string value into camel case format. For example "ToCamelCase" will be f
 var result = "ToCamelCase".ToCamelCase() // toCamelCase
 ```
 
+## ToSnakeCase
+
+Formats string value into snake case format. For example "ToSnakeCase" will be formated into "to_snake_case".
+
+```csharp
+var result = "ToSnakeCase".ToSnakeCase() // to_snake_case
+```
+
 ## Contains
 
 Returns a value indicating whether a specified string occurs within this string, using the specified comparison rules.

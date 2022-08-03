@@ -165,5 +165,15 @@ namespace Structr.Tests.Abstractions.Extensions
             // Assert
             result.Should().Be("toCamelCase");
         }
+
+        [Fact]
+        public void ToSnakeCase()
+        {
+            // Act
+            var result = "ToSnakeCase".ToSnakeCase();
+
+            // Assert
+            result.Should().Be("to_snake_case");
+        }
     }
 }
