@@ -23,7 +23,6 @@ dotnet add package Structr.Abstractions
 * [Money](Money.md)
 * [HierarchyId](HierarchyId.md)
 * [Providers](Providers/Providers.md)
-    * [TimestampProvider](Providers/TimestampProvider.md)
     * [SequentialGuidProvider](Providers/SequentialGuidProvider.md)
 * [Extensions](Extensions/Extensions.md)
     * [DateTime](Extensions/DateTime.md)

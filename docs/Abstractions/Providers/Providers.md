@@ -4,5 +4,4 @@
 
 ## Contents
 
-* [TimestampProvider](TimestampProvider.md)
 * [SequentialGuidProvider](SequentialGuidProvider.md)

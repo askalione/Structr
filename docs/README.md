@@ -27,7 +27,6 @@
     * [Money](Abstractions/Money.md)
     * [HierarchyId](Abstractions/HierarchyId.md)
     * [Providers](Abstractions/Providers/Providers.md)
-        * [TimestampProvider](Abstractions/Providers/TimestampProvider.md)
         * [SequentialGuidProvider](Abstractions/Providers/SequentialGuidProvider.md)
     * [Extensions](Abstractions/Extensions/Extensions.md)
         * [DateTime](Abstractions/Extensions/DateTime.md)
