@@ -1,6 +1,6 @@
-using Structr.Abstractions.Providers.Timestamp;
 using Structr.EntityFramework;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
+using Structr.Samples.Timestamp;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Reflection;

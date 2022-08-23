@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Structr.Abstractions.Providers.Timestamp;
 using Structr.EntityFrameworkCore;
 using Structr.Samples.EntityFrameworkCore.Domain.FooAggregate;
+using Structr.Samples.Timestamp;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;

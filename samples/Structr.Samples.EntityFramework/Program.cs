@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Structr.Abstractions.Extensions;
-using Structr.Abstractions.Providers.Timestamp;
 using Structr.Samples.EntityFramework.DataAccess;
+using Structr.Samples.Timestamp;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -20,7 +20,6 @@ namespace Structr.Samples.EntityFramework
             services.AddSample<App>();
 
             // Infrastructure
-            services.AddTimestampProvider<LocalTimestampProvider>();
             services.AddScoped<IPrincipal>((provider) =>
             {
                 return new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> {

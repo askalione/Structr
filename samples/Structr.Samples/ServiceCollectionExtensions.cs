@@ -1,5 +1,6 @@
 using Structr.Samples;
 using Structr.Samples.IO;
+using Structr.Samples.Timestamp;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -13,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddScoped(typeof(IApp), typeof(TApp));
             services.AddSingleton<IStringWriter>(new StringWriter(Console.Out));
+            services.AddSingleton<ITimestampProvider, TimestampProvider>();
 
             return services;
         }

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Structr.Abstractions;
 using Structr.Domain;
 using Structr.EntityFrameworkCore;
 
@@ -24,14 +23,20 @@ namespace Structr.Tests.EntityFrameworkCore
 
             public Foo(string name) : this()
             {
-                Ensure.NotNull(name, nameof(name));
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    throw new ArgumentNullException(nameof(name));
+                }
 
                 Name = name;
             }
 
             public void Edit(string name)
             {
-                Ensure.NotNull(name, nameof(name));
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    throw new ArgumentNullException(nameof(name));
+                }
 
                 Name = name;
             }

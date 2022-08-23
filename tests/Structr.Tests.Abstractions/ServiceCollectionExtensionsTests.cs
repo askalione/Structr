@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Structr.Abstractions.Providers.Timestamp;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -98,18 +97,6 @@ namespace Structr.Tests.Abstractions
             // Assert
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage("Value must be inherited from*ITicketLifecycleManager*");
-        }
-
-        [Fact]
-        public void AddTimestampProvider()
-        {
-            // Act
-            var result = new ServiceCollection()
-                .AddTimestampProvider<LocalTimestampProvider>()
-                .BuildServiceProvider();
-
-            // Assert
-            result.GetService<ITimestampProvider>().Should().BeOfType<LocalTimestampProvider>();
         }
     }
 }
