@@ -163,7 +163,12 @@ namespace Structr.EntityFrameworkCore
                     {
                         entityTypeBuilder.Property(AuditableProperties.DateDeleted)
                             .IsRequired(false);
-                        entityTypeBuilder.HasSoftDeletableQueryFilter(entityClrType);
+
+                        if (entityClrType.BaseType == null
+                            || typeof(ISoftDeletable).IsAssignableFrom(entityClrType.BaseType) == false)
+                        {
+                            entityTypeBuilder.HasSoftDeletableQueryFilter(entityClrType);
+                        }
 
                         if (typeof(ISignedSoftDeletable).IsAssignableFrom(entityClrType))
                         {
