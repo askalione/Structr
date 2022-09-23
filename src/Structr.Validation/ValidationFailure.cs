@@ -30,6 +30,11 @@ namespace Structr.Validation
         /// </summary>
         public ValidationFailureLevel Level { get; set; } = ValidationFailureLevel.Error;
 
+        /// <summary>
+        /// The validation message params.
+        /// </summary>
+        public object[] Params { get; set; }
+
         /// <inheritdoc cref="ValidationFailure(string, string)"/>
         public ValidationFailure(string message)
         {
