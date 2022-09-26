@@ -10,7 +10,7 @@ namespace Structr.Collections
     /// needed properties such as page size, number, first and last page attribute, etc.
     /// </summary>
     /// <typeparam name="T">Type of items in list.</typeparam>
-    public class PagedList<T> : IPagedEnumerable, IEnumerable<T>
+    public class PagedList<T> : IPagedList<T>
     {
         public int TotalItems { get; }
         public int PageNumber { get; }
