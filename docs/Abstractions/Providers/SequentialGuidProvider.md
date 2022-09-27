@@ -31,7 +31,7 @@ public class FileService : ICustomService
 
     public void Upload()
     {
-        Guid fileId = _sequentialGuidProvider.GetSequentialGuid(SequentialGuid.String);
+        Guid fileId = _sequentialGuidProvider.GetSequentialGuid(SequentialGuidType.String);
     }
 }
 ```
