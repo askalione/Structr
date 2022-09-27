@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Encodings.Web;
 
 namespace Structr.AspNetCore.TagHelpers
@@ -27,7 +29,11 @@ namespace Structr.AspNetCore.TagHelpers
 
             if (string.IsNullOrEmpty(classValue) == false)
             {
-                tagHelperOutput.AddClass(classValue, _encoder);
+                List<string> cssClasses = SplitClasses(classValue);
+                foreach (string cssClass in cssClasses)
+                {
+                    tagHelperOutput.AddClass(cssClass, _encoder);
+                }
             }
         }
 
@@ -46,8 +52,15 @@ namespace Structr.AspNetCore.TagHelpers
 
             if (string.IsNullOrEmpty(classValue) == false)
             {
-                tagHelperOutput.RemoveClass(classValue, _encoder);
+                List<string> cssClasses = SplitClasses(classValue);
+                foreach (string cssClass in cssClasses)
+                {
+                    tagHelperOutput.RemoveClass(cssClass, _encoder);
+                }                    
             }
         }
+
+        private static List<string> SplitClasses(string classValue)
+            => classValue.Split(' ').Select(x => x.Trim()).ToList();
     }
 }
