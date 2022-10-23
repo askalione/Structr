@@ -11,7 +11,8 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class ConfigurationServiceBuilderExtensions
     {
         /// <summary>
-        /// Adds <see cref="ConsulSettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// Adds <see cref="ConsulSettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>
+        /// which allows to store settings in Consul KV store.
         /// </summary>
         /// <typeparam name="TSettings">Settings class.</typeparam>
         /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
@@ -27,7 +28,8 @@ namespace Microsoft.Extensions.DependencyInjection
             => AddConsul<TSettings>(builder, key, consulClient, (_, options) => configure?.Invoke(options));
 
         /// <summary>
-        /// Adds <see cref="ConsulSettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>.
+        /// Adds <see cref="ConsulSettingsProvider{TSettings}"/> and related services to the <see cref="IServiceCollection"/>
+        /// which allows to store settings in Consul KV store.
         /// </summary>
         /// <typeparam name="TSettings">Settings class.</typeparam>
         /// <param name="builder">The <see cref="ConfigurationServiceBuilder"/>.</param>
