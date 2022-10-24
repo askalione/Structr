@@ -22,9 +22,9 @@ public class SmtpEmailSettings
 }
 ```
 
-Configuration services uses different providers to get source settings. For example: JSON, XML file, Database, or something else.
+Configuration services uses different providers to get source settings. For example: JSON and XML file, Database, Consul KV, or something else.
 
-You can create custom configuration provider:
+You can create custom settings provider:
 
 ```csharp
 public class CustomConfigurationProvider<TSettings> : SettingsProvider<TSettings>
@@ -63,64 +63,18 @@ services.AddConfiguration()
     .AddProvider(new CustomConfigurationProvider<SmtpEmailSettings>(new SettingsProviderOptions()));
 ```
 
-Or you can use one of default implemented configuration provider from list:
+Or you can use one of default implemented settings provider from list:
 
-* [JSON](#json-provider)
-* [XML](#xml-provider)
-* [InMemory](#inmemory-provider)
+| Provider name | NuGet package |
+| --- | --- |
+| [JSON-file](Providers/JsonSettingsProvider.md) | [Structr.Configuration](https://www.nuget.org/packages/Structr.Configuration/) |
+| [XML-file](Providers/XmlSettingsProvider.md) | [Structr.Configuration](https://www.nuget.org/packages/Structr.Configuration/) |
+| [In-Memory](Providers/InMemorySettingsProvider.md) | [Structr.Configuration](https://www.nuget.org/packages/Structr.Configuration/) |
+| [Consul](Providers/ConsulSettingsProvider.md) | [Structr.Configuration.Consul](https://www.nuget.org/packages/Structr.Configuration.Consul/) |
 
-### JSON provider
+### Settings provider options
 
-Create JSON file with settings:
-
-```json
-{
-  "Host": "smtp.example.com",
-  "Port": 25
-}
-```
-
-Setup JSON configuration provider:
-
-```csharp
-services.AddConfiguration()
-    .AddJson<SmtpEmailSettings>("path_to_json_file");
-```
-
-### XML provider
-
-Create XML file with settings: 
-
-```xml
-<?xml version="1.0" encoding="utf-16"?>
-<SmtpEmailSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Host>smtp.example.com</Host>
-  <Port>25</Port>
-</SmtpEmailSettings>
-```
-
-Setup XML configuration provider:
-
-```csharp
-services.AddConfiguration()
-    .AddXml<SmtpEmailSettings>("path_to_xml_file");
-```
-
-### InMemory provider
-
-Setup In-Memory configuration provider:
-
-```csharp
-services.AddConfiguration()
-    .AddInMemory<SmtpEmailSettings>(new SmtpEmailSettings {
-        Host = "smtp.example.com",
-        Post = 25
-    });
-```
-
-### Options
-
-When you setup configuration provider you can configure provider options represents by `SettingsProviderOptions`.
+When you setup settings provider you can configure provider options represents by `SettingsProviderOptions`.
 
 `SettingsProviderOptions` properties:
 
