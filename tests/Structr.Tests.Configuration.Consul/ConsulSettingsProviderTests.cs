@@ -3,7 +3,6 @@ using FluentAssertions;
 using Moq;
 using Structr.Configuration;
 using Structr.Configuration.Consul;
-using System.IO;
 using System.Text;
 using Xunit;
 
