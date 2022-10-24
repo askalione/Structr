@@ -9,7 +9,7 @@ using System.Text;
 namespace Structr.Configuration.Consul
 {
     /// <summary>
-    /// Provides functionality for access to Consul KV store with settings <typeparamref name="TSettings"/>.
+    /// Provides functionality of storing settings <typeparamref name="TSettings"/> in Consul KV store.
     /// </summary>
     public class ConsulSettingsProvider<TSettings> : SettingsProvider<TSettings>
         where TSettings : class, new()

@@ -24,23 +24,34 @@ namespace Structr.Tests.Configuration.Consul
             public string BaseUrl { get; set; } = default!;
         }
 
-        private static Mock<IConsulClient> CreateConsulClientMock(string key = "TestSettings", params (string Name, string Value)[] data)
+        class ConsulClientMock
         {
-            Mock<IConsulClient> consulClientMock = new Mock<IConsulClient>();
+            private readonly string _key;
 
-            consulClientMock.Setup(x => x.KV.Get(key, It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(new QueryResult<KVPair>
-                {
-                    Response = new KVPair(key)
-                    {
-                        Value = data != null
-                            ? Encoding.UTF8.GetBytes("{" + string.Join(",", data.Select(x => $"\"{x.Name}\":\"{x.Value}\"")) + "}")
-                            : null
-                    }
-                }));
-            consulClientMock.Setup(x => x.KV.Put(It.IsAny<KVPair>(), It.IsAny<CancellationToken>()));
+            public readonly Mock<IConsulClient> Mock;
+            public IConsulClient Client => Mock.Object;
 
-            return consulClientMock;
+            public ConsulClientMock(string key = "TestSettings", params (string Name, string Value)[] data)
+            {
+                _key = key;
+                Mock = new Mock<IConsulClient>();
+
+                SetData(data);
+            }
+
+            public void SetData(params (string Name, string Value)[]? data)
+            {
+                Mock.Setup(x => x.KV.Get(_key, It.IsAny<CancellationToken>()))
+                   .Returns(Task.FromResult(new QueryResult<KVPair>
+                   {
+                       Response = new KVPair(_key)
+                       {
+                           Value = data != null
+                               ? Encoding.UTF8.GetBytes("{" + string.Join(",", data.Select(x => $"\"{x.Name}\":\"{x.Value}\"")) + "}")
+                               : null
+                       }
+                   }));
+            }
         }
 
         [Fact]
@@ -48,7 +59,7 @@ namespace Structr.Tests.Configuration.Consul
         {
             // Act
             Action act = () => new ConsulSettingsProvider<TestSettings>("TestSettings",
-                CreateConsulClientMock().Object,
+                new ConsulClientMock().Client,
                 new SettingsProviderOptions());
 
             // Assert
@@ -60,7 +71,7 @@ namespace Structr.Tests.Configuration.Consul
         {
             // Act
             Action act = () => new ConsulSettingsProvider<TestSettings>("TestSettings",
-                CreateConsulClientMock().Object,
+                new ConsulClientMock().Client,
                 null);
 
             // Assert
@@ -85,7 +96,7 @@ namespace Structr.Tests.Configuration.Consul
         {
             // Act
             Action act = () => new ConsulSettingsProvider<TestSettings>("",
-                CreateConsulClientMock().Object,
+                new ConsulClientMock().Client,
                 new SettingsProviderOptions());
 
             // Assert
@@ -96,9 +107,8 @@ namespace Structr.Tests.Configuration.Consul
         public void GetSettings()
         {
             // Arrange
-            Mock<IConsulClient> consulClientMock = CreateConsulClientMock(key: "TestSettings", ("Name", "Consul"));
             var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
-                consulClientMock.Object,
+                new ConsulClientMock(data: ("Name", "Consul")).Client,
                 new SettingsProviderOptions());
 
             // Act
@@ -106,16 +116,14 @@ namespace Structr.Tests.Configuration.Consul
 
             // Assert
             settings.Name.Should().Be("Consul");
-            consulClientMock.Verify(x => x.KV.Get("TestSettings", It.IsAny<CancellationToken>()), Times.Exactly(2));
         }
 
         [Fact]
         public void GetSettings_alias()
         {
-            // Arrange
-            Mock<IConsulClient> consulClientMock = CreateConsulClientMock(key: "TestSettings", ("client_id", "12345"));
+            // Arrange 
             var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
-                consulClientMock.Object,
+                new ConsulClientMock(data: ("client_id", "12345")).Client,
                 new SettingsProviderOptions());
 
             // Act
@@ -129,9 +137,8 @@ namespace Structr.Tests.Configuration.Consul
         public void GetSettings_default_if_no_such_field()
         {
             // Arrange
-            Mock<IConsulClient> consulClientMock = CreateConsulClientMock(key: "TestSettings", ("prop", "test"));
             var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
-                consulClientMock.Object,
+                new ConsulClientMock(data: ("prop", "test")).Client,
                 new SettingsProviderOptions());
 
             // Act
@@ -145,9 +152,8 @@ namespace Structr.Tests.Configuration.Consul
         public void GetSettings_default_if_field_exists()
         {
             // Arrange
-            Mock<IConsulClient> consulClientMock = CreateConsulClientMock(key: "TestSettings", ("BaseUrl", "api.v1.example.com"));
             var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
-                consulClientMock.Object,
+                new ConsulClientMock(data: ("BaseUrl", "api.v1.example.com")).Client,
                 new SettingsProviderOptions());
 
             // Act
@@ -158,10 +164,48 @@ namespace Structr.Tests.Configuration.Consul
         }
 
         [Fact]
+        public void GetSettings_doesnt_access_Consul_when_cache_turned_on()
+        {
+            // Arrange
+            ConsulClientMock consulClientMock = new ConsulClientMock(data: ("Name", "Consul"));
+            var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
+                consulClientMock.Client,
+                new SettingsProviderOptions { Cache = true });
+
+            settingsProvider.GetSettings();
+            consulClientMock.SetData(("Name", "SomeOtherName"));
+
+            // Act
+            TestSettings settings2 = settingsProvider.GetSettings();
+
+            // Assert
+            settings2.Name.Should().Be("Consul");
+        }
+
+        [Fact]
+        public void GetSettings_does_access_Consul_when_cache_turned_off()
+        {
+            // Arrange
+            ConsulClientMock consulClientMock = new ConsulClientMock(data: ("Name", "Consul"));
+            var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
+                consulClientMock.Client,
+                new SettingsProviderOptions { Cache = false });
+
+            settingsProvider.GetSettings();
+            consulClientMock.SetData(("Name", "SomeOtherName"));
+
+            // Act
+            TestSettings settings2 = settingsProvider.GetSettings();
+
+            // Assert
+            settings2.Name.Should().Be("SomeOtherName");
+        }
+
+        [Fact]
         public void SetSettings()
         {
             // Arrange            
-            Mock<IConsulClient> consulClientMock = CreateConsulClientMock();
+            Mock<IConsulClient> consulClientMock = new ConsulClientMock().Mock;
             var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
                 consulClientMock.Object,
                 new SettingsProviderOptions());
@@ -178,7 +222,7 @@ namespace Structr.Tests.Configuration.Consul
         public void SetSettings_alias()
         {
             // Arrange            
-            Mock<IConsulClient> consulClientMock = CreateConsulClientMock();
+            Mock<IConsulClient> consulClientMock = new ConsulClientMock().Mock;
             var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
                 consulClientMock.Object,
                 new SettingsProviderOptions());
@@ -195,7 +239,7 @@ namespace Structr.Tests.Configuration.Consul
         public void SetSettings_encryption()
         {
             // Arrange
-            Mock<IConsulClient> consulClientMock = CreateConsulClientMock();
+            Mock<IConsulClient> consulClientMock = new ConsulClientMock().Mock;
             var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
                 consulClientMock.Object,
                 new SettingsProviderOptions());
@@ -212,7 +256,7 @@ namespace Structr.Tests.Configuration.Consul
         public void SetSettings_throws_when_settings_are_null()
         {
             // Arrange
-            Mock<IConsulClient> consulClientMock = CreateConsulClientMock();
+            Mock<IConsulClient> consulClientMock = new ConsulClientMock().Mock;
             var settingsProvider = new ConsulSettingsProvider<TestSettings>("TestSettings",
                 consulClientMock.Object,
                 new SettingsProviderOptions());
