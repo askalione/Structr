@@ -15,32 +15,32 @@ var setValidationValues = function(options, ruleName, value) {
 
 var $Unob = $.validator.unobtrusive;
 
-$Unob.adapters.add("requiredif", ["dependentproperty", "dependentvalue", "operator", "pattern"], function(options) {
+$Unob.adapters.add("requiredif", ["relatedproperty", "relatedpropertyvalue", "operator", "pattern"], function(options) {
     var value = {
-        dependentproperty: options.params.dependentproperty,
-        dependentvalue: options.params.dependentvalue,
+        relatedproperty: options.params.relatedproperty,
+        relatedpropertyvalue: options.params.relatedpropertyvalue,
         operator: options.params.operator,
         pattern: options.params.pattern
     };
     setValidationValues(options, "requiredif", value);
 });
 
-$Unob.adapters.add("is", ["dependentproperty", "operator", "passonnull"], function(options) {
+$Unob.adapters.add("is", ["relatedproperty", "operator", "passonnull"], function(options) {
     setValidationValues(options, "is", {
-        dependentproperty: options.params.dependentproperty,
+        relatedproperty: options.params.relatedproperty,
         operator: options.params.operator,
         passonnull: options.params.passonnull
     });
 });
 
-$Unob.adapters.add("requiredifempty", ["dependentproperty"], function(options) {
+$Unob.adapters.add("requiredifempty", ["relatedproperty"], function(options) {
     setValidationValues(options, "requiredifempty", {
-        dependentproperty: options.params.dependentproperty
+        relatedproperty: options.params.relatedproperty
     });
 });
 
-$Unob.adapters.add("requiredifnotempty", ["dependentproperty"], function(options) {
+$Unob.adapters.add("requiredifnotempty", ["relatedproperty"], function(options) {
     setValidationValues(options, "requiredifnotempty", {
-        dependentproperty: options.params.dependentproperty
+        relatedproperty: options.params.relatedproperty
     });
 });
