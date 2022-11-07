@@ -145,7 +145,7 @@ namespace Structr.AspNetCore.TagHelpers
                 a.AddCssClass(Options.ActiveCssClass);
             }
             a.Attributes.Add("href", _urlHelper.Action(action, controller, routeValues));
-            a.InnerHtml.Append(content);
+            a.InnerHtml.AppendHtml(content);
 
             output.Content.SetHtmlContent(a);
         }
