@@ -137,7 +137,10 @@ namespace Structr.AspNetCore.TagHelpers
             var htmlEncoder = HtmlEncoder.Create(UnicodeRanges.All);
             var content = (await output.GetChildContentAsync(htmlEncoder)).GetContent();
 
-            TagBuilder a = new TagBuilder("a");
+            var span = new TagBuilder("span");
+            span.InnerHtml.AppendHtml(content);
+
+            var a = new TagBuilder("a");
             a.AddCssClass(Options.LinkCssCLass);
             a.AddCssClass(order.ToString().ToLower());
             if (active)
@@ -145,7 +148,7 @@ namespace Structr.AspNetCore.TagHelpers
                 a.AddCssClass(Options.ActiveCssClass);
             }
             a.Attributes.Add("href", _urlHelper.Action(action, controller, routeValues));
-            a.InnerHtml.AppendHtml(content);
+            a.InnerHtml.AppendHtml(span);
 
             output.Content.SetHtmlContent(a);
         }
