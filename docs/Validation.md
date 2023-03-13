@@ -53,7 +53,7 @@ public class UserCreateCommandValidator : IValidator<UserCreateCommand>
 
     public async Task<ValidationResult> ValidateAsync(UserCreateCommand command, CancellationToken cancellationToken)
     {
-        var failures = List<ValidationFailure>();
+        var failures = new List<ValidationFailure>();
 
         if (string.IsNullOrWhitespace(command.Email))
         {
